@@ -1,0 +1,39 @@
+Changes since 0.9.3
+-------------------
+ * SQLRowCount has been implemented.
+ * SQLGetTypeInfo returns data on the types ezRETS supports.
+ * SQLColAttribute has been updated to return Column name.  Fixes problem
+   where column name was garbled in PHP.
+ * Unix configure script now uses librets-config to get linking and include
+   information.
+
+Changes since 0.9.2
+-------------------
+ * Updated to latest librets that fixes a few XML parsing errors on certain
+   servers.  (empty <COMMENT> tags)
+ * RETS Lookup fields are now properly queried when specified.
+ * Fix in Metadata interpretation that would cause non-StandardNames
+   connections to fail.
+ * Fix for NULL values in Precision in Metadata which caused SQLDescribeCol
+   to fail.
+
+Changes since 0.9.1
+-------------------
+ * Preliminary RETS 1.0 support
+ * Bug fix for LOOKUP fields
+ * Improved error reporting on data translation errors
+ * User-Agent, HTTP Method, RETS Version, and Logging now configurable
+   from panel
+
+Changes since 0.9
+-----------------
+ * Default User-Agent is now "ezRETS/<version> (librets/<version>)"  For
+   this release that means "ezRETS/0.9.1 (librets/0.1)"
+ * User-Agent is now configurable by editing the registry/odbc.ini per DSN.
+ * UseHttpGet has been added for RETS Servers where doing HTTP POST method
+   doesn't work.  (POST is now the default in librets and ezRETS)
+ * HTTP Logging now supported
+ * Statements without WHERE clause now have simulated empty result set.
+ * Fixed error where you could not repair the query if the Excel New
+   Database Query wizard failed
+ * ORDER BY is silently ignored

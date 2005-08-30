@@ -1,0 +1,86 @@
+
+BOOST_PATH = ../../../../boost_1_32_0
+
+CCNODBG    = cl.exe /MD /O2 /DNDEBUG
+CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ
+CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc
+LINKDLL    = link.exe /DLL
+LINKLIB    = link.exe /lib
+LDFLAGS_STD = /nologo
+
+BOOST_CFLAGS = /I "$(BOOST_PATH)"
+
+SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
+
+DIROBJ = release
+TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
+	 $(DIROBJ)\SQLDriverConnectTest.exe $(DIROBJ)\ForcedError.exe\
+         $(DIROBJ)\TablesTest.exe $(DIROBJ)\ColumnsTest.exe\
+	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe
+CC  = $(CCDEBUG)
+CXX     = $(CCDEBUG)
+CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) $(CURL_CFLAGS) $(EXPAT_CFLAGS)
+LDFLAGS = $(LDFLAGS_STD)
+LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
+
+E_COMMON_OBJS = $(DIROBJ)\DBHelper.obj $(DIROBJ)\DBHelperException.obj\
+                $(DIROBJ)\ResultColumn.obj
+CONTEST_OBJS = $(DIROBJ)\ConnectTest.obj $(E_COMMON_OBJS)
+SIMPLETEST_OBJS = $(DIROBJ)\SimpleSearch.obj $(E_COMMON_OBJS)
+NOWHERESEARCH_OBJS = $(DIROBJ)\NoWhereSearch.obj $(E_COMMON_OBJS)
+TABLESTEST_OBJS = $(DIROBJ)\TablesTest.obj $(E_COMMON_OBJS)
+COLUMNSTEST_OBJS = $(DIROBJ)\ColumnsTest.obj $(E_COMMON_OBJS)
+FORCEDERROR_OBJS = $(DIROBJ)\ForcedError.obj $(E_COMMON_OBJS)
+DRVCONTEST_OBJS = $(DIROBJ)\SQLDriverConnectTest.obj $(E_COMMON_OBJS)
+FLOATERROR_OBJS = $(DIROBJ)\FloatError.obj $(E_COMMON_OBJS)
+
+all: $(TARGET)
+
+$(TARGET): $(DIROBJ)
+
+$(DIROBJ)\ConnectTest.exe: $(CONTEST_OBJS)
+	$(LINK) /out:$(DIROBJ)\ConnectTest.exe $(CONTEST_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\SimpleSearch.exe: $(SIMPLETEST_OBJS)
+	$(LINK) /out:$(DIROBJ)\SimpleSearch.exe $(SIMPLETEST_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\NoWhereSearch.exe: $(NOWHERESEARCH_OBJS)
+	$(LINK) /out:$(DIROBJ)\NoWhereSearch.exe $(NOWHERESEARCH_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\TablesTest.exe: $(TABLESTEST_OBJS)
+	$(LINK) /out:$(DIROBJ)\TablesTest.exe $(TABLESTEST_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\ColumnsTest.exe: $(COLUMNSTEST_OBJS)
+	$(LINK) /out:$(DIROBJ)\ColumnsTest.exe $(COLUMNSTEST_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\ForcedError.exe: $(FORCEDERROR_OBJS)
+	$(LINK) /out:$(DIROBJ)\ForcedError.exe $(FORCEDERROR_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\FloatError.exe: $(FORCEDERROR_OBJS)
+	$(LINK) /out:$(DIROBJ)\FloatError.exe $(FORCEDERROR_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\SQLDriverConnectTest.exe: $(DRVCONTEST_OBJS)
+	$(LINK) /out:$(DIROBJ)\SQLDriverConnectTest.exe $(DRVCONTEST_OBJS) $(SYSLIBS)
+
+$(DIROBJ):
+	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
+
+clean:
+	@-erase /s *.dll 2> NUL
+	@-erase /s *.exp 2> NUL
+	@-erase /s *.idb 2> NUL
+	@-erase /s *.lib 2> NUL
+	@-erase /s *.obj 2> NUL
+	@-erase /s *.pch 2> NUL
+	@-erase /s *.pdb 2> NUL
+	@-erase /s *.res 2> NUL
+
+.SUFFIXES: .c .cpp .obj .res
+
+{.\}.c{$(DIROBJ)\}.obj:
+	$(CC) $(CFLAGS) /Fo"$@"  $<
+
+{.\}.cpp{$(DIROBJ)\}.obj:
+	$(CXX) $(CFLAGS) /Fo"$@"  $<
+
+

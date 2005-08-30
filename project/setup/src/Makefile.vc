@@ -1,0 +1,95 @@
+
+!include <../../build/config.vc>
+
+LIB_NAME   = ezretss
+
+SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib \
+	gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib odbc32.lib
+
+RETS_DEF = ezretss.def
+
+COMMON_CFLAGS = -I../../common/include
+COMMON_LIB = ../../common/src/release/ezcommon.lib
+COMMON_LDFLAGS = $(COMMON_LIB)
+
+########################################################################
+#
+
+TARGET = $(DIROBJ)\$(LIB_NAME).dll
+DIROBJ 	= release
+CC 	= $(CCDEBUG)
+CXX 	= $(CCDEBUG)
+DEBUG_CFLAGS =  /DEZRETS_DEBUG
+CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) $(LIBRETS_CFLAGS) $(WX_CFLAGS) \
+	$(COMMON_CFLAGS) -I../include /DISOLATION_AWARE_ENABLED $(DEBUG_CFLAGS)
+LDFLAGS = $(LDFLAGS_STD) $(LIBRETS_LDFLAGS) $(WX_LDFLAGS) $(COMMON_LDFLAGS) \
+	/NODEFAULTLIB:LIBCMT
+LINK    = $(LINKDLL) $(LDFLAGS) $(SYSLIBS) /DEF:$(RETS_DEF) /out:$(TARGET)
+LINK_EXE = $(LINKEXE) $(LDFLAGS) $(SYSLIBS)
+
+TEST_EXE = $(DIROBJ)\test.exe
+
+########################################################################
+#
+
+
+X_OBJS = \
+	$(DIROBJ)\ConfigDSN.obj \
+	$(DIROBJ)\DataSourceValidator.obj \
+	$(DIROBJ)\DllMain.obj \
+	$(DIROBJ)\SqlInstallerException.obj \
+	$(DIROBJ)\Setup.obj \
+	$(DIROBJ)\SetupApp.obj \
+	$(DIROBJ)\SetupDialog.obj \
+	$(DIROBJ)\SetupLog.obj \
+	$(DIROBJ)\TextValueSizer.obj \
+	$(DIROBJ)\ezretss.res
+
+
+TEST_OBJS = \
+	$(DIROBJ)\testApp.obj \
+	$(DIROBJ)\DataSourceValidator.obj \
+	$(DIROBJ)\SqlInstallerException.obj \
+	$(DIROBJ)\SetupDialog.obj \
+	$(DIROBJ)\SetupLog.obj \
+	$(DIROBJ)\TextValueSizer.obj \
+	$(DIROBJ)\testApp.res
+
+all: $(TARGET)
+
+$(TARGET): $(X_OBJS) $(COMMON_LIB) Makefile.vc
+	$(LINK) $(X_OBJS)
+
+test: $(TEST_EXE)
+
+$(TEST_EXE): $(TEST_OBJS) $(COMMON_LIB) Makefile.vc
+	$(LINK_EXE) $(TEST_OBJS) /out:$(TEST_EXE)
+
+$(X_OBJS): $(DIROBJ)
+
+$(DIROBJ):
+	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
+
+clean:
+	@-erase /s *.dll 2> NUL
+	@-erase /s *.exp 2> NUL
+	@-erase /s *.idb 2> NUL
+	@-erase /s *.lib 2> NUL
+	@-erase /s *.obj 2> NUL
+	@-erase /s *.pch 2> NUL
+	@-erase /s *.pdb 2> NUL
+	@-erase /s *.res 2> NUL
+
+install:
+	copy release\ezretss.dll c:\windows\system32
+
+.SUFFIXES: .c .cpp .obj .res
+
+{.\}.c{$(DIROBJ)\}.obj:
+	$(CC) $(CFLAGS) /Fo"$@"  $<
+
+{.\}.cpp{$(DIROBJ)\}.obj:
+	$(CXX) $(CFLAGS) /Fo"$@"  $<
+
+.rc{$(DIROBJ)}.res:
+    $(RSC) $(RSC_FLAGS) /fo"$@" $<

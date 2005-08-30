@@ -1,0 +1,32 @@
+
+all:
+	cd project\common\src
+	nmake /nologo /f Makefile.vc
+	cd ..\..\driver\src
+	nmake /nologo /f Makefile.vc
+	cd ..\..\setup\src
+	nmake /nologo /f Makefile.vc
+	cd ..\..\examples\src
+	nmake /nologo /f Makefile.vc
+	cd ..\..\..
+
+clean:
+	cd project\common\src
+	nmake /nologo /f Makefile.vc clean
+	cd ..\..\driver\src
+	nmake /nologo /f Makefile.vc clean
+	cd ..\..\setup\src
+	nmake /nologo /f Makefile.vc clean
+	cd ..\..\examples\src
+	nmake /nologo /f Makefile.vc clean
+	cd ..\..\..
+
+install:
+	cd project\driver\src\release
+	copy ezrets.dll c:\windows\system32
+	cd ..\..\..\setup\src\release
+	copy ezretss.dll c:\windows\system32
+	cd ..\..\..\..
+
+dist:
+	"c:\Program Files\Inno Setup 5\ISCC.exe" project\build\ezRETS.iss

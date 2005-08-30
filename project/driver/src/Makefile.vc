@@ -1,0 +1,101 @@
+# Set
+# BASE_PATH = ../../../..
+
+!include <../../build/config.vc>
+
+LIB_NAME   = ezrets
+
+COMMON_CFLAGS = -I../../common/include
+COMMON_LIB = ../../common/src/release/ezcommon.lib
+COMMON_LDFLAGS = $(COMMON_LIB)
+
+EZRETS_CFLAGS = /I. /I../include
+EZRETS_LDFLAGS = /RELEASE
+
+SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
+
+RETS_DEF = ezrets.def
+
+########################################################################
+#
+
+TARGET = $(DIROBJ)\$(LIB_NAME).dll
+DIROBJ 	= release
+CC 	= $(CCDEBUG)
+CXX 	= $(CCDEBUG)
+CFLAGS  = $(CFLAGS_STD) $(EZRETS_CFLAGS) $(BOOST_CFLAGS) $(LIBRETS_CFLAGS) $(COMMON_CFLAGS)
+LDFLAGS = $(LDFLAGS_STD) $(LIBRETS_LDFLAGS) $(COMMON_LDFLAGS) $(EZRETS_LDFLAGS)
+LINK    = $(LINKDLL) $(LDFLAGS) $(SYSLIBS) /DEF:$(RETS_DEF) /out:$(TARGET)
+RSC_FLAGS = /l 0x409 -I../include
+
+########################################################################
+#
+
+
+X_OBJS = \
+	$(DIROBJ)\AbstractHandle.obj\
+	$(DIROBJ)\ColAttributeHelper.obj\
+	$(DIROBJ)\Column.obj\
+	$(DIROBJ)\DateTimeFormatException.obj\
+	$(DIROBJ)\DataTranslationException.obj\
+	$(DIROBJ)\DataTranslator.obj\
+	$(DIROBJ)\DbcEntries.obj\
+	$(DIROBJ)\EnvEntries.obj\
+	$(DIROBJ)\Error.obj\
+	$(DIROBJ)\EzLogger.obj\
+	$(DIROBJ)\EzRetsSqlMetadata.obj\
+	$(DIROBJ)\GetConnectAttrHelper.obj\
+	$(DIROBJ)\GetInfoHelper.obj\
+	$(DIROBJ)\MetadataView.obj\
+	$(DIROBJ)\NotImplemented.obj\
+	$(DIROBJ)\OdbcEntry.obj\
+	$(DIROBJ)\OdbcSqlException.obj\
+	$(DIROBJ)\RetsDBC.obj\
+	$(DIROBJ)\RetsENV.obj\
+	$(DIROBJ)\RetsSTMT.obj\
+	$(DIROBJ)\RetsSTMTResults.obj\
+	$(DIROBJ)\SQLAllocEnv.obj\
+	$(DIROBJ)\SQLAllocHandle.obj\
+	$(DIROBJ)\SQLError.obj\
+	$(DIROBJ)\SQLFreeConnect.obj\
+	$(DIROBJ)\SQLFreeEnv.obj\
+	$(DIROBJ)\SQLFreeHandle.obj\
+	$(DIROBJ)\SQLFreeStmt.obj\
+	$(DIROBJ)\SQLGetDiagField.obj\
+	$(DIROBJ)\SQLGetDiagRec.obj\
+	$(DIROBJ)\StmtEntries.obj\
+	$(DIROBJ)\StreamEzLogger.obj\
+	$(DIROBJ)\utils.obj \
+	$(DIROBJ)\ezrets.res
+
+
+all: $(TARGET)
+
+$(TARGET): $(X_OBJS)
+	$(LINK) $(X_OBJS)
+
+$(X_OBJS): $(DIROBJ)
+
+$(DIROBJ):
+	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
+
+clean:
+	@-erase /s *.dll 2> NUL
+	@-erase /s *.exp 2> NUL
+	@-erase /s *.idb 2> NUL
+	@-erase /s *.lib 2> NUL
+	@-erase /s *.obj 2> NUL
+	@-erase /s *.pch 2> NUL
+	@-erase /s *.pdb 2> NUL
+	@-erase /s *.res 2> NUL
+
+.SUFFIXES: .c .cpp .obj .res
+
+{.\}.c{$(DIROBJ)\}.obj:
+	$(CC) $(CFLAGS) /Fo"$@"  $<
+
+{.\}.cpp{$(DIROBJ)\}.obj:
+	$(CXX) $(CFLAGS) /Fo"$@"  $<
+
+.rc{$(DIROBJ)}.res:
+    $(RSC) $(RSC_FLAGS) /fo"$@" $<

@@ -1,0 +1,25 @@
+On Linux:
+/etc/odbcinst.ini
+-----------------
+[ezRETS]
+Description     = ezRETS ODBC Driver
+Driver          = /path/to/odbcretsdrv/build/driver/odbcrets/lib/odbcrets.so
+Setup           = /path/to/odbcretsdrv/build/driver/odbcrets/lib/odbcrets.so
+UsageCount      =
+CPTimeout       =
+CPReuse         =
+FileUsage       = 1
+
+odbc.ini
+--------
+[retstest]
+Driver          = ezRETS
+LoginURL        = http://demo.crt.realtors.org:6103/rets/login
+UID             = Joe
+PWD             = Schmoe
+StandardNames   = true
+UserAgent       = optional/1.0
+UseHttpGet      = false
+HttpLogfile     = /some/log/file
+
+UserAGent, UseHttpGet, and HttpLogfile are optional

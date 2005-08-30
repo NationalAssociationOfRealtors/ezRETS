@@ -1,0 +1,24 @@
+
+
+On Windows:
+HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver
+--------------------------------------------------------------
+ConnectFunctions REG_SZ    YYN
+Driver           REG_SZ    c:\WINDOWS\system32\ezrets.dll
+Setup            REG_SZ    c:\WINDOWS\system32\ezretss.dll
+UsageCount       REG_DWORD 0x000000001
+CPTimeout        REG_SZ    <not pooled>
+
+Add to
+HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers
+----------------------------------------------------------
+ezRETS ODBC Driver  REG_SZ  Installed
+
+Use the ODBC Control panel to create data sources.
+
+However, once the datasources are created you can add the following
+optional values.
+
+UserAgent    REG_SZ  optional/1.0
+UseHttpGet   REG_SZ  false
+HttpLogFile  REG_SZ  c:\httplogfile.txt

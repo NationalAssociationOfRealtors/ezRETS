@@ -1,0 +1,4 @@
+// Microsoft Visual C++ generated resource script.
+//
+ezretss ICON "ezretss.ico"
+#include "wx/msw/wx.rc"
