@@ -28,5 +28,8 @@ install:
 	copy ezretss.dll c:\windows\system32
 	cd ..\..\..\..
 
+debug-install: install
+	copy project\driver\src\release\ezrets.pdb c:\windows\system32
+
 dist:
 	"c:\Program Files\Inno Setup 5\ISCC.exe" project\build\ezRETS.iss
