@@ -16,8 +16,11 @@
  */
 #include "RetsSTMTResults.h"
 #include "Column.h"
+#include <boost/algorithm/string/erase.hpp>
 
 using namespace odbcrets;
+namespace lr = librets;
+namespace b = boost;
 using std::string;
 using std::endl;
 
@@ -28,7 +31,7 @@ Column::Column(RetsSTMTResults* parent, string name, SQLSMALLINT DefaultType)
 }
 
 Column::Column(RetsSTMTResults* parent, string name,
-               librets::MetadataTablePtr table)
+               lr::MetadataTablePtr table)
     : mParent(parent), mName(name), mTargetType(-1), mMetadataTablePtr(table),
       mBound(false)
 {
@@ -86,6 +89,15 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     SQLSMALLINT type = getBestSqlType();
 
     DataTranslator& dt = mParent->getDataTranslator();
+
+    // if the interpretation is currency, we will strip out commas
+    // Metrolist does this and its definately valid.
+    if (mMetadataTablePtr != NULL &&
+        mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::CURRENCY)
+    {
+        b::erase_all(data, ",");
+    }
+    
     dt.translate(data, type, TargetValue, BufferLength, StrLenOrInd);
 }
 
@@ -124,7 +136,7 @@ string Column::getName()
     return mName;
 }
 
-librets::MetadataTablePtr Column::getRetsMetadataTable()
+lr::MetadataTablePtr Column::getRetsMetadataTable()
 {
     return mMetadataTablePtr;
 }
