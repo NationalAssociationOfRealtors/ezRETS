@@ -475,7 +475,7 @@ RetsSTMT::TableNameVectorPtr RetsSTMT::getMetadataTableName(string name)
 
     ResourceClassPairPtr pair =
         metadataViewPtr->getResourceClassPairBySQLTable(name);
-    if ((pair != 0) && pair->second)
+    if (pair != 0)
     {
         MetadataClassPtr clazz = pair->second;
         string description = clazz->GetDescription();

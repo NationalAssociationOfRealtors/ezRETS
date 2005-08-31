@@ -242,7 +242,10 @@ ResourceClassPairPtr MetadataView::getResourceClassPairBySQLTable(
     {
         MetadataResourcePtr res = getResource(resName);
         MetadataClassPtr clazz = getClass(resName, className);
-        pair.reset(new ResourceClassPair(res, clazz));
+        if (res && clazz)
+        {
+            pair.reset(new ResourceClassPair(res, clazz));
+        }
     }
 
     return pair;
