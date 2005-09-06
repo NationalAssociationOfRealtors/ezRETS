@@ -1,0 +1,22 @@
+
+all: sql_defines
+
+OSX_CFLAGS = -D_BSD_WCHAR_T_DEFINED_
+
+osx:
+	$(MAKE) CXXFLAGS="$(OSX_CFLAGS)"
+
+SQL_DEFINES_GEN = ./sql_defines_gen.rb
+SQL_DEFINES_TEMPLATE = sql_defines.r.cpp
+SQL_DEFINES_SRC  = sql_defines.cpp
+SQL_DEFINES_OBJ = $(SQL_DEFINES_SRC:.cpp=.o)
+SQL_DEFINES = sql_defines
+
+$(SQL_DEFINES): $(SQL_DEFINES_OBJ)
+	$(CXX) -o $(SQL_DEFINES) $(SQL_DEFINES_OBJ)
+
+$(SQL_DEFINES_SRC): $(SQL_DEFINES_GEN) $(SQL_DEFINES_TEMPLATE)
+	$(SQL_DEFINES_GEN) > $(SQL_DEFINES_SRC)
+
+clean:
+	$(RM) *.o $(SQL_DEFINES) $(SQL_DEFINES_SRC)
