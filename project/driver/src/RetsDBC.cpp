@@ -509,7 +509,7 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
             break;
 
         case SQL_IDENTIFIER_QUOTE_CHAR:
-            result = helper.setString(" ");
+            result = helper.setString("\"");
             break;
 
         case SQL_INDEX_KEYWORDS:
