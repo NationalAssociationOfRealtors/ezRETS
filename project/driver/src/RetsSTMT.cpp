@@ -1131,10 +1131,21 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     getLogger()->debug(str_stream() << "In SQLSetStmtAttr " << Attribute
                        << " " << Value << " " << StringLength);
 
-    SQLRETURN result;
+    SQLRETURN result = SQL_SUCCESS;
 
     switch (Attribute)
     {
+        case SQL_ATTR_QUERY_TIMEOUT:
+            // Ignore this, for now (needed for VB)
+            break;
+
+        case 1226:
+        case 1227:
+        case 1228:
+            // These are MS SQL Server extensions... pretend like they
+            // succeed
+            break;
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_ASYNC_ENABLE:
@@ -1157,7 +1168,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAM_STATUS_PTR:
         case SQL_ATTR_PARAMS_PROCESSED_PTR:
         case SQL_ATTR_PARAMSET_SIZE:
-        case SQL_ATTR_QUERY_TIMEOUT:
         case SQL_ATTR_RETRIEVE_DATA:
         case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ATTR_ROW_BIND_OFFSET_PTR:
@@ -1168,7 +1178,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_ROWS_FETCHED_PTR:
         case SQL_ATTR_SIMULATE_CURSOR:
         case SQL_ATTR_USE_BOOKMARKS:
-            ;
         default:
             addError("HYC00", "We don't support this.");
             result = SQL_ERROR;
