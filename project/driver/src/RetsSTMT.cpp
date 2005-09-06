@@ -1131,9 +1131,50 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     getLogger()->debug(str_stream() << "In SQLSetStmtAttr " << Attribute
                        << " " << Value << " " << StringLength);
 
-    addError("HYC00", "We don't support this.");
+    SQLRETURN result;
 
-    return SQL_ERROR;
+    switch (Attribute)
+    {
+        case SQL_ATTR_APP_PARAM_DESC:
+        case SQL_ATTR_APP_ROW_DESC:
+        case SQL_ATTR_ASYNC_ENABLE:
+        case SQL_ATTR_CONCURRENCY:
+        case SQL_ATTR_CURSOR_SCROLLABLE:
+        case SQL_ATTR_CURSOR_SENSITIVITY:
+        case SQL_ATTR_CURSOR_TYPE:
+        case SQL_ATTR_ENABLE_AUTO_IPD:
+        case SQL_ATTR_FETCH_BOOKMARK_PTR:
+        case SQL_ATTR_IMP_PARAM_DESC:
+        case SQL_ATTR_IMP_ROW_DESC:
+        case SQL_ATTR_KEYSET_SIZE:
+        case SQL_ATTR_MAX_LENGTH:
+        case SQL_ATTR_MAX_ROWS:
+        case SQL_ATTR_METADATA_ID:
+        case SQL_ATTR_NOSCAN:
+        case SQL_ATTR_PARAM_BIND_OFFSET_PTR:
+        case SQL_ATTR_PARAM_BIND_TYPE:
+        case SQL_ATTR_PARAM_OPERATION_PTR:
+        case SQL_ATTR_PARAM_STATUS_PTR:
+        case SQL_ATTR_PARAMS_PROCESSED_PTR:
+        case SQL_ATTR_PARAMSET_SIZE:
+        case SQL_ATTR_QUERY_TIMEOUT:
+        case SQL_ATTR_RETRIEVE_DATA:
+        case SQL_ATTR_ROW_ARRAY_SIZE:
+        case SQL_ATTR_ROW_BIND_OFFSET_PTR:
+        case SQL_ATTR_ROW_BIND_TYPE:
+        case SQL_ATTR_ROW_NUMBER:
+        case SQL_ATTR_ROW_OPERATION_PTR:
+        case SQL_ATTR_ROW_STATUS_PTR:
+        case SQL_ATTR_ROWS_FETCHED_PTR:
+        case SQL_ATTR_SIMULATE_CURSOR:
+        case SQL_ATTR_USE_BOOKMARKS:
+            ;
+        default:
+            addError("HYC00", "We don't support this.");
+            result = SQL_ERROR;
+    }
+
+    return result;
 }
 
 SQLRETURN RetsSTMT::SQLColAttribute(
