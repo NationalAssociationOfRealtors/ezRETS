@@ -1251,7 +1251,17 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
             
         case SQL_DESC_DISPLAY_SIZE:
-            colAttHelper.setInt(table->GetMaximumLength());
+            if (table != NULL)
+            {
+                colAttHelper.setInt(table->GetMaximumLength());
+            }
+            else
+            {
+                // This isn't the best solution, but we need to
+                // give it some value.  For now we'll do the column name
+                // size.
+                colAttHelper.setInt(column->getName().size());
+            }
             break;
 
         // fix me:  I know this isn't always right for SQL_DESC_LENTH
