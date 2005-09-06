@@ -30,16 +30,28 @@ GetInfoHelper::GetInfoHelper(
 
 SQLRETURN GetInfoHelper::setSmallInt(SQLUSMALLINT value)
 {
-    *((SQLUSMALLINT*) infoValue) = value;
-    *stringLength = sizeof(SQLUSMALLINT);
+    if (infoValue)
+    {
+        *((SQLUSMALLINT*) infoValue) = value;
+    }
+    if (stringLength)
+    {
+        *stringLength = sizeof(SQLUSMALLINT);
+    }
 
     return SQL_SUCCESS;
 }
 
 SQLRETURN GetInfoHelper::setInt(SQLUINTEGER value)
 {
-    *((SQLUINTEGER*) infoValue) = value;
-    *stringLength = sizeof(SQLUINTEGER);
+    if (infoValue)
+    {
+        *((SQLUINTEGER*) infoValue) = value;
+    }
+    if (stringLength)
+    {
+        *stringLength = sizeof(SQLUINTEGER);
+    }
 
     return SQL_SUCCESS;
 }
