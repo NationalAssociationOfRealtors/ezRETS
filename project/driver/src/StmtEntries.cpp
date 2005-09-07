@@ -496,6 +496,49 @@ class SQLRowCount : public StmtOdbcEntry
     SQLLEN* mRowCount;
 };
 
+class SQLExtendedFetch : public StmtOdbcEntry
+{
+  public:
+    SQLExtendedFetch(SQLHSTMT StatementHandle, SQLUSMALLINT fFetchType,
+                     SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
+                     SQLUSMALLINT *rgfRowStatus)
+        : StmtOdbcEntry(StatementHandle), mFFetchType(fFetchType), mIrow(irow),
+          mPcrow(pcrow), mRgfRowStatus(rgfRowStatus) { }
+
+  protected:
+    SQLRETURN UncaughtOdbcEntry()
+    {
+        return mStmt->SQLExtendedFetch(mFFetchType, mIrow, mPcrow,
+                                       mRgfRowStatus);
+    }
+
+  private:
+    SQLUSMALLINT mFFetchType;
+    SQLROWOFFSET mIrow;
+    SQLROWSETSIZE* mPcrow;
+    SQLUSMALLINT* mRgfRowStatus;
+};
+
+class SQLFetchScroll : public StmtOdbcEntry
+{
+  public:
+    SQLFetchScroll(SQLHSTMT StatementHandle, SQLSMALLINT FetchOrientation,
+                   SQLROWOFFSET FetchOffset)
+        : StmtOdbcEntry(StatementHandle), mFetchOrientation(FetchOrientation),
+          mFetchOffset(FetchOffset) { }
+
+  protected:
+    SQLRETURN UncaughtOdbcEntry()
+    {
+        return mStmt->SQLFetchScroll(mFetchOrientation, mFetchOffset);
+    }
+
+  private:
+    SQLSMALLINT mFetchOrientation;
+    SQLROWOFFSET mFetchOffset;
+};
+
+
 }
 
 namespace o = odbcrets;
@@ -695,4 +738,21 @@ SQLRETURN SQL_API SQLRowCount(SQLHSTMT StatementHandle, SQLLEN *RowCount)
 {
     o::SQLRowCount sqlRowCount(StatementHandle, RowCount);
     return sqlRowCount();
+}
+
+SQLRETURN SQL_API SQLExtendedFetch(
+    SQLHSTMT StatementHandle, SQLUSMALLINT fFetchType, SQLROWOFFSET irow,
+    SQLROWSETSIZE *pcrow, SQLUSMALLINT *rgfRowStatus)
+{
+    o::SQLExtendedFetch sef(StatementHandle, fFetchType, irow, pcrow,
+                            rgfRowStatus);
+    return sef();
+}
+
+SQLRETURN SQL_API SQLFetchScroll(
+    SQLHSTMT StatementHandle, SQLSMALLINT FetchOrientation,
+    SQLROWOFFSET FetchOffset)
+{
+    o::SQLFetchScroll sfs(StatementHandle, FetchOrientation, FetchOffset);
+    return sfs();
 }

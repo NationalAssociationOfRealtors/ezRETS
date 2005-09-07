@@ -90,6 +90,13 @@ class RetsSTMT : public AbstractHandle
                              SQLCHAR *szTableName, SQLSMALLINT cbTableName);
     SQLRETURN SQLRowCount(SQLLEN *rowCount);
 
+    SQLRETURN SQLExtendedFetch(
+        SQLUSMALLINT fFetchType, SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
+        SQLUSMALLINT *rgfRowStatus);
+    SQLRETURN SQLFetchScroll(
+        SQLSMALLINT FetchOrientation, SQLROWOFFSET FetchOffset);
+
+
     // Automatically defined descriptors (needed at first to make MS
     // ODBC DM work without crashing,) just return the dummy pointers,
     // when it internally calls SQLGetStmtAttr at the time of stmt

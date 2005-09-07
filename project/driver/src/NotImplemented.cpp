@@ -148,40 +148,6 @@ SQLRETURN SQL_API SQLEndTran(SQLSMALLINT HandleType, SQLHANDLE Handle,
     return SQL_ERROR;
 }
 
-
-SQLRETURN SQL_API SQLExtendedFetch(SQLHSTMT StatementHandle,
-                                   SQLUSMALLINT fFetchType,
-                                   SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
-                                   SQLUSMALLINT *rgfRowStatus)
-{
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
-
-    if (stmt)
-    {
-        stmt->getLogger()->debug("In SQLExtendedFetch");
-        stmt->addError("HY000", "SQLExtendedFetch not implemented.");
-    }
-
-
-    return SQL_ERROR;
-}
-
-SQLRETURN SQL_API SQLFetchScroll(SQLHSTMT StatementHandle,
-                                 SQLSMALLINT FetchOrientation,
-                                 SQLROWOFFSET FetchOffset)
-{
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
-
-    if (stmt)
-    {
-        stmt->getLogger()->debug("In SQLFetchScroll");
-        stmt->addError("HY000", "SQLFetchScroll not implemented.");
-    }
-
-
-    return SQL_ERROR;
-}
-
 SQLRETURN SQL_API SQLForeignKeys(
     SQLHSTMT StatementHandle, SQLCHAR *szPkCatalogName,
     SQLSMALLINT cbPkCatalogName, SQLCHAR *szPkSchemaName,

@@ -1621,3 +1621,27 @@ SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
 
     return SQL_SUCCESS;
 }
+
+
+SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
+                                     SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
+                                     SQLUSMALLINT *rgfRowStatus)
+{
+    EzLoggerPtr log = getLogger();
+    log->debug(str_stream() << "In SQLExtendedFetch: " << fFetchType <<
+               " " << irow << " ");
+    addError("HY000", "SQLExtendedFetch not implemented.");
+
+    return SQL_ERROR;
+}
+
+SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
+                                   SQLROWOFFSET FetchOffset)
+{
+    EzLoggerPtr log = getLogger();
+    log->debug(str_stream() << "In SQLFetchScroll: " << FetchOrientation <<
+               " " << FetchOffset);
+    addError("HY000", "SQLFetchScroll not implemented.");
+
+    return SQL_ERROR;
+}
