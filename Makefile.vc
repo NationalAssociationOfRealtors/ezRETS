@@ -6,7 +6,7 @@ all:
 	nmake /nologo /f Makefile.vc
 	cd ..\..\setup\src
 	nmake /nologo /f Makefile.vc
-	cd ..\..\examples\src
+	cd ..\..\examples\cpp\src
 	nmake /nologo /f Makefile.vc
 	cd ..\..\..
 
@@ -17,7 +17,7 @@ clean:
 	nmake /nologo /f Makefile.vc clean
 	cd ..\..\setup\src
 	nmake /nologo /f Makefile.vc clean
-	cd ..\..\examples\src
+	cd ..\..\examples\cpp\src
 	nmake /nologo /f Makefile.vc clean
 	cd ..\..\..
 
