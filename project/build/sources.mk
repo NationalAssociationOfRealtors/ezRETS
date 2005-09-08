@@ -62,8 +62,8 @@ $(DRIVER_LIB): $(COMMON_LIB) $(DRIVER_OBJECTS)
 # examples
 #
 
-EXAMPLES_SRC_DIR = project/examples/src
-EXAMPLES_INC_DIR = project/examples/include
+EXAMPLES_SRC_DIR = project/examples/cpp/src
+EXAMPLES_INC_DIR = project/examples/cpp/include
 EXAMPLES_OBJ_DIR = build/examples/objects
 
 EXAMPLES_COMMON_SRC = ${EXAMPLES_SRC_DIR}/DBHelper.cpp \
