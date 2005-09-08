@@ -1,5 +1,5 @@
 
-BOOST_PATH = ../../../../boost_1_32_0
+!include <../../../build/config.vc>
 
 CCNODBG    = cl.exe /MD /O2 /DNDEBUG
 CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ
@@ -7,8 +7,6 @@ CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc
 LINKDLL    = link.exe /DLL
 LINKLIB    = link.exe /lib
 LDFLAGS_STD = /nologo
-
-BOOST_CFLAGS = /I "$(BOOST_PATH)"
 
 SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
 
@@ -19,7 +17,7 @@ TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
 	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
-CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) $(CURL_CFLAGS) $(EXPAT_CFLAGS)
+CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
 LDFLAGS = $(LDFLAGS_STD)
 LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
 
@@ -82,5 +80,3 @@ clean:
 
 {.\}.cpp{$(DIROBJ)\}.obj:
 	$(CXX) $(CFLAGS) /Fo"$@"  $<
-
-
