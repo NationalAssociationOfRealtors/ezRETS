@@ -1266,10 +1266,12 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             else
             {
-                // This isn't the best solution, but we need to
-                // give it some value.  For now we'll do the column name
-                // size.
-                colAttHelper.setInt(column->getName().size());
+                // This isn't the best solution, but we need to give
+                // it some value.  For now we'll do an arbitrary size
+                // of 256.  That seems bigger than would ever be used
+                // for one of our virtual tables.  I'm sure we'll be
+                // proved wrong.
+                colAttHelper.setInt(256);
             }
             break;
 
@@ -1630,9 +1632,9 @@ SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
     EzLoggerPtr log = getLogger();
     log->debug(str_stream() << "In SQLExtendedFetch: " << fFetchType <<
                " " << irow << " ");
-    addError("HY000", "SQLExtendedFetch not implemented.");
+    // addError("HY000", "SQLExtendedFetch not implemented.");
 
-    return SQL_ERROR;
+    return SQLFetch();
 }
 
 SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
