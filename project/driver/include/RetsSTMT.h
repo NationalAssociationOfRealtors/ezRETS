@@ -23,6 +23,7 @@
 #include "AbstractHandle.h"
 #include "RetsSTMTResults.h"
 #include "DataTranslator.h"
+#include "Descriptors.h"
 
 namespace odbcrets
 {
@@ -100,8 +101,11 @@ class RetsSTMT : public AbstractHandle
     // Automatically defined descriptors (needed at first to make MS
     // ODBC DM work without crashing,) just return the dummy pointers,
     // when it internally calls SQLGetStmtAttr at the time of stmt
-    // allocation.  This idea is borrowed from the MySQL driver
-    int ard, ird, apd, ipd;
+    // allocation.
+    AppParamDesc apd;
+    ImpParamDesc ipd;
+    AppRowDesc ard;
+    ImpRowDesc ird;
 
     virtual SQLRETURN diagCursorRowCount(SQLPOINTER DiagInfoPtr);
     virtual SQLRETURN diagDynamicFunction(
