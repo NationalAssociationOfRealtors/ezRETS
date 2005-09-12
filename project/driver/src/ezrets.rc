@@ -27,8 +27,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,4,0
- PRODUCTVERSION 0,9,4,0
+ FILEVERSION 0,9,5,0
+ PRODUCTVERSION 0,9,5,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -45,13 +45,13 @@ BEGIN
         BEGIN
             VALUE "Comments", "ezRETS ODBC Driver"
             VALUE "CompanyName", "CRT - NAR"
-            VALUE "FileDescription", "CRT ezRETS ODBC 0.09.04 Driver"
-            VALUE "FileVersion", "0, 9, 4, 0"
+            VALUE "FileDescription", "CRT ezRETS ODBC 0.09.05 Driver"
+            VALUE "FileVersion", "0, 9, 5, 0"
             VALUE "InternalName", "ezrets"
             VALUE "LegalCopyright", "Copyright (C) 2005"
             VALUE "OriginalFilename", "ezrets.dll"
-            VALUE "ProductName", "ezRETS ODBC 0.09.04 Driver"
-            VALUE "ProductVersion", "0, 9, 4, 0"
+            VALUE "ProductName", "ezRETS ODBC 0.09.05 Driver"
+            VALUE "ProductVersion", "0, 9, 5, 0"
         END
     END
     BLOCK "VarFileInfo"

@@ -1,3 +1,22 @@
+Chaings since 0.9.4
+-------------------
+ Bug fixes:
+  * Fixes null-pointer dereference when given a non-existant Table name
+    in SQLTable.
+  * Fixed null-pointer dereference when getting INT data through SQLGetInfo
+  * Fixed null-pointer dereference on getting column attributes when
+    pulling from an ezrets virtual table instead of "real" RETS data.
+  * Can now handle when a RETS Table/SQL Column has its Interpretation
+    set to currency and is formatted with commas. (Fix for Metrolist.)
+  * Unknown Metadata types now ignored. 
+
+ Enhancements:
+  * SQLExtendedScroll and SQLFetchScroll implemented. This allows
+    PHP metadata functions (SQLTables/SQLColumns) to work.
+  * SQLColumns now returns column names in alphabetical order.
+  * Quoting (using ") in a SQL statement now supported
+  * Table aliases now supported 
+
 Changes since 0.9.3
 -------------------
  * SQLRowCount has been implemented.
