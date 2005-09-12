@@ -82,6 +82,7 @@ class RetsDBC : public AbstractHandle
     DataSource mDataSource;
     boost::shared_ptr<std::ostream> mRetsLogFile;
     boost::shared_ptr<librets::StreamHttpLogger> mRetsHttpLogger;
+    boost::shared_ptr<librets::RetsErrorHandler> mRetsErrorHandler;
 };
 }
 

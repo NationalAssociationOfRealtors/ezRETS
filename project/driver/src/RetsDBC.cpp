@@ -22,6 +22,7 @@
 #include "utils.h"
 #include "str_stream.h"
 #include "EzLogger.h"
+#include "EzRetsErrorHandler.h"
 
 #include <fstream>
 #include <map>
@@ -630,12 +631,11 @@ bool RetsDBC::login()
 {
     bool success = false;
     lr::RetsSessionPtr session;
+    EzLoggerPtr log = getLogger();
     
     try
     {
         session = mDataSource.CreateRetsSession();
-        // Eventually this should be configurable via the datasource
-        session->SetIgnoreUnknownMetadata(true);
         string httpLogfile = mDataSource.GetHttpLogFile();
         if (mDataSource.GetUseHttpLogging())
         {
@@ -656,6 +656,9 @@ bool RetsDBC::login()
         if (success)
         {
             mRetsSessionPtr = session;
+            EzRetsErrorHandler* handler = new EzRetsErrorHandler(log);
+            mRetsErrorHandler.reset(handler);
+            mRetsSessionPtr->SetErrorHandler(handler);
             lr::RetsMetadataPtr metaPtr = mRetsSessionPtr->GetMetadata();
             mMetadataViewPtr.reset(
                 new MetadataView(mDataSource.GetStandardNames(), metaPtr));
@@ -663,7 +666,7 @@ bool RetsDBC::login()
     }
     catch(std::exception & e)
     {
-        getLogger()->debug(str_stream() << "RetsDBC::Login: " << e.what());
+        log->debug(str_stream() << "RetsDBC::Login: " << e.what());
 
         string message("Unable to connect: ");
         message.append(e.what());
