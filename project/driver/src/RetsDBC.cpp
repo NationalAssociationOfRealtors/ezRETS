@@ -634,10 +634,8 @@ bool RetsDBC::login()
     try
     {
         session = mDataSource.CreateRetsSession();
-
         // Eventually this should be configurable via the datasource
-        mRetsSessionPtr->SetIgnoreUnknownMetadata(true);
-
+        session->SetIgnoreUnknownMetadata(true);
         string httpLogfile = mDataSource.GetHttpLogFile();
         if (mDataSource.GetUseHttpLogging())
         {
