@@ -18,6 +18,18 @@ Source: project\setup\src\release\ezretss.dll; DestDir: {sys}
 Source: README; DestDir: {app}; DestName: README.TXT
 Source: LICENSE; DestDir: {app}; DestName: LICENSE.TXT
 Source: NEWS; DestDir: {app}; DestName: NEWS.TXT
+Source: doc\InstallTutorial\odbc6.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\ezRETSSetup.html; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\install1.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\install2.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\install3.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\install4.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\install_icon.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\odbc1.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\odbc2.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\odbc3.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\odbc4.png; DestDir: {app}\InstallTutorial
+Source: doc\InstallTutorial\odbc5.png; DestDir: {app}\InstallTutorial
 Source: doc\ExcelTutorial\sort.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\columns.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\data.png; DestDir: {app}\ExcelTutorial
@@ -27,6 +39,7 @@ Source: doc\ExcelTutorial\ExcelTutorial.html; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\filter.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\filtercity.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\filterprice.png; DestDir: {app}\ExcelTutorial
+Source: doc\ExcelTutorial\filterstatus.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\finish.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\plus.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\refresh.png; DestDir: {app}\ExcelTutorial
@@ -39,6 +52,7 @@ Name: {commonprograms}\ezRETS\License; Filename: {app}\LICENSE.txt
 Name: {commonprograms}\ezRETS\News; Filename: {app}\NEWS.txt
 Name: {commonprograms}\ezRETS\Uninstall ezRETS; Filename: {uninstallexe}
 Name: {commonprograms}\ezRETS\Excel Tutorial; Filename: {app}\ExcelTutorial\ExcelTutorial.html
+Name: {commonprograms}\ezRETS\Install Tutorial; Filename: {app}\InstallTutorial\InstallTutorial.html
 
 [Registry]
 Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; Flags: uninsdeletekey
@@ -52,3 +66,4 @@ Root: HKLM; Subkey: SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers; ValueType: string; 
 
 [Dirs]
 Name: {app}\ExcelTutorial
+Name: {app}\InstallTutorial
