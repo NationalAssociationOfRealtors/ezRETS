@@ -4,88 +4,104 @@
       based on Norman Walsh's DocBook XSL stylesheets.
       More information at http://www.linuxdoc.org/ -->
   </head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="N10001"></a>Using ezRETS to Import Multiple Listing Service Data into Microsoft
-  Excel</h2></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#N10005">1. Introduction</a></span></dt><dt><span class="section"><a href="#N1000A">2. What you'll need</a></span></dt><dt><span class="section"><a href="#N1001C">3. Getting started</a></span></dt></dl></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10005"></a>1.&nbsp;Introduction</h2></div></div><div></div></div><p>The ezRETS ODBC driver from the Center for Realtor Technology at the
-    National Association of REALTORS&reg;, was designed to allow ODBC-aware
-    software to easily query data from any Multiple Listing Service that
-    supports the RETS standard. Many of the programs in Microsoft Office can
-    utilize ezRETS to integrate real estate listing data directly into your
-    own custom documents. The following is a short tutorial that demonstrates
-    how to do this in Microsoft Excel.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N1000A"></a>2.&nbsp;What you'll need</h2></div></div><div></div></div><p>For this tutorial, you'll need:</p><div class="itemizedlist"><ul type="disc"><li><p>The latest version of the ezRETS driver, which can be obtained
-        from the web site<a href="???" target="_top">http://www.crt.realtors.org/projects/rets/ezrets/</a></p></li><li><p>An ezRETS data source defined in Windows' "Data Sources (ODBC)"
-        control panel. </p></li><li><p>An installation of Microsoft Office that includes Excel. The
+  Excel</h2></div></div><div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#N10005">1. Introduction</a></span></dt><dt><span class="section"><a href="#N1000E">2. What you'll need</a></span></dt><dt><span class="section"><a href="#N10022">3. Using ezRETS from Excel, step-by-step</a></span></dt></dl></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10005"></a>1.&nbsp;Introduction</h2></div></div><div></div></div><p>The ezRETS ODBC driver, from the Center for Realtor Technology at
+    the <span class="trademark">National Association of
+    REALTORS</span>&reg;, was designed to allow ODBC-aware applications to
+    easily query data from any Multiple Listing Service that supports the RETS
+    standard. Many of the programs in Microsoft Office can utilize ezRETS to
+    integrate real estate listing data directly into your own custom
+    documents. The following is a short tutorial that demonstrates how to do
+    this in Microsoft Excel.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N1000E"></a>2.&nbsp;What you'll need</h2></div></div><div></div></div><p>For this tutorial, you'll need:</p><div class="itemizedlist"><ul type="disc"><li><p>The latest version of the ezRETS driver, which can be obtained
+        from the web site<a href="???" target="_top">
+        http://www.crt.realtors.org/projects/rets/ezrets/</a></p></li><li><p>An ODBC ezRETS data source named "ezRETS Demo" which is set up
+        to connect to the ezRETS demo RETS server. Information on how to do
+        this is available at <i class="emphasis">&lt;insert URL
+        here&gt;</i></p></li><li><p>An installation of Microsoft Office that includes Excel. The
         images and examples in this tutorial come from Microsoft Office XP,
         but the same steps should work in other versions with only slight
-        differences.</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N1001C"></a>3.&nbsp;Getting started</h2></div></div><div></div></div><p>To begin, create a new blank workbook in Microsoft Excel. Once it
-    comes up, click on the "Data" menu on Excel's main menu bar, navigate to
-    the "Import External Data" submenu, and select the "New Database Query..."
-    menu item:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="datamenu.png"></div></div></div><p>Excel will then open up the Microsoft Query application, which will
-    present a window asking you to choose the data source you want to access.
-    Select the ezRETS data source you wish to use from the list:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="datasource.png"></div></div></div><p>Make sure that the checkbox next to "Use the Query Wizard to
-    create/edit queries" is checked, and click "OK".</p><p>The next window will present you with a list of tables that
-    are available from the MLS system. Depending on the information
-    that is available from your MLS, you may see several tables with
-    names that start with "data:", like
-    "data:Property:ResidentialProperty".  Find the table that contains
-    the information for the type of properties you're looking for; for
-    this example we will choose "data:Property:ResidentialProperty",
-    which contains information about residential property listings. To
-    the left of the table name, you'll see a <span class="inlinemediaobject"><img src="plus.png"></span> icon. Click on this icon to reveal the list of
-    columns that exist in this table:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="columns.png"></div></div></div><p>Select the "ListingID" column, and click the "&gt;" button. When you
-    do this, the column name will move over to the list on the right side of
-    the window, to indicate that it will be included in the results of your
-    query. Do this again for a few other fields, such as "ListingStatus",
-    "ListDate", "Unstructured", "City", and "ListPrice" columns:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="selectedcolumns.png"></div></div></div><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>Don't select columns from more than one table! While the Query
-      Wizard will let you do this, it isn't supported by the ezRETS driver,
-      and will cause an error message when you click the "Next" button!</p></div><p>Click "Next" to move on to the "Filter Data" window, where you can
-    define the criteria for your query:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="filter.png"></div></div></div><p>Criteria can be defined for any of the columns that you added to the
-    query in the previous window. For example, you could have the query look
-    only for a specific listing number by adding a criteria for the
-    "ListingID" field. It is highly recommended that you define some sort of
-    criteria for an MLS query, since otherwise there's a good chance that the
-    MLS service will refuse the query since it would return too many
-    listings.</p><p>For this example, we're going to limit the query to look only for
-    properties in a certain city and price range. To do this, first select the
-    "City" column on the left. When you do this, the first drop-down menu will
-    activate. In this dropdown, select "equals". The field to the right of the
-    menu will then activate; in this field enter "Fishers". This will limit
-    the query to only returning results in that city. Your screen should look
-    like this:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="filtercity.png"></div></div></div><p>Also notice that "City" on the left is now in bold print; this is to
-    indicate that you have entered filter criteria for this column. Now select
-    the "ListPrice" column. When you do this, the information on the right
-    side of the screen will reset; this is because we haven't added criteria
-    for "ListPrice" yet. (If you go click on "City" again, the criteria you
-    entered for "City" will re-appear.) In the first drop-down menu, select
-    "is greater than", and then enter "125000" in the field to the right. The
-    next drop-down will then activate; in that drop-down, select "is less
-    than", and enter "150000" in the field to the right of it. Make sure that
-    the "And" button between the first and second dropdown is selected; this
-    tells the MLS service that a listing must match both of these "ListPrice"
-    criteria to be acceptable. The criteria for ListPrice should look
-    like:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="filterprice.png"></div></div></div><p>Click "Next". The next window will allow you to pick which
-    columns of the query you'd like the results to be sorted
-    by. Unfortunately, RETS does not support this type of
-    functionality.  You can just click next at this screen.  (This
-    graphic needs to be updated.</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="sort.png"></div></div></div><p>Click "Next". On the next window, select "Return data to Microsoft
-    Excel", and click "Finish":</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="finish.png"></div></div></div><p>You will then be returned to Microsoft Excel. Excel will display one
-    final window, asking you where you'd like the data to be written. You have
-    the choice of creating a new table of data starting at an existing cell in
-    the workbook, or to put the new data into a new sheet. For this tutorial,
-    select "New sheet" like so, then click "OK":</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="saveto.png"></div></div></div><p>Excel will add a new sheet to your workbook, and run the query. When
-    it completes, you should have a new sheet that looks something like
-    this:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="data.png"></div></div></div><p>As you can see, the results are returned in a table format, with
+        differences.</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10022"></a>3.&nbsp;Using ezRETS from Excel, step-by-step</h2></div></div><div></div></div><div class="orderedlist"><ol type="1"><li><p>Create a new blank workbook in Microsoft Excel.</p></li><li><p>Click on the <span class="guimenu">Data</span> menu on Excel's main menu
+        bar, navigate to the <span class="guimenuitem">Import External Data</span>
+        submenu, and select the <span class="guimenuitem">New Database
+        Query...</span> menu item:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="datamenu.png"></div></div></div></li><li><p>Excel will then open up the Microsoft Query application, which
+        will present a window asking you to choose the data source you want to
+        access. For this tutorial, select the <span class="guilabel">ezRETS Demo</span>
+        data source:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="datasource.png"></div></div></div></li><li><p>Make sure that the checkbox next to <span class="guibutton">Use the Query
+        Wizard to create/edit queries</span> is checked.</p></li><li><p>Click <span class="guibutton">OK</span>. </p></li><li><p>The <span class="guilabel">Query Wizard - Choose Columns</span> window
+        will appear next, presenting a list of tables that are available from
+        the MLS system. </p><p>For this tutorial, find the
+        <span class="guilabel">data:Property:ResidentialProperty</span> table under
+        <span class="guilabel">Available tables and columns:</span>. To the left of it,
+        you'll see a <span class="inlinemediaobject"><img src="plus.png"></span> icon. Click on this icon to reveal the list of
+        columns that exist in this table:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="columns.png"></div></div></div></li><li><p>Select the <span class="guilabel">ListingID</span> column from the list
+        that appeared below
+        <span class="guilabel">data:Property:ResidentialProperty</span>, and click the
+        <span class="guibutton">&gt;</span> button. The column name will move over to
+        the list on the right side of the window, to indicate that it will be
+        included in the results of your query. </p></li><li><p>Repeat step 7 for a few other fields as well. Include at least
+        the <span class="guilabel">ListingStatus</span> and
+        <span class="guilabel">ListPrice</span> columns, as we'll need those later on
+        in the tutorial.</p><p>Your screen should now look something like this (a few more
+        columns have been added besides the ones mentioned above):</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="selectedcolumns.png"></div></div></div><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>Don't select columns from more than one table! While the Query
+          Wizard will let you do this, it isn't supported by the ezRETS
+          driver, and will cause an error message when you try to go to the
+          next screen of the Query Wizard.</p></div></li><li><p>Click <span class="guibutton">Next</span> to move on to the
+        <span class="guilabel">Query Wizard - Filter Data</span> window, where you can
+        define the criteria for your query:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="filter.png"></div></div></div><p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3><p>Criteria can be defined for any of the columns that you
+            added to the query in the previous window. For example, you could
+            have the query look only for a specific listing number by adding a
+            criteria for the <span class="guilabel">ListingID</span> field.</p></div></p></li><li><p>For this tutorial, we're going to limit the query to look only
+        for active listings in a certain price range. Start by selecting the
+        <span class="guilabel">ListingStatus</span> column under <span class="guilabel">Column to
+        filter:</span>. </p></li><li><p>When you do this, the first drop-down menu will activate. In
+        this drop-down, select <span class="guilabel">equals</span>. </p></li><li><p>The field to the right of the menu will then activate; in this
+        field type in "Active". This will limit the query to only returning
+        listings that are currently active. Your screen should now look like
+        this:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="filterstatus.png"></div></div></div><div class="caution" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Caution</h3><p>You must define at least one filter criteria for a RETS query.
+          Due to limitations in the RETS protocol, the ezRETS ODBC driver will
+          not return any results unless you define at least one
+          criteria.</p></div></li><li><p>Next, select the <span class="guilabel">ListPrice</span> column under
+        <span class="guilabel">Column to filter:</span>. When you do this, the
+        information on the right side of the screen will reset; this is
+        because we haven't added criteria for <span class="guilabel">ListPrice</span>
+        yet. You will also see that the <span class="guilabel">ListingStatus</span>
+        entry on the left is now in bold print, which indicates that criteria
+        have been entered for that field. If you click on
+        <span class="guilabel">ListingStatus</span> again, the criteria for that field
+        will be displayed again.</p></li><li><p>After selecting <span class="guilabel">ListPrice</span>, select
+        <span class="guilabel">is greater than</span> from the first drop-down.</p></li><li><p>Enter "350000" in the field to the right of the <span class="guimenuitem">is
+        greather than</span> drop-down..</p></li><li><p>The next drop-down will then activate, and the
+        <span class="guibutton">And</span> button will be selected by default. In that
+        drop-down, select <span class="guilabel">is less than</span>, and enter
+        "500000" in the field to the right of it. </p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Tip</h3><p>The <span class="guilabel">And</span> button between the first and
+          second drop-down tells the MLS service that a listing must match
+          both of these criteria to be included in the query results; if you
+          select <span class="guibutton">Or</span>, then a listing will only need to
+          meet at least one of the two criteria to be included.</p></div><p>The criteria for <span class="guilabel">ListPrice</span> should look
+        like:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="filterprice.png"></div></div></div></li><li><p>Click <span class="guilabel">Next</span>.</p></li><li><p>On the next window, <span class="guilabel">Query Wizard - Sort
+        Order</span>, click <span class="guilabel">Next</span>. Due to limitations
+        in the RETS protocol, ezRETS does not provide any sorting
+        capabilities.</p></li><li><p>On the next window, <span class="guilabel">Query Wizard - Finish</span>,
+        select <span class="guibutton">Return data to Microsoft Excel</span>:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="finish.png"></div></div></div></li><li><p>Click <span class="guibutton">Finish</span>.</p></li><li><p>The last dialog asks where you'd like the data to be written.
+        You have the choice of creating a new table of data starting at an
+        existing cell in the workbook, or to put the new data into a new
+        sheet. For this tutorial, select <span class="guibutton">New sheet</span>,
+        then click <span class="guilabel">OK</span>:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="saveto.png"></div></div></div></li></ol></div><p>Once you've finished the last step, Excel will run the query and add
+    a new sheet to your workbook with the results. You should have a new sheet
+    that looks something like this:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="data.png"></div></div></div><p>As you can see, the results are returned in a table format, with
     column names in the first row, and one MLS listing in each following row.
     In the above example we have two separate listings, one on row 2 and one
     on row 3. You can now create references to this data on other sheets in
     the workbook using cell references and formulas like you would with any
-    other data in Excel. In addition, if you go to the "Insert" menu, to the
-    "Name" submenu, and select "Define...", you'll see that Excel has defined
-    a named range corresponding to your query that you can also utilize in
-    cell formulas such as summations. (For more information about named
-    ranges, consult Excel's built-in Help.)</p><p>Behind the scenes, Excel actually saves the information necessary to
-    retrieve this data again at a later date. Thus, you can easily come back
-    later on and bring the data up to date with any new information that may
-    have appeared in the listing service. Just go to the sheet that has the
-    data on it, right-click on a cell within the data, and select
-    "Refresh":</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="refresh.png"></div></div></div><p>That's it! You now have an Excel spreadsheet that can retrieve live
+    other data in Excel. In addition, if you go to the
+    <span class="guimenu">Insert</span> menu, to the <span class="guimenuitem">Name</span>
+    submenu, and select <span class="guimenuitem">Define...</span>, you'll see that
+    Excel has defined a named range corresponding to your query that you can
+    also utilize in cell formulas such as summations. (For more information
+    about named ranges, consult Excel's built-in Help.)</p><p>Behind the scenes, Excel actually saves the information necessary to
+    re-run the query and retrieve this data again. Thus, you can easily come
+    back later on and bring the data up to date with any new information that
+    may have appeared in the listing service. Just go to the sheet that has
+    the data on it, right-click on a cell within the data, and select
+    <span class="guimenuitem">Refresh Data</span>:</p><div class="informalfigure"><div class="screenshot"><div class="mediaobject"><img src="refresh.png"></div></div></div><p>That's it! You now have an Excel spreadsheet that can retrieve live
     data from your Multiple Listing Service, and update that data anytime you
     wish.</p></div></div></body></html>
