@@ -1,8 +1,8 @@
-Chaings since 0.9.4
+Changes since 0.9.4
 -------------------
  Bug fixes:
-  * Fixes null-pointer dereference that resulted in a crash when given a
-    non-existant Table name in SQLTable
+  * Fixed null-pointer dereference that resulted in a crash when given a
+    non-existent Table name in SQLTable
   * Fixed null-pointer dereference that resulted in a crash when getting INT
     data through SQLGetInfo
   * Fixed null-pointer dereference that resulted in a crash on getting column
