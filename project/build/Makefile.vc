@@ -6,7 +6,7 @@
 LIBRETS_PATH = $(BASE_PATH)/librets
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"
 LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build" \
-	libretsmtd.lib
+	libretsmt$(DEBUG_RUNTIME).lib
 
 BOOST_PATH = $(BASE_PATH)/boost_1_32_0
 BOOST_CFLAGS = /I "$(BOOST_PATH)"
@@ -17,14 +17,18 @@ WX_CFLAGS = /I "$(WX_PATH)/include" /I "$(WX_LIB)/mswd" /D "WINVER=0x0400"
 WX_LDFLAGS = "/LIBPATH:$(WX_LIB)" wxmsw26d_core.lib wxbase26d.lib
 
 CCNODBG    = cl.exe /MT /O2 /DNDEBUG
-CCDEBUG    = cl.exe /MTd /Od /Gm /Zi /D_DEBUG /GZ
+CCDEBUG    = cl.exe /MT$(DEBUG_RUNTIME) /Od /Gm /Zi /D_DEBUG /GZ
 CFLAGS_STD = /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR
 
 !if "$(BUILD)" == "release"
 LINK_MODE = /RELEASE
+DEBUG_RUNTIME = 
+LIB_DEBUG_RUNTIME =
 
 !else if "$(BUILD)" == "debug"
 LINK_MODE = /DEBUG
+DEBUG_RUNTIME = d
+LIB_DEBUG_RUNTIME = d
 
 !else
 !error "Unknown BUILD: $(BUILD)"
