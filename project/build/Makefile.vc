@@ -1,9 +1,7 @@
 # Set
 # BASE_PATH = ../../../..
 
-LINK_MODE = /DEBUG
-
-!include config-local.vc
+!include config.vc
 
 LIBRETS_PATH = $(BASE_PATH)/librets
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"
@@ -21,6 +19,17 @@ WX_LDFLAGS = "/LIBPATH:$(WX_LIB)" wxmsw26d_core.lib wxbase26d.lib
 CCNODBG    = cl.exe /MT /O2 /DNDEBUG
 CCDEBUG    = cl.exe /MTd /Od /Gm /Zi /D_DEBUG /GZ
 CFLAGS_STD = /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR
+
+!if "$(BUILD)" == "release"
+LINK_MODE = /RELEASE
+
+!else if "$(BUILD)" == "debug"
+LINK_MODE = /DEBUG
+
+!else
+!error "Unknown BUILD: $(BUILD)"
+!endif
+
 LINKDLL    = link.exe /DLL $(LINK_MODE)
 LINKLIB    = link.exe /lib
 LINKEXE	   = link.exe
@@ -28,3 +37,4 @@ LDFLAGS_STD = /nologo
 
 RSC = rc.exe
 RSC_FLAGS = /l 0x409 -I../include -I$(WX_PATH)/include
+

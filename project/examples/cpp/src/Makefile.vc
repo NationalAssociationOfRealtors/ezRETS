@@ -1,5 +1,5 @@
 
-!include <../../../build/config.vc>
+!include <../../../build/Makefile.vc>
 
 CCNODBG    = cl.exe /MD /O2 /DNDEBUG
 CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ

@@ -1,0 +1,5 @@
+# Point to vendor code, check out from svn.  Must be an absolute path.
+BASE_PATH = c:/odbcrets
+
+# [debug, release]
+BUILD = debug

@@ -1,7 +1,7 @@
 # Set
 # BASE_PATH = ../../../..
 
-!include <../../build/config.vc>
+!include <../../build/Makefile.vc>
 
 LIB_NAME   = ezrets
 
