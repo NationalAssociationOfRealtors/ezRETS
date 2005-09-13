@@ -1,6 +1,8 @@
 # Set
 # BASE_PATH = ../../../..
 
+LINK_MODE = /DEBUG
+
 !include config-local.vc
 
 LIBRETS_PATH = $(BASE_PATH)/librets
@@ -19,7 +21,7 @@ WX_LDFLAGS = "/LIBPATH:$(WX_LIB)" wxmsw26d_core.lib wxbase26d.lib
 CCNODBG    = cl.exe /MT /O2 /DNDEBUG
 CCDEBUG    = cl.exe /MTd /Od /Gm /Zi /D_DEBUG /GZ
 CFLAGS_STD = /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR
-LINKDLL    = link.exe /DLL /DEBUG
+LINKDLL    = link.exe /DLL $(LINK_MODE)
 LINKLIB    = link.exe /lib
 LINKEXE	   = link.exe
 LDFLAGS_STD = /nologo
