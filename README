@@ -8,6 +8,8 @@ The support mailing list is ezrets-users@crt.realtors.org and you can
 subscribe to this list by visiting:
     http://mail.crt.realtors.org/mailman/listinfo/ezrets-users
 
+Build on libRETS technology!
+
 News about driver changes can be found in the NEWS file.
 
 -- SQL Support --
@@ -43,7 +45,7 @@ http://demo.crt.realtors.org:6103/rets/login
 -- Misc notes --
 
     * If a MLS needs to know your User-Agent: ezRETS currently shows
-      up with the User-Agent of "ezRETS/0.9.5 (librets/1.0.0b1)" The
+      up with the User-Agent of "ezRETS/0.9.5 (librets/1.0.0b2)" The
       User-Agent is now configurable via the Data Source control panel
       or by editing your odbc.ini.  We do not encourage the practice
       of changing your User-Agent.
