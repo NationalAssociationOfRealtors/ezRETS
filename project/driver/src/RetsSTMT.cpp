@@ -271,6 +271,11 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_IMP_PARAM_DESC:
             *(SQLPOINTER *) Value = &ipd;
             break;
+
+        case SQL_ATTR_ROW_ARRAY_SIZE:
+        case SQL_ROWSET_SIZE:
+            *(SQLUINTEGER*) Value = ard.mArraySize;
+            break;
     }
 
     if (StringLength)
@@ -1146,6 +1151,11 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             // succeed
             break;
 
+        case SQL_ATTR_ROW_ARRAY_SIZE:
+        case SQL_ROWSET_SIZE:
+            addError("01S02", "Option Value Changed");
+            break;
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_ASYNC_ENABLE:
@@ -1169,7 +1179,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAMS_PROCESSED_PTR:
         case SQL_ATTR_PARAMSET_SIZE:
         case SQL_ATTR_RETRIEVE_DATA:
-        case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ATTR_ROW_BIND_OFFSET_PTR:
         case SQL_ATTR_ROW_BIND_TYPE:
         case SQL_ATTR_ROW_NUMBER:
@@ -1179,7 +1188,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_SIMULATE_CURSOR:
         case SQL_ATTR_USE_BOOKMARKS:
         default:
-            addError("HYC00", "We don't support this.");
+            addError("HY092", "Invalid attribute/option identifier.");
             result = SQL_ERROR;
     }
 

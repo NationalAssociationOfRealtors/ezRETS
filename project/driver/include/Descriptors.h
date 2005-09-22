@@ -56,6 +56,8 @@ struct ImpParamDesc // aka ipd
 
 struct AppRowDesc // aka ard
 {
+    AppRowDesc() : mArraySize(1) { }
+    
     SQLUINTEGER mArraySize;
     SQLUINTEGER* mBindOffsetPtr;
     SQLUINTEGER mBindType;
