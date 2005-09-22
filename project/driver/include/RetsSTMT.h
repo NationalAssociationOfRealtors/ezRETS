@@ -97,9 +97,8 @@ class RetsSTMT : public AbstractHandle
     SQLRETURN SQLFetchScroll(
         SQLSMALLINT FetchOrientation, SQLROWOFFSET FetchOffset);
 
-
     // Automatically defined descriptors (needed at first to make MS
-    // ODBC DM work without crashing,) just return the dummy pointers,
+    // ODBC DM work without crashing,) just return the pointers,
     // when it internally calls SQLGetStmtAttr at the time of stmt
     // allocation.
     AppParamDesc apd;

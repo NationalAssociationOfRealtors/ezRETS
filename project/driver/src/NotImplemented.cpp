@@ -214,20 +214,6 @@ SQLRETURN SQL_API SQLParamData(SQLHSTMT StatementHandle, SQLPOINTER *Value)
     return SQL_ERROR;
 }
 
-SQLRETURN SQL_API SQLParamOptions(SQLHSTMT StatementHandle, SQLUINTEGER crow,
-                                  SQLUINTEGER *pirow)
-{
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
-
-    if (stmt)
-    {
-        stmt->getLogger()->debug("In SQLParamOptions");
-        stmt->addError("HY000", "SQLParamOptions not implemented.");
-    }
-
-    return SQL_ERROR;
-}
-
 SQLRETURN SQL_API SQLProcedureColumns(
     SQLHSTMT StatementHandle, SQLCHAR *szCatalogName,
     SQLSMALLINT cbCatalogName, SQLCHAR *szSchemaName, SQLSMALLINT cbSchemaName,

@@ -364,7 +364,6 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
         case SQL_CREATE_TABLE:
         case SQL_DATETIME_LITERALS:
         case SQL_DDL_INDEX:
-        case SQL_DEFAULT_TXN_ISOLATION:
         case SQL_DROP_TABLE:
         // Can we tell SQL_INSERT_STATEMENT we don't support any?
         case SQL_INSERT_STATEMENT:
@@ -386,6 +385,10 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
             result = helper.setInt(0);
             break;
 
+        case SQL_DEFAULT_TXN_ISOLATION:
+            result = helper.setInt(SQL_TXN_READ_UNCOMMITTED);
+            break;
+            
         // For now we do not support any ASYNC action
         case SQL_ASYNC_MODE:
             result = helper.setInt(SQL_AM_NONE);
@@ -806,6 +809,10 @@ SQLRETURN RetsDBC::SQLGetConnectAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 
         case SQL_ATTR_METADATA_ID:
             helper.setInt(SQL_FALSE);
+            break;
+
+        case SQL_ATTR_TXN_ISOLATION:
+            helper.setInt(SQL_TXN_READ_UNCOMMITTED);
             break;
 
         default:

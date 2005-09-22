@@ -538,6 +538,33 @@ class SQLFetchScroll : public StmtOdbcEntry
     SQLROWOFFSET mFetchOffset;
 };
 
+class SQLParamOptions : public StmtOdbcEntry
+{
+  public:
+    SQLParamOptions(SQLHSTMT StatementHandle, SQLUINTEGER crow,
+                    SQLUINTEGER *pirow)
+        : StmtOdbcEntry(StatementHandle), mCrow(crow), mPirow(pirow) { }
+
+  protected:
+    SQLRETURN UncaughtOdbcEntry()
+    {
+        SQLRETURN result;
+        mStmt->getLogger()->debug("In SQLParamOptions...");
+        result = mStmt->SQLSetStmtAttr(
+            SQL_ATTR_PARAMSET_SIZE, (SQLPOINTER) mCrow, 0);
+        if (result == SQL_ERROR)
+        {
+            return result;
+        }
+        result = mStmt->SQLSetStmtAttr(SQL_ATTR_PARAMS_PROCESSED_PTR, mPirow,
+                                       0);
+        return result;
+    }
+    
+  private:
+    SQLUINTEGER mCrow;
+    SQLUINTEGER* mPirow;
+};
 
 }
 
@@ -755,4 +782,11 @@ SQLRETURN SQL_API SQLFetchScroll(
 {
     o::SQLFetchScroll sfs(StatementHandle, FetchOrientation, FetchOffset);
     return sfs();
+}
+
+SQLRETURN SQL_API SQLParamOptions(
+    SQLHSTMT StatementHandle, SQLUINTEGER crow, SQLUINTEGER *pirow)
+{
+    o::SQLParamOptions spo(StatementHandle, crow, pirow);
+    return spo();
 }

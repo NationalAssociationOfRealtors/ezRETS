@@ -62,6 +62,16 @@ struct AppRowDesc // aka ard
     SQLUINTEGER* mBindOffsetPtr;
     SQLUINTEGER mBindType;
     SQLUSMALLINT* mArrayStatusPtr;
+
+    // To be added?:
+    // SQL_DESC_DATA_PTR
+    // SQLPOINTER mDescDataPtr;
+    
+    // SQL_DESC_INDICATOR_PTR
+    // SQLPOINTER mDescIndicatorPtr;
+    
+    // SQL_DESC_OCTET_LENGTH_PTR
+    // SQLPOINTER mOctetLengthPtr;
 };
 
 struct ImpRowDesc // aka ird

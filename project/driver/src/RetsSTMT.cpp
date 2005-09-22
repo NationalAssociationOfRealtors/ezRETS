@@ -1156,6 +1156,18 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             addError("01S02", "Option Value Changed");
             break;
 
+        case SQL_ATTR_ROW_BIND_TYPE:
+            ard.mBindType = (SQLUINTEGER) Value;
+            break;
+
+        case SQL_ATTR_PARAMSET_SIZE:
+            ard.mArraySize = (SQLUINTEGER) Value;
+            break;
+            
+        case SQL_ATTR_PARAMS_PROCESSED_PTR:
+            ipd.mRowProcessedPtr = (SQLUINTEGER*) Value;
+            break;
+            
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_ASYNC_ENABLE:
@@ -1176,11 +1188,8 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAM_BIND_TYPE:
         case SQL_ATTR_PARAM_OPERATION_PTR:
         case SQL_ATTR_PARAM_STATUS_PTR:
-        case SQL_ATTR_PARAMS_PROCESSED_PTR:
-        case SQL_ATTR_PARAMSET_SIZE:
         case SQL_ATTR_RETRIEVE_DATA:
         case SQL_ATTR_ROW_BIND_OFFSET_PTR:
-        case SQL_ATTR_ROW_BIND_TYPE:
         case SQL_ATTR_ROW_NUMBER:
         case SQL_ATTR_ROW_OPERATION_PTR:
         case SQL_ATTR_ROW_STATUS_PTR:
