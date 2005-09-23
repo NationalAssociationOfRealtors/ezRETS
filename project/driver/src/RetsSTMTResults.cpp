@@ -168,10 +168,15 @@ void RetsSTMTResults::getData(
     SQLUSMALLINT colno, SQLSMALLINT TargetType, SQLPOINTER TargetValue,
     SQLLEN BufferLength, SQLLEN *StrLenorInd)
 {
+    EzLoggerPtr log = mStmt->getLogger();
+    log->debug("In RetsSTMTResults::getData()");
+
     int rColno = colno - 1;
     ColumnPtr& column = mColumns->at(rColno);
 
     string& resCol = (*mResultIterator)->at(rColno);
+    log->debug(str_stream() << column->getName() << " " << TargetType
+	       << " " << resCol);
 
     column->setData(resCol, TargetType, TargetValue, BufferLength,
                     StrLenorInd);
