@@ -1141,7 +1141,10 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     switch (Attribute)
     {
         case SQL_ATTR_QUERY_TIMEOUT:
-            // Ignore this, for now (needed for VB)
+            if (Value != 0)
+            {
+                addError("01S02", "Option Value Changed");
+            }
             break;
 
         case 1226:
@@ -1167,6 +1170,10 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAMS_PROCESSED_PTR:
             ipd.mRowProcessedPtr = (SQLUINTEGER*) Value;
             break;
+
+        case SQL_ATTR_MAX_LENGTH:
+            addError("01S02", "Option Value Changed");
+            break;
             
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
@@ -1180,7 +1187,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_IMP_PARAM_DESC:
         case SQL_ATTR_IMP_ROW_DESC:
         case SQL_ATTR_KEYSET_SIZE:
-        case SQL_ATTR_MAX_LENGTH:
         case SQL_ATTR_MAX_ROWS:
         case SQL_ATTR_METADATA_ID:
         case SQL_ATTR_NOSCAN:
