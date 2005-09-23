@@ -14,7 +14,8 @@ DIROBJ = release
 TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
 	 $(DIROBJ)\SQLDriverConnectTest.exe $(DIROBJ)\ForcedError.exe\
          $(DIROBJ)\TablesTest.exe $(DIROBJ)\ColumnsTest.exe\
-	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe
+	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe\
+         $(DIROBJ)\SimpleGetData.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
@@ -31,6 +32,7 @@ COLUMNSTEST_OBJS = $(DIROBJ)\ColumnsTest.obj $(E_COMMON_OBJS)
 FORCEDERROR_OBJS = $(DIROBJ)\ForcedError.obj $(E_COMMON_OBJS)
 DRVCONTEST_OBJS = $(DIROBJ)\SQLDriverConnectTest.obj $(E_COMMON_OBJS)
 FLOATERROR_OBJS = $(DIROBJ)\FloatError.obj $(E_COMMON_OBJS)
+SIMPLEGETDATA_OBJS = $(DIROBJ)\SimpleGetData.obj $(E_COMMON_OBJS)
 
 all: $(TARGET)
 
@@ -59,6 +61,9 @@ $(DIROBJ)\FloatError.exe: $(FORCEDERROR_OBJS)
 
 $(DIROBJ)\SQLDriverConnectTest.exe: $(DRVCONTEST_OBJS)
 	$(LINK) /out:$(DIROBJ)\SQLDriverConnectTest.exe $(DRVCONTEST_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\SimpleGetData.exe: $(SIMPLEGETDATA_OBJS)
+	$(LINK) /out:$(DIROBJ)\SimpleGetData.exe $(SIMPLEGETDATA_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)

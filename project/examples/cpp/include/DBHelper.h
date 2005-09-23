@@ -45,6 +45,8 @@ class DBHelper
 
     bool fetch();
 
+    void getData(int num, ResultColumnPtr col);
+
     int numResultCols();
 
     void tables(std::string table = "");

@@ -86,7 +86,7 @@ void Column::setData(string data, SQLSMALLINT TargetType,
                      SQLPOINTER TargetValue, SQLINTEGER BufferLength,
                      SQLINTEGER* StrLenOrInd)
 {
-    SQLSMALLINT type = getBestSqlType();
+    SQLSMALLINT type = getBestSqlType(TargetType);
 
     DataTranslator& dt = mParent->getDataTranslator();
 

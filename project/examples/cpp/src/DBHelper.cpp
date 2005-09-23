@@ -263,3 +263,11 @@ int DBHelper::rowCount()
 
     return count;
 }
+
+void DBHelper::getData(int num, ResultColumnPtr col)
+{
+    SQLRETURN result = SQLGetData(mStmt, num, col->getTargetType(),
+                                  col->getData(), col->getDataLen(),
+                                  col->getResultSize());
+    handleResult(SQL_HANDLE_STMT, mStmt, result);
+}
