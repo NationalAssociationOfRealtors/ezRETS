@@ -13,9 +13,9 @@ VersionInfoCompany=Center for REALTOR Technology
 LicenseFile=LICENSE
 
 [Files]
-Source: project\driver\src\release\ezrets.dll; DestDir: {sys}
-Source: project\setup\src\release\ezretss.dll; DestDir: {sys}
-Source: README; DestDir: {app}; DestName: README.TXT
+Source: project\driver\src\release\ezrets.dll; DestDir: {sys}; Flags: restartreplace replacesameversion
+Source: project\setup\src\release\ezretss.dll; DestDir: {sys}; Flags: restartreplace replacesameversion
+Source: README; DestDir: {app}; DestName: README.TXT; Flags: isreadme
 Source: LICENSE; DestDir: {app}; DestName: LICENSE.TXT
 Source: NEWS; DestDir: {app}; DestName: NEWS.TXT
 Source: doc\InstallTutorial\odbc6.png; DestDir: {app}\InstallTutorial
