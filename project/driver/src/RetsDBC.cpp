@@ -199,6 +199,9 @@ SQLRETURN RetsDBC::SQLDriverConnect(
 
     log->debug("post load from INI");
 
+    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " " <<
+	       __DATE__ << " " << __TIME__);
+
     // ifdefs based on platform? and DriverCompletion
     // NOTE: This is where the dialog box for the password and whatnot
     // should go.
