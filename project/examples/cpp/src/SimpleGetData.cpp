@@ -47,6 +47,8 @@ int main()
 
         cout << db.describeColumn(2) << endl;
         ResultColumnPtr col2(new CharResultColumn(1024));
+
+        db.setStmtAttr(SQL_ROWSET_SIZE, (SQLPOINTER) 2, -6);
     
         cout << "pre fetch" << endl;
         while (db.fetch())

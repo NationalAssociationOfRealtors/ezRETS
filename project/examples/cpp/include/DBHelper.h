@@ -54,6 +54,9 @@ class DBHelper
 
     int rowCount();
 
+    void setStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
+                     SQLINTEGER StringLength);
+
   private:
     void handleResult(SQLSMALLINT HandleType, SQLHANDLE Handle,
                       SQLRETURN result);

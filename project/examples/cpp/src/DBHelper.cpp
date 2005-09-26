@@ -271,3 +271,10 @@ void DBHelper::getData(int num, ResultColumnPtr col)
                                   col->getResultSize());
     handleResult(SQL_HANDLE_STMT, mStmt, result);
 }
+
+void DBHelper::setStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
+                           SQLINTEGER StringLength)
+{
+    SQLRETURN result = SQLSetStmtAttr(mStmt, Attribute, Value, StringLength);
+    handleResult(SQL_HANDLE_STMT, mStmt, result);
+}
