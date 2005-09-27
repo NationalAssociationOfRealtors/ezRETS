@@ -1174,7 +1174,15 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_MAX_LENGTH:
             addError("01S02", "Option Value Changed");
             break;
+
+        case SQL_ATTR_PARAM_BIND_TYPE:
+            apd.mBindType = (SQLUINTEGER) Value;
+            break;
             
+        case SQL_ATTR_ROW_BIND_OFFSET_PTR:
+            apd.mBindOffsetPtr = (SQLUINTEGER*) Value;
+            break;
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_ASYNC_ENABLE:
@@ -1191,11 +1199,9 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_METADATA_ID:
         case SQL_ATTR_NOSCAN:
         case SQL_ATTR_PARAM_BIND_OFFSET_PTR:
-        case SQL_ATTR_PARAM_BIND_TYPE:
         case SQL_ATTR_PARAM_OPERATION_PTR:
         case SQL_ATTR_PARAM_STATUS_PTR:
         case SQL_ATTR_RETRIEVE_DATA:
-        case SQL_ATTR_ROW_BIND_OFFSET_PTR:
         case SQL_ATTR_ROW_NUMBER:
         case SQL_ATTR_ROW_OPERATION_PTR:
         case SQL_ATTR_ROW_STATUS_PTR:
@@ -1205,6 +1211,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         default:
             addError("HY092", "Invalid attribute/option identifier.");
             result = SQL_ERROR;
+            break;
     }
 
     return result;
@@ -1641,9 +1648,13 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
 {
     mErrors.clear();
-    getLogger()->debug("In SQLRowCount");
+    EzLoggerPtr log = getLogger();
+    log->debug("In SQLRowCount");
 
-    *rowCount = mResultsPtr->rowCount();
+    int myRowCount = mResultsPtr->rowCount();
+    log->debug(b::lexical_cast<string>(myRowCount));
+
+    *rowCount = b::numeric_cast<SQLLEN>(myRowCount);
 
     return SQL_SUCCESS;
 }
