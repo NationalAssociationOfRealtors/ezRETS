@@ -819,7 +819,8 @@ SQLRETURN RetsSTMT::processColumn(MetadataResourcePtr res,
     {
         case SQL_DECIMAL:
         case SQL_DOUBLE:
-            results->push_back(b::lexical_cast<string>(rTable->GetPrecision()));
+            results->push_back(
+                b::lexical_cast<string>(rTable->GetPrecision()));
             break;
 
         case SQL_TYPE_TIMESTAMP:
@@ -1110,10 +1111,29 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
     SQLSMALLINT NameLength3, SQLUSMALLINT Scope, SQLUSMALLINT Nullable)
 {
     mErrors.clear();
-    getLogger()->debug("In SQLSpecialColumns");
+    EzLoggerPtr log = getLogger();
+    log->debug(str_stream() << "In SQLSpecialColumns " << IdentifierType <<
+               " " << Scope << " " << Nullable);
 
-    // We can actually determine the primary key from the Metadata,
-    // for now, however, we'll return an empty result set.
+    // Should put in an error return condition for HYC00
+    if (CatalogName != NULL && *CatalogName != '\0')
+    {
+        string catName = SqlCharToString(CatalogName, NameLength1);
+        log->debug(str_stream() << "CatalogName " << catName);
+        addError("HYC00", "catalogs not supported in this driver");
+        return SQL_ERROR;
+    }
+
+    if (SchemaName != NULL && *SchemaName != '\0')
+    {
+        string schName = SqlCharToString(SchemaName, NameLength2);
+        log->debug(str_stream() << "SchemaName " << schName);
+//         addError("HYC00", "schemas not supported in this driver");
+//         return SQL_ERROR;
+    }
+
+    // It looks like we're going to return something, so lets set up
+    // the result set.
     mResultsPtr.reset(new RetsSTMTResults(this));
     mResultsPtr->addColumn("SCOPE", SQL_SMALLINT);
     mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
@@ -1123,7 +1143,112 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
     mResultsPtr->addColumn("BUFFER_LENGTH", SQL_INTEGER);
     mResultsPtr->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
     mResultsPtr->addColumn("PSEUDO_COLUMN", SQL_SMALLINT);
+
+    // Everything is nullable
+    if (Nullable == SQL_NO_NULLS)
+    {
+        return SQL_SUCCESS;
+    }
+
+    // We can't guarentee anything except this request
+    if (Scope > SQL_SCOPE_CURROW)
+    {
+        return SQL_SUCCESS;
+    }
+
+    // Currently we can only handle best rowid.  ROWVER would be too hard
+    // to determine.
+    if (IdentifierType == SQL_ROWVER)
+    {
+        return SQL_SUCCESS;
+    }
+
+    // We can actually determine the primary key from the Metadata,
+    // for now, however, we'll return an empty result set.
+    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
+    string table = SqlCharToString(TableName, NameLength3);
+    ResourceClassPairPtr rcp =
+        metadataViewPtr->getResourceClassPairBySQLTable(table);
+
+    if (rcp == NULL)
+    {
+        return SQL_SUCCESS;
+    }
+
+    MetadataResourcePtr res = rcp->first;
+    MetadataClassPtr clazz = rcp->second;
+    string keyField = res->GetKeyField();
+
+    MetadataTablePtr rTable =
+        metadataViewPtr->getKeyFieldTable(clazz, keyField);
+
+    // In the next iteration we'll put in logic to find a unique field
+    // once 
+
+    if (rTable == NULL)
+    {
+        return SQL_SUCCESS;
+    }
     
+    StringVectorPtr results(new StringVector());
+
+    // SCOPE
+    results->push_back(b::lexical_cast<string>(SQL_SCOPE_CURROW));
+
+    // COLUMN_NAME
+    if (mDbc->isUsingStandardNames())
+    {
+        results->push_back(rTable->GetStandardName());
+    }
+    else
+    {
+        results->push_back(rTable->GetSystemName());
+    }
+
+    // DATA_TYPE
+    SQLSMALLINT type =
+        mDataTranslator.getPreferedOdbcType(rTable->GetDataType());
+    string typeString = b::lexical_cast<string>(type);
+    results->push_back(typeString);
+
+    // TYPE_NAME
+    results->push_back(mDataTranslator.getOdbcTypeName(type));
+
+        // COLUMN_SIZE
+    int maxLen = rTable->GetMaximumLength();
+    string maxLenString = b::lexical_cast<string>(maxLen);
+    results->push_back(maxLenString);
+
+    // BUFFER_LENGTH
+    if (type == SQL_VARCHAR || type == SQL_CHAR)
+    {
+        results->push_back(maxLenString);
+    }
+    else
+    {
+        int size = mDataTranslator.getOdbcTypeLength(type);
+        results->push_back(b::lexical_cast<string>(size));
+    }
+
+    // DECIMAL_DIGITS
+    switch(type)
+    {
+        case SQL_DECIMAL:
+        case SQL_DOUBLE:
+            results->push_back(
+                b::lexical_cast<string>(rTable->GetPrecision()));
+            break;
+
+        case SQL_TYPE_TIMESTAMP:
+            results->push_back("3");
+            break;
+
+        default:
+            results->push_back("");
+    }
+
+    // PSEUDO_COLUMN
+    results->push_back(b::lexical_cast<string>(SQL_PC_UNKNOWN));
 
     return SQL_SUCCESS;
 }
@@ -1663,6 +1788,7 @@ SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
                                      SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
                                      SQLUSMALLINT *rgfRowStatus)
 {
+    mErrors.clear();
     // Right now we're ignoring the offset, we shouldn't do that
     // in the long run.
     EzLoggerPtr log = getLogger();
@@ -1679,6 +1805,7 @@ SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
 SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
                                    SQLROWOFFSET FetchOffset)
 {
+    mErrors.clear();
     // Right now we're ignoring the offset, we shouldn't do that
     // in the long run.
     EzLoggerPtr log = getLogger();
