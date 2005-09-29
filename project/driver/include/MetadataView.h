@@ -46,6 +46,9 @@ class MetadataView
     librets::MetadataTablePtr getTable(
         librets::MetadataClassPtr clazz, std::string tableName);
 
+    librets::MetadataTablePtr getKeyFieldTable(
+        librets::MetadataClassPtr clazz, std::string keyField);
+
     librets::MetadataTableListPtr getTablesForClass(
         librets::MetadataClassPtr clazz);
 
@@ -56,6 +59,9 @@ class MetadataView
     bool isLookupColumn(std::string tableName, std::string columnName);
 
   private:
+    librets::MetadataTablePtr getTable(
+        librets::MetadataClassPtr clazz, std::string tableName, bool stdNames);
+    
     typedef std::map<std::string, librets::MetadataResourcePtr> ResourceMap;
     typedef boost::shared_ptr<ResourceMap> ResourceMapPtr;
 
@@ -77,9 +83,12 @@ class MetadataView
     bool mStandardNames;
     librets::RetsMetadataPtr mMetadataPtr;
 
-    ResourceMapPtr mResourceByNamePtr;
-    ClassMapPtr mClassMapPtr;
-    TableMapPtr mTableMapPtr;
+    ResourceMapPtr mResourceBySysNamePtr;
+    ResourceMapPtr mResourceByStdNamePtr;
+    ClassMapPtr mClassSysMapPtr;
+    ClassMapPtr mClassStdMapPtr;
+    TableMapPtr mTableSysMapPtr;
+    TableMapPtr mTableStdMapPtr;
     TablesInitMapPtr mTablesInitMapPtr;
 };
 

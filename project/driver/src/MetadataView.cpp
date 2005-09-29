@@ -28,9 +28,12 @@ MetadataView::MetadataView(bool standardNames, RetsMetadataPtr metadata) :
     mStandardNames(standardNames), mMetadataPtr(metadata)
 {
     // init our maps
-    mResourceByNamePtr.reset(new ResourceMap());
-    mClassMapPtr.reset(new ClassMap());
-    mTableMapPtr.reset(new TableMap());
+    mResourceBySysNamePtr.reset(new ResourceMap());
+    mResourceByStdNamePtr.reset(new ResourceMap());
+    mClassSysMapPtr.reset(new ClassMap());
+    mClassStdMapPtr.reset(new ClassMap());
+    mTableSysMapPtr.reset(new TableMap());
+    mTableStdMapPtr.reset(new TableMap());
     mTablesInitMapPtr.reset(new TablesInitMap());
 
     // Preload resources and classes
@@ -45,18 +48,16 @@ void MetadataView::initResources()
     for (i = resources->begin(); i != resources->end(); i++)
     {
         MetadataResourcePtr res = *i;
-        string name;
-        if (mStandardNames)
+        string sysname = res->GetResourceID();
+        if (!sysname.empty())
         {
-            name = res->GetStandardName();
+            (*mResourceBySysNamePtr)[sysname] = res;
         }
-        else
+        
+        string stdname = res->GetStandardName();
+        if (!stdname.empty())
         {
-            name = res->GetResourceID();
-        }
-        if (!name.empty())
-        {
-            (*mResourceByNamePtr)[name] = res;
+            (*mResourceByStdNamePtr)[stdname] = res;
         }
     }
 }
@@ -75,19 +76,19 @@ void MetadataView::initClasses()
              j != classes->end(); j++)
         {
             MetadataClassPtr clazz = *j;
-            string name;
-            if (mStandardNames)
+            string stdname = clazz->GetStandardName();
+
+            if (!stdname.empty())
             {
-                name = clazz->GetStandardName();
+                ClassMapKey key(res, stdname);
+                (*mClassStdMapPtr)[key] = clazz;
             }
-            else
+
+            string sysname = clazz->GetClassName();
+            if (!sysname.empty())
             {
-                name = clazz->GetClassName();
-            }
-            if (!name.empty())
-            {
-                ClassMapKey key(res, name);
-                (*mClassMapPtr)[key] = clazz;
+                ClassMapKey key(res, sysname);
+                (*mClassSysMapPtr)[key] = clazz;
             }
         }
     }
@@ -123,11 +124,23 @@ MetadataTablePtr MetadataView::getTable(string resName, string className,
 {
 
     MetadataClassPtr classPtr = getClass(resName, className);
-    return getTable(classPtr, tableName);
+    return getTable(classPtr, tableName, mStandardNames);
 }
 
 MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
                                         string tableName)
+{
+    return getTable(classPtr, tableName, mStandardNames);
+}
+
+MetadataTablePtr MetadataView::getKeyFieldTable(MetadataClassPtr clazz,
+                                                string keyField)
+{
+    return getTable(clazz, keyField, false);
+}
+
+MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
+                                        string tableName, bool stdNames)
 {
     if (!areTablesForClassInited(classPtr))
     {
@@ -139,8 +152,15 @@ MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
     {
         TableMapKey key(classPtr, tableName);
         TableMap::iterator i;
-        i = mTableMapPtr->find(key);
-        if (i != mTableMapPtr->end())
+        if (stdNames)
+        {
+            i = mTableStdMapPtr->find(key);
+        }
+        else
+        {
+            i = mTableSysMapPtr->find(key);
+        }
+        if (i != mTableStdMapPtr->end() && i != mTableSysMapPtr->end())
         {
             tablePtr = i->second;
         }
@@ -167,20 +187,21 @@ void MetadataView::initTablesForClass(MetadataClassPtr clazz)
          i != tables->end(); i++)
     {
         MetadataTablePtr table = *i;
-        string name;
-        if (mStandardNames)
+        string stdname = table->GetStandardName();
+
+        if (!stdname.empty())
         {
-            name = table->GetStandardName();
+            TableMapKey key(clazz, stdname);
+            (*mTableStdMapPtr)[key] = table;
         }
-        else
+
+        string sysname = table->GetSystemName();
+        if (!sysname.empty())
         {
-            name = table->GetSystemName();
+            TableMapKey key(clazz, sysname);
+            (*mTableSysMapPtr)[key] = table;
         }
-        if (!name.empty())
-        {
-            TableMapKey key(clazz, name);
-            (*mTableMapPtr)[key] = table;
-        }
+        
         (*mTablesInitMapPtr)[clazz] = true;
     }
 }
@@ -190,8 +211,16 @@ MetadataResourcePtr MetadataView::getResource(std::string resName)
     MetadataResourcePtr resourcePtr;
 
     ResourceMap::iterator i;
-    i = mResourceByNamePtr->find(resName);
-    if (i != mResourceByNamePtr->end())
+    if (mStandardNames)
+    {
+        i = mResourceByStdNamePtr->find(resName);
+    }
+    else
+    {
+        i = mResourceBySysNamePtr->find(resName);
+    }
+
+    if (i != mResourceByStdNamePtr->end() && i != mResourceBySysNamePtr->end())
     {
         resourcePtr = i->second;
     }
@@ -209,8 +238,16 @@ MetadataClassPtr MetadataView::getClass(string resName, string className)
     {
         ClassMapKey key(res, className);
         ClassMap::iterator i;
-        i = mClassMapPtr->find(key);
-        if (i != mClassMapPtr->end())
+        if (mStandardNames)
+        {
+            i = mClassStdMapPtr->find(key);
+        }
+        else
+        {
+            i = mClassSysMapPtr->find(key);
+        }
+        
+        if (i != mClassStdMapPtr->end() && i != mClassSysMapPtr->end())
         {
             classPtr = i->second;
         }
@@ -275,7 +312,8 @@ bool MetadataView::isLookupColumn(string tableName, string columnName)
 
     MetadataClassPtr clazz = rcp->second;
 
-    MetadataTablePtr table = getTable(clazz, columnName);
+    MetadataTablePtr table = getTable(clazz, columnName, mStandardNames);
 
     return isLookupColumn(table);
 }
+
