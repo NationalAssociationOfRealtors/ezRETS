@@ -57,6 +57,8 @@ class DBHelper
     void setStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
                      SQLINTEGER StringLength);
 
+    void primaryKeys(std::string tableName);
+
   private:
     void handleResult(SQLSMALLINT HandleType, SQLHANDLE Handle,
                       SQLRETURN result);

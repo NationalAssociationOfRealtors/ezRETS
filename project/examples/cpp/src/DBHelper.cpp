@@ -278,3 +278,13 @@ void DBHelper::setStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     SQLRETURN result = SQLSetStmtAttr(mStmt, Attribute, Value, StringLength);
     handleResult(SQL_HANDLE_STMT, mStmt, result);
 }
+
+void DBHelper::primaryKeys(string tableName)
+{
+    allocStmt();
+
+    SQLRETURN result =
+        SQLPrimaryKeys(mStmt, (SQLCHAR*) "", SQL_NTS, (SQLCHAR*) "", SQL_NTS,
+                       (SQLCHAR*) tableName.c_str(), SQL_NTS);
+    handleResult(SQL_HANDLE_STMT, mStmt, result);
+}
