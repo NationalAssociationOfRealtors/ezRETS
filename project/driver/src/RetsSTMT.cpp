@@ -1759,6 +1759,23 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     EzLoggerPtr log = getLogger();
     log->debug(str_stream() << "In SQLPrimaryKeys: " << TableName);
 
+    // Should put in an error return condition for HYC00
+    if (CatalogName != NULL && *CatalogName != '\0')
+    {
+        string catName = SqlCharToString(CatalogName, CatalogNameSize);
+        log->debug(str_stream() << "CatalogName " << catName);
+        addError("HYC00", "catalogs not supported in this driver");
+        return SQL_ERROR;
+    }
+
+    if (SchemaName != NULL && *SchemaName != '\0')
+    {
+        string schName = SqlCharToString(SchemaName, SchemaNameSize);
+        log->debug(str_stream() << "SchemaName " << schName);
+//         addError("HYC00", "schemas not supported in this driver");
+//         return SQL_ERROR;
+    }
+
     mResultsPtr.reset(new RetsSTMTResults(this));
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -1766,6 +1783,60 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
     mResultsPtr->addColumn("KEY_SEQ", SQL_SMALLINT);
     mResultsPtr->addColumn("PK_NAME", SQL_VARCHAR);
+
+    // We can actually determine the primary key from the Metadata,
+    // for now, however, we'll return an empty result set.
+    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
+    string table = SqlCharToString(TableName, TableNameSize);
+    ResourceClassPairPtr rcp =
+        metadataViewPtr->getResourceClassPairBySQLTable(table);
+
+    if (rcp == NULL)
+    {
+        return SQL_SUCCESS;
+    }
+
+    MetadataResourcePtr res = rcp->first;
+    MetadataClassPtr clazz = rcp->second;
+    string keyField = res->GetKeyField();
+
+    MetadataTablePtr rTable =
+        metadataViewPtr->getKeyFieldTable(clazz, keyField);
+
+    // In the next iteration we'll put in logic to find a unique field
+    // once 
+
+    if (rTable == NULL)
+    {
+        return SQL_SUCCESS;
+    }
+
+    StringVectorPtr results(new StringVector());
+
+    // TABLE_CAT
+    results->push_back("");
+    // TABLE_SCHEMA
+    results->push_back("");
+    // TABLE_NAME
+    results->push_back(table);
+    // COLUMN_NAME
+    if (mDbc->isUsingStandardNames())
+    {
+        results->push_back(rTable->GetStandardName());
+    }
+    else
+    {
+        results->push_back(rTable->GetSystemName());
+    }
+
+
+    // KEY_SEQ
+    // I think the following is wrong.
+    results->push_back("1");
+
+    // PK_NAME
+    // Our primary keys don't have names
+    results->push_back("");
     
     return SQL_SUCCESS;
 }
