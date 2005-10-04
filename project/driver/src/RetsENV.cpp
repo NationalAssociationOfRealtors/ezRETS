@@ -14,6 +14,7 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#include <time.h>
 #include <fstream>
 #include "RetsENV.h"
 #include "RetsDBC.h"
@@ -49,7 +50,12 @@ void RetsENV::setEzLogFile(std::string logFile)
 {
     if (mLogFile == 0 && mLogger == 0)
     {
-        mLogFile.reset(new std::ofstream(logFile.c_str()));
+        mLogFile.reset(new std::ofstream(logFile.c_str(), std::ios::app));
+
+        time_t curTime;
+        time(&curTime);
+        *mLogFile << "Opened logfile at " << ctime(&curTime);
+        
         mLogger.reset(new StreamEzLogger(mLogFile.get()));
     }
 }
