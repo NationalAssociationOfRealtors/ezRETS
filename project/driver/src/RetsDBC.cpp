@@ -400,12 +400,12 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
             break;
 
         case SQL_ACCESSIBLE_TABLES:
-        case SQL_LIKE_ESCAPE_CLAUSE:
         case SQL_ACCESSIBLE_PROCEDURES:
         case SQL_DATA_SOURCE_READ_ONLY:
             result = helper.setString("Y");
             break;
 
+        case SQL_LIKE_ESCAPE_CLAUSE:
         case SQL_CATALOG_NAME:
         case SQL_COLUMN_ALIAS:
         case SQL_EXPRESSIONS_IN_ORDERBY:
