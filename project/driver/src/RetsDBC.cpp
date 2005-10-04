@@ -237,17 +237,15 @@ SQLRETURN RetsDBC::SQLDriverConnect(
     string conString = mDataSource.GetConnectionString();
     size_t size =
         copyString(conString, (char *) OutConnectionString, BufferLength);
-    if (OutStringLengthPtr)
-    {
-        *OutStringLengthPtr = size;
-    }
+    SetStringLength(OutStringLengthPtr, size);
 
     SQLRETURN retCode = SQL_SUCCESS;
     if (conString.size() > size)
     {
         retCode = SQL_SUCCESS_WITH_INFO;
         addError("01004", "Connection string longer than buffer");
-        *OutStringLengthPtr = numeric_cast<SQLSMALLINT>(conString.size());
+        SetStringLength(OutStringLengthPtr,
+                        numeric_cast<SQLSMALLINT>(conString.size()));
     }
 
     log->debug(str_stream() << "Out connection: " << conString);
@@ -740,7 +738,7 @@ SQLRETURN RetsDBC::diagConnectionName(
 {
     size_t size =
         copyString(mDataSource.GetName(), (char*) DiagInfoPtr, BufferLength);
-    *StringLengthPtr = numeric_cast<SQLSMALLINT>(size);
+    SetStringLength(StringLengthPtr, numeric_cast<SQLSMALLINT>(size));
 
     return SQL_SUCCESS;
 }
@@ -753,7 +751,7 @@ SQLRETURN RetsDBC::diagServerName(
 //    size_t size = copyString(mHost, (char*) DiagInfoPtr, BufferLength);
     size_t size = copyString(mDataSource.GetLoginUrl(), (char*) DiagInfoPtr,
                              BufferLength);
-    *StringLengthPtr = b::numeric_cast<SQLSMALLINT>(size);
+    SetStringLength(StringLengthPtr, b::numeric_cast<SQLSMALLINT>(size));
 
     return SQL_SUCCESS;
 }

@@ -67,6 +67,8 @@ class AbstractHandle
   protected:
     std::string SqlCharToString(SQLCHAR* cstr);
     std::string SqlCharToString(SQLCHAR* cstr, SQLINTEGER length);
+    void SetStringLength(SQLINTEGER* StringLength, SQLINTEGER length);
+    void SetStringLength(SQLSMALLINT* StringLength, SQLSMALLINT lenght);
     
     std::vector<odbcrets::ErrorPtr> mErrors;
 };

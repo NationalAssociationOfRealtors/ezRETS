@@ -304,3 +304,21 @@ SQLRETURN AbstractHandle::diagRowCount(SQLPOINTER DiagInfoPtr)
 {
     return SQL_ERROR;
 }
+
+void AbstractHandle::SetStringLength(
+    SQLINTEGER* StringLength, SQLINTEGER length)
+{
+    if (StringLength)
+    {
+        *StringLength = length;
+    }
+}
+
+void AbstractHandle::SetStringLength(
+    SQLSMALLINT* StringLength, SQLSMALLINT length)
+{
+    if (StringLength)
+    {
+        *StringLength = length;
+    }
+}

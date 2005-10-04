@@ -258,29 +258,39 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         // Idea borrowed from MySQL ODBC driver
         case SQL_ATTR_APP_ROW_DESC:
             *(SQLPOINTER *) Value = &ard;
+            SetStringLength(StringLength, SQL_IS_POINTER);
             break;
 
         case SQL_ATTR_APP_PARAM_DESC:
             *(SQLPOINTER *) Value = &apd;
+            SetStringLength(StringLength, SQL_IS_POINTER);
             break;
 
         case SQL_ATTR_IMP_ROW_DESC:
             *(SQLPOINTER *) Value = &ird;
+            SetStringLength(StringLength, SQL_IS_POINTER);
             break;
 
         case SQL_ATTR_IMP_PARAM_DESC:
             *(SQLPOINTER *) Value = &ipd;
+            SetStringLength(StringLength, SQL_IS_POINTER);
+            break;
+
+        case SQL_ATTR_QUERY_TIMEOUT:
+            *(SQLUINTEGER*) Value = 0;
+            SetStringLength(StringLength, sizeof(SQLUINTEGER));
             break;
 
         case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ROWSET_SIZE:
             *(SQLUINTEGER*) Value = ard.mArraySize;
+            SetStringLength(StringLength, sizeof(SQLUINTEGER));
             break;
-    }
 
-    if (StringLength)
-    {
-        *StringLength = sizeof(SQL_IS_POINTER);
+        case SQL_ATTR_MAX_LENGTH:
+            *(SQLUINTEGER*) Value = 0;
+            SetStringLength(StringLength, sizeof(SQLUINTEGER));
+            break;
     }
 
     return SQL_SUCCESS;
@@ -592,7 +602,7 @@ SQLRETURN RetsSTMT::diagDynamicFunction(
     SQLSMALLINT *StringLengthPtr)
 {
     size_t size = copyString("", (char*) DiagInfoPtr, BufferLength);
-    *StringLengthPtr = b::numeric_cast<SQLSMALLINT>(size);
+    SetStringLength(StringLengthPtr, b::numeric_cast<SQLSMALLINT>(size));
 
     return SQL_SUCCESS;
 }
@@ -1266,11 +1276,11 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     switch (Attribute)
     {
         case SQL_ATTR_QUERY_TIMEOUT:
-            if (Value != 0)
+            if ((SQLINTEGER) Value != 0)
             {
                 addError("01S02", "Option Value Changed");
+                result = SQL_SUCCESS_WITH_INFO;
             }
-            result = SQL_SUCCESS_WITH_INFO;
             break;
 
         case 1226:
@@ -1282,8 +1292,11 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 
         case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ROWSET_SIZE:
-            addError("01S02", "Option Value Changed");
-            result = SQL_SUCCESS_WITH_INFO;
+            if ((SQLUINTEGER) Value != ard.mArraySize)
+            {
+                addError("01S02", "Option Value Changed");
+                result = SQL_SUCCESS_WITH_INFO;
+            }
             break;
 
         case SQL_ATTR_ROW_BIND_TYPE:
@@ -1299,8 +1312,11 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_MAX_LENGTH:
-            addError("01S02", "Option Value Changed");
-            result = SQL_SUCCESS_WITH_INFO;
+            if ((SQLUINTEGER) Value != 0)
+            {
+                addError("01S02", "Option Value Changed");
+                result = SQL_SUCCESS_WITH_INFO;
+            }
             break;
 
         case SQL_ATTR_PARAM_BIND_TYPE:
