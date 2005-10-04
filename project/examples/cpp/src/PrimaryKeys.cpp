@@ -29,9 +29,12 @@ int main()
     {
         DBHelper db;
 
+        string tableName("data:Property:ResidentialProperty");
+
         db.connect("retstest");
 
-        db.primaryKeys("data:Property:ResidentialProperty");
+        cout << "Attempting to get primary keys for " << tableName << endl;
+        db.primaryKeys(tableName);
 
         ResultColumnPtr col3(new CharResultColumn(256));
         db.bindColumn(3, col3);
@@ -41,6 +44,8 @@ int main()
 
         ResultColumnPtr col5(new IntResultColumn());
         db.bindColumn(5, col5);
+
+        cout << "TABLE   COLUMN   KEY_SEQ" << endl;
 
         while (db.fetch())
         {
