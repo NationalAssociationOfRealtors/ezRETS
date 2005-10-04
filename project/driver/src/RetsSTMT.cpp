@@ -1270,6 +1270,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             {
                 addError("01S02", "Option Value Changed");
             }
+            result = SQL_SUCCESS_WITH_INFO;
             break;
 
         case 1226:
@@ -1282,6 +1283,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ROWSET_SIZE:
             addError("01S02", "Option Value Changed");
+            result = SQL_SUCCESS_WITH_INFO;
             break;
 
         case SQL_ATTR_ROW_BIND_TYPE:
@@ -1298,6 +1300,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 
         case SQL_ATTR_MAX_LENGTH:
             addError("01S02", "Option Value Changed");
+            result = SQL_SUCCESS_WITH_INFO;
             break;
 
         case SQL_ATTR_PARAM_BIND_TYPE:
