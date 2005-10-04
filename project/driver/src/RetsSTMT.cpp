@@ -252,6 +252,8 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     getLogger()->debug(str_stream() << "In SQLGetStmtAttr.  Attribute: "
                        << Attribute);
 
+    SQLRETURN result = SQL_SUCCESS;
+    
     switch (Attribute)
     {
         // To make iODBC and MS ODBC DM work, return dummy pointers
@@ -291,9 +293,14 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             *(SQLUINTEGER*) Value = 0;
             SetStringLength(StringLength, sizeof(SQLUINTEGER));
             break;
+
+        case SQL_ATTR_ASYNC_ENABLE:
+            addError("HYC00", "Optional feature not implemented.");
+            result = SQL_SUCCESS_WITH_INFO;
+            break;
     }
 
-    return SQL_SUCCESS;
+    return result;
 }
 
 SQLRETURN RetsSTMT::SQLNumResultCols(SQLSMALLINT *ColumnCount)
