@@ -1262,6 +1262,8 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
     // PSEUDO_COLUMN
     results->push_back(b::lexical_cast<string>(SQL_PC_UNKNOWN));
 
+    mResultsPtr->addRow(results);
+        
     return SQL_SUCCESS;
 }
 
