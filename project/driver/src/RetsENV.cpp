@@ -54,7 +54,7 @@ void RetsENV::setEzLogFile(std::string logFile)
 
         time_t curTime;
         time(&curTime);
-        *mLogFile << "Opened logfile at " << ctime(&curTime);
+        *mLogFile << "*** Opened logfile at " << ctime(&curTime);
         
         mLogger.reset(new StreamEzLogger(mLogFile.get()));
     }
