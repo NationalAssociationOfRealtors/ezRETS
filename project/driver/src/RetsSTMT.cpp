@@ -1837,6 +1837,8 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     // PK_NAME
     // Our primary keys don't have names
     results->push_back("");
+
+    mResultsPtr->addRow(results);
     
     return SQL_SUCCESS;
 }
