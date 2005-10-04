@@ -293,11 +293,6 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             *(SQLUINTEGER*) Value = 0;
             SetStringLength(StringLength, sizeof(SQLUINTEGER));
             break;
-
-        case SQL_ATTR_ASYNC_ENABLE:
-            addError("HYC00", "Optional feature not implemented.");
-            result = SQL_SUCCESS_WITH_INFO;
-            break;
     }
 
     return result;
@@ -1334,9 +1329,13 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             apd.mBindOffsetPtr = (SQLUINTEGER*) Value;
             break;
 
+        case SQL_ATTR_ASYNC_ENABLE:
+            addError("HYC00", "Optional feature not implemented.");
+            result = SQL_SUCCESS_WITH_INFO;
+            break;
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
-        case SQL_ATTR_ASYNC_ENABLE:
         case SQL_ATTR_CONCURRENCY:
         case SQL_ATTR_CURSOR_SCROLLABLE:
         case SQL_ATTR_CURSOR_SENSITIVITY:
