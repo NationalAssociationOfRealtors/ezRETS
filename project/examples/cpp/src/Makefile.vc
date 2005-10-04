@@ -15,7 +15,7 @@ TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
 	 $(DIROBJ)\SQLDriverConnectTest.exe $(DIROBJ)\ForcedError.exe\
          $(DIROBJ)\TablesTest.exe $(DIROBJ)\ColumnsTest.exe\
 	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe\
-         $(DIROBJ)\SimpleGetData.exe $(DIROJB)\PrimaryKey.exe
+         $(DIROBJ)\SimpleGetData.exe $(DIROBJ)\PrimaryKeys.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
@@ -33,7 +33,7 @@ FORCEDERROR_OBJS = $(DIROBJ)\ForcedError.obj $(E_COMMON_OBJS)
 DRVCONTEST_OBJS = $(DIROBJ)\SQLDriverConnectTest.obj $(E_COMMON_OBJS)
 FLOATERROR_OBJS = $(DIROBJ)\FloatError.obj $(E_COMMON_OBJS)
 SIMPLEGETDATA_OBJS = $(DIROBJ)\SimpleGetData.obj $(E_COMMON_OBJS)
-PRIMARYKEY_OBJS = $(DIROBJ)\PrimaryKey.obj $(E_COMMON_OBJS)
+PRIMARYKEYS_OBJS = $(DIROBJ)\PrimaryKeys.obj $(E_COMMON_OBJS)
 
 all: $(TARGET)
 
@@ -66,8 +66,8 @@ $(DIROBJ)\SQLDriverConnectTest.exe: $(DRVCONTEST_OBJS)
 $(DIROBJ)\SimpleGetData.exe: $(SIMPLEGETDATA_OBJS)
 	$(LINK) /out:$(DIROBJ)\SimpleGetData.exe $(SIMPLEGETDATA_OBJS) $(SYSLIBS)
 
-$(DIROBJ)\PrimaryKey.exe: $(PRIMARYKEY_OBJS)
-	$(LINK) /out:$(DIROBJ)\PrimaryKey.exe $(SIMPLEGETDATA_OBJS) $(SYSLIBS)
+$(DIROBJ)\PrimaryKeys.exe: $(PRIMARYKEYS_OBJS)
+	$(LINK) /out:$(DIROBJ)\PrimaryKeys.exe $(PRIMARYKEYS_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
