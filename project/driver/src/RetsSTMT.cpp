@@ -280,18 +280,28 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 
         case SQL_ATTR_QUERY_TIMEOUT:
             *(SQLUINTEGER*) Value = 0;
-            SetStringLength(StringLength, sizeof(SQLUINTEGER));
+            SetStringLength(StringLength, SQL_IS_UINTEGER);
             break;
 
         case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ROWSET_SIZE:
             *(SQLUINTEGER*) Value = ard.mArraySize;
-            SetStringLength(StringLength, sizeof(SQLUINTEGER));
+            SetStringLength(StringLength, SQL_IS_UINTEGER);
             break;
 
         case SQL_ATTR_MAX_LENGTH:
             *(SQLUINTEGER*) Value = 0;
-            SetStringLength(StringLength, sizeof(SQLUINTEGER));
+            SetStringLength(StringLength, SQL_IS_UINTEGER);
+            break;
+
+        case SQL_ATTR_CURSOR_TYPE:
+            *(SQLUINTEGER*) Value = SQL_CURSOR_FORWARD_ONLY;
+            SetStringLength(StringLength, SQL_IS_UINTEGER);
+            break;
+
+        default:
+            addError("HYC00", "Optional feature not implemented");
+            result = SQL_ERROR;
             break;
     }
 
@@ -1336,12 +1346,19 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             result = SQL_SUCCESS_WITH_INFO;
             break;
 
+        case SQL_ATTR_CURSOR_TYPE:
+            if((SQLUINTEGER) Value != SQL_CURSOR_FORWARD_ONLY)
+            {
+                addError("01S02", "Option Value Changed");
+                result = SQL_SUCCESS_WITH_INFO;
+            }
+            break;
+            
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_CONCURRENCY:
         case SQL_ATTR_CURSOR_SCROLLABLE:
         case SQL_ATTR_CURSOR_SENSITIVITY:
-        case SQL_ATTR_CURSOR_TYPE:
         case SQL_ATTR_ENABLE_AUTO_IPD:
         case SQL_ATTR_FETCH_BOOKMARK_PTR:
         case SQL_ATTR_IMP_PARAM_DESC:
