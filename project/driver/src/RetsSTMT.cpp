@@ -299,6 +299,11 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             SetStringLength(StringLength, SQL_IS_UINTEGER);
             break;
 
+        case SQL_ATTR_RETRIEVE_DATA:
+  	    *(SQLUINTEGER*) Value = SQL_RD_ON; 
+	    SetStringLength(StringLength, SQL_IS_UINTEGER);
+	    break;
+
         default:
             addError("HYC00", "Optional feature not implemented");
             result = SQL_ERROR;
@@ -1353,6 +1358,14 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
                 result = SQL_SUCCESS_WITH_INFO;
             }
             break;
+
+        case SQL_ATTR_RETRIEVE_DATA:
+	    if ((SQLUINTEGER) Value != SQL_RD_ON)
+	    {
+	        addError("01S02", "Option Value Changed");
+	        result = SQL_SUCCESS_WITH_INFO;
+	    }
+	    break;
             
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
@@ -1370,7 +1383,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAM_BIND_OFFSET_PTR:
         case SQL_ATTR_PARAM_OPERATION_PTR:
         case SQL_ATTR_PARAM_STATUS_PTR:
-        case SQL_ATTR_RETRIEVE_DATA:
         case SQL_ATTR_ROW_NUMBER:
         case SQL_ATTR_ROW_OPERATION_PTR:
         case SQL_ATTR_ROW_STATUS_PTR:
