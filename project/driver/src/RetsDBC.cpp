@@ -506,9 +506,8 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
             break;
 
         case SQL_GETDATA_EXTENSIONS:
-            // TODO:  Not sure what this needs to be.  I'll address it
-            // when writing the SQLGetData function.  My traces don't
-            // show this as needed for the demo.
+            result = helper.setInt(
+                SQL_GD_ANY_COLUMN | SQL_GD_ANY_ORDER | SQL_GD_BOUND);
             break;
 
         case SQL_IDENTIFIER_CASE:
