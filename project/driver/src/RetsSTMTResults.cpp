@@ -186,3 +186,8 @@ void RetsSTMTResults::setReportedRowCount(int count)
 {
     mReportedRowCount = count;
 }
+
+RetsSTMT* RetsSTMTResults::getStmt() const
+{
+    return mStmt;
+}

@@ -16,6 +16,7 @@
  */
 #include "RetsSTMTResults.h"
 #include "Column.h"
+#include "RetsSTMT.h"
 #include <boost/algorithm/string/erase.hpp>
 
 using namespace odbcrets;
@@ -97,8 +98,21 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     {
         b::erase_all(data, ",");
     }
-    
-    dt.translate(data, type, TargetValue, BufferLength, StrLenOrInd);
+
+    // Adjust to offset.  This is the first time we really use the pointers
+    // and we must make the adjustment here.  The call to get the offsetPtr
+    // is really ugly and a sign that we need to refactor.
+    SQLUINTEGER* offsetPtr = mParent->getStmt()->apd.mBindOffsetPtr;
+    SQLPOINTER adjTargetValue = TargetValue;
+    SQLINTEGER* adjStrLen = StrLenOrInd;
+    if (offsetPtr)
+    {
+        adjStrLen = (SQLINTEGER*) ((char*) adjStrLen + *offsetPtr);
+        adjTargetValue =
+            (SQLPOINTER*) ((char*) TargetValue + *offsetPtr);
+    }
+
+    dt.translate(data, type, adjTargetValue, BufferLength, adjStrLen);
 }
 
 SQLSMALLINT Column::getBestSqlType()

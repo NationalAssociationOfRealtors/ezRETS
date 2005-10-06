@@ -65,6 +65,8 @@ class RetsSTMTResults
 
     void setReportedRowCount(int count);
 
+    RetsSTMT* getStmt() const;
+
   private:
     typedef std::vector<librets::StringVectorPtr> StringVectorVector;
 
