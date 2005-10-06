@@ -141,6 +141,56 @@ ostream& DoubleResultColumn::Print(ostream& out) const
     return out;
 }
 
+SQLPOINTER LongResultColumn::getData()
+{
+    return &mData;
+}
+
+SQLLEN LongResultColumn::getDataLen()
+{
+    return sizeof(SLONG);
+}
+
+SQLSMALLINT LongResultColumn::getTargetType()
+{
+    return SQL_C_SLONG;
+}
+
+ostream& LongResultColumn::Print(ostream& out) const
+{
+    if (mResultSize != SQL_NULL_DATA)
+    {
+        out << mData;
+    }
+    return out;
+}
+
+SQLPOINTER DateResultColumn::getData()
+{
+    return &mData;
+}
+
+SQLLEN DateResultColumn::getDataLen()
+{
+    return SQL_DATE_LEN;
+}
+
+SQLSMALLINT DateResultColumn::getTargetType()
+{
+    return SQL_TYPE_DATE;
+}
+
+ostream& DateResultColumn::Print(ostream& out) const
+{
+    if (mResultSize != SQL_NULL_DATA)
+    {
+        std::stringstream myout;
+        myout << mData.year << "-" << mData.month << "-" << mData.day;
+        out << myout.str();
+    }
+    return out;
+}
+
 ostream& odbcrets::test::operator<<(ostream & out,
                                     const ResultColumn& resultColumn)
 {

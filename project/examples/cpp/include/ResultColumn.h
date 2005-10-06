@@ -91,6 +91,31 @@ class DoubleResultColumn : public ResultColumn
     SQLDOUBLE mData;
 };
 
+class LongResultColumn : public ResultColumn
+{
+  public:
+    virtual SQLPOINTER getData();
+    virtual SQLLEN getDataLen();
+    virtual SQLSMALLINT getTargetType();
+    virtual std::ostream& Print(std::ostream& out) const;
+
+  private:
+    SLONG mData;
+};
+
+class DateResultColumn : public ResultColumn
+{
+  public:
+    virtual SQLPOINTER getData();
+    virtual SQLLEN getDataLen();
+    virtual SQLSMALLINT getTargetType();
+    virtual std::ostream& Print(std::ostream& out) const;
+
+  private:
+    DATE_STRUCT mData;
+};
+
+
 typedef boost::shared_ptr<ResultColumn> ResultColumnPtr;
 
 std::ostream & operator<<(std::ostream& out, const ResultColumn& resultColumn);

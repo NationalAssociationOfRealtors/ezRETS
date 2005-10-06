@@ -15,7 +15,8 @@ TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
 	 $(DIROBJ)\SQLDriverConnectTest.exe $(DIROBJ)\ForcedError.exe\
          $(DIROBJ)\TablesTest.exe $(DIROBJ)\ColumnsTest.exe\
 	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe\
-         $(DIROBJ)\SimpleGetData.exe $(DIROBJ)\PrimaryKeys.exe
+         $(DIROBJ)\SimpleGetData.exe $(DIROBJ)\PrimaryKeys.exe\
+         $(DIROBJ)\ADODebug.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
@@ -34,6 +35,7 @@ DRVCONTEST_OBJS = $(DIROBJ)\SQLDriverConnectTest.obj $(E_COMMON_OBJS)
 FLOATERROR_OBJS = $(DIROBJ)\FloatError.obj $(E_COMMON_OBJS)
 SIMPLEGETDATA_OBJS = $(DIROBJ)\SimpleGetData.obj $(E_COMMON_OBJS)
 PRIMARYKEYS_OBJS = $(DIROBJ)\PrimaryKeys.obj $(E_COMMON_OBJS)
+ADODEBUG_OBJS = $(DIROBJ)\ADODebug.obj $(E_COMMON_OBJS)
 
 all: $(TARGET)
 
@@ -68,6 +70,9 @@ $(DIROBJ)\SimpleGetData.exe: $(SIMPLEGETDATA_OBJS)
 
 $(DIROBJ)\PrimaryKeys.exe: $(PRIMARYKEYS_OBJS)
 	$(LINK) /out:$(DIROBJ)\PrimaryKeys.exe $(PRIMARYKEYS_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\ADODebug.exe: $(ADODEBUG_OBJS)
+	$(LINK) /out:$(DIROBJ)\ADODebug.exe $(ADODEBUG_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
