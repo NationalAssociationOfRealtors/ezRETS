@@ -14,8 +14,8 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef RETSSTMTRESULTS_H
-#define RETSSTMTRESULTS_H
+#ifndef RESULTSET_H
+#define RESULTSET_H
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
@@ -26,11 +26,11 @@
 
 namespace odbcrets
 {
-class RetsSTMTResults
+class ResultSet
 {
   public:
 
-    RetsSTMTResults(RetsSTMT* stmt);
+    ResultSet(RetsSTMT* stmt);
     
     int rowCount();
     int columnCount();
@@ -78,7 +78,7 @@ class RetsSTMTResults
     int mReportedRowCount;
 };
 
-typedef boost::shared_ptr<RetsSTMTResults> RetsSTMTResultsPtr;
+typedef boost::shared_ptr<ResultSet> ResultSetPtr;
 
 }
 

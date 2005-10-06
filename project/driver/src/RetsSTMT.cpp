@@ -66,7 +66,7 @@ class TableNameSorter {
 
 RetsSTMT::RetsSTMT(RetsDBC* handle) : AbstractHandle()
 {
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     mDbc = handle;
     mStatement = "";
 }
@@ -407,7 +407,7 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         
         // It looks like we're going to return something, so lets set up
         // the result set.
-        mResultsPtr.reset(new RetsSTMTResults(this));
+        mResultsPtr.reset(new ResultSet(this));
         mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
         mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
         mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -526,7 +526,7 @@ RetsDBC* RetsSTMT::getDbc()
 SQLRETURN RetsSTMT::SQLExecute()
 {
     mErrors.clear();
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = getLogger();
@@ -688,7 +688,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR); // NOT NULL
@@ -1028,7 +1028,7 @@ SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 
     bool allTypes = DataType == SQL_ALL_TYPES;
 
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     mResultsPtr->addColumn("TYPE_NAME", SQL_VARCHAR);
     mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT);
     mResultsPtr->addColumn("COLUMN_SIZE", SQL_INTEGER);
@@ -1161,7 +1161,7 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     mResultsPtr->addColumn("SCOPE", SQL_SMALLINT);
     mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
     mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT);
@@ -1664,7 +1664,7 @@ SQLRETURN RetsSTMT::SQLStatistics(
         }
     }
 
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -1693,7 +1693,7 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(string resource, string clazz,
 SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClassPtr clazz,
                                               StringVectorPtr fields)
 {
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     MetadataViewPtr metadata = mDbc->getMetadataView();
     MetadataTableListPtr tables;
     if (fields == NULL || fields->empty())
@@ -1832,7 +1832,7 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 //         return SQL_ERROR;
     }
 
-    mResultsPtr.reset(new RetsSTMTResults(this));
+    mResultsPtr.reset(new ResultSet(this));
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);

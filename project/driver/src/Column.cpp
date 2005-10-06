@@ -14,7 +14,7 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#include "RetsSTMTResults.h"
+#include "ResultSet.h"
 #include "Column.h"
 #include "RetsSTMT.h"
 #include <boost/algorithm/string/erase.hpp>
@@ -25,20 +25,19 @@ namespace b = boost;
 using std::string;
 using std::endl;
 
-Column::Column(RetsSTMTResults* parent, string name, SQLSMALLINT DefaultType)
+Column::Column(ResultSet* parent, string name, SQLSMALLINT DefaultType)
     : mParent(parent), mName(name), mDefaultType(DefaultType),
       mTargetType(-1), mBound(false)
 {
 }
 
-Column::Column(RetsSTMTResults* parent, string name,
-               lr::MetadataTablePtr table)
+Column::Column(ResultSet* parent, string name, lr::MetadataTablePtr table)
     : mParent(parent), mName(name), mTargetType(-1), mMetadataTablePtr(table),
       mBound(false)
 {
 }
 
-Column::Column(RetsSTMTResults* parent, string name,
+Column::Column(ResultSet* parent, string name,
                SQLSMALLINT TargetType, SQLPOINTER TargetValue,
                SQLLEN BufferLength, SQLLEN *StrLenOrInd)
     : mParent(parent), mName(name), mTargetType(TargetType),

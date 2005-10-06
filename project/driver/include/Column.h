@@ -26,10 +26,10 @@ namespace odbcrets
 class Column
 {
   public:
-    Column(RetsSTMTResults* parent, std::string name, SQLSMALLINT DefaultType);
-    Column(RetsSTMTResults* parent, std::string name,
+    Column(ResultSet* parent, std::string name, SQLSMALLINT DefaultType);
+    Column(ResultSet* parent, std::string name,
            librets::MetadataTablePtr table);
-    Column(RetsSTMTResults* parent, std::string name,
+    Column(ResultSet* parent, std::string name,
            SQLSMALLINT TargetType, SQLPOINTER TargetValue,
            SQLLEN BufferLength, SQLLEN *StrLenOrInd);
 
@@ -54,7 +54,7 @@ class Column
                  SQLINTEGER* StrLenOrInd);
 
   private:
-    RetsSTMTResults* mParent;
+    ResultSet* mParent;
     std::string mName;
     SQLSMALLINT mDefaultType;
     SQLSMALLINT mTargetType;

@@ -54,7 +54,7 @@ X_OBJS = \
 	$(DIROBJ)\RetsDBC.obj\
 	$(DIROBJ)\RetsENV.obj\
 	$(DIROBJ)\RetsSTMT.obj\
-	$(DIROBJ)\RetsSTMTResults.obj\
+	$(DIROBJ)\ResultSet.obj\
 	$(DIROBJ)\SQLAllocEnv.obj\
 	$(DIROBJ)\SQLAllocHandle.obj\
 	$(DIROBJ)\SQLError.obj\

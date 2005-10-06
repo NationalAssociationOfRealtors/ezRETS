@@ -24,7 +24,7 @@ namespace odbcrets
 class EzLogger;
 typedef boost::shared_ptr<EzLogger> EzLoggerPtr;
 
-class RetsSTMTResults;
+class ResultSet;
 class RetsSTMT;
 class RetsENV;
 class RetsDBC;

@@ -16,7 +16,7 @@
  */
 #include "librets.h"
 #include "RetsSTMT.h"
-#include "RetsSTMTResults.h"
+#include "ResultSet.h"
 #include "EzLogger.h"
 #include "str_stream.h"
 
@@ -25,14 +25,14 @@ using namespace librets;
 using std::string;
 using std::endl;
 
-RetsSTMTResults::RetsSTMTResults(STMT* stmt)
+ResultSet::ResultSet(STMT* stmt)
     : mStmt(stmt), mGotFirst(false), mColumns(new ColumnVector()),
       mReportedRowCount(-1)
 {
     mResultIterator = mResults.begin();
 }
 
-int RetsSTMTResults::rowCount()
+int ResultSet::rowCount()
 {
     int count;
 
@@ -48,29 +48,29 @@ int RetsSTMTResults::rowCount()
     return count;
 }
 
-int RetsSTMTResults::columnCount()
+int ResultSet::columnCount()
 {
     return mColumns->size();
 }
 
-bool RetsSTMTResults::isEmpty()
+bool ResultSet::isEmpty()
 {
     return mResults.empty();
 }
 
-string RetsSTMTResults::getColumnName(int col)
+string ResultSet::getColumnName(int col)
 {
     int rCol = col - 1;
     return mColumns->at(rCol)->getName();
 }
 
-ColumnPtr RetsSTMTResults::getColumn(int col)
+ColumnPtr ResultSet::getColumn(int col)
 {
     int rCol = col - 1;
     return mColumns->at(rCol);
 }
 
-void RetsSTMTResults::bindColumn(int col, SQLSMALLINT TargetType,
+void ResultSet::bindColumn(int col, SQLSMALLINT TargetType,
                                  SQLPOINTER TargetValue, SQLLEN BufferLength,
                                  SQLLEN *StrLenOrInd)
 {
@@ -79,7 +79,7 @@ void RetsSTMTResults::bindColumn(int col, SQLSMALLINT TargetType,
     foo->bind(TargetType, TargetValue, BufferLength, StrLenOrInd);
 }
 
-void RetsSTMTResults::unbindColumns()
+void ResultSet::unbindColumns()
 {
     ColumnVector::iterator i;
     for (i = mColumns->begin(); i != mColumns->end(); i++)
@@ -88,7 +88,7 @@ void RetsSTMTResults::unbindColumns()
     }
 }
 
-bool RetsSTMTResults::hasNext()
+bool ResultSet::hasNext()
 {
     if (mGotFirst)
     {
@@ -100,23 +100,23 @@ bool RetsSTMTResults::hasNext()
     }
 }
 
-void RetsSTMTResults::addColumn(std::string name, SQLSMALLINT DefaultType)
+void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType)
 {
     ColumnPtr col(new Column(this, name, DefaultType));
     mColumns->push_back(col);
 }
 
-void RetsSTMTResults::addColumn(
+void ResultSet::addColumn(
     std::string name, MetadataTablePtr table)
 {
     ColumnPtr col(new Column(this, name, table));
     mColumns->push_back(col);
 }
 
-void RetsSTMTResults::processNextRow()
+void ResultSet::processNextRow()
 {
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In RetsSTMTResults::processNextRow()");
+    log->debug("In ResultSet::processNextRow()");
 
     if (mGotFirst)
     {
@@ -143,33 +143,33 @@ void RetsSTMTResults::processNextRow()
     }
 }
 
-DataTranslator& RetsSTMTResults::getDataTranslator()
+DataTranslator& ResultSet::getDataTranslator()
 {
     return mStmt->getDataTranslator();
 }
 
-EzLoggerPtr RetsSTMTResults::getLogger()
+EzLoggerPtr ResultSet::getLogger()
 {
     return mStmt->getLogger();
 }
 
-void RetsSTMTResults::addRow(StringVectorPtr row)
+void ResultSet::addRow(StringVectorPtr row)
 {
     mResults.push_back(row);
     mResultIterator = mResults.begin();
 }
 
-ColumnVectorPtr RetsSTMTResults::getColumns()
+ColumnVectorPtr ResultSet::getColumns()
 {
     return mColumns;
 }
 
-void RetsSTMTResults::getData(
+void ResultSet::getData(
     SQLUSMALLINT colno, SQLSMALLINT TargetType, SQLPOINTER TargetValue,
     SQLLEN BufferLength, SQLLEN *StrLenorInd)
 {
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In RetsSTMTResults::getData()");
+    log->debug("In ResultSet::getData()");
 
     int rColno = colno - 1;
     ColumnPtr& column = mColumns->at(rColno);
@@ -182,12 +182,12 @@ void RetsSTMTResults::getData(
                     StrLenorInd);
 }
 
-void RetsSTMTResults::setReportedRowCount(int count)
+void ResultSet::setReportedRowCount(int count)
 {
     mReportedRowCount = count;
 }
 
-RetsSTMT* RetsSTMTResults::getStmt() const
+RetsSTMT* ResultSet::getStmt() const
 {
     return mStmt;
 }

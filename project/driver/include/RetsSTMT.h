@@ -21,7 +21,7 @@
 #include "librets.h"
 #include "MetadataView.h"
 #include "AbstractHandle.h"
-#include "RetsSTMTResults.h"
+#include "ResultSet.h"
 #include "DataTranslator.h"
 #include "Descriptors.h"
 
@@ -154,7 +154,7 @@ class RetsSTMT : public AbstractHandle
     
     RetsDBC* mDbc;
     std::string mStatement;
-    RetsSTMTResultsPtr mResultsPtr;
+    ResultSetPtr mResultsPtr;
     odbcrets::DataTranslator mDataTranslator;
 };
 
