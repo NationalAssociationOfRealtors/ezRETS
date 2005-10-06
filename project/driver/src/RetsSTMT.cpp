@@ -1348,7 +1348,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 
         case SQL_ATTR_ASYNC_ENABLE:
             addError("HYC00", "Optional feature not implemented.");
-            result = SQL_SUCCESS_WITH_INFO;
+            result = SQL_ERROR;
             break;
 
         case SQL_ATTR_CURSOR_TYPE:
