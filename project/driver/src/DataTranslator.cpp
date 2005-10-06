@@ -69,11 +69,11 @@ DataTranslator::DataTranslator()
 
     tmp.reset(new IntDataTranslator());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
+    mOdbc2Trans[SQL_C_SLONG] = tmp;
     mRets2Odbc[MetadataTable::INT] = tmp->getOdbcType();
 
     tmp.reset(new BigIntDataTranslator());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
-    mOdbc2Trans[SQL_C_SLONG] = tmp;
     mRets2Odbc[MetadataTable::LONG] = tmp->getOdbcType();
 
     tmp.reset(new DecimalDataTranslator());
