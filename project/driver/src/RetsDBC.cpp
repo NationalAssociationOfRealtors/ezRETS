@@ -129,8 +129,7 @@ SQLRETURN RetsDBC::SQLConnect(SQLCHAR *DataSource,
 
     if (!login())
     {
-        log->debug("I can't login!");
-        addError("08004", "Could not log into server.");
+        addError("08001", "Could not log into server.");
         return SQL_ERROR;
     }
 
@@ -201,6 +200,7 @@ SQLRETURN RetsDBC::SQLDriverConnect(
 
     log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " " <<
 	       __DATE__ << " " << __TIME__);
+    log->debug(str_stream() << mDataSource);
 
     // ifdefs based on platform? and DriverCompletion
     // NOTE: This is where the dialog box for the password and whatnot
@@ -230,6 +230,7 @@ SQLRETURN RetsDBC::SQLDriverConnect(
     // try connections
     if (!login())
     {
+        addError("08001", "Could not log into server.");
         return SQL_ERROR;
     }
 
