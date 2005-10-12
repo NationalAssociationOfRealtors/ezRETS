@@ -26,6 +26,7 @@
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 using namespace librets;
 using namespace odbcrets;
@@ -169,7 +170,7 @@ int BitDataTranslator::getOdbcTypeLength() { return sizeof(char); }
 void BitDataTranslator::translate(string data, SQLPOINTER target,
                                   SQLLEN targetLen, SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -197,7 +198,7 @@ int DateDataTranslator::getOdbcTypeLength() { return SQL_DATE_LEN; }
 void DateDataTranslator::translate(string data, SQLPOINTER target,
                                    SQLLEN targetLen, SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -250,8 +251,7 @@ void TimestampDataTranslator::translate(string data, SQLPOINTER target,
     // DateTime -- A timestamp, in YYYY-MM-DDThh:mm:ss[.sss] format. 19:23
     // Time -- A time, stored in hh:mm:ss[.sss] format. 8:12
 
-
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -326,7 +326,7 @@ int TimeDataTranslator::getOdbcTypeLength() { return SQL_TIME_LEN; }
 void TimeDataTranslator::translate(string data, SQLPOINTER target,
                                    SQLLEN targetLen, SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -368,7 +368,7 @@ int TinyDataTranslator::getOdbcTypeLength() { return sizeof(char); }
 void TinyDataTranslator::translate(string data, SQLPOINTER target,
                                    SQLLEN targetLen, SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -393,7 +393,7 @@ void SmallIntDataTranslator::translate(string data, SQLPOINTER target,
                                        SQLLEN targetLen,
                                        SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -413,7 +413,7 @@ int IntDataTranslator::getOdbcTypeLength() { return sizeof(SQLINTEGER); }
 void IntDataTranslator::translate(string data, SQLPOINTER target,
                                   SQLLEN targetLen, SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -433,7 +433,7 @@ int BigIntDataTranslator::getOdbcTypeLength() { return sizeof(SQLBIGINT); }
 void BigIntDataTranslator::translate(string data, SQLPOINTER target,
                                      SQLLEN targetLen, SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -463,7 +463,7 @@ void DecimalDataTranslator::translate(string data, SQLPOINTER target,
                                       SQLLEN targetLen,
                                       SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
@@ -501,7 +501,7 @@ void DoubleDataTranslator::translate(string data, SQLPOINTER target,
                                      SQLLEN targetLen,
                                      SQLLEN *resultSize)
 {
-    if (data.empty())
+    if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
