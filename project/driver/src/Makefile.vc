@@ -66,6 +66,7 @@ X_OBJS = \
 	$(DIROBJ)\SQLGetDiagRec.obj\
 	$(DIROBJ)\StmtEntries.obj\
 	$(DIROBJ)\StreamEzLogger.obj\
+	$(DIROBJ)\TranslationException.obj\
 	$(DIROBJ)\utils.obj \
 	$(DIROBJ)\ezrets.res
 

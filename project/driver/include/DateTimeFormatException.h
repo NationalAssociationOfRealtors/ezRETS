@@ -29,10 +29,6 @@ class DateTimeFormatException : public TranslationException
     DateTimeFormatException(std::string message);
 
     virtual ~DateTimeFormatException() throw();
-
-    virtual std::string GetMessage() const throw();
-
-    virtual const char* what() const throw();
 };
 
 }
