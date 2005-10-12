@@ -114,7 +114,7 @@ void DataTranslator::translate(string data, SQLSMALLINT type,
         string message("bad_lexical_cast: could not convert \"");
         message.append(data);
         message.append("\" to target type " + type);
-        throw new DataTranslationException(message);
+        throw DataTranslationException(message);
     }
 }
 
@@ -224,7 +224,7 @@ void DateDataTranslator::translate(string data, SQLPOINTER target,
         string message("bad_lexical_cast: could not convert \"");
         message.append(data);
         message.append("\" to Date");
-        throw new DateTimeFormatException(message);
+        throw DateTimeFormatException(message);
     }
 
     setResultSize(resultSize, SQL_DATE_LEN);
@@ -311,7 +311,7 @@ void TimestampDataTranslator::translate(string data, SQLPOINTER target,
         string message("bad_lexical_cast: could not convert \"");
         message.append(data);
         message.append("\" to Timestamp");
-        throw new DateTimeFormatException(message);
+        throw DateTimeFormatException(message);
     }
         
     setResultSize(resultSize, SQL_TIMESTAMP_LEN);
@@ -352,7 +352,7 @@ void TimeDataTranslator::translate(string data, SQLPOINTER target,
         string message("bad_lexical_cast: could not convert \"");
         message.append(data);
         message.append("\" to Time");
-        throw new DateTimeFormatException(message);
+        throw DateTimeFormatException(message);
     }
     
 
