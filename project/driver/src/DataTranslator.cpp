@@ -22,6 +22,7 @@
 #include "utils.h"
 #include "str_stream.h"
 #include "DateTimeFormatException.h"
+#include "TranslationException.h"
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
@@ -31,6 +32,7 @@ using namespace odbcrets;
 using std::string;
 using boost::lexical_cast;
 using boost::numeric_cast;
+namespace b = boost;
 
 void AbstractTranslator::setResultSize(SQLLEN *resultSize, SQLLEN value)
 {
@@ -95,14 +97,24 @@ DataTranslator::DataTranslator()
  * translator and hand off the work to it.
  */
 void DataTranslator::translate(string data, SQLSMALLINT type,
-                                    SQLPOINTER target, SQLLEN targetLen,
-                                    SQLLEN *resultSize)
+                               SQLPOINTER target, SQLLEN targetLen,
+                               SQLLEN *resultSize)
 {
-    SQLTypeMap::iterator i = mOdbc2Trans.find(type);
-    if (i != mOdbc2Trans.end())
+    try
     {
-        AbstractTranslatorPtr p = i->second;
-        p->translate(data, target, targetLen, resultSize);
+        SQLTypeMap::iterator i = mOdbc2Trans.find(type);
+        if (i != mOdbc2Trans.end())
+        {
+            AbstractTranslatorPtr p = i->second;
+            p->translate(data, target, targetLen, resultSize);
+        }
+    }
+    catch(b::bad_lexical_cast&)
+    {
+        string message("bad_lexical_cast: could not convert \"");
+        message.append(data);
+        message.append("\" to target type " + type);
+        throw new TranslationException(message);
     }
 }
 
@@ -201,9 +213,19 @@ void DateDataTranslator::translate(string data, SQLPOINTER target,
 
     DATE_STRUCT* date = (DATE_STRUCT*) target;
 
-    date->year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
-    date->month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
-    date->day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
+    try
+    {
+        date->year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
+        date->month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
+        date->day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
+    }
+    catch(b::bad_lexical_cast&)
+    {
+        string message("bad_lexical_cast: could not convert \"");
+        message.append(data);
+        message.append("\" to Date");
+        throw new DateTimeFormatException(message);
+    }
 
     setResultSize(resultSize, SQL_DATE_LEN);
 }
@@ -246,32 +268,50 @@ void TimestampDataTranslator::translate(string data, SQLPOINTER target,
     // we're a time, return sqlerror;
     TIMESTAMP_STRUCT* tm = (TIMESTAMP_STRUCT*) target;
 
-    tm->year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
-    tm->month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
-    tm->day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
-    if (dataSize == 10)
+    try
     {
-        // we're a Date
-        tm->hour = 0;
-        tm->minute = 0;
-        tm->second = 0;
-        tm->fraction = 0;
-    }
-    else
-    {
-        // o is for Offset!  M is for monkey
-        int o = 0;
-        if (data.at(10) == ' ')
+        tm->year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
+        tm->month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
+        tm->day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
+        if (dataSize == 10)
         {
-            o++;
+            // we're a Date
+            tm->hour = 0;
+            tm->minute = 0;
+            tm->second = 0;
+            tm->fraction = 0;
         }
-        // we're a date time / timestamp
-        tm->hour = lexical_cast<SQLSMALLINT>(data.substr(11 + o, 2));
-        tm->minute = lexical_cast<SQLSMALLINT>(data.substr(14 + o, 2));
-        tm->second = lexical_cast<SQLSMALLINT>(data.substr(17 + o, 2));
-        // TODO: support fractions of a second, but really, are you going
-        // to run into that in real estate data?
-        tm->fraction=0;
+        else
+        {
+            // Offset here due to ambigueity in spec.  Is the T required?
+            // Is there a space after that questionably required T?
+        
+            // o is for Offset!  M is for monkey
+            int o = 0;
+            if (data.at(10) == ' ' || data.at(10) == 'T')
+            {
+                o++;
+            }
+            if (data.at(11) == 'T')
+            {
+                o++;
+            }
+        
+            // we're a date time / timestamp
+            tm->hour = lexical_cast<SQLSMALLINT>(data.substr(10 + o, 2));
+            tm->minute = lexical_cast<SQLSMALLINT>(data.substr(13 + o, 2));
+            tm->second = lexical_cast<SQLSMALLINT>(data.substr(16 + o, 2));
+            // TODO: support fractions of a second, but really, are you going
+            // to run into that in real estate data?
+            tm->fraction=0;
+        }
+    }
+    catch(b::bad_lexical_cast&)
+    {
+        string message("bad_lexical_cast: could not convert \"");
+        message.append(data);
+        message.append("\" to Timestamp");
+        throw new DateTimeFormatException(message);
     }
         
     setResultSize(resultSize, SQL_TIMESTAMP_LEN);
@@ -301,10 +341,22 @@ void TimeDataTranslator::translate(string data, SQLPOINTER target,
     }
 
     TIME_STRUCT* tm = (TIME_STRUCT*) target;
+    try
+    {
+        tm->hour = lexical_cast<SQLSMALLINT>(data.substr(0, 2));
+        tm->minute = lexical_cast<SQLSMALLINT>(data.substr(3, 2));
+        tm->second = lexical_cast<SQLSMALLINT>(data.substr(6, 2));
+    }
+    catch(b::bad_lexical_cast&)
+    {
+        string message("bad_lexical_cast: could not convert \"");
+        message.append(data);
+        message.append("\" to Time");
+        throw new DateTimeFormatException(message);
+    }
+    
 
-    tm->hour = lexical_cast<SQLSMALLINT>(data.substr(0, 2));
-    tm->minute = lexical_cast<SQLSMALLINT>(data.substr(3, 2));
-    tm->second = lexical_cast<SQLSMALLINT>(data.substr(6, 2));
+    setResultSize(resultSize, SQL_TIME_LEN);
 }
 
 SQLSMALLINT TinyDataTranslator::getOdbcType() { return SQL_TINYINT; }

@@ -14,31 +14,24 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef DATE_TIME_FORMAT_EXCEPTION_H
-#define DATE_TIME_FORMAT_EXCEPTION_H
-
 #include "TranslationException.h"
-#include <string>
 
-namespace odbcrets
+using namespace odbcrets;
+using std::string;
+
+TranslationException::TranslationException(string message) throw ()
+    : mMessage(message)
 {
-
-class DateTimeFormatException : public TranslationException
-{
-  public:
-    DateTimeFormatException(std::string message);
-
-    virtual ~DateTimeFormatException() throw();
-
-    virtual std::string GetMessage() const throw();
-
-    virtual const char* what() const throw();
-};
-
 }
 
-#endif
+TranslationException::~TranslationException() throw() { }
 
-/* Local Variables: */
-/* mode: c++ */
-/* End: */
+const char * TranslationException::what() const throw()
+{
+    return mMessage.c_str();
+}
+
+string TranslationException::getMessage() const throw()
+{
+    return mMessage;
+}

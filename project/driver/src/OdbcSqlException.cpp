@@ -28,7 +28,7 @@ OdbcSqlException::~OdbcSqlException() throw() { }
 
 const char * OdbcSqlException::what() const throw()
 {
-    return getMessage().c_str();
+    return mMessage.c_str();
 }
 
 SQLRETURN OdbcSqlException::getReturnCode() const throw()

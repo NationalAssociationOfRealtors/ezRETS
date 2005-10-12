@@ -14,30 +14,31 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef DATE_TIME_FORMAT_EXCEPTION_H
-#define DATE_TIME_FORMAT_EXCEPTION_H
+#ifndef TRANSLATIONEXCEPTION_H
+#define TRANSLATIONEXCEPTION_H
 
-#include "TranslationException.h"
+#include <exception>
 #include <string>
 
 namespace odbcrets
 {
 
-class DateTimeFormatException : public TranslationException
+class TranslationException : public std::exception
 {
   public:
-    DateTimeFormatException(std::string message);
+    TranslationException(std::string message) throw ();
+    virtual ~TranslationException() throw();
+    virtual const char * what() const throw();
+    virtual std::string getMessage() const throw();
 
-    virtual ~DateTimeFormatException() throw();
-
-    virtual std::string GetMessage() const throw();
-
-    virtual const char* what() const throw();
+  protected:
+    std::string mMessage;
 };
 
 }
 
-#endif
+
+#endif /* ODBCSQLEXCEPTION_H */
 
 /* Local Variables: */
 /* mode: c++ */
