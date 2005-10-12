@@ -17,13 +17,13 @@
 #ifndef DATE_TIME_FORMAT_EXCEPTION_H
 #define DATE_TIME_FORMAT_EXCEPTION_H
 
-#include "TranslationException.h"
+#include "DataTranslationException.h"
 #include <string>
 
 namespace odbcrets
 {
 
-class DateTimeFormatException : public TranslationException
+class DateTimeFormatException : public DataTranslationException
 {
   public:
     DateTimeFormatException(std::string message);

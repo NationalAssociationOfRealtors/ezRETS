@@ -20,8 +20,8 @@ using namespace odbcrets;
 using std::string;
 
 DataTranslationException::DataTranslationException(string message)
+    : mMessage(message)
 {
-    mMessage = "Error in RETS to ODBC translation: " + message;
 }
 
 DataTranslationException::~DataTranslationException() throw()

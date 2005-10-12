@@ -20,7 +20,7 @@ using namespace odbcrets;
 using std::string;
 
 DateTimeFormatException::DateTimeFormatException(string message)
-    : TranslationException(message)
+    : DataTranslationException(message)
 {
 }
 

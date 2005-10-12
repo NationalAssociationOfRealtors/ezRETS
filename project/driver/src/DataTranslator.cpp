@@ -22,7 +22,7 @@
 #include "utils.h"
 #include "str_stream.h"
 #include "DateTimeFormatException.h"
-#include "TranslationException.h"
+#include "DataTranslationException.h"
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
@@ -114,7 +114,7 @@ void DataTranslator::translate(string data, SQLSMALLINT type,
         string message("bad_lexical_cast: could not convert \"");
         message.append(data);
         message.append("\" to target type " + type);
-        throw new TranslationException(message);
+        throw new DataTranslationException(message);
     }
 }
 
