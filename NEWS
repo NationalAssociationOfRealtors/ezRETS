@@ -1,3 +1,22 @@
+Changes since 0.9.5
+-------------------
+ Bug fixes:
+  * Data translation/lexical_cast errors now more meaningful to the
+    end user
+  * Fix parsing error in Timestamps/DateTime where we were off by one with
+    MarketLinx
+  * Fix error where SQLGetData would ignore request data type and
+    return data as preferred data type
+  * SQLGetInfo returns correct information about SQLGetData extensions
+  * Debug log files now append, not replace
+
+ Enhancements
+  * SQLPrimaryKeys returns primary key field as reported by RETS metadata
+  * SQLSpecialColumns returns primary key field information as
+    reported by RETS metadata
+  * Stub implementation of SQLParamOptions
+  * Statement Offset pointer now supported
+
 Changes since 0.9.4
 -------------------
  Bug fixes:

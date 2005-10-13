@@ -1,14 +1,14 @@
 [Setup]
 AppName=ezRETS
-AppVerName=ezRETS 0.9.5
+AppVerName=ezRETS 0.9.6
 DefaultDirName={pf}\ezRETS
 DefaultGroupName=ezRETS
 DisableDirPage=yes
 SourceDir=..\..
 OutputDir=build
-OutputBaseFilename=ezRETS-win32-0.9.5
+OutputBaseFilename=ezRETS-win32-0.9.6
 UninstallFilesDir={app}\uninstall
-VersionInfoVersion=0.9.5
+VersionInfoVersion=0.9.6
 VersionInfoCompany=Center for REALTOR Technology
 LicenseFile=LICENSE
 

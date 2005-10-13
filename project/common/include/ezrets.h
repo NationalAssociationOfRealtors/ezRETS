@@ -29,11 +29,11 @@
 #include <sql.h>
 #include <sqlext.h>
 
-#define DRIVER_VERSION "00.09.0005"
-#define ODBC_DRIVER "ezRETS 0.09.05 Driver"
-#define DRIVER_NAME "CRT ezRETS ODBC 0.09.05 Driver"
-#define DRIVER_NONDSN_TAG "DRIVER={CRT ezRETS ODBC 0.09.05 Driver}"
-#define DRIVER_NAME_SHORT "ezRETS/0.9.5"
+#define DRIVER_VERSION "00.09.0006"
+#define ODBC_DRIVER "ezRETS 0.09.06 Driver"
+#define DRIVER_NAME "CRT ezRETS ODBC 0.09.06 Driver"
+#define DRIVER_NONDSN_TAG "DRIVER={CRT ezRETS ODBC 0.09.06 Driver}"
+#define DRIVER_NAME_SHORT "ezRETS/0.9.6"
 
 #ifndef SQL_SPEC_STRING
 #define SQL_SPEC_STRING "03.51"
