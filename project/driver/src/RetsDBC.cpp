@@ -651,7 +651,8 @@ bool RetsDBC::login()
             if (mRetsLogFile == 0 || mRetsHttpLogger == 0)
             {
                 mRetsLogFile.reset(
-                    new std::ofstream(mDataSource.GetHttpLogFile().c_str()));
+                    new std::ofstream(mDataSource.GetHttpLogFile().c_str(),
+                                      std::ios::app));
                 mRetsHttpLogger.reset(
                     new lr::StreamHttpLogger(mRetsLogFile.get()));
             }
