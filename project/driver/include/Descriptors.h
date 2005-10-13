@@ -40,27 +40,31 @@
 namespace odbcrets
 {
 
-struct AppParamDesc // aka apd
+class AppParamDesc // aka apd
 {
-    AppParamDesc() : mBindOffsetPtr(NULL), mArrayStatusPtr(NULL) { }
+  public:
+    AppParamDesc();
     
     SQLUINTEGER* mBindOffsetPtr;
     SQLUINTEGER mBindType;
     SQLUSMALLINT* mArrayStatusPtr;
     SQLUINTEGER mArraySize;
+
+    SQLPOINTER adjustPointer(SQLPOINTER ptr);
+    SQLINTEGER* adjustPointer(SQLINTEGER* ptr);
 };
 
 struct ImpParamDesc // aka ipd
 {
-    ImpParamDesc() : mArrayStatusPtr(NULL), mRowProcessedPtr(NULL) { }
+    ImpParamDesc() : mArrayStatusPtr(0), mRowProcessedPtr(0) { }
     SQLUSMALLINT* mArrayStatusPtr;
     SQLUINTEGER* mRowProcessedPtr;
 };
 
 struct AppRowDesc // aka ard
 {
-    AppRowDesc() : mArraySize(1), mBindOffsetPtr(NULL),
-                   mArrayStatusPtr(NULL) { }
+    AppRowDesc() : mArraySize(1), mBindOffsetPtr(0),
+                   mArrayStatusPtr(0) { }
     
     SQLUINTEGER mArraySize;
     SQLUINTEGER* mBindOffsetPtr;
@@ -80,7 +84,7 @@ struct AppRowDesc // aka ard
 
 struct ImpRowDesc // aka ird
 {
-    ImpRowDesc() : mArrayStatusPtr(NULL), mRowsProcessedPtr(NULL) { }
+    ImpRowDesc() : mArrayStatusPtr(0), mRowsProcessedPtr(0) { }
     
     SQLSMALLINT* mArrayStatusPtr;
     SQLUINTEGER* mRowsProcessedPtr;

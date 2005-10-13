@@ -40,6 +40,7 @@ X_OBJS = \
 	$(DIROBJ)\DataTranslationException.obj\
 	$(DIROBJ)\DataTranslator.obj\
 	$(DIROBJ)\DbcEntries.obj\
+	$(DIROBJ)\Descriptors.obj\
 	$(DIROBJ)\EnvEntries.obj\
 	$(DIROBJ)\Error.obj\
 	$(DIROBJ)\EzLogger.obj\

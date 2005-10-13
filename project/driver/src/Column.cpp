@@ -99,17 +99,11 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     }
 
     // Adjust to offset.  This is the first time we really use the pointers
-    // and we must make the adjustment here.  The call to get the offsetPtr
+    // and we must make the adjustment here.  The call to get the apd
     // is really ugly and a sign that we need to refactor.
-    SQLUINTEGER* offsetPtr = mParent->getStmt()->apd.mBindOffsetPtr;
-    SQLPOINTER adjTargetValue = TargetValue;
-    SQLINTEGER* adjStrLen = StrLenOrInd;
-    if (offsetPtr)
-    {
-        adjStrLen = (SQLINTEGER*) ((char*) adjStrLen + *offsetPtr);
-        adjTargetValue =
-            (SQLPOINTER*) ((char*) TargetValue + *offsetPtr);
-    }
+    AppParamDesc* apd = &(mParent->getStmt()->apd);
+    SQLPOINTER adjTargetValue = apd->adjustPointer(TargetValue);
+    SQLINTEGER* adjStrLen = apd->adjustPointer(StrLenOrInd);
 
     dt.translate(data, type, adjTargetValue, BufferLength, adjStrLen);
 }
