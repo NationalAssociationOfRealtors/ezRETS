@@ -234,6 +234,16 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
     tvs->AddRow("RETS Version:", retsVersion, valueFlags);
 
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
+    
+    wxChoice * useBulkMetadata =
+        new wxCheckBox(panel, wxID_ANY, "Bulk Metadata",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.setField(BSV::USE_BULK_METADATA));
+    useBulkMetadata->SetToolTip("If checked, metadata not be incrementally "
+                                "retrieved, instead a bulk download will "
+                                "happen when the connection is established.");
+
+    topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
     panel->SetSizer(topSizer);
     return panel;

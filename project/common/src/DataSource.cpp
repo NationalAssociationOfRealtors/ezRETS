@@ -44,6 +44,7 @@ const char * CLASS::INI_HTTP_LOG_FILE = "HttpLogFile";
 const char * CLASS::INI_USE_DEBUG_LOGGING = "UseDebugLogging";
 const char * CLASS::INI_DEBUG_LOG_FILE = "DebugLogFile";
 const char * CLASS::INI_RETS_VERSION = "RetsVersion";
+const char * CLASS::INI_USE_BULK_METADATA = "UseBulkMetadata";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -105,6 +106,7 @@ void DataSource::init()
     mUseHttpGet = false;
     mUseHttpLogging = false;
     mUseDebugLogging = false;
+    mUseBulkMetadata = false;
 }
 
 DataSource::DataSource()
@@ -148,6 +150,7 @@ void DataSource::MergeFromIni()
     mUseDebugLogging = GetProfileBool(INI_USE_DEBUG_LOGGING, false);
     MergeFromProfileString(mDebugLogFile, INI_DEBUG_LOG_FILE);
     MergeFromProfileString(mRetsVersionString, INI_RETS_VERSION);
+    mUseBulkMetadata = GetProfileBool(INI_USE_BULK_METADATA, false);
 }
 
 void DataSource::WriteToIni()
@@ -164,6 +167,7 @@ void DataSource::WriteToIni()
     WriteProfileString(INI_USE_DEBUG_LOGGING, mUseDebugLogging);
     WriteProfileString(INI_DEBUG_LOG_FILE, mDebugLogFile);
     WriteProfileString(INI_RETS_VERSION, mRetsVersionString);
+    WriteProfileString(INI_USE_BULK_METADATA, mUseBulkMetadata);
 }
 
 void DataSource::CreateInIni(string driver)
@@ -386,6 +390,16 @@ void DataSource::SetRetsVersion(lr::RetsVersion retsVersion)
     mRetsVersionString = RetsVersionToString(retsVersion);
 }
 
+bool DataSource::GetUseBulkMetadata() const
+{
+    return mUseBulkMetadata;
+}
+
+void DataSource::SetUseBulkMetadata(bool useBulkMetadata)
+{
+    mUseBulkMetadata = useBulkMetadata;
+}
+
 bool DataSource::IsComplete() const
 {
     return (!mLoginUrl.empty() && !mUsername.empty() && !mPassword.empty());
@@ -421,6 +435,8 @@ string DataSource::GetConnectionString() const
     }
     AppendToConnectionString(connectionString, INI_DEBUG_LOG_FILE,
                              mDebugLogFile);
+    AppendToConnectionString(connectionString, INI_USE_BULK_METADATA,
+                             mUseBulkMetadata);
     AppendToConnectionString(connectionString, INI_RETS_VERSION,
                              mRetsVersionString);
 
@@ -469,6 +485,7 @@ ostream & DataSource::Print(ostream & out) const
         << ", HTTP log file: " << mHttpLogFile
         << ", use debug loggin: " << mUseDebugLogging
         << ", debug log file: " << mDebugLogFile
+        << ", use bulk metadata: " << mUseBulkMetadata
         << ", RETS version: " << mRetsVersionString;
         ;
     return out;
@@ -533,6 +550,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_RETS_VERSION)
         {
             mRetsVersionString = value;
+        }
+        else if (key == INI_USE_BULK_METADATA)
+        {
+            mUseBulkMetadata = stringToBool(value);
         }
     }
 }

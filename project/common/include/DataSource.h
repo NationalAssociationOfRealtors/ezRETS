@@ -102,6 +102,10 @@ class DataSource
 
     void SetRetsVersion(librets::RetsVersion retsVersion);
 
+    bool GetUseBulkMetadata() const;
+
+    void SetUseBulkMetadata(bool useBulkMetadata);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -142,6 +146,7 @@ class DataSource
     static const char * INI_USE_DEBUG_LOGGING;
     static const char * INI_DEBUG_LOG_FILE;
     static const char * INI_RETS_VERSION;
+    static const char * INI_USE_BULK_METADATA;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -188,6 +193,7 @@ class DataSource
     bool mUseDebugLogging;
     std::string mDebugLogFile;
     std::string mRetsVersionString;
+    bool mUseBulkMetadata;
 };
 
 extern const char * RETS_1_0_STRING;
