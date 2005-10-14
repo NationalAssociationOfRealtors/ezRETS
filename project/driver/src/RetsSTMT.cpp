@@ -42,8 +42,8 @@ class TableNameSorter {
     {
     }
     
-    bool operator()(const MetadataTablePtr & left,
-                    const MetadataTablePtr & right)
+    bool operator()(const MetadataTable* left,
+                    const MetadataTable* right)
     {
         string leftName;
         string rightName;
@@ -134,7 +134,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     }
 
     SQLSMALLINT tmpDecimalDigits = 0;
-    MetadataTablePtr table = column->getRetsMetadataTable();
+    MetadataTable* table = column->getRetsMetadataTable();
     MetadataViewPtr metadataView = mDbc->getMetadataView();
     // Rather than walking through the lookups, which is a pain, let's
     // make some reasonable assumptions.  The longest length for a
@@ -485,8 +485,8 @@ RetsSTMT::TableNameVectorPtr RetsSTMT::getMetadataTableNames()
         i != rcVectorPtr->end(); i++)
     {
         ResourceClassPairPtr p = *i;
-        MetadataResourcePtr res = p->first;
-        MetadataClassPtr clazz = p->second;
+        MetadataResource* res = p->first;
+        MetadataClass* clazz = p->second;
         string tableName =
             makeTableName(mDbc->isUsingStandardNames(), res, clazz);
 
@@ -509,7 +509,7 @@ RetsSTMT::TableNameVectorPtr RetsSTMT::getMetadataTableName(string name)
         metadataViewPtr->getResourceClassPairBySQLTable(name);
     if (pair != 0)
     {
-        MetadataClassPtr clazz = pair->second;
+        MetadataClass* clazz = pair->second;
         string description = clazz->GetDescription();
 
         tableNameVectorPtr->push_back(make_pair(name, description));
@@ -708,8 +708,8 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     mResultsPtr->addColumn("ORDINAL_POSITION", SQL_INTEGER); // not null
     mResultsPtr->addColumn("IS_NULLABLE", SQL_VARCHAR);
 
-    MetadataResourcePtr res;
-    MetadataClassPtr clazz;
+    MetadataResource* res = NULL;
+    MetadataClass* clazz = NULL;
     string resName, className;
     ResourceClassPairVectorPtr rcpVectorPtr;
     MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
@@ -741,7 +741,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         res = rcp->first;
         clazz = rcp->second;
 
-        MetadataTablePtr rTable;
+        MetadataTable* rTable = NULL;
         SQLRETURN result;
         if (ColumnName != NULL && *ColumnName != '\0')
         {
@@ -758,12 +758,12 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         else
         {
             // lets look at all columns
-            MetadataTableListPtr tables =
+            MetadataTableList tables =
                 metadataViewPtr->getTablesForClass(clazz);
-            std::sort(tables->begin(), tables->end(),
+            std::sort(tables.begin(), tables.end(),
                       TableNameSorter(mDbc->isUsingStandardNames()));
-            for (MetadataTableList::iterator j = tables->begin();
-                 j != tables->end(); j++)
+            for (MetadataTableList::iterator j = tables.begin();
+                 j != tables.end(); j++)
             {
                 rTable = *j;
 
@@ -780,9 +780,8 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     return SQL_SUCCESS;
 }
 
-SQLRETURN RetsSTMT::processColumn(MetadataResourcePtr res,
-                                  MetadataClassPtr clazz,
-                                  MetadataTablePtr rTable)
+SQLRETURN RetsSTMT::processColumn(MetadataResource* res, MetadataClass* clazz,
+                                  MetadataTable* rTable)
 {
     string sqlTableName =
         makeTableName(mDbc->isUsingStandardNames(), res, clazz);
@@ -918,8 +917,8 @@ SQLRETURN RetsSTMT::processColumn(MetadataResourcePtr res,
  * in StandardName mode, and one of the value doesn't have a standardname,
  * we return an empty string.
  */
-string RetsSTMT::makeTableName(
-    bool standardNames, MetadataResourcePtr res, MetadataClassPtr clazz)
+string RetsSTMT::makeTableName(bool standardNames, MetadataResource* res,
+                               MetadataClass* clazz)
 {
     string tableName("");
     string resName;
@@ -1202,11 +1201,11 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
         return SQL_SUCCESS;
     }
 
-    MetadataResourcePtr res = rcp->first;
-    MetadataClassPtr clazz = rcp->second;
+    MetadataResource* res = rcp->first;
+    MetadataClass* clazz = rcp->second;
     string keyField = res->GetKeyField();
 
-    MetadataTablePtr rTable =
+    MetadataTable* rTable =
         metadataViewPtr->getKeyFieldTable(clazz, keyField);
 
     // In the next iteration we'll put in logic to find a unique field
@@ -1421,7 +1420,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     }
 
     ColumnPtr column = mResultsPtr->getColumn(ColumnNumber);
-    MetadataTablePtr table = column->getRetsMetadataTable();
+    MetadataTable* table = column->getRetsMetadataTable();
     SQLSMALLINT type;
     if (table != NULL)
     {
@@ -1686,16 +1685,16 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(string resource, string clazz,
                                               StringVectorPtr fields)
 {
     MetadataViewPtr metadata = mDbc->getMetadataView();
-    MetadataClassPtr classPtr = metadata->getClass(resource, clazz);
+    MetadataClass* classPtr = metadata->getClass(resource, clazz);
     return EmptyWhereResultSimulator(classPtr, fields);
 }
 
-SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClassPtr clazz,
+SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClass* clazz,
                                               StringVectorPtr fields)
 {
     mResultsPtr.reset(new ResultSet(this));
     MetadataViewPtr metadata = mDbc->getMetadataView();
-    MetadataTableListPtr tables;
+    MetadataTableList tables;
     if (fields == NULL || fields->empty())
     {
         // SELECT *
@@ -1704,24 +1703,24 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClassPtr clazz,
     else
     {
         // SELECT foo,bar
-        tables.reset(new MetadataTableList());
+        tables.clear();
         StringVector::iterator si;
         for (si = fields->begin(); si != fields->end(); si++)
         {
-            MetadataTablePtr table = metadata->getTable(clazz, *si);
+            MetadataTable* table = metadata->getTable(clazz, *si);
             if (table == NULL)
             {
                 addError("42000", "Column " + *si + " does not exist.");
                 return SQL_ERROR;
             }
-            tables->push_back(table);
+            tables.push_back(table);
         }
     }
             
     MetadataTableList::iterator i;
-    for (i = tables->begin(); i != tables->end(); i++)
+    for (i = tables.begin(); i != tables.end(); i++)
     {
-        MetadataTablePtr table = *i;
+        MetadataTable* table = *i;
         int rdefault = table->GetDefault();
         string name;
         if (rdefault > 0)
@@ -1769,8 +1768,7 @@ SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
     StringVector::iterator i;
     for (i = columns->begin(); i != columns->end(); i++)
     {
-        MetadataTablePtr table =
-            metadataViewPtr->getTable(resource, clazz, *i);
+        MetadataTable* table = metadataViewPtr->getTable(resource, clazz, *i);
         mResultsPtr->addColumn(*i, table);
     }
 
@@ -1852,12 +1850,11 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
         return SQL_SUCCESS;
     }
 
-    MetadataResourcePtr res = rcp->first;
-    MetadataClassPtr clazz = rcp->second;
+    MetadataResource* res = rcp->first;
+    MetadataClass* clazz = rcp->second;
     string keyField = res->GetKeyField();
 
-    MetadataTablePtr rTable =
-        metadataViewPtr->getKeyFieldTable(clazz, keyField);
+    MetadataTable* rTable = metadataViewPtr->getKeyFieldTable(clazz, keyField);
 
     // In the next iteration we'll put in logic to find a unique field
     // once 

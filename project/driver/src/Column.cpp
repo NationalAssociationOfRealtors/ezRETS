@@ -27,11 +27,11 @@ using std::endl;
 
 Column::Column(ResultSet* parent, string name, SQLSMALLINT DefaultType)
     : mParent(parent), mName(name), mDefaultType(DefaultType),
-      mTargetType(-1), mBound(false)
+      mTargetType(-1), mMetadataTablePtr(NULL), mBound(false)
 {
 }
 
-Column::Column(ResultSet* parent, string name, lr::MetadataTablePtr table)
+Column::Column(ResultSet* parent, string name, lr::MetadataTable* table)
     : mParent(parent), mName(name), mTargetType(-1), mMetadataTablePtr(table),
       mBound(false)
 {
@@ -41,8 +41,8 @@ Column::Column(ResultSet* parent, string name,
                SQLSMALLINT TargetType, SQLPOINTER TargetValue,
                SQLLEN BufferLength, SQLLEN *StrLenOrInd)
     : mParent(parent), mName(name), mTargetType(TargetType),
-      mTargetValue(TargetValue), mBufferLength(BufferLength),
-      mStrLenOrInd(StrLenOrInd), mBound(true)
+      mMetadataTablePtr(NULL), mTargetValue(TargetValue),
+      mBufferLength(BufferLength), mStrLenOrInd(StrLenOrInd), mBound(true)
 {
 }
 
@@ -143,7 +143,7 @@ string Column::getName()
     return mName;
 }
 
-lr::MetadataTablePtr Column::getRetsMetadataTable()
+lr::MetadataTable* Column::getRetsMetadataTable()
 {
     return mMetadataTablePtr;
 }

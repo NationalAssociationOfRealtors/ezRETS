@@ -27,8 +27,7 @@ class Column
 {
   public:
     Column(ResultSet* parent, std::string name, SQLSMALLINT DefaultType);
-    Column(ResultSet* parent, std::string name,
-           librets::MetadataTablePtr table);
+    Column(ResultSet* parent, std::string name, librets::MetadataTable* table);
     Column(ResultSet* parent, std::string name,
            SQLSMALLINT TargetType, SQLPOINTER TargetValue,
            SQLLEN BufferLength, SQLLEN *StrLenOrInd);
@@ -46,7 +45,7 @@ class Column
     SQLSMALLINT getBestSqlType();
     SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType);
 
-    librets::MetadataTablePtr getRetsMetadataTable();
+    librets::MetadataTable* getRetsMetadataTable();
 
     void setData(std::string data);
     void setData(std::string data, SQLSMALLINT TargetType,
@@ -58,7 +57,7 @@ class Column
     std::string mName;
     SQLSMALLINT mDefaultType;
     SQLSMALLINT mTargetType;
-    librets::MetadataTablePtr mMetadataTablePtr;
+    librets::MetadataTable* mMetadataTablePtr;
     SQLPOINTER mTargetValue;
     SQLLEN mBufferLength;
     SQLLEN* mStrLenOrInd;

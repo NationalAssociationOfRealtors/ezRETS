@@ -666,7 +666,7 @@ bool RetsDBC::login()
             EzRetsErrorHandler* handler = new EzRetsErrorHandler(log);
             mRetsErrorHandler.reset(handler);
             mRetsSessionPtr->SetErrorHandler(handler);
-            lr::RetsMetadataPtr metaPtr = mRetsSessionPtr->GetMetadata();
+            lr::RetsMetadata* metaPtr = mRetsSessionPtr->GetMetadata();
             mMetadataViewPtr.reset(
                 new MetadataView(mDataSource.GetStandardNames(), metaPtr));
         }

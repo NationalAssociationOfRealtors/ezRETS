@@ -106,8 +106,7 @@ void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType)
     mColumns->push_back(col);
 }
 
-void ResultSet::addColumn(
-    std::string name, MetadataTablePtr table)
+void ResultSet::addColumn(std::string name, MetadataTable* table)
 {
     ColumnPtr col(new Column(this, name, table));
     mColumns->push_back(col);

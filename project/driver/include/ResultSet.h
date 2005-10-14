@@ -52,7 +52,7 @@ class ResultSet
     EzLoggerPtr getLogger();
 
     void addColumn(std::string name, SQLSMALLINT DefaultType);
-    void addColumn(std::string name, librets::MetadataTablePtr table);
+    void addColumn(std::string name, librets::MetadataTable* table);
     void addRow(librets::StringVectorPtr row);
 
     ColumnPtr getColumn(int col);

@@ -24,8 +24,8 @@ using namespace librets;
 using std::string;
 namespace b = boost;
 
-MetadataView::MetadataView(bool standardNames, RetsMetadataPtr metadata) :
-    mStandardNames(standardNames), mMetadataPtr(metadata)
+MetadataView::MetadataView(bool standardNames, RetsMetadata* metadata)
+    : mStandardNames(standardNames), mMetadataPtr(metadata)
 {
     // init our maps
     mResourceBySysNamePtr.reset(new ResourceMap());
@@ -43,11 +43,11 @@ MetadataView::MetadataView(bool standardNames, RetsMetadataPtr metadata) :
 
 void MetadataView::initResources()
 {
-    MetadataResourceListPtr resources = mMetadataPtr->GetAllResources();
+    MetadataResourceList resources = mMetadataPtr->GetAllResources();
     MetadataResourceList::iterator i;
-    for (i = resources->begin(); i != resources->end(); i++)
+    for (i = resources.begin(); i != resources.end(); i++)
     {
-        MetadataResourcePtr res = *i;
+        MetadataResource* res = *i;
         string sysname = res->GetResourceID();
         if (!sysname.empty())
         {
@@ -64,18 +64,18 @@ void MetadataView::initResources()
 
 void MetadataView::initClasses()
 {
-    MetadataResourceListPtr resources = mMetadataPtr->GetAllResources();
-    for (MetadataResourceList::iterator i = resources->begin();
-         i != resources->end(); i++)
+    MetadataResourceList resources = mMetadataPtr->GetAllResources();
+    for (MetadataResourceList::iterator i = resources.begin();
+         i != resources.end(); i++)
     {
-        MetadataResourcePtr res = *i;
-        MetadataClassListPtr classes =
-            mMetadataPtr->GetClassesForResource(res->GetResourceID());
+        MetadataResource* res = *i;
+        MetadataClassList classes =
+            mMetadataPtr->GetAllClasses(res->GetResourceID());
 
-        for (MetadataClassList::iterator j = classes->begin();
-             j != classes->end(); j++)
+        for (MetadataClassList::iterator j = classes.begin();
+             j != classes.end(); j++)
         {
-            MetadataClassPtr clazz = *j;
+            MetadataClass* clazz = *j;
             string stdname = clazz->GetStandardName();
 
             if (!stdname.empty())
@@ -98,18 +98,18 @@ ResourceClassPairVectorPtr MetadataView::getResourceClassPairs()
 {
     ResourceClassPairVectorPtr rcVectorPtr(new ResourceClassPairVector());
     
-    MetadataResourceListPtr resources = mMetadataPtr->GetAllResources();
+    MetadataResourceList resources = mMetadataPtr->GetAllResources();
 
-    for (MetadataResourceList::iterator i = resources->begin();
-         i != resources->end(); i++)
+    for (MetadataResourceList::iterator i = resources.begin();
+         i != resources.end(); i++)
     {
-        MetadataResourcePtr res = *i;
-        MetadataClassListPtr classes =
-            mMetadataPtr->GetClassesForResource(res->GetResourceID());
-        for (MetadataClassList::iterator j = classes->begin();
-             j != classes->end(); j++)
+        MetadataResource* res = *i;
+        MetadataClassList classes =
+            mMetadataPtr->GetAllClasses(res->GetResourceID());
+        for (MetadataClassList::iterator j = classes.begin();
+             j != classes.end(); j++)
         {
-            MetadataClassPtr clazz = *j;
+            MetadataClass* clazz = *j;
 
             ResourceClassPairPtr pair(new ResourceClassPair(res, clazz));
             rcVectorPtr->push_back(pair);
@@ -119,27 +119,27 @@ ResourceClassPairVectorPtr MetadataView::getResourceClassPairs()
     return rcVectorPtr;
 }
 
-MetadataTablePtr MetadataView::getTable(string resName, string className,
+MetadataTable* MetadataView::getTable(string resName, string className,
                                         string tableName)
 {
 
-    MetadataClassPtr classPtr = getClass(resName, className);
+    MetadataClass* classPtr = getClass(resName, className);
     return getTable(classPtr, tableName, mStandardNames);
 }
 
-MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
+MetadataTable* MetadataView::getTable(MetadataClass* classPtr,
                                         string tableName)
 {
     return getTable(classPtr, tableName, mStandardNames);
 }
 
-MetadataTablePtr MetadataView::getKeyFieldTable(MetadataClassPtr clazz,
+MetadataTable* MetadataView::getKeyFieldTable(MetadataClass* clazz,
                                                 string keyField)
 {
     return getTable(clazz, keyField, false);
 }
 
-MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
+MetadataTable* MetadataView::getTable(MetadataClass* classPtr,
                                         string tableName, bool stdNames)
 {
     if (!areTablesForClassInited(classPtr))
@@ -147,7 +147,7 @@ MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
         initTablesForClass(classPtr);
     }
 
-    MetadataTablePtr tablePtr;
+    MetadataTable* tablePtr = NULL;
     if (classPtr != NULL)
     {
         TableMapKey key(classPtr, tableName);
@@ -169,7 +169,7 @@ MetadataTablePtr MetadataView::getTable(MetadataClassPtr classPtr,
     return tablePtr;
 }
 
-bool MetadataView::areTablesForClassInited(MetadataClassPtr clazz)
+bool MetadataView::areTablesForClassInited(MetadataClass* clazz)
 {
     bool result = false;
     TablesInitMap::iterator i = mTablesInitMapPtr->find(clazz);
@@ -180,13 +180,13 @@ bool MetadataView::areTablesForClassInited(MetadataClassPtr clazz)
     return result;
 }
 
-void MetadataView::initTablesForClass(MetadataClassPtr clazz)
+void MetadataView::initTablesForClass(MetadataClass* clazz)
 {
-    MetadataTableListPtr tables = mMetadataPtr->GetTablesForClass(clazz);
-    for (MetadataTableList::iterator i = tables->begin();
-         i != tables->end(); i++)
+    MetadataTableList tables = mMetadataPtr->GetAllTables(clazz);
+    for (MetadataTableList::iterator i = tables.begin();
+         i != tables.end(); i++)
     {
-        MetadataTablePtr table = *i;
+        MetadataTable* table = *i;
         string stdname = table->GetStandardName();
 
         if (!stdname.empty())
@@ -206,9 +206,9 @@ void MetadataView::initTablesForClass(MetadataClassPtr clazz)
     }
 }
 
-MetadataResourcePtr MetadataView::getResource(std::string resName)
+MetadataResource* MetadataView::getResource(std::string resName)
 {
-    MetadataResourcePtr resourcePtr;
+    MetadataResource* resourcePtr = NULL;
 
     ResourceMap::iterator i;
     if (mStandardNames)
@@ -228,11 +228,11 @@ MetadataResourcePtr MetadataView::getResource(std::string resName)
     return resourcePtr;
 }
 
-MetadataClassPtr MetadataView::getClass(string resName, string className)
+MetadataClass* MetadataView::getClass(string resName, string className)
 {
-    MetadataClassPtr classPtr;
+    MetadataClass* classPtr = NULL;
 
-    MetadataResourcePtr res = getResource(resName);
+    MetadataResource* res = getResource(resName);
 
     if (res != NULL)
     {
@@ -277,8 +277,8 @@ ResourceClassPairPtr MetadataView::getResourceClassPairBySQLTable(
 
     if (!resName.empty() || !className.empty())
     {
-        MetadataResourcePtr res = getResource(resName);
-        MetadataClassPtr clazz = getClass(resName, className);
+        MetadataResource* res = getResource(resName);
+        MetadataClass* clazz = getClass(resName, className);
         if (res && clazz)
         {
             pair.reset(new ResourceClassPair(res, clazz));
@@ -288,12 +288,12 @@ ResourceClassPairPtr MetadataView::getResourceClassPairBySQLTable(
     return pair;
 }
 
-MetadataTableListPtr MetadataView::getTablesForClass(MetadataClassPtr clazz)
+MetadataTableList MetadataView::getTablesForClass(MetadataClass* clazz)
 {
-    return mMetadataPtr->GetTablesForClass(clazz);
+    return mMetadataPtr->GetAllTables(clazz);
 }
 
-bool MetadataView::isLookupColumn(MetadataTablePtr table)
+bool MetadataView::isLookupColumn(MetadataTable* table)
 {
     MetadataTable::Interpretation interp = table->GetInterpretation();
 
@@ -310,9 +310,9 @@ bool MetadataView::isLookupColumn(string tableName, string columnName)
 {
     ResourceClassPairPtr rcp = getResourceClassPairBySQLTable(tableName);
 
-    MetadataClassPtr clazz = rcp->second;
+    MetadataClass* clazz = rcp->second;
 
-    MetadataTablePtr table = getTable(clazz, columnName, mStandardNames);
+    MetadataTable* table = getTable(clazz, columnName, mStandardNames);
 
     return isLookupColumn(table);
 }

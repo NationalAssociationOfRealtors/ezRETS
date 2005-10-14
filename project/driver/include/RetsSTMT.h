@@ -130,17 +130,17 @@ class RetsSTMT : public AbstractHandle
     SQLULEN columnSizeHelper(SQLSMALLINT type, SQLULEN length);
 
     std::string makeTableName(
-        bool standardNames, librets::MetadataResourcePtr res,
-        librets::MetadataClassPtr clazz);
+        bool standardNames, librets::MetadataResource* res,
+        librets::MetadataClass* clazz);
 
-    SQLRETURN processColumn(librets::MetadataResourcePtr,
-                            librets::MetadataClassPtr,
-                            librets::MetadataTablePtr);
+    SQLRETURN processColumn(librets::MetadataResource* res,
+                            librets::MetadataClass* clazz,
+                            librets::MetadataTable* table);
 
     SQLRETURN EmptyWhereResultSimulator(std::string resource,
                                         std::string clazz,
                                         librets::StringVectorPtr fields);
-    SQLRETURN EmptyWhereResultSimulator(librets::MetadataClassPtr clazz,
+    SQLRETURN EmptyWhereResultSimulator(librets::MetadataClass* clazz,
                                         librets::StringVectorPtr fields);
 
     SQLRETURN doRetsQuery(std::string resource, std::string clazz,

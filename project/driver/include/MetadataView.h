@@ -24,8 +24,8 @@
 
 namespace odbcrets
 {
-typedef std::pair<librets::MetadataResourcePtr,
-                  librets::MetadataClassPtr> ResourceClassPair;
+typedef std::pair<librets::MetadataResource*,
+                  librets::MetadataClass*> ResourceClassPair;
 typedef boost::shared_ptr<ResourceClassPair> ResourceClassPairPtr;
 typedef std::vector<ResourceClassPairPtr> ResourceClassPairVector;
 typedef boost::shared_ptr<ResourceClassPairVector> ResourceClassPairVectorPtr;
@@ -33,55 +33,55 @@ typedef boost::shared_ptr<ResourceClassPairVector> ResourceClassPairVectorPtr;
 class MetadataView
 {
   public:
-    MetadataView(bool standardNames, librets::RetsMetadataPtr metadata);
+    MetadataView(bool standardNames, librets::RetsMetadata* metadata);
 
     ResourceClassPairVectorPtr getResourceClassPairs();
     ResourceClassPairPtr getResourceClassPairBySQLTable(std::string tableName);
 
-    librets::MetadataClassPtr getClass(
+    librets::MetadataClass* getClass(
         std::string resName, std::string className);
 
-    librets::MetadataTablePtr getTable(
+    librets::MetadataTable* getTable(
         std::string resName, std::string className, std::string tableName);
-    librets::MetadataTablePtr getTable(
-        librets::MetadataClassPtr clazz, std::string tableName);
+    librets::MetadataTable* getTable(
+        librets::MetadataClass* clazz, std::string tableName);
 
-    librets::MetadataTablePtr getKeyFieldTable(
-        librets::MetadataClassPtr clazz, std::string keyField);
+    librets::MetadataTable* getKeyFieldTable(
+        librets::MetadataClass* clazz, std::string keyField);
 
-    librets::MetadataTableListPtr getTablesForClass(
-        librets::MetadataClassPtr clazz);
+    librets::MetadataTableList getTablesForClass(
+        librets::MetadataClass* clazz);
 
-    librets::MetadataResourcePtr getResource(std::string resName);
-    librets::MetadataResourceListPtr getResources();
+    librets::MetadataResource* getResource(std::string resName);
+    librets::MetadataResourceList getResources();
 
-    bool isLookupColumn(librets::MetadataTablePtr table);
+    bool isLookupColumn(librets::MetadataTable* table);
     bool isLookupColumn(std::string tableName, std::string columnName);
 
   private:
-    librets::MetadataTablePtr getTable(
-        librets::MetadataClassPtr clazz, std::string tableName, bool stdNames);
+    librets::MetadataTable* getTable(
+        librets::MetadataClass* clazz, std::string tableName, bool stdNames);
     
-    typedef std::map<std::string, librets::MetadataResourcePtr> ResourceMap;
+    typedef std::map<std::string, librets::MetadataResource*> ResourceMap;
     typedef boost::shared_ptr<ResourceMap> ResourceMapPtr;
 
-    typedef std::pair<librets::MetadataResourcePtr, std::string> ClassMapKey;
-    typedef std::map<ClassMapKey, librets::MetadataClassPtr> ClassMap;
+    typedef std::pair<librets::MetadataResource*, std::string> ClassMapKey;
+    typedef std::map<ClassMapKey, librets::MetadataClass*> ClassMap;
     typedef boost::shared_ptr<ClassMap> ClassMapPtr;
 
-    typedef std::pair<librets::MetadataClassPtr, std::string> TableMapKey;
-    typedef std::map<TableMapKey, librets::MetadataTablePtr> TableMap;
+    typedef std::pair<librets::MetadataClass*, std::string> TableMapKey;
+    typedef std::map<TableMapKey, librets::MetadataTable*> TableMap;
     typedef boost::shared_ptr<TableMap> TableMapPtr;
-    typedef std::map<librets::MetadataClassPtr, bool> TablesInitMap;
+    typedef std::map<librets::MetadataClass*, bool> TablesInitMap;
     typedef boost::shared_ptr<TablesInitMap> TablesInitMapPtr;
     
     void initResources();
     void initClasses();
-    bool areTablesForClassInited(librets::MetadataClassPtr clazz);
-    void initTablesForClass(librets::MetadataClassPtr clazz);
+    bool areTablesForClassInited(librets::MetadataClass* clazz);
+    void initTablesForClass(librets::MetadataClass* clazz);
 
     bool mStandardNames;
-    librets::RetsMetadataPtr mMetadataPtr;
+    librets::RetsMetadata* mMetadataPtr;
 
     ResourceMapPtr mResourceBySysNamePtr;
     ResourceMapPtr mResourceByStdNamePtr;
