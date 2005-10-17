@@ -3,16 +3,18 @@ VERSION		= 00.09.02
 CFLAGS		+= $(TARGET_CFLAGS) -D_DEBUG
 
 FIXDEP		= perl $(srcdir)/project/build/fixdep.pl
-ALL_DEPENDS 	= $(COMMON_DEPENDS) $(DRIVER_DEPENDS) $(EXAMPLES_DEPENDS) # $(SETUP_DEPENDS)
+ALL_DEPENDS 	= $(COMMON_DEPENDS) $(DRIVER_DEPENDS) $(EXAMPLES_DEPENDS) $(SETUP_DEPENDS)
 ALL_OBJ_DIRS	= \
 	build/common/objects \
 	build/common/lib \
 	build/driver/objects \
 	build/driver/lib \
+	build/setup/objects \
+	build/setup/bin \
 	build/examples/objects \
 	build/examples/bin
 
-ALL		= $(COMMON_LIB) $(DRIVER_LIB) $(EXAMPLES_EXE) # $(SETUP_LIB)
+ALL		= $(COMMON_LIB) $(DRIVER_LIB) $(EXAMPLES_EXE) $(SETUP_LIB)
 
 _all: _build
 

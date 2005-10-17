@@ -24,6 +24,7 @@
 #include "Setup.h"
 #include "librets.h"
 #include "logo.xpm"
+#include "ezretss.xpm"
 
 using namespace odbcrets;
 using std::string;

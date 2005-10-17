@@ -208,7 +208,7 @@ SETUP_OBJECTS	:= $(patsubst $(SETUP_SRC_DIR)/%.cpp, \
 SETUP_DEPENDS	:= $(patsubst $(SETUP_SRC_DIR)/%.cpp, \
 	$(SETUP_OBJ_DIR)/%.d, $(SETUP_SRC_FILES))
 SETUP_LIB	= build/setup/lib/ezretss.so
-SETUP_CFLAGS = $(CFLAGS) $(LIBRETS_CFLAGS) -I$(COMMON_INC_DIR) -I$(SETUP_INC_DIR) -I/usr/lib/wx/include/gtk-2.4 -DGTK_NO_CHECK_CASTS -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES
+SETUP_CFLAGS = $(CFLAGS) $(LIBRETS_CFLAGS) -I$(COMMON_INC_DIR) -I$(SETUP_INC_DIR) `wx-config --cflags` -fms-extensions
 
 $(SETUP_OBJ_DIR)/%.o: $(SETUP_SRC_DIR)/%.cpp
 	$(CXX) $(SETUP_CFLAGS) -fPIC -fpic -c $< -o $@

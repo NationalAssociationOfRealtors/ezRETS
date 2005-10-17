@@ -40,10 +40,12 @@ Setup::Setup()
 void Setup::ConfigDSN(HWND parent, WORD request, LPCSTR driver,
                       LPCSTR attributes)
 {
+#ifdef __WIN__
     if (GetKeyState(VK_CONTROL) & 0x8000)
     {
         slog.enableDebug();
     }
+#endif
     slog.debug("We are in ConfigDSN");
     slog.debug(str_stream() << "request = " << request);
     slog.debug(str_stream() << "driver = " << driver);
@@ -154,15 +156,21 @@ strmap Setup::att2map(LPCSTR attributes)
 int Setup::ShowDialog(DataSourcePtr dataSource)
 {
     wxWindow * parent = new wxTopLevelWindow();
+#ifdef __WIN__
     parent->SetHWND(mParent);
     parent->SetId(wxGetWindowId((WXHWND) mParent));
     parent->AdoptAttributesFromHWND();
+#endif
     SetupDialog setupDialog(dataSource,
                             parent, _T("ezRETS ODBC Setup"));
+#ifdef __WIN__
     slog.debug(str_stream() << "ComCtl32Version: " <<
                wxApp::GetComCtl32Version());
+#endif
     int rc = setupDialog.ShowModal();
+#ifdef __WIN__
     parent->SetHWND(0);
+#endif
     parent->Destroy();
     return rc;
 }

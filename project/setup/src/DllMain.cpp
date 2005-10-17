@@ -14,7 +14,7 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-
+#ifdef __WIN__
 #include "DllMain.h"
 #include <wx/wx.h>
 #include <wx/msw/private.h>
@@ -41,3 +41,4 @@ BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID lpvReserved)
     }
     return TRUE;
 }
+#endif

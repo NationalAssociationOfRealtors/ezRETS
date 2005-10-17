@@ -44,6 +44,7 @@ dist: _dist
 clean: _clean
 distclean: _distclean
 maintainer-clean: _maintainer-clean
+setup: _setup
 
 include $(srcdir)/project/build/sources.mk
 include $(srcdir)/project/build/rules.mk
