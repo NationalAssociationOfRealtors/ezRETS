@@ -20,8 +20,7 @@
 #include "DataSourceValidator.h"
 #include "DataSource.h"
 #include "memberfn.h"
-// #include <wx/uri.h>
-#include <wx/url.h>
+#include <wx/uri.h>
 
 using namespace odbcrets;
 using std::string;
