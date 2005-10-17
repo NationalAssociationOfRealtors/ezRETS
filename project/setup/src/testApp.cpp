@@ -3,6 +3,7 @@
 #include "SetupDialog.h"
 #include "SetupLog.h"
 #include "str_stream.h"
+#include "ezretss.xpm"
 
 using namespace odbcrets;
 

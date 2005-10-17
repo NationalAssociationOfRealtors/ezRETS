@@ -23,7 +23,7 @@
 #include "DataSourceValidator.h"
 #include "Setup.h"
 #include "librets.h"
-#include "logo.xpm"
+//#include "logo.xpm"
 #include "ezretss.xpm"
 
 using namespace odbcrets;
@@ -256,7 +256,7 @@ wxPanel * SetupDialog::CreateLoggingPanel(wxWindow * parent)
 
     wxPanel * panel = new wxPanel(parent);
     wxBoxSizer * topSizer = new wxBoxSizer(wxVERTICAL);
-    TextValueSizer * tvs = new TextValueSizer(panel);
+    //    TextValueSizer * tvs = new TextValueSizer(panel);
     
     DataSourceValidator validator = DataSourceValidator(mDataSource);
 

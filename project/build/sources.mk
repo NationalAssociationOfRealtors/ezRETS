@@ -220,7 +220,7 @@ $(SETUP_OBJ_DIR)/%.d: $(SETUP_SRC_DIR)/%.cpp
 	| $(FIXDEP) $(SETUP_SRC_DIR) $(SETUP_OBJ_DIR) > $@
 
 $(SETUP_LIB): $(COMMON_LIB) $(SETUP_OBJECTS)
-	$(CC) -shared -fPIC -fpic $(SETUP_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(SETUP_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
+	$(CC) -shared -fPIC -fpic $(SETUP_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(SETUP_LIB) -lodbcinst $(LIBRETS_LDFLAGS) `wx-config --libs`
 
 ########################################################################
 #

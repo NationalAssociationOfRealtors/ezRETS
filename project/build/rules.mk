@@ -11,6 +11,7 @@ ALL_OBJ_DIRS	= \
 	build/driver/lib \
 	build/setup/objects \
 	build/setup/bin \
+	build/setup/lib \
 	build/examples/objects \
 	build/examples/bin
 
