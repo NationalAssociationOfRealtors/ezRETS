@@ -40,6 +40,7 @@ class DataSourceValidator : public wxValidator
         USE_DEBUG_LOGGING,
         DEBUG_LOG_FILE,
         RETS_VERSION,
+	USE_BULK_METADATA,
         NUM_FIELDS
     };
     
@@ -113,6 +114,10 @@ class DataSourceValidator : public wxValidator
     bool RetsVersionToWindow(wxWindow * window);
 
     bool RetsVersionFromWindow(wxWindow * window);
+
+    bool UseBulkMetadataToWindow(wxWindow * window);
+
+    bool UseBulkMetadataFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);

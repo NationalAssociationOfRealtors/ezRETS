@@ -42,13 +42,14 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&UseDebugLoggingToWindow, &UseDebugLoggingFromWindow, &True},
  {&DebugLogFileToWindow,    &DebugLogFileFromWindow,    &True},
  {&RetsVersionToWindow,     &RetsVersionFromWindow,     &True},
+ {&UseBulkMetadataToWindow, &UseBulkMetadataFromWindow, &True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
 {
     "Name", "Login URL", "Username", "Password", "Standard Names",
     "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
-    "Use Debug Logging", "Debug Log File"
+    "Use Debug Logging", "Debug Log File", "Use Bulk Metadata"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -302,5 +303,19 @@ bool CLASS::RetsVersionFromWindow(wxWindow * window)
     wxChoice * choice = (wxChoice *) window;
     mDataSource->SetRetsVersion(
         StringToRetsVersion(choice->GetStringSelection().c_str(), RETS_1_5));
+    return true;
+}
+
+bool CLASS::UseBulkMetadataToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetUseBulkMetadata());
+    return true;
+}
+
+bool CLASS::UseBulkMetadataFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetUseBulkMetadata(checkBox->GetValue());
     return true;
 }
