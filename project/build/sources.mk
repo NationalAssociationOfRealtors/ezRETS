@@ -20,7 +20,7 @@ $(COMMON_OBJ_DIR)/%.o: $(COMMON_SRC_DIR)/%.cpp
 $(COMMON_OBJ_DIR)/%.d: $(COMMON_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(COMMON_CFLAGS) $< \
+	@$(CXX) -MM $(COMMON_CFLAGS) $< \
 	| $(FIXDEP) $(COMMON_SRC_DIR) $(COMMON_OBJ_DIR) > $@
 
 $(COMMON_LIB): $(COMMON_OBJECTS)
@@ -49,11 +49,11 @@ $(DRIVER_OBJ_DIR)/%.o: $(DRIVER_SRC_DIR)/%.cpp
 $(DRIVER_OBJ_DIR)/%.d: $(DRIVER_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(DRIVER_CFLAGS) $< \
+	@$(CXX) -MM $(DRIVER_CFLAGS) $< \
 	| $(FIXDEP) $(DRIVER_SRC_DIR) $(DRIVER_OBJ_DIR) > $@
 
 $(DRIVER_LIB): $(COMMON_LIB) $(DRIVER_OBJECTS)
-	$(CC) -shared -fPIC -fpic $(DRIVER_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(DRIVER_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
+	$(CXX) -shared -fPIC -fpic $(DRIVER_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(DRIVER_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
 
 
 
@@ -216,11 +216,25 @@ $(SETUP_OBJ_DIR)/%.o: $(SETUP_SRC_DIR)/%.cpp
 $(SETUP_OBJ_DIR)/%.d: $(SETUP_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(SETUP_CFLAGS) $< \
+	@$(CXX) -MM $(SETUP_CFLAGS) $< \
 	| $(FIXDEP) $(SETUP_SRC_DIR) $(SETUP_OBJ_DIR) > $@
 
 $(SETUP_LIB): $(COMMON_LIB) $(SETUP_OBJECTS)
-	$(CC) -shared -fPIC -fpic $(SETUP_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(SETUP_LIB) -lodbcinst $(LIBRETS_LDFLAGS) `wx-config --libs`
+	$(CXX) -shared -fPIC -fpic $(SETUP_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(SETUP_LIB) -lodbcinst $(LIBRETS_LDFLAGS) `wx-config --libs`
+
+# g++ -o dude build/setup/objects/ConfigDSN.o
+# build/setup/objects/DataSourceValidator.o
+# build/setup/objects/DllMain.o build/setup/objects/Setup.o
+# build/setup/objects/SetupDialog.o build/setup/objects/SetupLog.o
+# build/setup/objects/SqlInstallerException.o
+# build/setup/objects/TextValueSizer.o build/setup/objects/testApp.o
+# build/common/lib/ezrets-common.a -lodbcinst
+# /home/kgarner/src/odbcrets/librets/build/librets/lib/librets.a
+# /usr/lib/libboost_filesystem.a
+# /usr/local/encap/curl-7.14.1/lib/libcurl.a -L/usr/kerberos/lib -lidn
+# -lssl -lcrypto -ldl -lssl -lcrypto -lgssapi_krb5 -lkrb5 -lcom_err
+# -lk5crypto -lresolv -ldl -lz -lz /usr/lib/libexpat.a -lantlr
+# `wx-config --libs`
 
 ########################################################################
 #
