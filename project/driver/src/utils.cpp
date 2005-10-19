@@ -48,7 +48,7 @@ size_t o::copyString(string src, char* dest, size_t length)
     return size;
 }
 
-string o::formatVersionLong(std::string version)
+string o::formatVersionLong(string version)
 {
     std::vector<string> verVec;
     b::split(verVec, version, b::is_any_of("."));
