@@ -239,9 +239,10 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
         new wxCheckBox(panel, wxID_ANY, "Use Bulk Metadata",
                        wxDefaultPosition, wxDefaultSize, 0,
                        validator.SetField(DSV::USE_BULK_METADATA));
-    useBulkMetadata->SetToolTip("If checked, metadata not be incrementally "
-                                "retrieved, instead a bulk download will "
-                                "happen when the connection is established.");
+    useBulkMetadata->SetToolTip("If checked, metadata will not be "
+                                "incrementally retrieved, instead a bulk "
+                                "download will happen when the connection "
+                                "is established.");
 
     topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
