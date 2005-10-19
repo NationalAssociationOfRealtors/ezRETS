@@ -26,7 +26,8 @@ CXX 	= $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(EZRETS_CFLAGS) $(BOOST_CFLAGS) $(LIBRETS_CFLAGS) \
           $(COMMON_CFLAGS) /DEZRETS_VERSION=\"$(VERSION)\"
 LDFLAGS = $(LDFLAGS_STD) $(LIBRETS_LDFLAGS) $(COMMON_LDFLAGS) $(EZRETS_LDFLAGS)
-LINK    = $(LINKDLL) $(LDFLAGS) $(SYSLIBS) /DEF:$(RETS_DEF) /out:$(TARGET)
+LINK    = $(LINKDLL) $(LDFLAGS) $(SYSLIBS) /VERSION:$(VERSION) \
+          /DEF:$(RETS_DEF) /out:$(TARGET)
 RSC_FLAGS = /l 0x409 -I../include
 
 ########################################################################
