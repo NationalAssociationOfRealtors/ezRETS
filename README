@@ -44,11 +44,10 @@ http://demo.crt.realtors.org:6103/rets/login
 
 -- Misc notes --
 
-    * If a MLS needs to know your User-Agent: ezRETS currently shows
-      up with the User-Agent of "ezRETS/0.9.6 (librets/1.0.0b2)" The
-      User-Agent is now configurable via the Data Source control panel
-      or by editing your odbc.ini.  We do not encourage the practice
-      of changing your User-Agent.
+    * The User-Agent is now configurable via the Data Source control
+      panel or by editing your odbc.ini.  We do not encourage the
+      practice of changing your User-Agent.  To see what ezRETS's
+      default User-Agent is, please check the NEWS file.
 
     * Currently, we do not implement RETS GetObject support. This
       means you cannot yet get images via ezRETS. This is planned for
@@ -57,9 +56,9 @@ http://demo.crt.realtors.org:6103/rets/login
 -- Reporting Bugs --
 
 To report bugs, we need a few pieces of information: which MLS or RETS
-server you were trying to access, the ezrets debug log, and a SQL.LOG.
-You can turn on the ezrets debug log on the Logging tab in the Data
-Source control panel
+server you were trying to access, the ezrets debug log, the ezrets
+http log, and a SQL.LOG.  You can turn on the ezrets logs on the
+Logging tab in the Data Source control panel
 
 On Windows, to create the SQL.LOG,go into the "Data Sources (ODBC)"
 control panel, click on the tracing tab, and click on Start Tracing

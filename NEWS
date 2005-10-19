@@ -1,3 +1,14 @@
+Changes since 0.9.6
+-------------------
+  * User-Agent is now "ezRETS/1.0.0 (librets/1.0.0)"
+
+ Enhancements
+  * Metadata is now gathered incrementally by default.  This should
+    result in a performance increase at connection time and allow some
+    RETS vendors (MRIS) to now function.  Should you require the old
+    behavior, a "Use Bulk Metadata" option has been added to the
+    Advanced tab of the configuration panel.
+
 Changes since 0.9.5
 -------------------
  Bug fixes:
