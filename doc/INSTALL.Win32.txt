@@ -15,10 +15,3 @@ HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers
 ezRETS ODBC Driver  REG_SZ  Installed
 
 Use the ODBC Control panel to create data sources.
-
-However, once the datasources are created you can add the following
-optional values.
-
-UserAgent    REG_SZ  optional/1.0
-UseHttpGet   REG_SZ  false
-HttpLogFile  REG_SZ  c:\httplogfile.txt
