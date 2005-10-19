@@ -22,6 +22,13 @@
 namespace odbcrets
 {
 size_t copyString(std::string src, char* dest, size_t length);
+
+/**
+ * This formats the version string to a form of 00.00.0000.  Assumes
+ * the version is in the format of x.y.z to use in its transformation.
+ * In truth, this just pads with 0 to the left of each of x.y.z
+ */
+std::string formatVersionLong(std::string value);
 }
 #endif /* UTILS_H */
 

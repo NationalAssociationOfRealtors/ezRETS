@@ -15,14 +15,20 @@
  * appear in supporting documentation.
  */
 #include "utils.h"
+#include <vector>
+#include <boost/format.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include "str_stream.h"
 
 using std::string;
-
+namespace b = boost;
+namespace o = odbcrets;
 /**
  * Copies from std::string into a c string, null terminiating the
  * string.
  */ 
-size_t odbcrets::copyString(string src, char* dest, size_t length)
+size_t o::copyString(string src, char* dest, size_t length)
 {
     if ((dest == NULL) || (length == 0))
     {
@@ -40,4 +46,12 @@ size_t odbcrets::copyString(string src, char* dest, size_t length)
     }
 
     return size;
+}
+
+string o::formatVersionLong(std::string version)
+{
+    std::vector<string> verVec;
+    b::split(verVec, version, b::is_any_of("."));
+    return o::str_stream()
+        << b::format("%02s.%02s.%04s") % verVec[0] % verVec[1] % verVec[2];
 }

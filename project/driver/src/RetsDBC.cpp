@@ -469,12 +469,15 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
             result = helper.setString("RETS");
             break;
 
+       // SQL_DBMS_VERSION:
+       // Eventually this will switch to asking for the version from
+       // RetsSession.  For now, we'll just say its 00.01.0000.
+       // Maybe it woudl be better to reflect version of this driver
+       // and append RETS version to it.
         case SQL_DBMS_VER:
-            // Eventually this will switch to asking for the version from
-            // RetsSession.  For now, we'll just say its 00.01.0000.
-            // Maybe it woudl be better to reflect version of this driver
-            // and append RETS version to it.
-            result = helper.setString(DRIVER_VERSION);
+        // SQL_DRIVER_VER is unmolested.
+        case SQL_DRIVER_VER:
+            result = helper.setString(formatVersionLong(EZRETS_VERSION));
             break;
 
         case SQL_DRIVER_NAME:
@@ -483,10 +486,6 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
 
         case SQL_DRIVER_ODBC_VER:
             result = helper.setString(SQL_SPEC_STRING);
-            break;
-
-        case SQL_DRIVER_VER:
-            helper.setString(DRIVER_VERSION);
             break;
 
         case SQL_STATIC_CURSOR_ATTRIBUTES1:

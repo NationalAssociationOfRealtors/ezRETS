@@ -10,6 +10,11 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AC_CHECK_PROG(my_have_perl, perl, yes, no)
 dnl AC_CHECK_PROG(my_have_doxygen, doxygen, yes, no)
+VERSION=`perl -ane 'print $1 if /VERSION\s+\=\s+(\S+)/' ${ac_top_builddir}project/build/version.mk`
+AC_MSG_CHECKING([ezrets version])
+AC_MSG_RESULT($VERSION)
+AC_SUBST(VERSION)
+
 MY_PROG_CCACHE
 MY_TEST_LIBRETS
 

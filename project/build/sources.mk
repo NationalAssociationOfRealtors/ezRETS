@@ -12,7 +12,8 @@ COMMON_OBJECTS	:= $(patsubst $(COMMON_SRC_DIR)/%.cpp, \
 COMMON_DEPENDS	:= $(patsubst $(COMMON_SRC_DIR)/%.cpp, \
 	$(COMMON_OBJ_DIR)/%.d, $(COMMON_SRC_FILES))
 COMMON_LIB	= build/common/lib/ezrets-common.a
-COMMON_CFLAGS = $(CFLAGS) $(LIBRETS_CFLAGS) -I$(COMMON_INC_DIR) -I$(COMMON_INC_DIR)
+COMMON_CFLAGS = $(CFLAGS) $(LIBRETS_CFLAGS) -I$(COMMON_INC_DIR) \
+                -I$(COMMON_INC_DIR) -DEZRETS_VERSION='"$(VERSION)"'
 
 $(COMMON_OBJ_DIR)/%.o: $(COMMON_SRC_DIR)/%.cpp
 	$(CXX) $(COMMON_CFLAGS) -fPIC -fpic -c $< -o $@
@@ -41,7 +42,8 @@ DRIVER_OBJECTS	:= $(patsubst $(DRIVER_SRC_DIR)/%.cpp, \
 DRIVER_DEPENDS	:= $(patsubst $(DRIVER_SRC_DIR)/%.cpp, \
 	$(DRIVER_OBJ_DIR)/%.d, $(DRIVER_SRC_FILES))
 DRIVER_LIB	= build/driver/lib/ezrets.so
-DRIVER_CFLAGS = $(CFLAGS) $(LIBRETS_CFLAGS) -I$(COMMON_INC_DIR) -I$(DRIVER_INC_DIR)
+DRIVER_CFLAGS = $(CFLAGS) $(LIBRETS_CFLAGS) -I$(COMMON_INC_DIR) \
+                -I$(DRIVER_INC_DIR) -DEZRETS_VERSION='"$(VERSION)"'
 
 $(DRIVER_OBJ_DIR)/%.o: $(DRIVER_SRC_DIR)/%.cpp
 	$(CXX) $(DRIVER_CFLAGS) -fPIC -fpic -c $< -o $@

@@ -1,7 +1,5 @@
-# Set
-# BASE_PATH = ../../../..
-
 !include config.vc
+!include version.mk
 
 LIBRETS_PATH = $(BASE_PATH)/librets
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"

@@ -1,5 +1,3 @@
-VERSION		= 00.09.02
-
 CFLAGS		+= $(TARGET_CFLAGS) -D_DEBUG
 
 FIXDEP		= perl $(srcdir)/project/build/fixdep.pl
