@@ -742,7 +742,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         clazz = rcp->second;
 
         MetadataTable* rTable = NULL;
-        SQLRETURN result;
+        SQLRETURN result = SQL_SUCCESS;
         if (ColumnName != NULL && *ColumnName != '\0')
         {
             // we're looking at a specific column, so we won't get data
