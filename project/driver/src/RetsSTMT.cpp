@@ -34,6 +34,7 @@ using namespace librets::util;
 using std::string;
 using std::make_pair;
 namespace b = boost;
+namespace ba = boost::algorithm;
 
 class TableNameSorter {
   public:
@@ -439,8 +440,7 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
             }
 
             // Make sure tableType contains TABLE as a requested type.
-            unsigned int loc = tableType.find("TABLE", 0);
-            if (loc == string::npos && tableType.empty())
+            if (!ba::icontains(tableType, "TABLE"))
             {
                 return SQL_SUCCESS;
             }
