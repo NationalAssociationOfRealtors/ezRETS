@@ -42,7 +42,7 @@ http://demo.crt.realtors.org:6103/rets/login
    SELECT ListingID,ListDate FROM data:Property:ResidentialProperty
           WHERE ListPrice > 0
 
--- Misc notes --
+-- Notes --
 
     * The User-Agent is now configurable via the Data Source control
       panel or by editing your odbc.ini.  We do not encourage the

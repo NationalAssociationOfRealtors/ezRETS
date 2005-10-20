@@ -1,0 +1,77 @@
+Installing the Prequisites
+==========================
+
+Microsoft Visual C++
+--------------------
+  Version: 2003.  Earlier version have buggy C++ support.
+  URL: http://msdn.microsoft.com/visualc/
+
+Only building from the command line is supported.  Install Visual C++
+2003 or Visual Studio .NET 2003 and make sure to run vcvars32.bat from
+the command line to setup VC++ environment variables and add the tools
+to the path.
+
+
+wxWidgets
+---------
+  Version: 2.6.2 or higher.  Earlier versions have some Windows related bugs.
+  URL: http://www.wxwidgets.org/
+
+  You must build wxWidgets and not used a prepared binary, as we depend
+  on it being built a certain way.
+
+  wxWidgets/build/msw/config.vc needs to be edited in the following mannor:
+  CPPFLAGS = /DISOLATION_AWARE_ENABLED
+  RUNTIME_LIBS = static
+
+Boost
+-----
+  Version: 1.32.0 or higher
+  URL: http://www.boost.org/
+
+Boost has it's own build system, bjam.  Read it's instructions for
+installation.  You need to compile and install the filesystem and
+program options libraries.
+
+
+librets
+-------
+  Version: 1.0.0 or higher
+  URL: http://www.crt.realtors.org/projects/rets/librets
+
+  You will need to build libRETS with librets/project/build/config.vc edited
+  in the following mannor:
+  RUNTIME_LIBS = static
+
+
+Inno Setup
+----------
+  Version: 5.1.4 or higher
+  URL: http://www.jrsoftware.org/isinfo.php
+
+  Inno Setup is required to build an installable package.  You don't
+  need to build this, the standard binary install will work fine.
+
+
+Customizing config.vc
+=====================
+
+Copy the <ezrets>/project/build/config.vc.dist file to
+<ezrets>/project/build/config.vc.  Edit the *_PATH directives to
+point to the ful paths of the dependent libraries.
+
+
+Building ezrets
+===============
+From the command line, run the following command:
+
+  % nmake -f Makefile.vc
+
+This will create the libraries in project/driver/src/release and
+project/setup/src/release.
+
+To make an installable package, run the following command:
+
+  % nmake -f Makefile.vc dist
+
+The executable installer will be created in the build directory.

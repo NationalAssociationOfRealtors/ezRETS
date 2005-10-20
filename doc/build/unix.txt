@@ -1,0 +1,35 @@
+Installing the Prequisites
+==========================
+
+gcc
+---
+  Version: 3.3 or higher
+  URL: http://gcc.gnu.org/
+
+Earlier versions of gcc do not have good C++ support.
+
+
+Boost
+-----
+  Version: 1.32.0 or higher.
+  URL: http://www.boost.org/
+
+Boost has it's own build system, bjam.  Read it's instructions for
+installation.  You need to compile and install the filesystem and
+program options libraries.
+
+
+librets
+-------
+  Version 1.0.0 or higher
+  URL: http://www.crt.realtors.org/projects/rets/librets
+
+
+Building ezrets
+===============
+
+Run the following commands:
+  % ./configure
+  % make
+
+Currently, there is no make install.  See the INSTALL document for help.

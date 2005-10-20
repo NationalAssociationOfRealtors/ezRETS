@@ -1,5 +1,16 @@
-# Point to vendor code, check out from svn.  Must be an absolute path.
+# Point to vendor code, we assume all the dependencies are in this directory
 BASE_PATH = c:/odbcrets
 
+# Points to librets install
+LIBRETS_PATH = $(BASE_PATH)/librets
+
+# Points to boost install
+BOOST_PATH = $(BASE_PATH)/boost_1_32_0
+
+# Points to wxWidgets install
+WX_PATH = $(BASE_PATH)/wxWidgets-2.6.2
+
+# For now, everyone should not switch the BUILD.
 # [debug, release]
 BUILD = debug
+

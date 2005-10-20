@@ -1,15 +1,12 @@
 !include config.vc
 !include version.mk
 
-LIBRETS_PATH = $(BASE_PATH)/librets
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"
 LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build" \
 	libretsmt$(DEBUG_RUNTIME).lib
 
-BOOST_PATH = $(BASE_PATH)/boost_1_32_0
 BOOST_CFLAGS = /I "$(BOOST_PATH)"
 
-WX_PATH = $(BASE_PATH)/wxWidgets-2.6.2
 WX_LIB = $(WX_PATH)/lib/vc_lib
 WX_CFLAGS = /I "$(WX_PATH)/include" /I "$(WX_LIB)/mswd" /D "WINVER=0x0400"
 WX_LDFLAGS = "/LIBPATH:$(WX_LIB)" wxmsw26d_core.lib wxbase26d.lib

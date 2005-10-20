@@ -1,17 +1,3 @@
-
-
-On Windows:
-HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver
---------------------------------------------------------------
-ConnectFunctions REG_SZ    YYN
-Driver           REG_SZ    c:\WINDOWS\system32\ezrets.dll
-Setup            REG_SZ    c:\WINDOWS\system32\ezretss.dll
-UsageCount       REG_DWORD 0x000000001
-CPTimeout        REG_SZ    <not pooled>
-
-Add to
-HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers
-----------------------------------------------------------
-ezRETS ODBC Driver  REG_SZ  Installed
-
-Use the ODBC Control panel to create data sources.
+The windows build now comes with a full installer that does everything
+you'd need.  Also, there is a control panel to configure instances of
+the datasource.

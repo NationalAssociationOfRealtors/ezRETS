@@ -1,14 +1,28 @@
-On Linux:
-/etc/odbcinst.ini
+We don't current have an installer for the ODBC driver for linux.  To
+make the driver work on Linux, after building it, copy it to a known
+location.
+
+To make the odbc infrastructure aware of the driver, you'll need to
+add an entry for the driver to /etc/odbcinst.ini or ~/.odbcinst.ini.
+If you're installing to work with PHP or some other app/language that
+may not run as your user, you'll want to make sure its in
+/etc/odbcinst.ini.
+
+odbcinst.ini
 -----------------
 [ezRETS]
 Description     = ezRETS ODBC Driver
-Driver          = /path/to/odbcretsdrv/build/driver/odbcrets/lib/odbcrets.so
-Setup           = /path/to/odbcretsdrv/build/driver/odbcrets/lib/odbcrets.so
+Driver          = /path/to/ezrets.so
+Setup           = /path/to/ezrets.so
 UsageCount      =
 CPTimeout       =
 CPReuse         =
 FileUsage       = 1
+
+To create an instance of a datasource, you'll need to add an entry for
+the datasource to /etc/odbc.ini or ~/.odbc.ini.  If you're installing
+to work with PHP or some other app/language that may not run as your
+user, you'll want to make sure its in /etc/odbc.ini.
 
 odbc.ini
 --------
@@ -20,6 +34,20 @@ PWD             = Schmoe
 StandardNames   = true
 UserAgent       = optional/1.0
 UseHttpGet      = false
+UseHttpLogging  = false
 HttpLogfile     = /some/log/file
+UseDebugLogging = false
+DebugLogFile    = /some/log/file
+RetsVersion     = 1.5
+UseBulkMetadata = false
 
-UserAGent, UseHttpGet, and HttpLogfile are optional
+It should be not noted that in an odbc.ini declaration, the following
+fields are optional:
+ * UserAgent
+ * UseHttpGet
+ * UseHttpLogging
+ * HttpLogFile
+ * UseDebugLogging
+ * DebugLogFile
+ * RetsVersion
+ * UseBulkMetadata
