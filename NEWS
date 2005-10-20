@@ -2,6 +2,10 @@ Changes since 0.9.6
 -------------------
   * User-Agent is now "ezRETS/1.0.0 (librets/1.0.0)"
 
+ Bug fixes:
+  * Fixed bad behaviour where SQLTables was returning table names even when
+    only VIEWs were asked for.
+
  Enhancements
   * Metadata is now gathered incrementally by default.  This should
     result in a performance increase at connection time and allow some
