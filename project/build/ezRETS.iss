@@ -52,7 +52,7 @@ Name: {commonprograms}\ezRETS\License; Filename: {app}\LICENSE.txt
 Name: {commonprograms}\ezRETS\News; Filename: {app}\NEWS.txt
 Name: {commonprograms}\ezRETS\Uninstall ezRETS; Filename: {uninstallexe}
 Name: {commonprograms}\ezRETS\Excel Tutorial; Filename: {app}\ExcelTutorial\ExcelTutorial.html
-Name: {commonprograms}\ezRETS\Install Tutorial; Filename: {app}\InstallTutorial\InstallTutorial.html
+Name: {commonprograms}\ezRETS\Install Tutorial; Filename: {app}\InstallTutorial\ezRETSSetup.html
 
 [Registry]
 Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; Flags: uninsdeletekey
