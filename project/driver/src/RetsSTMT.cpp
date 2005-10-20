@@ -415,9 +415,6 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         mResultsPtr->addColumn("TABLE_TYPE", SQL_VARCHAR);
         mResultsPtr->addColumn("REMARKS", SQL_VARCHAR);
 
-        // TODO: We are not currently taking TableType into effect.  We must
-        // fix that.
-
         if (TableType != NULL)
         {
             // If TableType == SQL_ALL_TABLE_TYPES
