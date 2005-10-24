@@ -31,12 +31,12 @@ int main()
     {
         DBHelper db;
 
-        db.connect("retstest");
+        db.connect("interrealty");
 
         db.tables();
 
-        ResultColumnPtr col1(new CharResultColumn(256));
-        db.bindColumn(1, col1);
+        ResultColumnPtr col3(new CharResultColumn(256));
+        db.bindColumn(3, col3);
 
         ResultColumnPtr col4(new CharResultColumn(256));
         db.bindColumn(4, col4);
@@ -47,7 +47,7 @@ int main()
         cout << "pre fetch" << endl;
         while (db.fetch())
         {
-            cout << col1 << "    ";
+            cout << col3 << "    ";
             cout << col4 << "    ";
             cout << col5 << "    " << endl;
         }
