@@ -138,19 +138,22 @@ void DataSource::MergeFromProfileString(string & aString, string entry)
 
 void DataSource::MergeFromIni()
 {
-    AssertNameNotEmpty("Cannot read from INI");
-    MergeFromProfileString(mLoginUrl, INI_LOGIN_URL);
-    MergeFromProfileString(mUsername, INI_USERNAME);
-    MergeFromProfileString(mPassword, INI_PASSWORD);
-    mStandardNames = GetProfileBool(INI_STANDARD_NAMES);
-    MergeFromProfileString(mCustomUserAgent, INI_USER_AGENT);
-    mUseHttpGet = GetProfileBool(INI_USE_HTTP_GET, false);
-    mUseHttpLogging = GetProfileBool(INI_USE_HTTP_LOGGING, false);
-    MergeFromProfileString(mHttpLogFile, INI_HTTP_LOG_FILE);
-    mUseDebugLogging = GetProfileBool(INI_USE_DEBUG_LOGGING, false);
-    MergeFromProfileString(mDebugLogFile, INI_DEBUG_LOG_FILE);
-    MergeFromProfileString(mRetsVersionString, INI_RETS_VERSION);
-    mUseBulkMetadata = GetProfileBool(INI_USE_BULK_METADATA, false);
+    // We only will merge form an INI if we have a DSN name to merge from.
+    if (!mName.empty())
+    {
+        MergeFromProfileString(mLoginUrl, INI_LOGIN_URL);
+        MergeFromProfileString(mUsername, INI_USERNAME);
+        MergeFromProfileString(mPassword, INI_PASSWORD);
+        mStandardNames = GetProfileBool(INI_STANDARD_NAMES);
+        MergeFromProfileString(mCustomUserAgent, INI_USER_AGENT);
+        mUseHttpGet = GetProfileBool(INI_USE_HTTP_GET, false);
+        mUseHttpLogging = GetProfileBool(INI_USE_HTTP_LOGGING, false);
+        MergeFromProfileString(mHttpLogFile, INI_HTTP_LOG_FILE);
+        mUseDebugLogging = GetProfileBool(INI_USE_DEBUG_LOGGING, false);
+        MergeFromProfileString(mDebugLogFile, INI_DEBUG_LOG_FILE);
+        MergeFromProfileString(mRetsVersionString, INI_RETS_VERSION);
+        mUseBulkMetadata = GetProfileBool(INI_USE_BULK_METADATA, false);
+    }
 }
 
 void DataSource::WriteToIni()
@@ -435,8 +438,11 @@ string DataSource::GetConnectionString() const
     }
     AppendToConnectionString(connectionString, INI_DEBUG_LOG_FILE,
                              mDebugLogFile);
-    AppendToConnectionString(connectionString, INI_USE_BULK_METADATA,
-                             mUseBulkMetadata);
+    if (mUseBulkMetadata)
+    {
+        AppendToConnectionString(connectionString, INI_USE_BULK_METADATA,
+                                 mUseBulkMetadata);
+    }
     AppendToConnectionString(connectionString, INI_RETS_VERSION,
                              mRetsVersionString);
 
