@@ -45,6 +45,7 @@ const char * CLASS::INI_USE_DEBUG_LOGGING = "UseDebugLogging";
 const char * CLASS::INI_DEBUG_LOG_FILE = "DebugLogFile";
 const char * CLASS::INI_RETS_VERSION = "RetsVersion";
 const char * CLASS::INI_USE_BULK_METADATA = "UseBulkMetadata";
+const char * CLASS::INI_DRIVER = "DRIVER";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -411,6 +412,10 @@ bool DataSource::IsComplete() const
 string DataSource::GetConnectionString() const
 {
     string connectionString;
+    if (!mDriver.empty())
+    {
+        AppendToConnectionString(connectionString, INI_DRIVER, mDriver);
+    }
     AppendToConnectionString(connectionString, INI_DSN, mName);
     AppendToConnectionString(connectionString, INI_LOGIN_URL, mLoginUrl);
     AppendToConnectionString(connectionString, INI_USERNAME, mUsername);
@@ -560,6 +565,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_USE_BULK_METADATA)
         {
             mUseBulkMetadata = stringToBool(value);
+        }
+        else if (key == INI_DRIVER)
+        {
+            mDriver = value;
         }
     }
 }

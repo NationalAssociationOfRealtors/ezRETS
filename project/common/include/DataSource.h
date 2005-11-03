@@ -147,6 +147,7 @@ class DataSource
     static const char * INI_DEBUG_LOG_FILE;
     static const char * INI_RETS_VERSION;
     static const char * INI_USE_BULK_METADATA;
+    static const char * INI_DRIVER;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -194,6 +195,7 @@ class DataSource
     std::string mDebugLogFile;
     std::string mRetsVersionString;
     bool mUseBulkMetadata;
+    std::string mDriver;
 };
 
 extern const char * RETS_1_0_STRING;

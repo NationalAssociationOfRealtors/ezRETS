@@ -172,10 +172,6 @@ SQLRETURN RetsDBC::SQLDriverConnect(
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug("We are in SQLDriverConnect");
-    log->debug(str_stream() << "inString = " << InConnectionString);
-    log->debug(str_stream() << "DriverCompletion = " << DriverCompletion);
-    log->debug(str_stream() << "InStringLength = " << InStringLength);
 
     // Take info passed in from InString, fill in DBC.
     string inConString = SqlCharToString(InConnectionString, InStringLength);
@@ -201,7 +197,8 @@ SQLRETURN RetsDBC::SQLDriverConnect(
     log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " " <<
 	       __DATE__ << " " << __TIME__);
     log->debug(str_stream() << mDataSource);
-
+    log->debug(str_stream() << "In connection: " << inConString);
+    
     // ifdefs based on platform? and DriverCompletion
     // NOTE: This is where the dialog box for the password and whatnot
     // should go.
@@ -221,6 +218,7 @@ SQLRETURN RetsDBC::SQLDriverConnect(
         case SQL_DRIVER_NOPROMPT:
             break;
     }
+
     // If important data is missing even after the prompting....
     if (!mDataSource.IsComplete())
     {
