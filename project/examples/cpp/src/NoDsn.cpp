@@ -31,7 +31,12 @@ int main()
     {
         string inString = "DRIVER=ezRETS ODBC Driver;"
             "LoginUrl=http://demo.crt.realtors.org:6103/rets/login;"
-            "UID=Joe;PWD=Schmoe;StandardNames=true";
+            "UID=Joe;PWD=Schmoe;StandardNames=true;UseDebugLogging=true;"
+#ifdef __WIN__
+            "DebugLogFile=c:\\odbcrets\\logs\\nodsn.txt";
+#else
+            "DebugLogFile=/tmp/nodsn";
+#endif
 
         cout << "in: " << inString << endl;
 
