@@ -50,11 +50,10 @@ string DBHelper::driverConnect(std::string conString)
     allocEnvAndDbc();
 
     char outstring[1024];
-    string partial("DSN=RetsTest");
     SQLSMALLINT resultSize = 0;
     SQLRETURN result =
-        SQLDriverConnect(mDbc, SQL_TYPE_NULL, (SQLCHAR *) partial.c_str(),
-                         partial.size(), (SQLCHAR*) outstring, 1024,
+        SQLDriverConnect(mDbc, SQL_TYPE_NULL, (SQLCHAR *) conString.c_str(),
+                         conString.size(), (SQLCHAR*) outstring, 1024,
                          &resultSize, SQL_DRIVER_NOPROMPT);
 
     handleResult(SQL_HANDLE_DBC, mDbc, result);
