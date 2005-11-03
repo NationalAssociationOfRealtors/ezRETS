@@ -44,19 +44,6 @@ int main()
 
         cout << "out: " << outString << endl;
 
-        string query("SELECT ListingID,ListDate");
-        query.append("  FROM data:Property:ResidentialProperty");
-        query.append(" WHERE ListPrice > 0");
-
-        cout << db.executeQuery(query) << endl;
-
-        ResultColumnPtr col1(new CharResultColumn(1024));
-        db.bindColumn(1, col1);
-        while (db.fetch())
-        {
-            cout << col1 << endl;
-        }
-
         db.disconnect();
     }
     catch (std::exception &e)

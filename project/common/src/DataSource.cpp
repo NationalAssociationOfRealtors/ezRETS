@@ -486,8 +486,11 @@ ostream & odbcrets::operator<<(ostream & out, lr::RetsVersion retsVersion)
 
 ostream & DataSource::Print(ostream & out) const
 {
-    out << "Name: " << mName
-        << ", login URL: " << mLoginUrl
+    if (!mName.empty())
+    {
+        out << "Name: " << mName << ", ";
+    }
+    out << "login URL: " << mLoginUrl
         << ", username: " << mUsername
         << ", standard names: " << mStandardNames
         << ", custom user agent: " << mCustomUserAgent
@@ -498,7 +501,7 @@ ostream & DataSource::Print(ostream & out) const
         << ", debug log file: " << mDebugLogFile
         << ", use bulk metadata: " << mUseBulkMetadata
         << ", RETS version: " << mRetsVersionString;
-        ;
+
     return out;
 }
 
