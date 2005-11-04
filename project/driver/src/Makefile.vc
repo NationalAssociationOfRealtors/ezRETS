@@ -93,7 +93,7 @@ clean:
 	@-erase /s *.pdb 2> NUL
 	@-erase /s *.res 2> NUL
 
-.SUFFIXES: .c .cpp .obj .res
+.SUFFIXES: .c .cpp .obj .rc .res
 
 {.\}.c{$(DIROBJ)\}.obj:
 	$(CC) $(CFLAGS) /Fo"$@"  $<
@@ -103,3 +103,6 @@ clean:
 
 .rc{$(DIROBJ)}.res:
     $(RSC) $(RSC_FLAGS) /fo"$@" $<
+
+.rc.in{.\}.rc:
+    $(RUBY) $(VERSION) $@ $<

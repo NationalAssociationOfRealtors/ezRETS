@@ -10,6 +10,9 @@ BOOST_PATH = $(BASE_PATH)/boost_1_32_0
 # Points to wxWidgets install
 WX_PATH = $(BASE_PATH)/wxWidgets-2.6.2
 
+# Points to Ruby executable
+RUBY = ruby
+
 # For now, everyone should not switch the BUILD.
 # [debug, release]
 BUILD = debug

@@ -1,3 +1,4 @@
+!include <project/build/Makefile.vc>
 
 all:
 	cd project\common\src
@@ -32,4 +33,5 @@ debug-install: install
 	copy project\driver\src\release\ezrets.pdb c:\windows\system32
 
 dist:
+	$(RUBY) $(VERSION) project/build/ezRETS.iss.in project/build/ezRETS.iss
 	"c:\Program Files\Inno Setup 5\ISCC.exe" project\build\ezRETS.iss

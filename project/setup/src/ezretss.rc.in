@@ -1,5 +1,11 @@
 // Microsoft Visual C++ generated resource script.
 //
+ezretss ICON "ezretss.ico"
+#define wxUSE_NO_MANIFEST 1
+#include "wx/msw/wx.rc"
+// XP themes for notebook tabs are broken as of wx 2.6.1... :(
+// 2 24 "wx/msw/wx.manifest"
+
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -27,8 +33,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+<%- commaver = version.join(',') -%>
+<%- commaspver = version.join(', ') -%>
+ FILEVERSION <%= commaver %>,0
+ PRODUCTVERSION <%= commaver %>,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -43,15 +51,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "ezRETS ODBC Driver"
+            VALUE "Comments", "ezRETS ODBC Setup"
             VALUE "CompanyName", "CRT - NAR"
-            VALUE "FileDescription", "ezRETS ODBC Driver"
-            VALUE "FileVersion", "1, 0, 0, 0"
-            VALUE "InternalName", "ezrets"
+            VALUE "FileDescription", "CRT ezRETS ODBC Setup"
+            VALUE "FileVersion", "<%= commaspver %>, 0"
+            VALUE "InternalName", "ezretss"
             VALUE "LegalCopyright", "Copyright (C) 2005"
-            VALUE "OriginalFilename", "ezrets.dll"
-            VALUE "ProductName", "ezRETS ODBC Driver"
-            VALUE "ProductVersion", "1, 0, 0, 0"
+            VALUE "OriginalFilename", "ezretss.dll"
+            VALUE "ProductName", "ezRETS ODBC Setup"
+            VALUE "ProductVersion", "<%= commaspver %>, 0"
         END
     END
     BLOCK "VarFileInfo"

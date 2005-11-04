@@ -87,7 +87,7 @@ clean:
 install:
 	copy release\ezretss.dll c:\windows\system32
 
-.SUFFIXES: .c .cpp .obj .res
+.SUFFIXES: .c .cpp .obj .rc .res
 
 {.\}.c{$(DIROBJ)\}.obj:
 	$(CC) $(CFLAGS) /Fo"$@"  $<
@@ -97,3 +97,6 @@ install:
 
 .rc{$(DIROBJ)}.res:
     $(RSC) $(RSC_FLAGS) /fo"$@" $<
+
+.rc.in{.\}.rc:
+    $(RUBY) $(VERSION) $@ $<
