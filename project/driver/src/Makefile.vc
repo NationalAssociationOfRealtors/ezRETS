@@ -15,6 +15,7 @@ EZRETS_LDFLAGS = /RELEASE
 SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
 
 RETS_DEF = ezrets.def
+RETS_RC = ezrets.rc
 
 ########################################################################
 #
@@ -69,11 +70,11 @@ X_OBJS = \
 	$(DIROBJ)\SQLGetDiagRec.obj\
 	$(DIROBJ)\StmtEntries.obj\
 	$(DIROBJ)\StreamEzLogger.obj\
-	$(DIROBJ)\utils.obj \
+	$(DIROBJ)\utils.obj\
 	$(DIROBJ)\ezrets.res
 
 
-all: $(TARGET)
+all: $(RETS_RC) $(TARGET)
 
 $(TARGET): $(X_OBJS)
 	$(LINK) $(X_OBJS)
@@ -104,5 +105,5 @@ clean:
 .rc{$(DIROBJ)}.res:
     $(RSC) $(RSC_FLAGS) /fo"$@" $<
 
-.rc.in{.\}.rc:
-    $(RUBY) $(VERSION) $@ $<
+.rc.in{}.rc:
+    $(RUBY) ../../build/fix_version.rb $(VERSION) $< $@

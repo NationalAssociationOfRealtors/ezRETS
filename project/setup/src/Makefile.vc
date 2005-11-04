@@ -9,6 +9,7 @@ SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib \
           advapi32.lib wsock32.lib oleacc.lib odbc32.lib
 
 RETS_DEF = ezretss.def
+RETS_RC = ezretss.rc
 
 COMMON_CFLAGS = -I../../common/include
 COMMON_LIB = ../../common/src/release/ezcommon.lib
@@ -59,7 +60,7 @@ TEST_OBJS = \
 	$(DIROBJ)\TextValueSizer.obj \
 	$(DIROBJ)\testApp.res
 
-all: $(TARGET)
+all: $(RETS_RC) $(TARGET)
 
 $(TARGET): $(X_OBJS) $(COMMON_LIB) Makefile.vc
 	$(LINK) $(X_OBJS)
@@ -98,5 +99,5 @@ install:
 .rc{$(DIROBJ)}.res:
     $(RSC) $(RSC_FLAGS) /fo"$@" $<
 
-.rc.in{.\}.rc:
-    $(RUBY) $(VERSION) $@ $<
+.rc.in{}.rc:
+    $(RUBY) ../../build/fix_version.rb $(VERSION) $< $@
