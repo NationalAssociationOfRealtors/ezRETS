@@ -21,7 +21,7 @@ $(COMMON_OBJ_DIR)/%.o: $(COMMON_SRC_DIR)/%.cpp
 $(COMMON_OBJ_DIR)/%.d: $(COMMON_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(COMMON_CFLAGS) $< \
+	@$(CXX) -MM $(COMMON_CFLAGS) $< \
 	| $(FIXDEP) $(COMMON_SRC_DIR) $(COMMON_OBJ_DIR) > $@
 
 $(COMMON_LIB): $(COMMON_OBJECTS)
@@ -51,11 +51,11 @@ $(DRIVER_OBJ_DIR)/%.o: $(DRIVER_SRC_DIR)/%.cpp
 $(DRIVER_OBJ_DIR)/%.d: $(DRIVER_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(DRIVER_CFLAGS) $< \
+	@$(CXX) -MM $(DRIVER_CFLAGS) $< \
 	| $(FIXDEP) $(DRIVER_SRC_DIR) $(DRIVER_OBJ_DIR) > $@
 
 $(DRIVER_LIB): $(COMMON_LIB) $(DRIVER_OBJECTS)
-	$(CC) -shared -fPIC -fpic $(DRIVER_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(DRIVER_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
+	$(CXX) -shared -fPIC -fpic $(DRIVER_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(DRIVER_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
 
 
 
@@ -160,7 +160,7 @@ $(EXAMPLES_OBJ_DIR)/%.o: $(EXAMPLES_SRC_DIR)/%.cpp
 $(EXAMPLES_OBJ_DIR)/%.d: $(EXAMPLES_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(CFLAGS) -I$(DRIVER_INC_DIR) -I$(EXAMPLES_INC_DIR) $< \
+	@$(CXX) -MM $(CFLAGS) -I$(DRIVER_INC_DIR) -I$(EXAMPLES_INC_DIR) $< \
 	| $(FIXDEP) $(EXAMPLES_SRC_DIR) $(EXAMPLES_OBJ_DIR) > $@
 
 $(CONTEST_EXE): $(CONTEST_EXAMPLE_OBJECTS)
@@ -218,11 +218,11 @@ $(SETUP_OBJ_DIR)/%.o: $(SETUP_SRC_DIR)/%.cpp
 $(SETUP_OBJ_DIR)/%.d: $(SETUP_SRC_DIR)/%.cpp
 	@echo Generating dependencies for $<
 	@mkdir -p $(dir $@)
-	@$(CC) -MM $(SETUP_CFLAGS) $< \
+	@$(CXX) -MM $(SETUP_CFLAGS) $< \
 	| $(FIXDEP) $(SETUP_SRC_DIR) $(SETUP_OBJ_DIR) > $@
 
 $(SETUP_LIB): $(COMMON_LIB) $(SETUP_OBJECTS)
-	$(CC) -shared -fPIC -fpic $(SETUP_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(SETUP_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
+	$(CXX) -shared -fPIC -fpic $(SETUP_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(SETUP_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
 
 ########################################################################
 #
