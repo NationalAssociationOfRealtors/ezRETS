@@ -386,6 +386,10 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         {
             string tabName = SqlCharToString(TableName, NameLength3);
             log->debug(str_stream() << "TableName " << tabName);
+            if (tabName.compare("%") == 0)
+            {
+                tabName.clear();
+            }
             if (tabName.find("%") != string::npos)
             {
                 addError("HYC00",
@@ -1935,9 +1939,25 @@ SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
     log->debug(str_stream() << "In SQLFetchScroll: " << FetchOrientation <<
                " " << FetchOffset);
 
-    SQLRETURN result = SQLFetch();
-    *ird.mRowsProcessedPtr = (result != SQL_ERROR) ? 1 : 0;
-    *ird.mArrayStatusPtr = result;
+    SQLRETURN result;
+    if (FetchOrientation != SQL_FETCH_NEXT)
+    {
+        addError("HY106", "Fetch type out of range");
+        result = SQL_ERROR;
+    }
+    else
+    {
+        result = SQLFetch();
+        if (ird.mRowsProcessedPtr)
+        {
+            *ird.mRowsProcessedPtr = (result != SQL_ERROR) ? 1 : 0;
+        }
+
+        if (ird.mArrayStatusPtr)
+        {
+            *ird.mArrayStatusPtr = result;
+        }
+    }
 
     return result;
 }
