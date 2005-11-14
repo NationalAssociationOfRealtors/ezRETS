@@ -35,6 +35,10 @@ using boost::lexical_cast;
 using boost::numeric_cast;
 namespace b = boost;
 
+AbstractTranslator::~AbstractTranslator()
+{
+}
+
 void AbstractTranslator::setResultSize(SQLLEN *resultSize, SQLLEN value)
 {
     if (resultSize)
@@ -112,10 +116,9 @@ void DataTranslator::translate(string data, SQLSMALLINT type,
     }
     catch(b::bad_lexical_cast&)
     {
-        string message("bad_lexical_cast: could not convert \"");
-        message.append(data);
-        message.append("\" to target type " + type);
-        throw DataTranslationException(message);
+        throw DataTranslationException(
+            str_stream() << "bad_lexical_cast: could not convert \""
+            << data << "\" to target type " << type);
     }
 }
 
@@ -222,10 +225,9 @@ void DateDataTranslator::translate(string data, SQLPOINTER target,
     }
     catch(b::bad_lexical_cast&)
     {
-        string message("bad_lexical_cast: could not convert \"");
-        message.append(data);
-        message.append("\" to Date");
-        throw DateTimeFormatException(message);
+        throw DateTimeFormatException(
+            str_stream() << "bad_lexical_cast: could not convert \""
+            << data << "\" to Date");
     }
 
     setResultSize(resultSize, SQL_DATE_LEN);
@@ -308,10 +310,9 @@ void TimestampDataTranslator::translate(string data, SQLPOINTER target,
     }
     catch(b::bad_lexical_cast&)
     {
-        string message("bad_lexical_cast: could not convert \"");
-        message.append(data);
-        message.append("\" to Timestamp");
-        throw DateTimeFormatException(message);
+        throw DateTimeFormatException(
+            str_stream() << "bad_lexical_cast: could not convert \""
+            << data << "\" to Timestamp");
     }
         
     setResultSize(resultSize, SQL_TIMESTAMP_LEN);
@@ -349,10 +350,9 @@ void TimeDataTranslator::translate(string data, SQLPOINTER target,
     }
     catch(b::bad_lexical_cast&)
     {
-        string message("bad_lexical_cast: could not convert \"");
-        message.append(data);
-        message.append("\" to Time");
-        throw DateTimeFormatException(message);
+        throw DateTimeFormatException(
+            str_stream() << "bad_lexical_cast: could not convert \""
+            << data << "\" to Time");
     }
     
 
