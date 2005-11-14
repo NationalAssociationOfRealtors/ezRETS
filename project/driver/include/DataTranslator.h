@@ -26,6 +26,7 @@ namespace odbcrets
 class AbstractTranslator
 {
   public:
+    virtual ~AbstractTranslator();
     virtual SQLSMALLINT getOdbcType() = 0;
     virtual std::string getOdbcTypeName() = 0;
     virtual int getOdbcTypeLength() = 0;

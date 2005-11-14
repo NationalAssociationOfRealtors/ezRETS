@@ -27,6 +27,7 @@ namespace odbcrets
 class OdbcEntry
 {
   public:
+	virtual ~OdbcEntry();
     virtual SQLRETURN operator()();
 
   protected:
