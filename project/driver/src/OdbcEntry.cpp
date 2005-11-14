@@ -24,6 +24,14 @@
 using namespace odbcrets;
 using std::string;
 
+OdbcEntry::OdbcEntry()
+{
+}
+
+OdbcEntry::~OdbcEntry()
+{
+}
+
 SQLRETURN OdbcEntry::operator()()
 {
     SQLRETURN result = SQL_ERROR;
