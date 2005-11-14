@@ -24,10 +24,6 @@
 using namespace odbcrets;
 using std::string;
 
-OdbcEntry::OdbcEntry()
-{
-}
-
 OdbcEntry::~OdbcEntry()
 {
 }
