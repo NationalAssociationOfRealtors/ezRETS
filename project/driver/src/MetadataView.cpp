@@ -14,7 +14,7 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-
+#include "OdbcSqlException.h"
 #include "MetadataView.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
@@ -309,6 +309,14 @@ bool MetadataView::isLookupColumn(MetadataTable* table)
 bool MetadataView::isLookupColumn(string tableName, string columnName)
 {
     ResourceClassPairPtr rcp = getResourceClassPairBySQLTable(tableName);
+
+    if (rcp == NULL)
+    {
+        // We should really do this as an exception.  False works
+        // for now.
+        // throw Exception("Invalid table: " + tableName);
+        return false;
+    }
 
     MetadataClass* clazz = rcp->second;
 
