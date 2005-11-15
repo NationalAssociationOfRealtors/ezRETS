@@ -1693,6 +1693,9 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(string resource, string clazz,
 SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClass* clazz,
                                               StringVectorPtr fields)
 {
+    EzLoggerPtr log = getLogger();
+    log->debug("In EmptyWhereResultSimulator");
+    
     mResultsPtr.reset(new ResultSet(this));
     MetadataViewPtr metadata = mDbc->getMetadataView();
     MetadataTableList tables;
@@ -1741,7 +1744,9 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClass* clazz,
         }
     }
 
-    return SQL_SUCCESS;
+    addError("01000", "RETS queries require a WHERE clause.  Returning "
+             "simulated empty result set.");
+    return SQL_SUCCESS_WITH_INFO;
 }
 
 SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
@@ -1751,7 +1756,7 @@ SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
     string select = join(*fields, ",");
     
     RetsSessionPtr session = mDbc->getRetsSession();
-    SearchRequestPtr searchRequest = session->CreateSearchRequest(
+    SearchRequestAPtr searchRequest = session->CreateSearchRequest(
         resource, clazz, criterion->ToDmqlString());
     searchRequest->SetSelect(select);
     searchRequest->SetCountType(
@@ -1763,7 +1768,7 @@ SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
                        searchRequest->GetQueryString());
 
     MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
-    SearchResultSetPtr results = session->Search(searchRequest);
+    SearchResultSetAPtr results = session->Search(searchRequest.get());
 
     StringVectorPtr columns = results->GetColumns();
     StringVector::iterator i;
