@@ -10,7 +10,7 @@ may not run as your user, you'll want to make sure its in
 
 odbcinst.ini
 -----------------
-[ezRETS]
+[ezRETS ODBC Driver]
 Description     = ezRETS ODBC Driver
 Driver          = /path/to/ezrets.so
 Setup           = /path/to/ezrets.so
@@ -27,7 +27,7 @@ user, you'll want to make sure its in /etc/odbc.ini.
 odbc.ini
 --------
 [retstest]
-Driver          = ezRETS
+Driver          = ezRETS ODBC Driver
 LoginURL        = http://demo.crt.realtors.org:6103/rets/login
 UID             = Joe
 PWD             = Schmoe
@@ -40,6 +40,7 @@ UseDebugLogging = false
 DebugLogFile    = /some/log/file
 RetsVersion     = 1.5
 UseBulkMetadata = false
+IgnoreMetadataType = false
 
 It should be not noted that in an odbc.ini declaration, the following
 fields are optional:
@@ -51,3 +52,4 @@ fields are optional:
  * DebugLogFile
  * RetsVersion
  * UseBulkMetadata
+ * IgnoreMetadataType

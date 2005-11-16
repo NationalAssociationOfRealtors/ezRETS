@@ -43,6 +43,15 @@ librets
   in the following mannor:
   RUNTIME_LIBS = static
 
+Ruby
+----
+  Version: 1.8.2 or higher
+  URL: http://rubyinstaller.rubyforge.org/wiki/wiki.pl
+
+  You will need ruby to turn the templated *.rc files into files that
+  the compiler can use.  A basic install of Ruby and its standard
+  librarys should satisfy our needs.
+
 
 Inno Setup
 ----------
