@@ -27,6 +27,7 @@
 #include "str_stream.h"
 #include "DateTimeFormatException.h"
 #include "EzRetsSqlMetadata.h"
+#include "OdbcSqlException.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -581,6 +582,12 @@ SQLRETURN RetsSTMT::SQLExecute()
         log->debug(str_stream() << "stmt.execute: " << e.what());
         addError("42000", e.what());
         result = SQL_ERROR;
+    }
+    catch (OdbcSqlException & e)
+    {
+        log->debug(str_stream() << "stmt.execute: " << e.what());
+        addError("42000", e.what());
+        result = e.getReturnCode();
     }
 
     return result;
@@ -1703,6 +1710,14 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClass* clazz,
 {
     EzLoggerPtr log = getLogger();
     log->debug("In EmptyWhereResultSimulator");
+
+    if (clazz == NULL)
+    {
+        // This should really throw a different exception, I'll fix
+        // that tomorrow.
+        throw OdbcSqlException(SQL_ERROR, "Miscellaneous Search Error: "
+                               "Invalid Resource or Class name");
+    }
     
     mResultsPtr.reset(new ResultSet(this));
     MetadataViewPtr metadata = mDbc->getMetadataView();
