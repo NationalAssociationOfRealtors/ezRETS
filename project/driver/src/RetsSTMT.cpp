@@ -65,8 +65,16 @@ class TableNameSorter {
     bool mUseStandardNames;
 };
 
-RetsSTMT::RetsSTMT(RetsDBC* handle) : AbstractHandle()
+RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata) : AbstractHandle()
 {
+    if (ignoreMetadata)
+    {
+        mDataTranslator.reset(new CharOnlyDataTranslator());
+    }
+    else
+    {
+        mDataTranslator.reset(new NativeDataTranslator());
+    }
     mResultsPtr.reset(new ResultSet(this));
     mDbc = handle;
     mStatement = "";
@@ -160,7 +168,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     else
     {
         // Translate DataType
-        *DataType = mDataTranslator.getPreferedOdbcType(table->GetDataType());
+        *DataType = mDataTranslator->getPreferedOdbcType(table->GetDataType());
 
         if (ColumnSize)
         {
@@ -578,7 +586,7 @@ SQLRETURN RetsSTMT::SQLExecute()
     return result;
 }
 
-DataTranslator& RetsSTMT::getDataTranslator()
+DataTranslatorPtr RetsSTMT::getDataTranslator()
 {
     return mDataTranslator;
 }
@@ -818,12 +826,12 @@ SQLRETURN RetsSTMT::processColumn(MetadataResource* res, MetadataClass* clazz,
 
     // DATA_TYPE
     SQLSMALLINT type =
-        mDataTranslator.getPreferedOdbcType(rTable->GetDataType());
+        mDataTranslator->getPreferedOdbcType(rTable->GetDataType());
     string typeString = b::lexical_cast<string>(type);
     results->push_back(typeString);
 
     // TYPE_NAME
-    results->push_back(mDataTranslator.getOdbcTypeName(type));
+    results->push_back(mDataTranslator->getOdbcTypeName(type));
     
     // COLUMN_SIZE
     int maxLen = rTable->GetMaximumLength();
@@ -837,7 +845,7 @@ SQLRETURN RetsSTMT::processColumn(MetadataResource* res, MetadataClass* clazz,
     }
     else
     {
-        int size = mDataTranslator.getOdbcTypeLength(type);
+        int size = mDataTranslator->getOdbcTypeLength(type);
         results->push_back(b::lexical_cast<string>(size));
     }
 
@@ -955,7 +963,7 @@ StringVectorPtr RetsSTMT::getSQLGetTypeInfoRow(
 {
     StringVectorPtr resultRow(new StringVector());
     // Name
-    resultRow->push_back(mDataTranslator.getOdbcTypeName(dtype));
+    resultRow->push_back(mDataTranslator->getOdbcTypeName(dtype));
     // DATA_TYPE
     resultRow->push_back(b::lexical_cast<string>(dtype));
     // COLUMN_SIZE
@@ -968,7 +976,7 @@ StringVectorPtr RetsSTMT::getSQLGetTypeInfoRow(
     else
     {
         resultRow->push_back(
-            b::lexical_cast<string>(mDataTranslator.getOdbcTypeLength(dtype)));
+            b::lexical_cast<string>(mDataTranslator->getOdbcTypeLength(dtype)));
     }
     // LITERAL_PREFIX
     resultRow->push_back(litprefix);
@@ -1234,12 +1242,12 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
 
     // DATA_TYPE
     SQLSMALLINT type =
-        mDataTranslator.getPreferedOdbcType(rTable->GetDataType());
+        mDataTranslator->getPreferedOdbcType(rTable->GetDataType());
     string typeString = b::lexical_cast<string>(type);
     results->push_back(typeString);
 
     // TYPE_NAME
-    results->push_back(mDataTranslator.getOdbcTypeName(type));
+    results->push_back(mDataTranslator->getOdbcTypeName(type));
 
         // COLUMN_SIZE
     int maxLen = rTable->GetMaximumLength();
@@ -1253,7 +1261,7 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
     }
     else
     {
-        int size = mDataTranslator.getOdbcTypeLength(type);
+        int size = mDataTranslator->getOdbcTypeLength(type);
         results->push_back(b::lexical_cast<string>(size));
     }
 
@@ -1425,7 +1433,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     SQLSMALLINT type;
     if (table != NULL)
     {
-        type = mDataTranslator.getPreferedOdbcType(table->GetDataType());
+        type = mDataTranslator->getPreferedOdbcType(table->GetDataType());
     }
     else
     {
@@ -1502,7 +1510,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             else
             {
-                colAttHelper.setInt(mDataTranslator.getOdbcTypeLength(type));
+                colAttHelper.setInt(mDataTranslator->getOdbcTypeLength(type));
             }
             break;
 
@@ -1526,7 +1534,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             if (type == SQL_TYPE_DATE || type == SQL_TYPE_TIME ||
                 type == SQL_TIMESTAMP_LEN)
             {
-                colAttHelper.setInt(mDataTranslator.getOdbcTypeLength(type));
+                colAttHelper.setInt(mDataTranslator->getOdbcTypeLength(type));
             }
             else
             {
@@ -1572,7 +1580,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
 
         case SQL_DESC_TYPE_NAME:
-            colAttHelper.setString(mDataTranslator.getOdbcTypeName(type));
+            colAttHelper.setString(mDataTranslator->getOdbcTypeName(type));
             break;
 
         // We always have a column name

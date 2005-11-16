@@ -142,7 +142,7 @@ void ResultSet::processNextRow()
     }
 }
 
-DataTranslator& ResultSet::getDataTranslator()
+DataTranslatorPtr ResultSet::getDataTranslator()
 {
     return mStmt->getDataTranslator();
 }

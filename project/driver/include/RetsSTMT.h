@@ -30,14 +30,14 @@ namespace odbcrets
 class RetsSTMT : public AbstractHandle
 {
   public:
-    RetsSTMT(RetsDBC* handle);
+    RetsSTMT(RetsDBC* handle, bool ignoreMetadata = false);
     ~RetsSTMT();
 
     EzLoggerPtr getLogger();
 
     RetsDBC* getDbc();
 
-    odbcrets::DataTranslator& getDataTranslator();
+    DataTranslatorPtr getDataTranslator();
 
     void unbindColumns();
 
@@ -155,7 +155,7 @@ class RetsSTMT : public AbstractHandle
     RetsDBC* mDbc;
     std::string mStatement;
     ResultSetPtr mResultsPtr;
-    odbcrets::DataTranslator mDataTranslator;
+    odbcrets::DataTranslatorPtr mDataTranslator;
 };
 
 

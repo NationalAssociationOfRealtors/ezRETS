@@ -88,7 +88,7 @@ void Column::setData(string data, SQLSMALLINT TargetType,
 {
     SQLSMALLINT type = getBestSqlType(TargetType);
 
-    DataTranslator& dt = mParent->getDataTranslator();
+    DataTranslatorPtr dt = mParent->getDataTranslator();
 
     // if the interpretation is currency, we will strip out commas
     // Metrolist does this and its definately valid.
@@ -105,7 +105,7 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     SQLPOINTER adjTargetValue = apd->adjustPointer(TargetValue);
     SQLINTEGER* adjStrLen = apd->adjustPointer(StrLenOrInd);
 
-    dt.translate(data, type, adjTargetValue, BufferLength, adjStrLen);
+    dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen);
 }
 
 SQLSMALLINT Column::getBestSqlType()
@@ -117,7 +117,7 @@ SQLSMALLINT Column::getBestSqlType(SQLSMALLINT TargetType)
 {
     SQLSMALLINT type;
 
-    DataTranslator& dt = mParent->getDataTranslator();
+    DataTranslatorPtr dt = mParent->getDataTranslator();
 
     if (TargetType == -1 || TargetType == SQL_C_DEFAULT)
     {
@@ -127,7 +127,7 @@ SQLSMALLINT Column::getBestSqlType(SQLSMALLINT TargetType)
         }
         else
         {
-            type = dt.getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+            type = dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
         }
     }
     else

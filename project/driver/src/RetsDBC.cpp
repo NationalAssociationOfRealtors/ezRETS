@@ -71,7 +71,7 @@ SQLRETURN RetsDBC::SQLAllocStmt(SQLHSTMT *StatementHandlePtr)
 
     try
     {
-        STMT* stmt = new STMT(this);
+        STMT* stmt = new STMT(this, mDataSource.GetIgnoreMetadataType());
         mStatements.insert(mStatements.end(), stmt);
         *StatementHandlePtr = stmt;
     }

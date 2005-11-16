@@ -47,7 +47,7 @@ class ResultSet
 
     void processNextRow();
 
-    DataTranslator& getDataTranslator();
+    DataTranslatorPtr getDataTranslator();
 
     EzLoggerPtr getLogger();
 

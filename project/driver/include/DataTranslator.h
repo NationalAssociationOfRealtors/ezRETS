@@ -19,31 +19,34 @@
 
 #include "ezrets.h"
 #include "librets.h"
+#include "TranslationWorkers.h"
+#include <boost/shared_ptr.hpp>
 
 namespace odbcrets
 {
 
-class AbstractTranslator
-{
-  public:
-    virtual ~AbstractTranslator();
-    virtual SQLSMALLINT getOdbcType() = 0;
-    virtual std::string getOdbcTypeName() = 0;
-    virtual int getOdbcTypeLength() = 0;
-    virtual void translate(std::string data, SQLPOINTER target,
-                           SQLLEN targetLen, SQLLEN *resultSize) = 0;
-    static void setResultSize(SQLLEN *resultSize, SQLLEN value);
-};
-    
 class DataTranslator
 {
   public:
-    typedef boost::shared_ptr<AbstractTranslator> AbstractTranslatorPtr;
-    typedef std::map<SQLSMALLINT, AbstractTranslatorPtr> SQLTypeMap;
-    typedef
-        std::map<librets::MetadataTable::DataType, SQLSMALLINT> RetsTypeMap;
+    virtual ~DataTranslator();
 
-    DataTranslator();
+    virtual SQLSMALLINT getPreferedOdbcType(
+        librets::MetadataTable::DataType type) = 0;
+
+    virtual void translate(
+        std::string data, SQLSMALLINT type, SQLPOINTER target,
+        SQLLEN targetLen, SQLLEN *resultSize) = 0;
+
+    virtual std::string getOdbcTypeName(SQLSMALLINT type) = 0;
+    virtual int getOdbcTypeLength(SQLSMALLINT type) = 0;
+};
+
+typedef boost::shared_ptr<DataTranslator> DataTranslatorPtr;
+
+class NativeDataTranslator : public DataTranslator
+{
+  public:
+    NativeDataTranslator();
     SQLSMALLINT getPreferedOdbcType(librets::MetadataTable::DataType type);
 
     void translate(std::string data, SQLSMALLINT type, SQLPOINTER target,
@@ -53,119 +56,28 @@ class DataTranslator
     int getOdbcTypeLength(SQLSMALLINT type);
 
   private:
+    typedef std::map<SQLSMALLINT, TranslationWorkerPtr> SQLTypeMap;
+    typedef
+        std::map<librets::MetadataTable::DataType, SQLSMALLINT> RetsTypeMap;
+
     RetsTypeMap mRets2Odbc;
     SQLTypeMap mOdbc2Trans;
 };
 
-
-class BitDataTranslator : public AbstractTranslator
+class CharOnlyDataTranslator : public DataTranslator
 {
   public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
+    SQLSMALLINT getPreferedOdbcType(librets::MetadataTable::DataType type);
 
-class DateDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
+    void translate(
+        std::string data, SQLSMALLINT type, SQLPOINTER target,
+        SQLLEN targetLen, SQLLEN *resultSize);
 
-class TimestampDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
+    std::string getOdbcTypeName(SQLSMALLINT type);
+    int getOdbcTypeLength(SQLSMALLINT type);
 
-class TimeDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class TinyDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class SmallIntDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class IntDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class BigIntDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class DecimalDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class CharacterDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
-};
-
-class DoubleDataTranslator : public AbstractTranslator
-{
-  public:
-    SQLSMALLINT getOdbcType();
-    std::string getOdbcTypeName();
-    int getOdbcTypeLength();
-    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+  private:
+    CharacterTranslationWorker mTranslationWorker;
 };
         
 }
