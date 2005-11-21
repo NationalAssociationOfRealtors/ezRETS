@@ -50,7 +50,8 @@ const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
 {
     "Name", "Login URL", "Username", "Password", "Standard Names",
     "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
-    "Use Debug Logging", "Debug Log File", "Use Bulk Metadata"
+    "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
+    "Ignore Metadata Type"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)

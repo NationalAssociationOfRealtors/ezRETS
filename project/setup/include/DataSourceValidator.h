@@ -40,7 +40,8 @@ class DataSourceValidator : public wxValidator
         USE_DEBUG_LOGGING,
         DEBUG_LOG_FILE,
         RETS_VERSION,
-	USE_BULK_METADATA,
+        USE_BULK_METADATA,
+        IGNORE_METADATA_TYPE,
         NUM_FIELDS
     };
     

@@ -255,7 +255,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                    "  Everything will appear as a character"
                                    " field.");
 
-    topSize->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTop, 10));
+    topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTop, 10));
 
     panel->SetSizer(topSizer);
     return panel;
