@@ -17,24 +17,14 @@
 #ifndef DATA_TRANSLATION_EXCEPTION
 #define DATA_TRANSLATION_EXCEPTION
 
-#include <exception>
-#include <string>
+#include "EzRetsException.h"
 
 namespace odbcrets
 {
-class DataTranslationException : public std::exception
+class DataTranslationException : public EzRetsException
 {
   public:
     DataTranslationException(std::string message);
-
-    virtual ~DataTranslationException() throw();
-
-    virtual std::string GetMessage() const throw();
-
-    virtual const char* what() const throw();
-
-  private:
-    std::string mMessage;
 };
 
 }

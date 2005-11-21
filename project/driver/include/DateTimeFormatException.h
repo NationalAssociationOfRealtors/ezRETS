@@ -27,8 +27,6 @@ class DateTimeFormatException : public DataTranslationException
 {
   public:
     DateTimeFormatException(std::string message);
-
-    virtual ~DateTimeFormatException() throw();
 };
 
 }

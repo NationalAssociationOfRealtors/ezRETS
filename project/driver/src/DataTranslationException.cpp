@@ -20,20 +20,6 @@ using namespace odbcrets;
 using std::string;
 
 DataTranslationException::DataTranslationException(string message)
-    : mMessage(message)
+    : EzRetsException(message)
 {
-}
-
-DataTranslationException::~DataTranslationException() throw()
-{
-}
-
-string DataTranslationException::GetMessage() const throw()
-{
-    return mMessage;
-}
-
-const char * DataTranslationException::what() const throw()
-{
-    return mMessage.c_str();
 }

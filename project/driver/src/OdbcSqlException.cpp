@@ -20,23 +20,11 @@ using namespace odbcrets;
 using std::string;
 
 OdbcSqlException::OdbcSqlException(SQLRETURN returnCode, string message)
-    throw() : mReturnCode(returnCode), mMessage(message)
+    throw() : EzRetsException(message), mReturnCode(returnCode)
 {
-}
-
-OdbcSqlException::~OdbcSqlException() throw() { }
-
-const char * OdbcSqlException::what() const throw()
-{
-    return mMessage.c_str();
 }
 
 SQLRETURN OdbcSqlException::getReturnCode() const throw()
 {
     return mReturnCode;
-}
-
-string OdbcSqlException::getMessage() const throw()
-{
-    return mMessage;
 }

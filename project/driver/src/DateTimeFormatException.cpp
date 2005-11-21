@@ -23,7 +23,3 @@ DateTimeFormatException::DateTimeFormatException(string message)
     : DataTranslationException(message)
 {
 }
-
-DateTimeFormatException::~DateTimeFormatException() throw()
-{
-}

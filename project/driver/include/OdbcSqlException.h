@@ -18,24 +18,20 @@
 #define ODBCSQLEXCEPTION_H
 
 #include "ezrets.h"
-#include <exception>
-#include <string>
+#include "EzRetsException.h"
 
 namespace odbcrets
 {
 
-class OdbcSqlException : public std::exception
+class OdbcSqlException : public EzRetsException
 {
   public:
     OdbcSqlException(SQLRETURN returnCode, std::string message) throw ();
-    virtual ~OdbcSqlException() throw();
-    virtual const char * what() const throw();
+
     virtual SQLRETURN getReturnCode() const throw();
-    virtual std::string getMessage() const throw();
 
   private:
     SQLRETURN mReturnCode;
-    std::string mMessage;
 };
 
 }
