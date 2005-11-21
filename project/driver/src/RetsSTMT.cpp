@@ -583,11 +583,11 @@ SQLRETURN RetsSTMT::SQLExecute()
         addError("42000", e.what());
         result = SQL_ERROR;
     }
-    catch (OdbcSqlException & e)
+    catch (EzRetsException & e)
     {
         log->debug(str_stream() << "stmt.execute: " << e.what());
         addError("42000", e.what());
-        result = e.getReturnCode();
+        result = SQL_ERROR;
     }
 
     return result;
@@ -1713,10 +1713,8 @@ SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClass* clazz,
 
     if (clazz == NULL)
     {
-        // This should really throw a different exception, I'll fix
-        // that tomorrow.
-        throw OdbcSqlException(SQL_ERROR, "Miscellaneous Search Error: "
-                               "Invalid Resource or Class name");
+        throw EzRetsException("Miscellaneous Search Error: "
+                              "Invalid Resource or Class name");
     }
     
     mResultsPtr.reset(new ResultSet(this));
