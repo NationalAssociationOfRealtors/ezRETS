@@ -105,6 +105,7 @@ lr::RetsVersion odbcrets::StringToRetsVersion(string versionString,
 
 void DataSource::init()
 {
+    mStandardNames = false;
     mUseHttpGet = false;
     mUseHttpLogging = false;
     mUseDebugLogging = false;

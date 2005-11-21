@@ -119,6 +119,10 @@ class DataSourceValidator : public wxValidator
 
     bool UseBulkMetadataFromWindow(wxWindow * window);
 
+    bool IgnoreMetadataTypeToWindow(wxWindow * window);
+
+    bool IgnoreMetadataTypeFromWindow(wxWindow * window);
+
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);
 

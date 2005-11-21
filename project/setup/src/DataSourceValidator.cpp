@@ -43,6 +43,7 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&DebugLogFileToWindow,    &DebugLogFileFromWindow,    &True},
  {&RetsVersionToWindow,     &RetsVersionFromWindow,     &True},
  {&UseBulkMetadataToWindow, &UseBulkMetadataFromWindow, &True},
+ {&IgnoreMetadataTypeToWindow, &IgnoreMetadataTypeFromWindow, &True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -317,5 +318,19 @@ bool CLASS::UseBulkMetadataFromWindow(wxWindow * window)
 {
     wxCheckBox * checkBox = (wxCheckBox *) window;
     mDataSource->SetUseBulkMetadata(checkBox->GetValue());
+    return true;
+}
+
+bool CLASS::IgnoreMetadataTypeToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetIgnoreMetadataType());
+    return true;
+}
+
+bool CLASS::IgnoreMetadataTypeFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetIgnoreMetadataType(checkBox->GetValue());
     return true;
 }

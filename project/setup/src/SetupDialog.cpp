@@ -246,6 +246,17 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
 
     topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
+    wxCheckBox * ignoreMetadataType =
+        new wxCheckBox(panel, wxID_ANY, "Ignore Metadata Type",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::IGNORE_METADATA_TYPE));
+    ignoreMetadataType->SetToolTip("If checked, ezRETS will ignore the"
+                                   " data type listed in the RETS metadata."
+                                   "  Everything will appear as a character"
+                                   " field.");
+
+    topSize->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTop, 10));
+
     panel->SetSizer(topSizer);
     return panel;
 }
