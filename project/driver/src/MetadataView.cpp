@@ -14,7 +14,6 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#include "OdbcSqlException.h"
 #include "MetadataView.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>

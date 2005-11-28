@@ -1,0 +1,39 @@
+You can create a connection to an undefined data source by passing a
+connection string to the SQLDriverConnect function in C.  Most ODBC
+interfaces for other languages have similar functionality.  Look at
+your ODBC interface's documentation.
+
+For ezRETS typical connection string will look something like:
+
+LoginUrl=http://demo.crt.realtors.org:6103/rets/login;UID=Joe;PWD=Schmoe;StandardNames=true;UserAgent=optional/1.0;UseHttpGet=false;UseHttpLogging=true;HttpLogFile=/tmp/ezrets.http;UseDebugLogging=true;DebugLogFile=/tmp/ezrets;RetsVersion=1.5;UseBulkMetadata=false;IgnoreMetadataType=false;
+
+It should be not noted that in a connection string the following
+fields are optional:
+ * UserAgent
+ * UseHttpGet
+ * UseHttpLogging
+ * HttpLogFile
+ * UseDebugLogging
+ * DebugLogFile
+ * RetsVersion
+ * UseBulkMetadata
+ * IgnoreMetadataType
+
+Definitions of attributes:
+ * LoginURL - RETS Server's LoginURL
+ * UID - username
+ * PWD - password
+ * StandardNames - use RETS Standard Names when talking to the server
+ * UserAgent - Used if you need to override the default user agent passed
+               to the RETS server.
+ * UseHttpGet - Use HTTP GET instead of HTTP POST when doing a search
+ * UseHttpLogging - Use the HTTP logging facility
+ * HttpLogFile - The file to log the HTTP transactions to
+ * UseDebugLogging - Use ezRETS debug logging facility
+ * DebugLogFile - The file to log the ezRETS debugging to
+ * RetsVersion - Which RETS version to attempt to speak to the server
+                 1.0 and 1.5 are the only accepted values
+ * UseBulkMetadata - Grab all the metadata at once instead of incrementally
+ * IgnoreMetadataType - Don't trust the server's metadata on what it reports
+                        as the native datatype, just return everything as
+                        Character data.
