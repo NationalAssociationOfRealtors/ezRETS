@@ -1,3 +1,23 @@
+Changes since 1.0.0
+-------------------
+  * User-Agent is now "ezRETS/1.1.0 (librets/1.0.0)"
+
+ Enhancements
+  * IgnoreMetadataType mode added.  This mode allows one to tell ezRETS
+    to ignore the native type that the RETS server reports and just return
+    everything as a character field.
+  * Connections without a definded data source are now supported.  See
+    the DSNless_ConnectionString.txt file or the project wiki for more
+    details.
+
+ Bug fixes:
+  * Various linux build fixes related to linking
+  * NULL pointer exceptions that were a result of invalid table names
+    now return an error.
+  * SQLFetchSchool now pays attention to FetchOrientation and returns
+    an error if its not SQL_FETCH_NEXT.
+  * SQLFetchSchool does not throw a NULL pointer exception 
+
 Changes since 0.9.6
 -------------------
   * User-Agent is now "ezRETS/1.0.0 (librets/1.0.0)"
