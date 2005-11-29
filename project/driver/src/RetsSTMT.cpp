@@ -1777,7 +1777,7 @@ SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
     string select = join(*fields, ",");
     
     RetsSessionPtr session = mDbc->getRetsSession();
-    SearchRequestAPtr searchRequest = session->CreateSearchRequest(
+    SearchRequestPtr searchRequest = session->CreateSearchRequest(
         resource, clazz, criterion->ToDmqlString());
     searchRequest->SetSelect(select);
     searchRequest->SetCountType(
@@ -1789,7 +1789,7 @@ SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
                        searchRequest->GetQueryString());
 
     MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
-    SearchResultSetAPtr results = session->Search(searchRequest.get());
+    SearchResultSetPtr results = session->Search(searchRequest);
 
     StringVectorPtr columns = results->GetColumns();
     StringVector::iterator i;
