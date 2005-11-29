@@ -31,7 +31,7 @@ int main()
     {
         DBHelper db;
 
-        db.connect("interrealty");
+        db.connect("retstest");
 
         db.tables();
 
