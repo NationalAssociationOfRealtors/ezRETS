@@ -3,7 +3,7 @@ connection string to the SQLDriverConnect function in C.  Most ODBC
 interfaces for other languages have similar functionality.  Look at
 your ODBC interface's documentation.
 
-For ezRETS typical connection string will look something like:
+For ezRETS a typical connection string will look something like:
 
 LoginUrl=http://demo.crt.realtors.org:6103/rets/login;UID=Joe;PWD=Schmoe;StandardNames=true;UserAgent=optional/1.0;UseHttpGet=false;UseHttpLogging=true;HttpLogFile=/tmp/ezrets.http;UseDebugLogging=true;DebugLogFile=/tmp/ezrets;RetsVersion=1.5;UseBulkMetadata=false;IgnoreMetadataType=false;
 
@@ -35,5 +35,5 @@ Definitions of attributes:
                  1.0 and 1.5 are the only accepted values
  * UseBulkMetadata - Grab all the metadata at once instead of incrementally
  * IgnoreMetadataType - Don't trust the server's metadata on what it reports
-                        as the native datatype, just return everything as
+                        as the native data type, just return everything as
                         Character data.

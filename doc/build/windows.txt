@@ -20,7 +20,7 @@ wxWidgets
   You must build wxWidgets and not used a prepared binary, as we depend
   on it being built a certain way.
 
-  wxWidgets/build/msw/config.vc needs to be edited in the following mannor:
+  wxWidgets/build/msw/config.vc needs to be edited in the following manor:
   CPPFLAGS = /DISOLATION_AWARE_ENABLED
   RUNTIME_LIBS = static
 
@@ -32,7 +32,6 @@ Boost
 Boost has it's own build system, bjam.  Read it's instructions for
 installation.  You need to compile and install the filesystem and
 program options libraries.
-
 
 librets
 -------
@@ -48,10 +47,9 @@ Ruby
   Version: 1.8.2 or higher
   URL: http://rubyinstaller.rubyforge.org/wiki/wiki.pl
 
-  You will need ruby to turn the templated *.rc files into files that
+  You will need ruby to turn the template *.rc files into files that
   the compiler can use.  A basic install of Ruby and its standard
-  librarys should satisfy our needs.
-
+  libraries should satisfy our needs.
 
 Inno Setup
 ----------
@@ -67,7 +65,7 @@ Customizing config.vc
 
 Copy the <ezrets>/project/build/config.vc.dist file to
 <ezrets>/project/build/config.vc.  Edit the *_PATH directives to
-point to the ful paths of the dependent libraries.
+point to the full paths of the dependent libraries.
 
 
 Building ezrets
