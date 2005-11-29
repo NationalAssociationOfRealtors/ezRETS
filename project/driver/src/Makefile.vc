@@ -94,6 +94,7 @@ clean:
 	@-erase /s *.pch 2> NUL
 	@-erase /s *.pdb 2> NUL
 	@-erase /s *.res 2> NUL
+	@-erase /s *.rc 2> NUL
 
 .SUFFIXES: .c .cpp .obj .rc .res
 

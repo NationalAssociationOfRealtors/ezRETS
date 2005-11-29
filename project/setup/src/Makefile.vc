@@ -84,6 +84,7 @@ clean:
 	@-erase /s *.pch 2> NUL
 	@-erase /s *.pdb 2> NUL
 	@-erase /s *.res 2> NUL
+	@-erase /s ezretss.rc 2> NUL
 
 install:
 	copy release\ezretss.dll c:\windows\system32
