@@ -40,6 +40,7 @@ usage = OptionParser.new do |opts|
     drv.attrs["StandardNames"] = "true"
   end
   opts.on('-uARG', '--user ARG') { |a| drv.attrs["UID"] = a }
+  opts.on('-UARG', '--user_agent ARG') { |a| drv.attrs["UserAgent"] = a }
   opts.on('-h', '--help', 'Show this message') { puts opts ; exit }
   opts.parse!(ARGV)
 end
