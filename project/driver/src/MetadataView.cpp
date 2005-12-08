@@ -321,6 +321,11 @@ bool MetadataView::isLookupColumn(string tableName, string columnName)
 
     MetadataTable* table = getTable(clazz, columnName, mStandardNames);
 
+    if (table == NULL)
+    {
+        return false;
+    }
+
     return isLookupColumn(table);
 }
 
