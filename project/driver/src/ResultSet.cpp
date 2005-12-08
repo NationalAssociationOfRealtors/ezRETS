@@ -15,7 +15,6 @@
  * appear in supporting documentation.
  */
 #include "librets.h"
-#include "RetsSTMT.h"
 #include "ResultSet.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -25,9 +24,10 @@ using namespace librets;
 using std::string;
 using std::endl;
 
-ResultSet::ResultSet(STMT* stmt)
-    : mStmt(stmt), mGotFirst(false), mColumns(new ColumnVector()),
-      mReportedRowCount(-1)
+ResultSet::ResultSet(EzLoggerPtr logger, DataTranslatorPtr translator,
+                     AppParamDesc* apd)
+    : mLogger(logger), mTranslator(translator), mApdPtr(apd), mGotFirst(false),
+      mColumns(new ColumnVector()), mReportedRowCount(-1)
 {
     mResultIterator = mResults.begin();
 }
@@ -114,8 +114,7 @@ void ResultSet::addColumn(std::string name, MetadataTable* table)
 
 void ResultSet::processNextRow()
 {
-    EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In ResultSet::processNextRow()");
+    mLogger->debug("In ResultSet::processNextRow()");
 
     if (mGotFirst)
     {
@@ -132,8 +131,8 @@ void ResultSet::processNextRow()
     for (i = (*mResultIterator)->begin(); i != iEnd; i++, count++)
     {
         ColumnPtr& col = mColumns->at(count);
-        log->debug(str_stream() << count << " " << col->getName() << ": "
-                   << *i);
+        mLogger->debug(str_stream() << count << " " << col->getName() << ": "
+                       << *i);
 
         if (col->isBound())
         {
@@ -144,12 +143,12 @@ void ResultSet::processNextRow()
 
 DataTranslatorPtr ResultSet::getDataTranslator()
 {
-    return mStmt->getDataTranslator();
+    return mTranslator;
 }
 
 EzLoggerPtr ResultSet::getLogger()
 {
-    return mStmt->getLogger();
+    return mLogger;
 }
 
 void ResultSet::addRow(StringVectorPtr row)
@@ -167,15 +166,14 @@ void ResultSet::getData(
     SQLUSMALLINT colno, SQLSMALLINT TargetType, SQLPOINTER TargetValue,
     SQLLEN BufferLength, SQLLEN *StrLenorInd)
 {
-    EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In ResultSet::getData()");
+    mLogger->debug("In ResultSet::getData()");
 
     int rColno = colno - 1;
     ColumnPtr& column = mColumns->at(rColno);
 
     string& resCol = (*mResultIterator)->at(rColno);
-    log->debug(str_stream() << column->getName() << " " << TargetType
-	       << " " << resCol);
+    mLogger->debug(str_stream() << column->getName() << " " << TargetType
+                   << " " << resCol);
 
     column->setData(resCol, TargetType, TargetValue, BufferLength,
                     StrLenorInd);
@@ -186,7 +184,7 @@ void ResultSet::setReportedRowCount(int count)
     mReportedRowCount = count;
 }
 
-RetsSTMT* ResultSet::getStmt() const
+AppParamDesc* ResultSet::getAPD()
 {
-    return mStmt;
+    return mApdPtr;
 }

@@ -28,6 +28,7 @@
 #include "DateTimeFormatException.h"
 #include "EzRetsSqlMetadata.h"
 #include "OdbcSqlException.h"
+#include "Query.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -66,7 +67,8 @@ class TableNameSorter {
     bool mUseStandardNames;
 };
 
-RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata) : AbstractHandle()
+RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
+    : AbstractHandle(), mDbc(handle)
 {
     if (ignoreMetadata)
     {
@@ -76,9 +78,7 @@ RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata) : AbstractHandle()
     {
         mDataTranslator.reset(new NativeDataTranslator());
     }
-    mResultsPtr.reset(new ResultSet(this));
-    mDbc = handle;
-    mStatement = "";
+    mResultsPtr = newResultSet();
 }
 
 RetsSTMT::~RetsSTMT()
@@ -173,7 +173,8 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
 
         if (ColumnSize)
         {
-            *ColumnSize = columnSizeHelper(*DataType, table->GetMaximumLength());
+            *ColumnSize =
+                columnSizeHelper(*DataType, table->GetMaximumLength());
         }
 
         if (table->GetDataType() == MetadataTable::DECIMAL)
@@ -350,7 +351,9 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
     
     // Not sure what else we need to do here.  For now, we'll just copy
     // the statement into the STMT.
-    mStatement = SqlCharToString(StatementText, TextLength);
+    string statement = SqlCharToString(StatementText, TextLength);
+
+    mQuery.reset(new Query(this, statement));
 
     return SQL_SUCCESS;
 }
@@ -366,8 +369,6 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 
     try
     {
-
-        // Should put in an error return condition for HYC00
         if (CatalogName != NULL)
         {
             string catName = SqlCharToString(CatalogName, NameLength1);
@@ -418,10 +419,16 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         {
             myTables = getMetadataTableNames();
         }
+
+        // 2005/12/6
+        // pass TableType and MyTables to SQLTablesQuery?
+        //
+        // How much do we want to pass?  Or should I just do a "set
+        // args" above and pass it all on.
         
         // It looks like we're going to return something, so lets set up
         // the result set.
-        mResultsPtr.reset(new ResultSet(this));
+        mResultsPtr = newResultSet();
         mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
         mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
         mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -536,46 +543,17 @@ RetsDBC* RetsSTMT::getDbc()
 SQLRETURN RetsSTMT::SQLExecute()
 {
     mErrors.clear();
-    mResultsPtr.reset(new ResultSet(this));
+    mResultsPtr = newResultSet();
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = getLogger();
     log->debug("In RetsSTMT::SQLExecute()");
-    log->debug(str_stream() << "Trying statement: " << mStatement);
+    log->debug(str_stream() << "Trying statement: " << mQuery);
 
     try
     {
-        MetadataViewPtr metadataView = mDbc->getMetadataView();
-        SqlMetadataPtr sqlMetadata(new EzRetsSqlMetadata(metadataView));
-        SqlToDmqlCompiler compiler(sqlMetadata);
-        SqlToDmqlCompiler::QueryType queryType =
-            compiler.sqlToDmql(mStatement);
-        if (queryType == SqlToDmqlCompiler::DMQL_QUERY)
-        {
-            DmqlQueryPtr dmqlQuery = compiler.GetDmqlQuery();
-
-            string resource = dmqlQuery->GetResource();
-            string clazz = dmqlQuery->GetClass();
-            StringVectorPtr mFields = dmqlQuery->GetFields();
-            DmqlCriterionPtr criterion = dmqlQuery->GetCriterion();
-
-            if (criterion == NULL)
-            {
-                result = EmptyWhereResultSimulator(resource, clazz, mFields);
-            }
-            else
-            {
-                result = doRetsQuery(resource, clazz, mFields, criterion);
-            }
-        }
-        else
-        {
-            // Its a get object call, we'll figure out what to do there
-            // later.  For now, we don't support that beast!
-            log->debug("GetObject not supported yet");
-            addError("42000", "GetObject not supported yet");
-            result = SQL_ERROR;
-        }
+        result = mQuery->execute();
+        mResultsPtr = mQuery->getResultSet();
     }
     catch (RetsException & e)
     {
@@ -704,7 +682,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mResultsPtr.reset(new ResultSet(this));
+    mResultsPtr = newResultSet();
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR); // NOT NULL
@@ -910,7 +888,8 @@ SQLRETURN RetsSTMT::processColumn(MetadataResource* res, MetadataClass* clazz,
     // todo: should be put behind an if for char
     if (type == SQL_CHAR)
     {
-        results->push_back(b::lexical_cast<string>(rTable->GetMaximumLength()));
+        results->push_back(
+            b::lexical_cast<string>(rTable->GetMaximumLength()));
     }
     else
     {
@@ -982,8 +961,8 @@ StringVectorPtr RetsSTMT::getSQLGetTypeInfoRow(
     }
     else
     {
-        resultRow->push_back(
-            b::lexical_cast<string>(mDataTranslator->getOdbcTypeLength(dtype)));
+        resultRow->push_back(b::lexical_cast<string>(
+                                 mDataTranslator->getOdbcTypeLength(dtype)));
     }
     // LITERAL_PREFIX
     resultRow->push_back(litprefix);
@@ -1043,7 +1022,7 @@ SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 
     bool allTypes = DataType == SQL_ALL_TYPES;
 
-    mResultsPtr.reset(new ResultSet(this));
+    mResultsPtr = newResultSet();
     mResultsPtr->addColumn("TYPE_NAME", SQL_VARCHAR);
     mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT);
     mResultsPtr->addColumn("COLUMN_SIZE", SQL_INTEGER);
@@ -1176,7 +1155,7 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mResultsPtr.reset(new ResultSet(this));
+    mResultsPtr = newResultSet();
     mResultsPtr->addColumn("SCOPE", SQL_SMALLINT);
     mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
     mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT);
@@ -1679,7 +1658,7 @@ SQLRETURN RetsSTMT::SQLStatistics(
         }
     }
 
-    mResultsPtr.reset(new ResultSet(this));
+    mResultsPtr = newResultSet();
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -1694,127 +1673,6 @@ SQLRETURN RetsSTMT::SQLStatistics(
     mResultsPtr->addColumn("PAGES", SQL_INTEGER);
     mResultsPtr->addColumn("FILTER_CONDITION", SQL_VARCHAR);
 
-    return SQL_SUCCESS;
-}
-
-SQLRETURN RetsSTMT::EmptyWhereResultSimulator(string resource, string clazz,
-                                              StringVectorPtr fields)
-{
-    MetadataViewPtr metadata = mDbc->getMetadataView();
-    MetadataClass* classPtr = metadata->getClass(resource, clazz);
-    return EmptyWhereResultSimulator(classPtr, fields);
-}
-
-SQLRETURN RetsSTMT::EmptyWhereResultSimulator(MetadataClass* clazz,
-                                              StringVectorPtr fields)
-{
-    EzLoggerPtr log = getLogger();
-    log->debug("In EmptyWhereResultSimulator");
-
-    if (clazz == NULL)
-    {
-        throw EzRetsException("Miscellaneous Search Error: "
-                              "Invalid Resource or Class name");
-    }
-    
-    mResultsPtr.reset(new ResultSet(this));
-    MetadataViewPtr metadata = mDbc->getMetadataView();
-    MetadataTableList tables;
-    if (fields == NULL || fields->empty())
-    {
-        // SELECT *
-        tables = metadata->getTablesForClass(clazz);
-    }
-    else
-    {
-        // SELECT foo,bar
-        tables.clear();
-        StringVector::iterator si;
-        for (si = fields->begin(); si != fields->end(); si++)
-        {
-            MetadataTable* table = metadata->getTable(clazz, *si);
-            if (table == NULL)
-            {
-                addError("42000", "Column " + *si + " does not exist.");
-                return SQL_ERROR;
-            }
-            tables.push_back(table);
-        }
-    }
-            
-    MetadataTableList::iterator i;
-    for (i = tables.begin(); i != tables.end(); i++)
-    {
-        MetadataTable* table = *i;
-        int rdefault = table->GetDefault();
-        string name;
-        if (rdefault > 0)
-        {
-            if (mDbc->isUsingStandardNames())
-            {
-                name = table->GetStandardName();
-            }
-            else
-            {
-                name = table->GetSystemName();
-            }
-            if (!name.empty())
-            {
-                mResultsPtr->addColumn(table->GetStandardName(), table);
-            }
-        }
-    }
-
-    addError("01000", "RETS queries require a WHERE clause.  Returning "
-             "simulated empty result set.");
-    return SQL_SUCCESS_WITH_INFO;
-}
-
-SQLRETURN RetsSTMT::doRetsQuery(string resource, string clazz,
-                                StringVectorPtr fields,
-                                DmqlCriterionPtr criterion)
-{
-    string select = join(*fields, ",");
-    
-    RetsSessionPtr session = mDbc->getRetsSession();
-    SearchRequestAPtr searchRequest = session->CreateSearchRequest(
-        resource, clazz, criterion->ToDmqlString());
-    searchRequest->SetSelect(select);
-    searchRequest->SetCountType(
-        SearchRequest::RECORD_COUNT_AND_RESULTS);
-
-    searchRequest->SetStandardNames(mDbc->isUsingStandardNames());
-
-    getLogger()->debug(str_stream() << "Trying RETSQuery: " <<
-                       searchRequest->GetQueryString());
-
-    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
-    SearchResultSetAPtr results = session->Search(searchRequest.get());
-
-    StringVectorPtr columns = results->GetColumns();
-    StringVector::iterator i;
-    for (i = columns->begin(); i != columns->end(); i++)
-    {
-        MetadataTable* table = metadataViewPtr->getTable(resource, clazz, *i);
-        mResultsPtr->addColumn(*i, table);
-    }
-
-    ColumnVectorPtr colvec = mResultsPtr->getColumns();
-    while (results->HasNext())
-    {
-        StringVectorPtr v(new StringVector());
-        ColumnVector::iterator j;
-        for (j = colvec->begin(); j != colvec->end(); j++)
-        {
-            ColumnPtr column = *j;
-            string columnName = column->getName();
-            v->push_back(results->GetString(columnName));
-        }
-        mResultsPtr->addRow(v);
-    }
-
-    mResultsPtr->setReportedRowCount(results->GetCount());
-    
     return SQL_SUCCESS;
 }
 
@@ -1857,7 +1715,7 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 //         return SQL_ERROR;
     }
 
-    mResultsPtr.reset(new ResultSet(this));
+    mResultsPtr = newResultSet();
     mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -1986,4 +1844,25 @@ SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
     }
 
     return result;
+}
+
+ResultSetPtr RetsSTMT::newResultSet()
+{
+    ResultSetPtr result(new ResultSet(getLogger(), mDataTranslator, &apd));
+    return result;
+}
+
+MetadataViewPtr RetsSTMT::getMetadataView()
+{
+    return mDbc->getMetadataView();
+}
+
+bool RetsSTMT::isUsingStandardNames()
+{
+    return mDbc->isUsingStandardNames();
+}
+
+RetsSessionPtr RetsSTMT::getRetsSession()
+{
+    return mDbc->getRetsSession();
 }

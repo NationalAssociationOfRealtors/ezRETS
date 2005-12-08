@@ -36,6 +36,9 @@ class RetsSTMT : public AbstractHandle
     EzLoggerPtr getLogger();
 
     RetsDBC* getDbc();
+    MetadataViewPtr getMetadataView();
+    bool isUsingStandardNames();
+    librets::RetsSessionPtr getRetsSession();
 
     DataTranslatorPtr getDataTranslator();
 
@@ -120,6 +123,8 @@ class RetsSTMT : public AbstractHandle
         SQLPOINTER DiagInfoPtr, SQLSMALLINT BufferLength,
         SQLSMALLINT *StringLengthPtr);
 
+    ResultSetPtr newResultSet();
+
   private:
     typedef std::pair<std::string, std::string> TableNamePair;
     typedef std::vector<TableNamePair> TableNameVector;
@@ -137,23 +142,13 @@ class RetsSTMT : public AbstractHandle
                             librets::MetadataClass* clazz,
                             librets::MetadataTable* table);
 
-    SQLRETURN EmptyWhereResultSimulator(std::string resource,
-                                        std::string clazz,
-                                        librets::StringVectorPtr fields);
-    SQLRETURN EmptyWhereResultSimulator(librets::MetadataClass* clazz,
-                                        librets::StringVectorPtr fields);
-
-    SQLRETURN doRetsQuery(std::string resource, std::string clazz,
-                          librets::StringVectorPtr fields,
-                          librets::DmqlCriterionPtr criterion);
-
     librets::StringVectorPtr getSQLGetTypeInfoRow(
         SQLSMALLINT dtype, std::string perc_radix,
         std::string unsigned_att = "", std::string litprefix = "",
         std::string litsuffix = "");
     
     RetsDBC* mDbc;
-    std::string mStatement;
+    QueryPtr mQuery;
     ResultSetPtr mResultsPtr;
     odbcrets::DataTranslatorPtr mDataTranslator;
 };

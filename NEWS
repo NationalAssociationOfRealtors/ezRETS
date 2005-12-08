@@ -16,7 +16,8 @@ Changes since 1.0.0
     now return an error.
   * SQLFetchSchool now pays attention to FetchOrientation and returns
     an error if its not SQL_FETCH_NEXT.
-  * SQLFetchSchool does not throw a NULL pointer exception 
+  * SQLFetchSchool does not throw a NULL pointer exception when pointers
+    in the IRD aren't filled in
 
 Changes since 0.9.6
 -------------------

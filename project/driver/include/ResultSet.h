@@ -21,6 +21,7 @@
 #include <vector>
 #include "librets.h"
 #include "DataTranslator.h"
+#include "Descriptors.h"
 #include "Column.h"
 #include "ezretsfwd.h"
 
@@ -30,7 +31,8 @@ class ResultSet
 {
   public:
 
-    ResultSet(RetsSTMT* stmt);
+    ResultSet(EzLoggerPtr logger, DataTranslatorPtr translator,
+              AppParamDesc* apd);
     
     int rowCount();
     int columnCount();
@@ -50,6 +52,10 @@ class ResultSet
     DataTranslatorPtr getDataTranslator();
 
     EzLoggerPtr getLogger();
+    void setLogger(EzLoggerPtr logger);
+    void setTranslator(DataTranslatorPtr translator);
+    void setAPD(AppParamDesc* apd);
+    AppParamDesc* getAPD();
 
     void addColumn(std::string name, SQLSMALLINT DefaultType);
     void addColumn(std::string name, librets::MetadataTable* table);
@@ -65,12 +71,12 @@ class ResultSet
 
     void setReportedRowCount(int count);
 
-    RetsSTMT* getStmt() const;
-
   private:
     typedef std::vector<librets::StringVectorPtr> StringVectorVector;
 
-    RetsSTMT* mStmt;
+    EzLoggerPtr mLogger;
+    DataTranslatorPtr mTranslator;
+    AppParamDesc* mApdPtr;
     bool mGotFirst;
     ColumnVectorPtr mColumns;
     StringVectorVector mResults;

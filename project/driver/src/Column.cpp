@@ -101,7 +101,7 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     // Adjust to offset.  This is the first time we really use the pointers
     // and we must make the adjustment here.  The call to get the apd
     // is really ugly and a sign that we need to refactor.
-    AppParamDesc* apd = &(mParent->getStmt()->apd);
+    AppParamDesc* apd = mParent->getAPD();
     SQLPOINTER adjTargetValue = apd->adjustPointer(TargetValue);
     SQLINTEGER* adjStrLen = apd->adjustPointer(StrLenOrInd);
 
