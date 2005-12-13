@@ -145,6 +145,14 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
 
     SQLSMALLINT tmpDecimalDigits = 0;
     MetadataTable* table = column->getRetsMetadataTable();
+    if (table == NULL)
+    {
+        log->debug("Table return from column is null.");
+        addError("HY000", str_stream() << "Column " << column->getName()
+                 << " does not exist in RETS metadata.");
+        return SQL_ERROR;
+    }
+    
     MetadataViewPtr metadataView = mDbc->getMetadataView();
     // Rather than walking through the lookups, which is a pain, let's
     // make some reasonable assumptions.  The longest length for a

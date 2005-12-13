@@ -190,8 +190,9 @@ SQLRETURN Query::doRetsQuery(string resource, string clazz,
 
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 
-    mStmt->getLogger()->debug(str_stream() << "Trying RETSQuery: " <<
-                              searchRequest->GetQueryString());
+    EzLoggerPtr log = mStmt->getLogger();
+    log->debug(str_stream() << "Trying RETSQuery: " <<
+               searchRequest->GetQueryString());
 
     MetadataViewPtr metadataViewPtr = mStmt->getMetadataView();
     SearchResultSetAPtr results = session->Search(searchRequest.get());
@@ -201,6 +202,13 @@ SQLRETURN Query::doRetsQuery(string resource, string clazz,
     for (i = columns->begin(); i != columns->end(); i++)
     {
         MetadataTable* table = metadataViewPtr->getTable(resource, clazz, *i);
+        if (table == NULL)
+        {
+            log->debug(str_stream() << "No matching RETS metadata for " << *i);
+            // Should I throw an error here?  We may have already done a lot
+            // of processing?  Or should we ignore it until someone asks
+            // about it?  Or should as tell things to just be a string then?
+        }
         mResultSet->addColumn(*i, table);
     }
 
