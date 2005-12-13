@@ -55,6 +55,7 @@ X_OBJS = \
 	$(DIROBJ)\NotImplemented.obj\
 	$(DIROBJ)\OdbcEntry.obj\
 	$(DIROBJ)\OdbcSqlException.obj\
+	$(DIROBJ)\Query.obj\
 	$(DIROBJ)\RetsDBC.obj\
 	$(DIROBJ)\RetsENV.obj\
 	$(DIROBJ)\RetsSTMT.obj\
