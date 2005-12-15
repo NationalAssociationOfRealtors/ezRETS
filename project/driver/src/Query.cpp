@@ -197,9 +197,9 @@ SQLRETURN Query::doRetsQuery(string resource, string clazz,
     MetadataViewPtr metadataViewPtr = mStmt->getMetadataView();
     SearchResultSetAPtr results = session->Search(searchRequest.get());
 
-    StringVectorPtr columns = results->GetColumns();
+    StringVector columns = results->GetColumns();
     StringVector::iterator i;
-    for (i = columns->begin(); i != columns->end(); i++)
+    for (i = columns.begin(); i != columns.end(); i++)
     {
         MetadataTable* table = metadataViewPtr->getTable(resource, clazz, *i);
         if (table == NULL)
