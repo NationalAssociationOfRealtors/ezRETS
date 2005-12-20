@@ -22,7 +22,6 @@
 #include "str_stream.h"
 #include "librets.h"
 #include "EzRetsException.h"
-#include "EzRetsSqlMetadata.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -60,7 +59,7 @@ SQLRETURN Query::execute(std::string query)
     log->debug(str_stream() << "Trying statement: " << query);
 
     MetadataViewPtr metadataView = mStmt->getMetadataView();
-    SqlMetadataPtr sqlMetadata(new EzRetsSqlMetadata(metadataView));
+    SqlMetadataPtr sqlMetadata(metadataView);
     SqlToDmqlCompiler compiler(sqlMetadata);
     SqlToDmqlCompiler::QueryType queryType =
         compiler.sqlToDmql(query);

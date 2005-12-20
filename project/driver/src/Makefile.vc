@@ -48,7 +48,6 @@ X_OBJS = \
 	$(DIROBJ)\Error.obj\
 	$(DIROBJ)\EzLogger.obj\
 	$(DIROBJ)\EzRetsErrorHandler.obj\
-	$(DIROBJ)\EzRetsSqlMetadata.obj\
 	$(DIROBJ)\GetConnectAttrHelper.obj\
 	$(DIROBJ)\GetInfoHelper.obj\
 	$(DIROBJ)\MetadataView.obj\

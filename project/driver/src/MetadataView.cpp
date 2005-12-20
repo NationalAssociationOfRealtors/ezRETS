@@ -292,7 +292,7 @@ MetadataTableList MetadataView::getTablesForClass(MetadataClass* clazz)
     return mMetadataPtr->GetAllTables(clazz);
 }
 
-bool MetadataView::isLookupColumn(MetadataTable* table)
+bool MetadataView::IsLookupColumn(MetadataTable* table)
 {
     MetadataTable::Interpretation interp = table->GetInterpretation();
 
@@ -305,7 +305,7 @@ bool MetadataView::isLookupColumn(MetadataTable* table)
     return false;
 }
 
-bool MetadataView::isLookupColumn(string tableName, string columnName)
+bool MetadataView::IsLookupColumn(string tableName, string columnName)
 {
     ResourceClassPairPtr rcp = getResourceClassPairBySQLTable(tableName);
 
@@ -326,6 +326,6 @@ bool MetadataView::isLookupColumn(string tableName, string columnName)
         return false;
     }
 
-    return isLookupColumn(table);
+    return IsLookupColumn(table);
 }
 

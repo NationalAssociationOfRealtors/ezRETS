@@ -26,7 +26,6 @@
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "DateTimeFormatException.h"
-#include "EzRetsSqlMetadata.h"
 #include "OdbcSqlException.h"
 #include "Query.h"
 
@@ -159,7 +158,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     // lookup, according to the RETS 1.7 spec is 128 characters.  So, for a
     // lookup, we'll say 129 to add the null.  For Lookup Multi, let's
     // cap it at 20 values, for now.  20 * 128 + 1 = 2561.
-    if (metadataView->isLookupColumn(table))
+    if (metadataView->IsLookupColumn(table))
     {
         *DataType = SQL_CHAR;
         if (ColumnSize)

@@ -30,7 +30,7 @@ typedef boost::shared_ptr<ResourceClassPair> ResourceClassPairPtr;
 typedef std::vector<ResourceClassPairPtr> ResourceClassPairVector;
 typedef boost::shared_ptr<ResourceClassPairVector> ResourceClassPairVectorPtr;
 
-class MetadataView
+class MetadataView : public librets::SqlMetadata
 {
   public:
     MetadataView(bool standardNames, librets::RetsMetadata* metadata);
@@ -55,8 +55,8 @@ class MetadataView
     librets::MetadataResource* getResource(std::string resName);
     librets::MetadataResourceList getResources();
 
-    bool isLookupColumn(librets::MetadataTable* table);
-    bool isLookupColumn(std::string tableName, std::string columnName);
+    bool IsLookupColumn(librets::MetadataTable* table);
+    virtual bool IsLookupColumn(std::string tableName, std::string columnName);
 
   private:
     librets::MetadataTable* getTable(
