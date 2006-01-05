@@ -322,6 +322,11 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             SetStringLength(StringLength, SQL_IS_UINTEGER);
             break;
 
+        case SQL_ATTR_CONCURRENCY:
+            *(SQLUINTEGER*) Value = SQL_CONCUR_READ_ONLY;
+            SetStringLength(StringLength, SQL_IS_UINTEGER);
+            break;
+
         default:
             addError("HYC00", "Optional feature not implemented");
             result = SQL_ERROR;
@@ -1371,10 +1376,17 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAM_BIND_OFFSET_PTR:
             apd.mBindOffsetPtr = (SQLUINTEGER*) Value;
             break;
+
+        case SQL_ATTR_CONCURRENCY:
+            if ((SQLUINTEGER) Value != SQL_CONCUR_READ_ONLY)
+            {
+                addError("01S02", "Option Value Changed");
+                result = SQL_SUCCESS_WITH_INFO;
+            }
+            break;
             
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
-        case SQL_ATTR_CONCURRENCY:
         case SQL_ATTR_CURSOR_SCROLLABLE:
         case SQL_ATTR_CURSOR_SENSITIVITY:
         case SQL_ATTR_ENABLE_AUTO_IPD:
