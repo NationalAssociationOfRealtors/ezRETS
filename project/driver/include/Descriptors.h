@@ -35,23 +35,23 @@
  * SQL_ATTR_ROW_OPERATION_PTR 	SQL_DESC_ARRAY_STATUS_PTR 	ARD
  *
  * SQL_ATTR_ROW_STATUS_PTR 	SQL_DESC_ARRAY_STATUS_PTR 	IRD
- *SQL_ATTR_ROWS_FETCHED_PTR 	SQL_DESC_ROWS_PROCESSED_PTR 	IRD
+ * SQL_ATTR_ROWS_FETCHED_PTR 	SQL_DESC_ROWS_PROCESSED_PTR 	IRD
  */
 namespace odbcrets
 {
 
-class AppParamDesc // aka apd
+SQLPOINTER adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr);
+SQLINTEGER* adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr);
+
+struct AppParamDesc // aka apd
 {
   public:
-    AppParamDesc();
+    AppParamDesc() : mBindOffsetPtr(0), mArrayStatusPtr(0) { }
     
     SQLUINTEGER* mBindOffsetPtr;
     SQLUINTEGER mBindType;
     SQLUSMALLINT* mArrayStatusPtr;
     SQLUINTEGER mArraySize;
-
-    SQLPOINTER adjustPointer(SQLPOINTER ptr);
-    SQLINTEGER* adjustPointer(SQLINTEGER* ptr);
 };
 
 struct ImpParamDesc // aka ipd
@@ -63,8 +63,8 @@ struct ImpParamDesc // aka ipd
 
 struct AppRowDesc // aka ard
 {
-    AppRowDesc() : mArraySize(1), mBindOffsetPtr(0),
-                   mArrayStatusPtr(0) { }
+  public:
+    AppRowDesc() : mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0) { }
     
     SQLUINTEGER mArraySize;
     SQLUINTEGER* mBindOffsetPtr;

@@ -16,27 +16,22 @@
  */
 #include "Descriptors.h"
 
-using namespace odbcrets;
-
-AppParamDesc::AppParamDesc()
-    : mBindOffsetPtr(0), mArrayStatusPtr(0) { }
-
-SQLPOINTER AppParamDesc::adjustPointer(SQLPOINTER ptr)
+SQLPOINTER odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr)
 {
     SQLPOINTER result = ptr;
-    if (mBindOffsetPtr)
+    if (offset)
     {
-        result = (SQLPOINTER) ((char*) ptr + *mBindOffsetPtr);
+        result = (SQLPOINTER) ((char*) ptr + *offset);
     }
     return result;
 }
 
-SQLINTEGER* AppParamDesc::adjustPointer(SQLINTEGER* ptr)
+SQLINTEGER* odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr)
 {
     SQLINTEGER* result = ptr;
-    if (mBindOffsetPtr)
+    if (offset)
     {
-        result = (SQLINTEGER*) ((char*) ptr + *mBindOffsetPtr);
+        result = (SQLINTEGER*) ((char*) ptr + *offset);
     }
     return result;
 }

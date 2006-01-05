@@ -32,7 +32,7 @@ class ResultSet
   public:
 
     ResultSet(EzLoggerPtr logger, DataTranslatorPtr translator,
-              AppParamDesc* apd);
+              AppRowDesc* ard);
     
     int rowCount();
     int columnCount();
@@ -55,7 +55,7 @@ class ResultSet
     void setLogger(EzLoggerPtr logger);
     void setTranslator(DataTranslatorPtr translator);
     void setAPD(AppParamDesc* apd);
-    AppParamDesc* getAPD();
+    AppRowDesc* getARD();
 
     void addColumn(std::string name, SQLSMALLINT DefaultType);
     void addColumn(std::string name, librets::MetadataTable* table);
@@ -76,7 +76,7 @@ class ResultSet
 
     EzLoggerPtr mLogger;
     DataTranslatorPtr mTranslator;
-    AppParamDesc* mApdPtr;
+    AppRowDesc* mArdPtr;
     bool mGotFirst;
     ColumnVectorPtr mColumns;
     StringVectorVector mResults;

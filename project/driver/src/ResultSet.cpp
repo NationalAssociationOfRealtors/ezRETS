@@ -25,8 +25,8 @@ using std::string;
 using std::endl;
 
 ResultSet::ResultSet(EzLoggerPtr logger, DataTranslatorPtr translator,
-                     AppParamDesc* apd)
-    : mLogger(logger), mTranslator(translator), mApdPtr(apd), mGotFirst(false),
+                     AppRowDesc* ard)
+    : mLogger(logger), mTranslator(translator), mArdPtr(ard), mGotFirst(false),
       mColumns(new ColumnVector()), mReportedRowCount(-1)
 {
     mResultIterator = mResults.begin();
@@ -184,7 +184,7 @@ void ResultSet::setReportedRowCount(int count)
     mReportedRowCount = count;
 }
 
-AppParamDesc* ResultSet::getAPD()
+AppRowDesc* ResultSet::getARD()
 {
-    return mApdPtr;
+    return mArdPtr;
 }

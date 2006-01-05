@@ -1344,7 +1344,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
             
         case SQL_ATTR_ROW_BIND_OFFSET_PTR:
-            apd.mBindOffsetPtr = (SQLUINTEGER*) Value;
+            ard.mBindOffsetPtr = (SQLUINTEGER*) Value;
             break;
 
         case SQL_ATTR_ASYNC_ENABLE:
@@ -1367,7 +1367,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 	        result = SQL_SUCCESS_WITH_INFO;
 	    }
 	    break;
-            
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_CONCURRENCY:
@@ -1855,7 +1855,7 @@ SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
 
 ResultSetPtr RetsSTMT::newResultSet()
 {
-    ResultSetPtr result(new ResultSet(getLogger(), mDataTranslator, &apd));
+    ResultSetPtr result(new ResultSet(getLogger(), mDataTranslator, &ard));
     return result;
 }
 
