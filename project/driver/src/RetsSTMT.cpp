@@ -318,9 +318,9 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_RETRIEVE_DATA:
-  	    *(SQLUINTEGER*) Value = SQL_RD_ON; 
-	    SetStringLength(StringLength, SQL_IS_UINTEGER);
-	    break;
+            *(SQLUINTEGER*) Value = SQL_RD_ON; 
+            SetStringLength(StringLength, SQL_IS_UINTEGER);
+            break;
 
         default:
             addError("HYC00", "Optional feature not implemented");
@@ -1342,7 +1342,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAM_BIND_TYPE:
             apd.mBindType = (SQLUINTEGER) Value;
             break;
-            
+
         case SQL_ATTR_ROW_BIND_OFFSET_PTR:
             ard.mBindOffsetPtr = (SQLUINTEGER*) Value;
             break;
@@ -1361,13 +1361,17 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_RETRIEVE_DATA:
-	    if ((SQLUINTEGER) Value != SQL_RD_ON)
-	    {
-	        addError("01S02", "Option Value Changed");
-	        result = SQL_SUCCESS_WITH_INFO;
-	    }
-	    break;
+            if ((SQLUINTEGER) Value != SQL_RD_ON)
+            {
+                addError("01S02", "Option Value Changed");
+                result = SQL_SUCCESS_WITH_INFO;
+            }
+            break;
 
+        case SQL_ATTR_PARAM_BIND_OFFSET_PTR:
+            apd.mBindOffsetPtr = (SQLUINTEGER*) Value;
+            break;
+            
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_CONCURRENCY:
@@ -1381,7 +1385,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_MAX_ROWS:
         case SQL_ATTR_METADATA_ID:
         case SQL_ATTR_NOSCAN:
-        case SQL_ATTR_PARAM_BIND_OFFSET_PTR:
         case SQL_ATTR_PARAM_OPERATION_PTR:
         case SQL_ATTR_PARAM_STATUS_PTR:
         case SQL_ATTR_ROW_NUMBER:
