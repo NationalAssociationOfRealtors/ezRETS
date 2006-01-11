@@ -354,6 +354,8 @@ SQLRETURN RetsSTMT::SQLNumResultCols(SQLSMALLINT *ColumnCount)
 SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 {
     mErrors.clear();
+    EzLoggerPtr log = getLogger();
+    log->debug(str_stream() << "In SQLPrepare " << StatementText);
     
     if (StatementText == NULL)
     {
