@@ -21,7 +21,7 @@
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "librets.h"
-#include "EzRetsException.h"
+#include "SqlStateException.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -32,68 +32,11 @@ namespace lu = librets::util;
 
 Query::Query(RetsSTMT* stmt) : mStmt(stmt)
 {
-    init();
+    mResultSet = newResultSet();
 }
 
-Query::Query(RetsSTMT* stmt, std::string query) : mStmt(stmt), mQuery(query)
+Query::~Query()
 {
-    init();
-}
-
-void Query::init()
-{
-    mResultSet = mStmt->newResultSet();
-}
-
-void Query::setQuery(std::string query)
-{
-    mQuery = query;
-}
-
-SQLRETURN Query::execute(std::string query)
-{
-    SQLRETURN result = SQL_SUCCESS;
-
-    EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In Query::execute()");
-    log->debug(str_stream() << "Trying statement: " << query);
-
-    MetadataViewPtr metadataView = mStmt->getMetadataView();
-    SqlMetadataPtr sqlMetadata(metadataView);
-    SqlToDmqlCompiler compiler(sqlMetadata);
-    SqlToDmqlCompiler::QueryType queryType =
-        compiler.sqlToDmql(query);
-    if (queryType == SqlToDmqlCompiler::DMQL_QUERY)
-    {
-        DmqlQueryPtr dmqlQuery = compiler.GetDmqlQuery();
-
-        string resource = dmqlQuery->GetResource();
-        string clazz = dmqlQuery->GetClass();
-        StringVectorPtr mFields = dmqlQuery->GetFields();
-        DmqlCriterionPtr criterion = dmqlQuery->GetCriterion();
-
-        if (criterion == NULL)
-        {
-            result = EmptyWhereResultSimulator(resource, clazz, mFields);
-        }
-        else
-        {
-            result = doRetsQuery(resource, clazz, mFields, criterion);
-        }
-    }
-    else
-    {
-        // Its a get object call, we'll figure out what to do there
-        // later.  For now, we don't support that beast!
-        throw EzRetsException("GetObject not supported yet");
-    }
-
-    return result;
-}
-
-SQLRETURN Query::execute()
-{
-    return execute(mQuery);
 }
 
 ResultSetPtr Query::getResultSet()
@@ -101,24 +44,100 @@ ResultSetPtr Query::getResultSet()
     return mResultSet;
 }
 
-SQLRETURN Query::EmptyWhereResultSimulator(string resource, string clazz,
-                                           StringVectorPtr fields)
+ostream& Query::print(std::ostream& out) const
+{
+    out << "NoQuery";
+    return out;
+}
+
+ResultSetPtr Query::newResultSet()
+{
+    return mStmt->newResultSet();
+}
+
+
+
+
+SqlQuery::SqlQuery(RetsSTMT* stmt, std::string sql)
+    : Query(stmt), mSql(sql)
+{
+    EzLoggerPtr log = mStmt->getLogger();
+    log->debug(str_stream() << "SqlQuery::SqlQuery: " << mSql);
+
+    // Prepare most of the query
+    MetadataViewPtr metadataView = mStmt->getMetadataView();
+    SqlMetadataPtr sqlMetadata(metadataView);
+    SqlToDmqlCompiler compiler(sqlMetadata);
+
+    mQueryType = compiler.sqlToDmql(mSql);
+    if (mQueryType == SqlToDmqlCompiler::DMQL_QUERY)
+    {
+        mDmqlQuery = compiler.GetDmqlQuery();
+
+        //prepareResultSet(resource, clazz, mFields);
+    }
+    else
+    {
+        // Its a get object call, we'll figure out what to do there
+        // later.  For now, we don't support that beast!
+        throw SqlStateException("42000", "GetObject not supported yet");
+    }
+}
+
+SQLRETURN SqlQuery::execute()
+{
+    SQLRETURN result = SQL_SUCCESS;
+
+    EzLoggerPtr log = mStmt->getLogger();
+    log->debug("In Query::execute()");
+    log->debug(str_stream() << "Trying statement: " << mSql);
+
+    if (mQueryType == SqlToDmqlCompiler::DMQL_QUERY)
+    {
+        string resource = mDmqlQuery->GetResource();
+        string clazz = mDmqlQuery->GetClass();
+        StringVectorPtr mFields = mDmqlQuery->GetFields();
+        DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
+
+        if (criterion != NULL)
+        {
+            result = doRetsQuery(resource, clazz, mFields, criterion);
+        }
+        else
+        {
+            mStmt->addError("01000", "RETS queries require a WHERE clause.  "
+                            "Returning simulated empty result set.");
+            result = SQL_SUCCESS_WITH_INFO;
+        }
+    }
+    else
+    {
+        // Its a get object call, we'll figure out what to do there
+        // later.  For now, we don't support that beast!
+        throw SqlStateException("42000", "GetObject not supported yet");
+    }
+
+    return result;
+}
+
+void SqlQuery::prepareResultSet(string resource, string clazz,
+                                  StringVectorPtr fields)
 {
     MetadataViewPtr metadata = mStmt->getMetadataView();
     MetadataClass* classPtr = metadata->getClass(resource, clazz);
-    return EmptyWhereResultSimulator(classPtr, fields);
+    prepareResultSet(classPtr, fields);
 }
 
-SQLRETURN Query::EmptyWhereResultSimulator(MetadataClass* clazz,
-                                           StringVectorPtr fields)
+void SqlQuery::prepareResultSet(MetadataClass* clazz,
+                                  StringVectorPtr fields)
 {
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In EmptyWhereResultSimulator");
+    log->debug("In prepareResultSet");
 
     if (clazz == NULL)
     {
-        throw EzRetsException("Miscellaneous Search Error: "
-                              "Invalid Resource or Class name");
+        throw SqlStateException("42S02", "Miscellaneous Search Error: "
+                               "Invalid Resource or Class name");
     }
     
     //    clearResultSet();
@@ -139,8 +158,8 @@ SQLRETURN Query::EmptyWhereResultSimulator(MetadataClass* clazz,
             MetadataTable* table = metadata->getTable(clazz, *si);
             if (table == NULL)
             {
-                mStmt->addError("42000", "Column " + *si + " does not exist.");
-                return SQL_ERROR;
+                throw SqlStateException("42S22",
+                                       "Column " + *si + " does not exist.");
             }
             tables.push_back(table);
         }
@@ -168,13 +187,9 @@ SQLRETURN Query::EmptyWhereResultSimulator(MetadataClass* clazz,
             }
         }
     }
-
-    mStmt->addError("01000", "RETS queries require a WHERE clause.  Returning "
-                    "simulated empty result set.");
-    return SQL_SUCCESS_WITH_INFO;
 }
 
-SQLRETURN Query::doRetsQuery(string resource, string clazz,
+SQLRETURN SqlQuery::doRetsQuery(string resource, string clazz,
                              StringVectorPtr fields,
                              DmqlCriterionPtr criterion)
 {
@@ -230,9 +245,9 @@ SQLRETURN Query::doRetsQuery(string resource, string clazz,
     return SQL_SUCCESS;
 }
 
-ostream & Query::print(std::ostream & out) const
+ostream & SqlQuery::print(std::ostream & out) const
 {
-    out << mQuery;
+    out << mSql;
     return out;
 }
 
@@ -245,4 +260,3 @@ ostream & odbcrets::operator<<(ostream & out, Query * query)
 {
     return query->print(out);
 }
-

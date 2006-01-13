@@ -27,33 +27,44 @@ class Query
 {
   public:
     Query(RetsSTMT* stmt);
-    Query(RetsSTMT* stmt, std::string query);
+    virtual ~Query();
 
-    void setQuery(std::string query);
-
-    SQLRETURN execute(std::string query);
-    SQLRETURN execute();
+    virtual SQLRETURN execute() = 0;
     ResultSetPtr getResultSet();
 
-    std::ostream & print(std::ostream & out) const;
+    virtual std::ostream & print(std::ostream & out) const;
+
+  protected:
+    ResultSetPtr newResultSet();
+
+    RetsSTMT* mStmt;
+    ResultSetPtr mResultSet;
+};
+
+
+class SqlQuery : public Query
+{
+  public:
+    SqlQuery(RetsSTMT* stmt, std::string query);
+
+    virtual SQLRETURN execute();
+
+    virtual std::ostream & print(std::ostream & out) const;
 
   private:
-    void init();
-    
-    SQLRETURN EmptyWhereResultSimulator(std::string resource,
-                                        std::string clazz,
-                                        librets::StringVectorPtr fields);
+    void prepareResultSet(std::string resource, std::string clazz,
+                          librets::StringVectorPtr fields);
 
-    SQLRETURN EmptyWhereResultSimulator(librets::MetadataClass* clazz,
-                                        librets::StringVectorPtr fields);
+    void prepareResultSet(librets::MetadataClass* clazz,
+                          librets::StringVectorPtr fields);
     
     SQLRETURN doRetsQuery(std::string resource, std::string clazz,
                           librets::StringVectorPtr fields,
                           librets::DmqlCriterionPtr criterion);
     
-    RetsSTMT* mStmt;
-    std::string mQuery;
-    ResultSetPtr mResultSet;
+    std::string mSql;
+    librets::SqlToDmqlCompiler::QueryType mQueryType;
+    librets::DmqlQueryPtr mDmqlQuery;
 };
 
 std::ostream & operator<<(std::ostream & out, const Query & query);

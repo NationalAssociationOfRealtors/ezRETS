@@ -27,6 +27,7 @@
 #include "str_stream.h"
 #include "DateTimeFormatException.h"
 #include "OdbcSqlException.h"
+#include "SqlStateException.h"
 #include "Query.h"
 
 using namespace odbcrets;
@@ -356,20 +357,30 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
     mErrors.clear();
     EzLoggerPtr log = getLogger();
     log->debug(str_stream() << "In SQLPrepare " << StatementText);
-    
+
     if (StatementText == NULL)
     {
         addError("HY009", "Statement cannot be NULL");
         return SQL_ERROR;
     }
+
+    SQLRETURN result = SQL_SUCCESS;
     
     // Not sure what else we need to do here.  For now, we'll just copy
     // the statement into the STMT.
     string statement = SqlCharToString(StatementText, TextLength);
 
-    mQuery.reset(new Query(this, statement));
+    try
+    {
+        mQuery.reset(new SqlQuery(this, statement));
+    }
+    catch(SqlStateException& e)
+    {
+        addError(e.GetSqlState(), e.GetMessage());
+        result = SQL_ERROR;
+    }
 
-    return SQL_SUCCESS;
+    return result;
 }
 
 SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
@@ -568,6 +579,12 @@ SQLRETURN RetsSTMT::SQLExecute()
     {
         result = mQuery->execute();
         mResultsPtr = mQuery->getResultSet();
+    }
+    catch(SqlStateException & e)
+    {
+        log->debug(str_stream() << "stmt.execute: " << e.what());
+        addError(e.GetSqlState(), e.GetMessage());
+        result = SQL_ERROR;
     }
     catch (RetsException & e)
     {

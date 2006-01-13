@@ -68,6 +68,7 @@ X_OBJS = \
 	$(DIROBJ)\SQLFreeStmt.obj\
 	$(DIROBJ)\SQLGetDiagField.obj\
 	$(DIROBJ)\SQLGetDiagRec.obj\
+	$(DIROBJ)\SqlStateException.obj\
 	$(DIROBJ)\StmtEntries.obj\
 	$(DIROBJ)\StreamEzLogger.obj\
 	$(DIROBJ)\TranslationWorkers.obj\
