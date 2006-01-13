@@ -38,7 +38,9 @@ class DBHelper
                  std::string passwd = "");
     void disconnect();
 
+    void prepare(std::string query);
     std::string executeQuery(std::string query);
+    void execute();
     std::string describeColumn(int num);
 
     void bindColumn(int num, ResultColumnPtr col);

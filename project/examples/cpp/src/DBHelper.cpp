@@ -152,6 +152,21 @@ string DBHelper::executeQuery(string query)
     return out.str();
 }
 
+void DBHelper::prepare(string query)
+{
+    allocStmt();
+
+    SQLRETURN result =
+        SQLPrepare(mStmt, (SQLCHAR*) query.c_str(), query.size());
+    handleResult(SQL_HANDLE_STMT, mStmt, result);
+}
+
+void DBHelper::execute()
+{
+    SQLRETURN result = SQLExecute(mStmt);
+    handleResult(SQL_HANDLE_STMT, mStmt, result);
+}
+
 string DBHelper::describeColumn(int num)
 {
     char name[1024];
