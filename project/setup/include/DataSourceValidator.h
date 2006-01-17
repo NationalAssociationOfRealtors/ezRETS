@@ -42,6 +42,7 @@ class DataSourceValidator : public wxValidator
         RETS_VERSION,
         USE_BULK_METADATA,
         IGNORE_METADATA_TYPE,
+        USE_COMPACT_FORMAT,
         NUM_FIELDS
     };
     
@@ -123,6 +124,10 @@ class DataSourceValidator : public wxValidator
     bool IgnoreMetadataTypeToWindow(wxWindow * window);
 
     bool IgnoreMetadataTypeFromWindow(wxWindow * window);
+
+    bool UseCompactFormatToWindow(wxWindow * window);
+
+    bool UseCompactFormatFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);

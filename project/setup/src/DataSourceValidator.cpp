@@ -44,6 +44,7 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&RetsVersionToWindow,     &RetsVersionFromWindow,     &True},
  {&UseBulkMetadataToWindow, &UseBulkMetadataFromWindow, &True},
  {&IgnoreMetadataTypeToWindow, &IgnoreMetadataTypeFromWindow, &True},
+ {&UseCompactFormatToWindow, &UseCompactFormatFromWindow, &True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -333,5 +334,27 @@ bool CLASS::IgnoreMetadataTypeFromWindow(wxWindow * window)
 {
     wxCheckBox * checkBox = (wxCheckBox *) window;
     mDataSource->SetIgnoreMetadataType(checkBox->GetValue());
+    return true;
+}
+
+bool CLASS::UseCompactFormatToWindow(wxWindow * window)
+{
+    wxChoice * choice = (wxChoice *) window;
+    if (mDataSource->GetUseCompactFormat())
+    {
+        choice->SetStringSelection("COMPACT");
+    }
+    else
+    {
+        choice->SetStringSelection("COMPACT-DECODED");
+    }
+    return true;
+}
+
+bool CLASS::UseCompactFormatFromWindow(wxWindow * window)
+{
+    wxChoice * choice = (wxChoice *) window;
+    mDataSource->SetUseCompactFormat(
+        choice->GetStringSelection() == "COMPACT");
     return true;
 }

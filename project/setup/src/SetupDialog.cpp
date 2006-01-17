@@ -257,6 +257,16 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
 
     topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
 
+    wxArrayString retsFormatChoices;
+    retsFormatChoices.Add(wxT("COMPACT"));
+    retsFormatChoices.Add(wxT("COMPACT-DECODED"));
+    wxChoice * retsFormat =
+        new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                     retsFormatChoices, 0,
+                     validator.SetField(DSV::USE_COMPACT_FORMAT));
+    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
+    tvs->AddRow("RETS Format:", retsFormat, valueFlags);
+
     panel->SetSizer(topSizer);
     return panel;
 }
