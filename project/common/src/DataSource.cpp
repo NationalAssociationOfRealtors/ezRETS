@@ -47,6 +47,7 @@ const char * CLASS::INI_RETS_VERSION = "RetsVersion";
 const char * CLASS::INI_USE_BULK_METADATA = "UseBulkMetadata";
 const char * CLASS::INI_DRIVER = "DRIVER";
 const char * CLASS::INI_IGNORE_METADATA_TYPE = "IgnoreMetadataType";
+const char * CLASS::INI_USE_COMPACT_FORMAT = "UseCompactFormat";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -111,6 +112,7 @@ void DataSource::init()
     mUseDebugLogging = false;
     mUseBulkMetadata = false;
     mIgnoreMetadataType = false;
+    mUseCompactFormat = false;
 }
 
 DataSource::DataSource()
@@ -158,6 +160,7 @@ void DataSource::MergeFromIni()
         MergeFromProfileString(mRetsVersionString, INI_RETS_VERSION);
         mUseBulkMetadata = GetProfileBool(INI_USE_BULK_METADATA, false);
         mIgnoreMetadataType = GetProfileBool(INI_IGNORE_METADATA_TYPE, false);
+        mUseCompactFormat = GetProfileBool(INI_USE_COMPACT_FORMAT, false);
     }
 }
 
@@ -177,6 +180,7 @@ void DataSource::WriteToIni()
     WriteProfileString(INI_RETS_VERSION, mRetsVersionString);
     WriteProfileString(INI_USE_BULK_METADATA, mUseBulkMetadata);
     WriteProfileString(INI_IGNORE_METADATA_TYPE, mIgnoreMetadataType);
+    WriteProfileString(INI_USE_COMPACT_FORMAT, mUseCompactFormat);
 }
 
 void DataSource::CreateInIni(string driver)
@@ -419,6 +423,16 @@ void DataSource::SetIgnoreMetadataType(bool ignoreMetadataType)
     mIgnoreMetadataType = ignoreMetadataType;
 }
 
+bool DataSource::GetUseCompactFormat() const
+{
+    return mUseCompactFormat;
+}
+
+void DataSource::SetUseCompactFormat(bool useCompactFormat)
+{
+    mUseCompactFormat = useCompactFormat;
+}
+
 bool DataSource::IsComplete() const
 {
     return (!mLoginUrl.empty() && !mUsername.empty() && !mPassword.empty());
@@ -469,6 +483,11 @@ string DataSource::GetConnectionString() const
     {
         AppendToConnectionString(connectionString, INI_IGNORE_METADATA_TYPE,
                                  mIgnoreMetadataType);
+    }
+    if (mUseCompactFormat)
+    {
+        AppendToConnectionString(connectionString, INI_USE_COMPACT_FORMAT,
+                                 mUseCompactFormat);
     }
 
     return connectionString;
@@ -521,6 +540,7 @@ ostream & DataSource::Print(ostream & out) const
         << ", debug log file: " << mDebugLogFile
         << ", use bulk metadata: " << mUseBulkMetadata
         << ", ignore metadata type: " << mIgnoreMetadataType
+        << ", use COMPACT format: " << mUseCompactFormat
         << ", RETS version: " << mRetsVersionString;
 
     return out;
@@ -593,6 +613,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_IGNORE_METADATA_TYPE)
         {
             mIgnoreMetadataType = stringToBool(value);
+        }
+        else if (key == INI_USE_COMPACT_FORMAT)
+        {
+            mUseCompactFormat = stringToBool(value);
         }
         else if (key == INI_DRIVER)
         {

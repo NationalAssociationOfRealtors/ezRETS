@@ -67,8 +67,8 @@ SQLRETURN NullQuery::execute()
     return SQL_SUCCESS;
 }
 
-SqlQuery::SqlQuery(RetsSTMT* stmt, std::string sql)
-    : Query(stmt), mSql(sql)
+SqlQuery::SqlQuery(RetsSTMT* stmt, bool useCompactFormat, std::string sql)
+    : Query(stmt), mSql(sql), mUseCompactFormat(useCompactFormat)
 {
     EzLoggerPtr log = mStmt->getLogger();
     log->debug(str_stream() << "SqlQuery::SqlQuery: " << mSql);
@@ -208,6 +208,14 @@ SQLRETURN SqlQuery::doRetsQuery()
     searchRequest->SetSelect(select);
     searchRequest->SetCountType(
         SearchRequest::RECORD_COUNT_AND_RESULTS);
+    if (mUseCompactFormat)
+    {
+        searchRequest->SetFormatType(SearchRequest::COMPACT);
+    }
+    else
+    {
+        searchRequest->SetFormatType(SearchRequest::COMPACT_DECODED);
+    }
     
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 

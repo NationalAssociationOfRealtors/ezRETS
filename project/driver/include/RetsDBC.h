@@ -62,6 +62,7 @@ class RetsDBC : public AbstractHandle
     MetadataViewPtr getMetadataView();
 
     bool isUsingStandardNames();
+    bool isUsingCompactFormat();
     bool canBeFreed();
 
     virtual SQLRETURN diagConnectionName(

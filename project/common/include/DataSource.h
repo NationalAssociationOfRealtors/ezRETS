@@ -110,6 +110,10 @@ class DataSource
 
     void SetIgnoreMetadataType(bool ignoreMetadataType);
 
+    bool GetUseCompactFormat() const;
+
+    void SetUseCompactFormat(bool useCompactFormat);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -153,6 +157,7 @@ class DataSource
     static const char * INI_USE_BULK_METADATA;
     static const char * INI_DRIVER;
     static const char * INI_IGNORE_METADATA_TYPE;
+    static const char * INI_USE_COMPACT_FORMAT;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -202,6 +207,7 @@ class DataSource
     bool mUseBulkMetadata;
     std::string mDriver;
     bool mIgnoreMetadataType;
+    bool mUseCompactFormat;
 };
 
 extern const char * RETS_1_0_STRING;

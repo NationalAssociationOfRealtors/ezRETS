@@ -691,6 +691,11 @@ bool RetsDBC::isUsingStandardNames()
     return mDataSource.GetStandardNames();
 }
 
+bool RetsDBC::isUsingCompactFormat()
+{
+    return mDataSource.GetUseCompactFormat();
+}
+
 lr::RetsSessionPtr RetsDBC::getRetsSession()
 {
     return mRetsSessionPtr;

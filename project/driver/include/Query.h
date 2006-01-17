@@ -51,7 +51,7 @@ class NullQuery : public Query
 class SqlQuery : public Query
 {
   public:
-    SqlQuery(RetsSTMT* stmt, std::string query);
+    SqlQuery(RetsSTMT* stmt, bool useCompactFormat, std::string query);
 
     virtual SQLRETURN execute();
 
@@ -63,6 +63,7 @@ class SqlQuery : public Query
     SQLRETURN doRetsQuery();
     
     std::string mSql;
+    bool mUseCompactFormat;
     librets::SqlToDmqlCompiler::QueryType mQueryType;
     librets::DmqlQueryPtr mDmqlQuery;
 };

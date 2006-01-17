@@ -380,7 +380,8 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 
     try
     {
-        mQuery.reset(new SqlQuery(this, statement));
+        mQuery.reset(
+            new SqlQuery(this, mDbc->isUsingCompactFormat(), statement));
     }
     catch(SqlStateException& e)
     {
