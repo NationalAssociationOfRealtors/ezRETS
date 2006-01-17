@@ -52,11 +52,11 @@ ostream& Query::print(std::ostream& out) const
 
 ResultSetPtr Query::newResultSet()
 {
-    return mStmt->newResultSet();
+    ResultSetPtr resultSet(
+        new ResultSet(mStmt->getLogger(), mStmt->getDataTranslator(),
+                      mStmt->getArd()));
+    return resultSet;
 }
-
-
-
 
 SqlQuery::SqlQuery(RetsSTMT* stmt, std::string sql)
     : Query(stmt), mSql(sql)
@@ -74,7 +74,7 @@ SqlQuery::SqlQuery(RetsSTMT* stmt, std::string sql)
     {
         mDmqlQuery = compiler.GetDmqlQuery();
 
-        //prepareResultSet(resource, clazz, mFields);
+        prepareResultSet();
     }
     else
     {
@@ -120,29 +120,26 @@ SQLRETURN SqlQuery::execute()
     return result;
 }
 
-void SqlQuery::prepareResultSet(string resource, string clazz,
-                                  StringVectorPtr fields)
-{
-    MetadataViewPtr metadata = mStmt->getMetadataView();
-    MetadataClass* classPtr = metadata->getClass(resource, clazz);
-    prepareResultSet(classPtr, fields);
-}
-
-void SqlQuery::prepareResultSet(MetadataClass* clazz,
-                                  StringVectorPtr fields)
+void SqlQuery::prepareResultSet()
 {
     EzLoggerPtr log = mStmt->getLogger();
     log->debug("In prepareResultSet");
 
+    MetadataViewPtr metadata = mStmt->getMetadataView();
+    
+    MetadataClass* clazz =
+        metadata->getClass(mDmqlQuery->GetResource(), mDmqlQuery->GetClass());
+
     if (clazz == NULL)
     {
         throw SqlStateException("42S02", "Miscellaneous Search Error: "
-                               "Invalid Resource or Class name");
+                                "Invalid Resource or Class name");
     }
     
     //    clearResultSet();
-    MetadataViewPtr metadata = mStmt->getMetadataView();
     MetadataTableList tables;
+
+    StringVectorPtr fields = mDmqlQuery->GetFields();
     if (fields == NULL || fields->empty())
     {
         // SELECT *
@@ -159,7 +156,7 @@ void SqlQuery::prepareResultSet(MetadataClass* clazz,
             if (table == NULL)
             {
                 throw SqlStateException("42S22",
-                                       "Column " + *si + " does not exist.");
+                                        "Column " + *si + " does not exist.");
             }
             tables.push_back(table);
         }
@@ -183,7 +180,7 @@ void SqlQuery::prepareResultSet(MetadataClass* clazz,
             }
             if (!name.empty())
             {
-                mResultSet->addColumn(table->GetStandardName(), table);
+                mResultSet->addColumn(name, table);
             }
         }
     }

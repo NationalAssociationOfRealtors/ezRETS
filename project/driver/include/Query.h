@@ -52,12 +52,8 @@ class SqlQuery : public Query
     virtual std::ostream & print(std::ostream & out) const;
 
   private:
-    void prepareResultSet(std::string resource, std::string clazz,
-                          librets::StringVectorPtr fields);
-
-    void prepareResultSet(librets::MetadataClass* clazz,
-                          librets::StringVectorPtr fields);
-    
+    void prepareResultSet();
+                          
     SQLRETURN doRetsQuery(std::string resource, std::string clazz,
                           librets::StringVectorPtr fields,
                           librets::DmqlCriterionPtr criterion);

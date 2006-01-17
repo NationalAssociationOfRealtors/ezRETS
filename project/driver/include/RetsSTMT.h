@@ -100,15 +100,6 @@ class RetsSTMT : public AbstractHandle
     SQLRETURN SQLFetchScroll(
         SQLSMALLINT FetchOrientation, SQLROWOFFSET FetchOffset);
 
-    // Automatically defined descriptors (needed at first to make MS
-    // ODBC DM work without crashing,) just return the pointers,
-    // when it internally calls SQLGetStmtAttr at the time of stmt
-    // allocation.
-    AppParamDesc apd;
-    ImpParamDesc ipd;
-    AppRowDesc ard;
-    ImpRowDesc ird;
-
     virtual SQLRETURN diagCursorRowCount(SQLPOINTER DiagInfoPtr);
     virtual SQLRETURN diagDynamicFunction(
         SQLPOINTER DiagInfoPtr, SQLSMALLINT BufferLength,
@@ -125,7 +116,18 @@ class RetsSTMT : public AbstractHandle
 
     ResultSetPtr newResultSet();
 
+    AppRowDesc* getArd();
+
   private:
+    // Automatically defined descriptors (needed at first to make MS
+    // ODBC DM work without crashing,) just return the pointers,
+    // when it internally calls SQLGetStmtAttr at the time of stmt
+    // allocation.
+    AppParamDesc apd;
+    ImpParamDesc ipd;
+    AppRowDesc ard;
+    ImpRowDesc ird;
+
     typedef std::pair<std::string, std::string> TableNamePair;
     typedef std::vector<TableNamePair> TableNameVector;
     typedef boost::shared_ptr<TableNameVector> TableNameVectorPtr;

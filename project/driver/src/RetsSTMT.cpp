@@ -1907,3 +1907,8 @@ RetsSessionPtr RetsSTMT::getRetsSession()
 {
     return mDbc->getRetsSession();
 }
+
+AppRowDesc* RetsSTMT::getArd()
+{
+    return &ard;
+}
