@@ -54,9 +54,7 @@ class SqlQuery : public Query
   private:
     void prepareResultSet();
                           
-    SQLRETURN doRetsQuery(std::string resource, std::string clazz,
-                          librets::StringVectorPtr fields,
-                          librets::DmqlCriterionPtr criterion);
+    SQLRETURN doRetsQuery();
     
     std::string mSql;
     librets::SqlToDmqlCompiler::QueryType mQueryType;

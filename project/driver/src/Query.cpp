@@ -94,14 +94,9 @@ SQLRETURN SqlQuery::execute()
 
     if (mQueryType == SqlToDmqlCompiler::DMQL_QUERY)
     {
-        string resource = mDmqlQuery->GetResource();
-        string clazz = mDmqlQuery->GetClass();
-        StringVectorPtr mFields = mDmqlQuery->GetFields();
-        DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
-
-        if (criterion != NULL)
+        if (mDmqlQuery->GetCriterion() != NULL)
         {
-            result = doRetsQuery(resource, clazz, mFields, criterion);
+            result = doRetsQuery();
         }
         else
         {
@@ -136,18 +131,19 @@ void SqlQuery::prepareResultSet()
                                 "Invalid Resource or Class name");
     }
     
-    //    clearResultSet();
     MetadataTableList tables;
 
     StringVectorPtr fields = mDmqlQuery->GetFields();
     if (fields == NULL || fields->empty())
     {
         // SELECT *
+        log->debug("Looks like we're doing a SELECT *");
         tables = metadata->getTablesForClass(clazz);
     }
     else
     {
         // SELECT foo,bar
+        log->debug("We have specifically selected fields.");
         tables.clear();
         StringVector::iterator si;
         for (si = fields->begin(); si != fields->end(); si++)
@@ -186,47 +182,39 @@ void SqlQuery::prepareResultSet()
     }
 }
 
-SQLRETURN SqlQuery::doRetsQuery(string resource, string clazz,
-                             StringVectorPtr fields,
-                             DmqlCriterionPtr criterion)
+SQLRETURN SqlQuery::doRetsQuery()
 {
+    // Get the info to build the query
+    string resource = mDmqlQuery->GetResource();
+    string clazz = mDmqlQuery->GetClass();
+    StringVectorPtr fields = mDmqlQuery->GetFields();
+    DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
     string select = lu::join(*fields, ",");
-    
+
+    // Get the session, create the request, and do the search
     RetsSessionPtr session = mStmt->getRetsSession();
+    
     SearchRequestAPtr searchRequest = session->CreateSearchRequest(
         resource, clazz, criterion->ToDmqlString());
     searchRequest->SetSelect(select);
     searchRequest->SetCountType(
         SearchRequest::RECORD_COUNT_AND_RESULTS);
-
+    
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 
     EzLoggerPtr log = mStmt->getLogger();
     log->debug(str_stream() << "Trying RETSQuery: " <<
                searchRequest->GetQueryString());
 
-    MetadataViewPtr metadataViewPtr = mStmt->getMetadataView();
     SearchResultSetAPtr results = session->Search(searchRequest.get());
 
-    StringVector columns = results->GetColumns();
-    StringVector::iterator i;
-    for (i = columns.begin(); i != columns.end(); i++)
-    {
-        MetadataTable* table = metadataViewPtr->getTable(resource, clazz, *i);
-        if (table == NULL)
-        {
-            log->debug(str_stream() << "No matching RETS metadata for " << *i);
-            // Should I throw an error here?  We may have already done a lot
-            // of processing?  Or should we ignore it until someone asks
-            // about it?  Or should as tell things to just be a string then?
-        }
-        mResultSet->addColumn(*i, table);
-    }
-
+    // Process the results: while we still have results, walk our already
+    // set up columns and filling them in.
     ColumnVectorPtr colvec = mResultSet->getColumns();
     while (results->HasNext())
     {
         StringVectorPtr v(new StringVector());
+
         ColumnVector::iterator j;
         for (j = colvec->begin(); j != colvec->end(); j++)
         {
@@ -238,7 +226,7 @@ SQLRETURN SqlQuery::doRetsQuery(string resource, string clazz,
     }
 
     mResultSet->setReportedRowCount(results->GetCount());
-    
+
     return SQL_SUCCESS;
 }
 
