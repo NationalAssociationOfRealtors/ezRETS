@@ -58,6 +58,15 @@ ResultSetPtr Query::newResultSet()
     return resultSet;
 }
 
+NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
+{
+}
+
+SQLRETURN NullQuery::execute()
+{
+    return SQL_SUCCESS;
+}
+
 SqlQuery::SqlQuery(RetsSTMT* stmt, std::string sql)
     : Query(stmt), mSql(sql)
 {

@@ -41,6 +41,12 @@ class Query
     ResultSetPtr mResultSet;
 };
 
+class NullQuery : public Query
+{
+  public:
+    NullQuery(RetsSTMT* stmt);
+    virtual SQLRETURN execute();
+};
 
 class SqlQuery : public Query
 {

@@ -114,8 +114,6 @@ class RetsSTMT : public AbstractHandle
         SQLPOINTER DiagInfoPtr, SQLSMALLINT BufferLength,
         SQLSMALLINT *StringLengthPtr);
 
-    ResultSetPtr newResultSet();
-
     AppRowDesc* getArd();
 
   private:
@@ -140,7 +138,8 @@ class RetsSTMT : public AbstractHandle
         bool standardNames, librets::MetadataResource* res,
         librets::MetadataClass* clazz);
 
-    SQLRETURN processColumn(librets::MetadataResource* res,
+    SQLRETURN processColumn(ResultSetPtr resultSet,
+                            librets::MetadataResource* res,
                             librets::MetadataClass* clazz,
                             librets::MetadataTable* table);
 
@@ -151,7 +150,6 @@ class RetsSTMT : public AbstractHandle
     
     RetsDBC* mDbc;
     QueryPtr mQuery;
-    ResultSetPtr mResultsPtr;
     odbcrets::DataTranslatorPtr mDataTranslator;
 };
 

@@ -78,7 +78,7 @@ RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
     {
         mDataTranslator.reset(new NativeDataTranslator());
     }
-    mResultsPtr = newResultSet();
+    mQuery.reset(new NullQuery(this));
 }
 
 RetsSTMT::~RetsSTMT()
@@ -99,7 +99,9 @@ SQLRETURN RetsSTMT::SQLBindCol(SQLUSMALLINT ColumnNumber,
     getLogger()->debug(str_stream() << "In SQLBindCol " << ColumnNumber
                        << " " << TargetType << " " << BufferLength);
 
-    if (ColumnNumber < 1 && ColumnNumber > mResultsPtr->columnCount())
+    ResultSetPtr resultSet = mQuery->getResultSet();
+
+    if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
         addError("07009", "The value specified for the arguement ColumnNumber exceeded the maximum number of columns in the result set.");
         return SQL_ERROR;
@@ -111,8 +113,8 @@ SQLRETURN RetsSTMT::SQLBindCol(SQLUSMALLINT ColumnNumber,
         return SQL_ERROR;
     }
 
-    mResultsPtr->bindColumn(ColumnNumber, TargetType, TargetValue,
-                            BufferLength, StrLenorInd);
+    resultSet->bindColumn(ColumnNumber, TargetType, TargetValue,
+                          BufferLength, StrLenorInd);
 
     return SQL_SUCCESS;
 }
@@ -128,13 +130,15 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     EzLoggerPtr log = getLogger();
     log->debug("In SQLDescribeCol");
 
-    if (ColumnNumber < 1 && ColumnNumber > mResultsPtr->columnCount())
+    ResultSetPtr resultSet = mQuery->getResultSet();
+
+    if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
         addError("07009", "Bad Column Number");
         return SQL_ERROR;
     }
 
-    ColumnPtr column = mResultsPtr->getColumn(ColumnNumber);
+    ColumnPtr column = resultSet->getColumn(ColumnNumber);
     string columnName = column->getName();
     size_t size =
         copyString(columnName, (char *) ColumnName, BufferLength);
@@ -231,13 +235,15 @@ SQLRETURN RetsSTMT::SQLFetch()
     EzLoggerPtr log = getLogger();
     log->debug("In SQLFetch()");
 
-    if (mResultsPtr->isEmpty())
+    ResultSetPtr resultSet = mQuery->getResultSet();
+
+    if (resultSet->isEmpty())
     {
         log->debug("results.isEmpty()");
         return SQL_NO_DATA;
     }
 
-    if (!mResultsPtr->hasNext())
+    if (!resultSet->hasNext())
     {
         log->debug("no Next Result");
         return SQL_NO_DATA;
@@ -246,7 +252,7 @@ SQLRETURN RetsSTMT::SQLFetch()
     SQLRETURN retCode = SQL_SUCCESS;
     try
     {
-        mResultsPtr->processNextRow();
+        resultSet->processNextRow();
     }
     catch(DateTimeFormatException& e)
     {
@@ -344,7 +350,9 @@ SQLRETURN RetsSTMT::SQLNumResultCols(SQLSMALLINT *ColumnCount)
     EzLoggerPtr log = getLogger();
     log->debug("In SQLNumResultCols");
 
-    *ColumnCount = b::numeric_cast<SQLSMALLINT>(mResultsPtr->columnCount());
+    ResultSetPtr resultSet = mQuery->getResultSet();
+
+    *ColumnCount = b::numeric_cast<SQLSMALLINT>(resultSet->columnCount());
 
     log->debug(b::lexical_cast<string>(*ColumnCount));
 
@@ -453,12 +461,13 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         
         // It looks like we're going to return something, so lets set up
         // the result set.
-        mResultsPtr = newResultSet();
-        mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
-        mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-        mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
-        mResultsPtr->addColumn("TABLE_TYPE", SQL_VARCHAR);
-        mResultsPtr->addColumn("REMARKS", SQL_VARCHAR);
+        mQuery.reset(new NullQuery(this));
+        ResultSetPtr resultSet = mQuery->getResultSet();
+        resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
+        resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
+        resultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
+        resultSet->addColumn("TABLE_TYPE", SQL_VARCHAR);
+        resultSet->addColumn("REMARKS", SQL_VARCHAR);
 
         if (TableType != NULL)
         {
@@ -476,7 +485,7 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
                 results->push_back("TABLE");
                 results->push_back("");
 
-                mResultsPtr->addRow(results);
+                resultSet->addRow(results);
 
                 return SQL_SUCCESS;
             }
@@ -498,7 +507,7 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
             results->push_back("TABLE");
             results->push_back(i->second);
 
-            mResultsPtr->addRow(results);
+            resultSet->addRow(results);
         }
     }
     catch(std::exception& e)
@@ -568,7 +577,6 @@ RetsDBC* RetsSTMT::getDbc()
 SQLRETURN RetsSTMT::SQLExecute()
 {
     mErrors.clear();
-    mResultsPtr = newResultSet();
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = getLogger();
@@ -578,7 +586,6 @@ SQLRETURN RetsSTMT::SQLExecute()
     try
     {
         result = mQuery->execute();
-        mResultsPtr = mQuery->getResultSet();
     }
     catch(SqlStateException & e)
     {
@@ -634,7 +641,8 @@ SQLULEN RetsSTMT::columnSizeHelper(SQLSMALLINT type, SQLULEN length)
 
 SQLRETURN RetsSTMT::diagCursorRowCount(SQLPOINTER DiagInfoPtr)
 {
-    *(SQLINTEGER*) DiagInfoPtr = mResultsPtr->rowCount();
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    *(SQLINTEGER*) DiagInfoPtr = resultSet->rowCount();
 
     return SQL_SUCCESS;
 }
@@ -713,25 +721,26 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mResultsPtr = newResultSet();
-    mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
-    mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-    mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR); // NOT NULL
-    mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR); // NOT NULL
-    mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT); // smallint not null
-    mResultsPtr->addColumn("TYPE_NAME", SQL_VARCHAR); // varchar not null
-    mResultsPtr->addColumn("COLUMN_SIZE", SQL_INTEGER); // int
-    mResultsPtr->addColumn("BUFFER_LENGTH", SQL_INTEGER);
-    mResultsPtr->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
-    mResultsPtr->addColumn("NUM_PREC_RADIX", SQL_SMALLINT);
-    mResultsPtr->addColumn("NULLABLE", SQL_SMALLINT); // not null
-    mResultsPtr->addColumn("REMARKS", SQL_VARCHAR);
-    mResultsPtr->addColumn("COLUMN_DEF", SQL_VARCHAR);
-    mResultsPtr->addColumn("SQL_DATA_TYPE", SQL_SMALLINT); // not null
-    mResultsPtr->addColumn("SQL_DATETIME_SUB", SQL_SMALLINT);
-    mResultsPtr->addColumn("CHAR_OCTET_LENGTH", SQL_INTEGER);
-    mResultsPtr->addColumn("ORDINAL_POSITION", SQL_INTEGER); // not null
-    mResultsPtr->addColumn("IS_NULLABLE", SQL_VARCHAR);
+    mQuery.reset(new NullQuery(this));
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
+    resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
+    resultSet->addColumn("TABLE_NAME", SQL_VARCHAR); // NOT NULL
+    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR); // NOT NULL
+    resultSet->addColumn("DATA_TYPE", SQL_SMALLINT); // smallint not null
+    resultSet->addColumn("TYPE_NAME", SQL_VARCHAR); // varchar not null
+    resultSet->addColumn("COLUMN_SIZE", SQL_INTEGER); // int
+    resultSet->addColumn("BUFFER_LENGTH", SQL_INTEGER);
+    resultSet->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
+    resultSet->addColumn("NUM_PREC_RADIX", SQL_SMALLINT);
+    resultSet->addColumn("NULLABLE", SQL_SMALLINT); // not null
+    resultSet->addColumn("REMARKS", SQL_VARCHAR);
+    resultSet->addColumn("COLUMN_DEF", SQL_VARCHAR);
+    resultSet->addColumn("SQL_DATA_TYPE", SQL_SMALLINT); // not null
+    resultSet->addColumn("SQL_DATETIME_SUB", SQL_SMALLINT);
+    resultSet->addColumn("CHAR_OCTET_LENGTH", SQL_INTEGER);
+    resultSet->addColumn("ORDINAL_POSITION", SQL_INTEGER); // not null
+    resultSet->addColumn("IS_NULLABLE", SQL_VARCHAR);
 
     MetadataResource* res = NULL;
     MetadataClass* clazz = NULL;
@@ -778,7 +787,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
             rTable =
                 metadataViewPtr->getTable(resName, className, retsTableName);
 
-            result = processColumn(res, clazz, rTable);
+            result = processColumn(resultSet, res, clazz, rTable);
         }
         else
         {
@@ -792,7 +801,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
             {
                 rTable = *j;
 
-                result = processColumn(res, clazz, rTable);
+                result = processColumn(resultSet, res, clazz, rTable);
             }
         }
 
@@ -805,7 +814,8 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     return SQL_SUCCESS;
 }
 
-SQLRETURN RetsSTMT::processColumn(MetadataResource* res, MetadataClass* clazz,
+SQLRETURN RetsSTMT::processColumn(ResultSetPtr resultSet,
+                                  MetadataResource* res, MetadataClass* clazz,
                                   MetadataTable* rTable)
 {
     string sqlTableName =
@@ -933,7 +943,7 @@ SQLRETURN RetsSTMT::processColumn(MetadataResource* res, MetadataClass* clazz,
     // IS_NULLABLE
     results->push_back("YES");
 
-    mResultsPtr->addRow(results);
+    resultSet->addRow(results);
 
     return SQL_SUCCESS;
 }
@@ -971,7 +981,7 @@ string RetsSTMT::makeTableName(bool standardNames, MetadataResource* res,
 
 void RetsSTMT::unbindColumns()
 {
-    mResultsPtr->unbindColumns();
+    mQuery->getResultSet()->unbindColumns();
 }
 
 StringVectorPtr RetsSTMT::getSQLGetTypeInfoRow(
@@ -1053,26 +1063,27 @@ SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 
     bool allTypes = DataType == SQL_ALL_TYPES;
 
-    mResultsPtr = newResultSet();
-    mResultsPtr->addColumn("TYPE_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT);
-    mResultsPtr->addColumn("COLUMN_SIZE", SQL_INTEGER);
-    mResultsPtr->addColumn("LITERAL_PREFIX", SQL_VARCHAR);
-    mResultsPtr->addColumn("LITERAL_SUFFIX", SQL_VARCHAR);
-    mResultsPtr->addColumn("CREATE_PARAMS", SQL_VARCHAR);
-    mResultsPtr->addColumn("NULLABLE", SQL_SMALLINT);
-    mResultsPtr->addColumn("CASE_SENSITIVE", SQL_SMALLINT);
-    mResultsPtr->addColumn("SEARCHABLE", SQL_SMALLINT);
-    mResultsPtr->addColumn("UNSIGNED_ATTRIBUTE", SQL_SMALLINT);
-    mResultsPtr->addColumn("FIXED_PREC_SCALE", SQL_SMALLINT);
-    mResultsPtr->addColumn("AUTO_UNIQUE_VALUE", SQL_SMALLINT);
-    mResultsPtr->addColumn("LOCAL_TYPE_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("MINIMUM_SCALE", SQL_SMALLINT);
-    mResultsPtr->addColumn("MAXIMUM_SCALE", SQL_SMALLINT);
-    mResultsPtr->addColumn("SQL_DATA_TYPE", SQL_SMALLINT);
-    mResultsPtr->addColumn("SQL_DATETIME_SUB", SQL_SMALLINT);
-    mResultsPtr->addColumn("NUM_PREC_RADIX", SQL_INTEGER);
-    mResultsPtr->addColumn("INTERVAL_PRECISION", SQL_SMALLINT);
+    mQuery.reset(new NullQuery(this));
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    resultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
+    resultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
+    resultSet->addColumn("COLUMN_SIZE", SQL_INTEGER);
+    resultSet->addColumn("LITERAL_PREFIX", SQL_VARCHAR);
+    resultSet->addColumn("LITERAL_SUFFIX", SQL_VARCHAR);
+    resultSet->addColumn("CREATE_PARAMS", SQL_VARCHAR);
+    resultSet->addColumn("NULLABLE", SQL_SMALLINT);
+    resultSet->addColumn("CASE_SENSITIVE", SQL_SMALLINT);
+    resultSet->addColumn("SEARCHABLE", SQL_SMALLINT);
+    resultSet->addColumn("UNSIGNED_ATTRIBUTE", SQL_SMALLINT);
+    resultSet->addColumn("FIXED_PREC_SCALE", SQL_SMALLINT);
+    resultSet->addColumn("AUTO_UNIQUE_VALUE", SQL_SMALLINT);
+    resultSet->addColumn("LOCAL_TYPE_NAME", SQL_VARCHAR);
+    resultSet->addColumn("MINIMUM_SCALE", SQL_SMALLINT);
+    resultSet->addColumn("MAXIMUM_SCALE", SQL_SMALLINT);
+    resultSet->addColumn("SQL_DATA_TYPE", SQL_SMALLINT);
+    resultSet->addColumn("SQL_DATETIME_SUB", SQL_SMALLINT);
+    resultSet->addColumn("NUM_PREC_RADIX", SQL_INTEGER);
+    resultSet->addColumn("INTERVAL_PRECISION", SQL_SMALLINT);
 
     StringVectorPtr resultRow;
 
@@ -1081,72 +1092,72 @@ SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
     if (allTypes || DataType == SQL_BIT)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_BIT, "2");
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_TINYINT)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_TINYINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_BIGINT)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_BIGINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_CHAR)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_CHAR, "10", "", "'", "'");
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_DECIMAL)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_DECIMAL, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_INTEGER)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_INTEGER, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_SMALLINT)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_SMALLINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_DOUBLE)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_DOUBLE, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_VARCHAR)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_VARCHAR, "10", "", "'", "'");
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     // These need to be special cased.
     if (allTypes || DataType == SQL_TYPE_DATE)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_TYPE_DATE, "2");
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_TYPE_TIME)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_TYPE_TIME, "2");
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
     if (allTypes || DataType == SQL_TYPE_TIMESTAMP)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_TYPE_TIMESTAMP, "2");
-        mResultsPtr->addRow(resultRow);
+        resultSet->addRow(resultRow);
     }
 
-    if (mResultsPtr->isEmpty())
+    if (resultSet->isEmpty())
     {
         addError("HY004",
                  "Invalid SQL data type. ezRETS does not support it.");
@@ -1186,15 +1197,16 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mResultsPtr = newResultSet();
-    mResultsPtr->addColumn("SCOPE", SQL_SMALLINT);
-    mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("DATA_TYPE", SQL_SMALLINT);
-    mResultsPtr->addColumn("TYPE_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("COLUMN_SIZE", SQL_INTEGER);
-    mResultsPtr->addColumn("BUFFER_LENGTH", SQL_INTEGER);
-    mResultsPtr->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
-    mResultsPtr->addColumn("PSEUDO_COLUMN", SQL_SMALLINT);
+    mQuery.reset(new NullQuery(this));
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    resultSet->addColumn("SCOPE", SQL_SMALLINT);
+    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
+    resultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
+    resultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
+    resultSet->addColumn("COLUMN_SIZE", SQL_INTEGER);
+    resultSet->addColumn("BUFFER_LENGTH", SQL_INTEGER);
+    resultSet->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
+    resultSet->addColumn("PSEUDO_COLUMN", SQL_SMALLINT);
 
     // Everything is nullable
     if (Nullable == SQL_NO_NULLS)
@@ -1302,7 +1314,7 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
     // PSEUDO_COLUMN
     results->push_back(b::lexical_cast<string>(SQL_PC_UNKNOWN));
 
-    mResultsPtr->addRow(results);
+    resultSet->addRow(results);
         
     return SQL_SUCCESS;
 }
@@ -1443,19 +1455,21 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     getLogger()->debug(str_stream() << "In SQLColAttribute " << ColumnNumber
                        << " " << FieldIdentifier);
 
-    if (mResultsPtr == NULL)
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    
+    if (resultSet == NULL)
     {
         addError("07005", "Statement did not return a result set.");
         return SQL_ERROR;
     }
 
-    if (ColumnNumber < 1 && ColumnNumber > mResultsPtr->columnCount())
+    if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
         addError("07009", "Bad Column Number");
         return SQL_ERROR;
     }
 
-    ColumnPtr column = mResultsPtr->getColumn(ColumnNumber);
+    ColumnPtr column = resultSet->getColumn(ColumnNumber);
     MetadataTable* table = column->getRetsMetadataTable();
     SQLSMALLINT type;
     if (table != NULL)
@@ -1503,7 +1517,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
 
         case SQL_COLUMN_COUNT:
         case SQL_DESC_COUNT:
-            result = colAttHelper.setInt(mResultsPtr->columnCount());
+            result = colAttHelper.setInt(resultSet->columnCount());
             break;
             
         case SQL_DESC_DISPLAY_SIZE:
@@ -1640,7 +1654,9 @@ SQLRETURN RetsSTMT::SQLGetData(
 
     getLogger()->debug("In SQLGetData");
 
-    if (ColumnNumber < 1 && ColumnNumber > mResultsPtr->columnCount())
+    ResultSetPtr resultSet = mQuery->getResultSet();
+
+    if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
         addError("07009", "Bad Column Number");
         return SQL_ERROR;
@@ -1649,7 +1665,7 @@ SQLRETURN RetsSTMT::SQLGetData(
     SQLRETURN retCode = SQL_SUCCESS;
     try
     {
-        mResultsPtr->getData(ColumnNumber, TargetType, TargetValue,
+        resultSet->getData(ColumnNumber, TargetType, TargetValue,
                              BufferLength, StrLenorInd);
     }
     catch(DateTimeFormatException& e)
@@ -1699,20 +1715,21 @@ SQLRETURN RetsSTMT::SQLStatistics(
         }
     }
 
-    mResultsPtr = newResultSet();
-    mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
-    mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-    mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("NON_UNIQUE", SQL_SMALLINT);
-    mResultsPtr->addColumn("INDEX_QUALIFIER", SQL_VARCHAR);
-    mResultsPtr->addColumn("INDEX_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("TYPE", SQL_SMALLINT);
-    mResultsPtr->addColumn("ORDINAL_POSITION", SQL_SMALLINT);
-    mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("ASC_OR_DESC", SQL_CHAR);
-    mResultsPtr->addColumn("CARDINALITY", SQL_INTEGER);
-    mResultsPtr->addColumn("PAGES", SQL_INTEGER);
-    mResultsPtr->addColumn("FILTER_CONDITION", SQL_VARCHAR);
+    mQuery.reset(new NullQuery(this));
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
+    resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
+    resultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
+    resultSet->addColumn("NON_UNIQUE", SQL_SMALLINT);
+    resultSet->addColumn("INDEX_QUALIFIER", SQL_VARCHAR);
+    resultSet->addColumn("INDEX_NAME", SQL_VARCHAR);
+    resultSet->addColumn("TYPE", SQL_SMALLINT);
+    resultSet->addColumn("ORDINAL_POSITION", SQL_SMALLINT);
+    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
+    resultSet->addColumn("ASC_OR_DESC", SQL_CHAR);
+    resultSet->addColumn("CARDINALITY", SQL_INTEGER);
+    resultSet->addColumn("PAGES", SQL_INTEGER);
+    resultSet->addColumn("FILTER_CONDITION", SQL_VARCHAR);
 
     return SQL_SUCCESS;
 }
@@ -1756,13 +1773,14 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 //         return SQL_ERROR;
     }
 
-    mResultsPtr = newResultSet();
-    mResultsPtr->addColumn("TABLE_CAT", SQL_VARCHAR);
-    mResultsPtr->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-    mResultsPtr->addColumn("TABLE_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("COLUMN_NAME", SQL_VARCHAR);
-    mResultsPtr->addColumn("KEY_SEQ", SQL_SMALLINT);
-    mResultsPtr->addColumn("PK_NAME", SQL_VARCHAR);
+    mQuery.reset(new NullQuery(this));
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
+    resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
+    resultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
+    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
+    resultSet->addColumn("KEY_SEQ", SQL_SMALLINT);
+    resultSet->addColumn("PK_NAME", SQL_VARCHAR);
 
     // We can actually determine the primary key from the Metadata,
     // for now, however, we'll return an empty result set.
@@ -1817,7 +1835,7 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     // Our primary keys don't have names
     results->push_back("");
 
-    mResultsPtr->addRow(results);
+    resultSet->addRow(results);
     
     return SQL_SUCCESS;
 }
@@ -1828,7 +1846,9 @@ SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
     EzLoggerPtr log = getLogger();
     log->debug("In SQLRowCount");
 
-    int myRowCount = mResultsPtr->rowCount();
+    ResultSetPtr resultSet = mQuery->getResultSet();
+    
+    int myRowCount = resultSet->rowCount();
     log->debug(b::lexical_cast<string>(myRowCount));
 
     *rowCount = b::numeric_cast<SQLLEN>(myRowCount);
@@ -1884,12 +1904,6 @@ SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
         }
     }
 
-    return result;
-}
-
-ResultSetPtr RetsSTMT::newResultSet()
-{
-    ResultSetPtr result(new ResultSet(getLogger(), mDataTranslator, &ard));
     return result;
 }
 

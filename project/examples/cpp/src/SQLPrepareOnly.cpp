@@ -40,6 +40,11 @@ int main()
         int num = db.numResultCols();
         cout << "Search Result has " << num << " columns" << endl;
 
+        for (int i = 1 ; i <= num; i++)
+        {
+            cout << db.describeColumn(i) << endl;
+        }
+
         db.disconnect();
     }
     catch (std::exception& e)
