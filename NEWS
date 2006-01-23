@@ -1,3 +1,16 @@
+Changes since 1.1.0
+-------------------
+ * User-Agent is now "ezRETS/1.2.0 (librets/1.0.0)"
+
+ Enhancements
+  * You can choose between the return format of COMPACT or
+    COMPACT-DECODED on the Advanced tab.  COMPACT-DECODED is the
+    default.  Closes ticket #19
+
+ Bug fixes:
+  * SQLPrepare is now implemented properly which fixes bugs #12 and #25.
+  * Fixed known issues with SQLServer DTS and VB.net Query Wizard
+
 Changes since 1.0.0
 -------------------
   * User-Agent is now "ezRETS/1.1.0 (librets/1.0.0)"
