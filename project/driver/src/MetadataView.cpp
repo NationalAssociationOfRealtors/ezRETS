@@ -186,23 +186,27 @@ void MetadataView::initTablesForClass(MetadataClass* clazz)
          i != tables.end(); i++)
     {
         MetadataTable* table = *i;
-        string stdname = table->GetStandardName();
 
-        if (!stdname.empty())
+        int rdefault = table->GetDefault();
+        if (rdefault > -1)
         {
-            TableMapKey key(clazz, stdname);
-            (*mTableStdMapPtr)[key] = table;
-        }
+            string stdname = table->GetStandardName();
+            if (!stdname.empty())
+            {
+                TableMapKey key(clazz, stdname);
+                (*mTableStdMapPtr)[key] = table;
+            }
 
-        string sysname = table->GetSystemName();
-        if (!sysname.empty())
-        {
-            TableMapKey key(clazz, sysname);
-            (*mTableSysMapPtr)[key] = table;
+            string sysname = table->GetSystemName();
+            if (!sysname.empty())
+            {
+                TableMapKey key(clazz, sysname);
+                (*mTableSysMapPtr)[key] = table;
+            }
         }
-        
-        (*mTablesInitMapPtr)[clazz] = true;
     }
+
+    (*mTablesInitMapPtr)[clazz] = true;
 }
 
 MetadataResource* MetadataView::getResource(std::string resName)

@@ -171,22 +171,18 @@ void SqlQuery::prepareResultSet()
     for (i = tables.begin(); i != tables.end(); i++)
     {
         MetadataTable* table = *i;
-        int rdefault = table->GetDefault();
         string name;
-        if (rdefault > 0)
+        if (mStmt->isUsingStandardNames())
         {
-            if (mStmt->isUsingStandardNames())
-            {
-                name = table->GetStandardName();
-            }
-            else
-            {
-                name = table->GetSystemName();
-            }
-            if (!name.empty())
-            {
-                mResultSet->addColumn(name, table);
-            }
+            name = table->GetStandardName();
+        }
+        else
+        {
+            name = table->GetSystemName();
+        }
+        if (!name.empty())
+        {
+            mResultSet->addColumn(name, table);
         }
     }
 }
