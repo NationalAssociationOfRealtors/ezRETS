@@ -41,6 +41,7 @@ DebugLogFile    = /some/log/file
 RetsVersion     = 1.5
 UseBulkMetadata = false
 IgnoreMetadataType = false
+UseCompactFormat = false
 
 It should be not noted that in an odbc.ini declaration, the following
 fields are optional:
@@ -53,3 +54,4 @@ fields are optional:
  * RetsVersion
  * UseBulkMetadata
  * IgnoreMetadataType
+ * UseCompactFormat
