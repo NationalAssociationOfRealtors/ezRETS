@@ -6,6 +6,8 @@ Changes since 1.1.0
   * You can choose between the return format of COMPACT or
     COMPACT-DECODED on the Advanced tab.  COMPACT-DECODED is the
     default.  Closes ticket #19
+  * In windows binary release, using libcurl 1.15.1 which results in
+    Marklinx 1.0 servers "double auth" being able to work.
 
  Bug fixes:
   * SQLPrepare is now implemented properly which fixes bugs #12 and #25.
