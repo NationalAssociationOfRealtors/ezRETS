@@ -26,6 +26,11 @@
 
     <h2>Description</h2>
 
+    <h3><i>column</i> names</h3>
+    <p>
+      The <i>column</i> name is taken from the RETS Table names.
+    </p>
+
     <h3>WHERE clause</h3>
     <p>
       We support the following operators in where conditions: =, &lt;,
@@ -34,15 +39,29 @@
     </p>
     <p>
       Currently, prepared statements are not supported, so you cannot
-      use ? as a value in raw SQL and have it substituted later.  This
-      will be addressed in future releases.
+      use <i>?</i> as a value in raw SQL and have it substituted
+      later.  This will be addressed in future releases.
+    </p>
+    <p>
+      Also, the values used in for RETS Lookups is the Lookup Type
+      Value, not the Lookup Type LongValue or Lookup Type ShortValue.
+      Support for being able to use either is being considered for
+      future versions.
     </p>
 
     <h3>table names</h3>
     <p>
       Table names are constructed from the RETS metadata by combining
-      the word <i>data</i> Resource and Class names and the type of
-      information.  Tables with data all start with the word
+      with colons the word <i>data</i>, the Resource name, and Class
+      name.  For example, for the RETS Resource of <i>Property</i> and
+      the Class of <i>ResidentialProperty</i>, the table name is
+      <i>data:Property:ResidentialProperty</i>.
+    </p>
+    <p>
+      The preface of <i>data</i> is required for future enhancments.
+      When RETS GetObject is supported, it will use the prefix of
+      <i>object</i>.
+    </p>
 
     <h2>Limitations</h2>
     <p>
@@ -50,6 +69,7 @@
       there are some limitations that are inherent in the translation
       process.
     </p>
+
     <h3>WHERE clause required</h3>
     <p>
       RETS does not have the concept of a query without some
