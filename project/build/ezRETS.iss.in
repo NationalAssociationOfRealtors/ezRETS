@@ -46,6 +46,7 @@ Source: doc\ExcelTutorial\plus.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\refresh.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\saveto.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\selectedcolumns.png; DestDir: {app}\ExcelTutorial
+Source: doc\SQL_Reference.html; DestDir: {app}
 
 [Icons]
 Name: {commonprograms}\ezRETS\Readme; Filename: {app}\README.txt
@@ -54,6 +55,7 @@ Name: {commonprograms}\ezRETS\News; Filename: {app}\NEWS.txt
 Name: {commonprograms}\ezRETS\Uninstall ezRETS; Filename: {uninstallexe}
 Name: {commonprograms}\ezRETS\Excel Tutorial; Filename: {app}\ExcelTutorial\ExcelTutorial.html
 Name: {commonprograms}\ezRETS\Install Tutorial; Filename: {app}\InstallTutorial\ezRETSSetup.html
+Name: {commonprograms}\ezRETS\SQL Reference; Filename: {app}\SQL_Reference.html
 
 [Registry]
 Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; Flags: uninsdeletekey
