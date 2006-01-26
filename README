@@ -12,39 +12,12 @@ Build on libRETS technology!
 
 News about driver changes can be found in the NEWS file.
 
--- SQL Support --
-
-ezRETS supports a subset of SQL for its RETS usage. We support things
-in the form of
-
-  SELECT some, columns FROM data:Resource:Class WHERE someColumn = someValue
-
-  SELECT * FROM data:Resource:Class
-           WHERE someColumn > someValue AND anotherColumn <= anotherValue
-
-In the above examples, Resource and Class should be substituted with
-the RETS Resources and Classes that your RETS server uses.
-
-There are a few restrictions that ezRETS has that a regular database
-doesn't have.
-
-   1. Nothing but SELECT is supported. For now, and the forseeable future,
-      ezRETS is a read-only view.
-   2. You must have a WHERE clause to get data, there is no way to do a RETS
-      query without a WHERE.  If you do not supply a WHERE clause, we simulate
-      an empty result set with the proper columns.
-   3. You cannot do JOINs of any sort, i.e. only one table per SELECT clause.
-   4. ORDER BY is silently ignored as RETS has no equivalent functionality 
-
-The following query is known to work on the demo RETS server at
-http://demo.crt.realtors.org:6103/rets/login
-
-   SELECT ListingID,ListDate FROM data:Property:ResidentialProperty
-          WHERE ListPrice > 0
+To find out the SQL supported by ezRETS please check the SQL Reference
+document included with ezRETS.
 
 -- Notes --
 
-    * The User-Agent is now configurable via the Data Source control
+    * The User-Agent is configurable via the Data Source control
       panel or by editing your odbc.ini.  We do not encourage the
       practice of changing your User-Agent.  To see what ezRETS's
       default User-Agent is, please check the NEWS file.
