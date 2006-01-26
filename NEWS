@@ -1,17 +1,23 @@
 Changes since 1.1.0
 -------------------
- * User-Agent is now "ezRETS/1.2.0 (librets/1.0.0)"
+ * User-Agent is now "ezRETS/1.2.0 (librets/1.0.0b1)"
+ * SQL syntax document added to documentation
 
  Enhancements
   * You can choose between the return format of COMPACT or
     COMPACT-DECODED on the Advanced tab.  COMPACT-DECODED is the
     default.  Closes ticket #19
-  * In windows binary release, using libcurl 1.15.1 which results in
-    Marklinx 1.0 servers "double auth" being able to work.
+  * MarketLinx 1.0 servers should work as work around for broken
+    double auth header has been added to libcurl 1.15.1
 
  Bug fixes:
-  * SQLPrepare is now implemented properly which fixes bugs #12 and #25.
-  * Fixed known issues with SQLServer DTS and VB.net Query Wizard
+  * SQLPrepare is now implemented properly which fixes bugs:
+     o #12 - OdbcDataAdaptor / Data Adaptor Configuration wizard in
+             VB.net now works.
+     o #25 - SQLServer DTS now works.
+
+ Developer notes:
+  * ezRETS 1.1.0b2 is required to build
 
 Changes since 1.0.0
 -------------------
