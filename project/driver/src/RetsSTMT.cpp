@@ -147,64 +147,26 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
         *NameLength = size;
     }
 
-    SQLSMALLINT tmpDecimalDigits = 0;
-    MetadataTable* table = column->getRetsMetadataTable();
-    if (table == NULL)
+    if (ColumnSize)
     {
-        log->debug("Table return from column is null.");
-        addError("HY000", str_stream() << "Column " << column->getName()
-                 << " does not exist in RETS metadata.");
-        return SQL_ERROR;
+        *ColumnSize = column->getColumnSize();
     }
-    
-    MetadataViewPtr metadataView = mDbc->getMetadataView();
-    // Rather than walking through the lookups, which is a pain, let's
-    // make some reasonable assumptions.  The longest length for a
-    // lookup, according to the RETS 1.7 spec is 128 characters.  So, for a
-    // lookup, we'll say 129 to add the null.  For Lookup Multi, let's
-    // cap it at 20 values, for now.  20 * 128 + 1 = 2561.
-    if (metadataView->IsLookupColumn(table))
-    {
-        *DataType = SQL_CHAR;
-        if (ColumnSize)
-        {
-            if (table->GetInterpretation() == MetadataTable::LOOKUP)
-            {
-                *ColumnSize = 129;
-            }
-            else
-            {
-                *ColumnSize = 2561;
-            }
-        }
-    }
-    else
-    {
-        // Translate DataType
-        *DataType = mDataTranslator->getPreferedOdbcType(table->GetDataType());
 
-        if (ColumnSize)
-        {
-            *ColumnSize =
-                columnSizeHelper(*DataType, table->GetMaximumLength());
-        }
-
-        if (table->GetDataType() == MetadataTable::DECIMAL)
-        {
-            tmpDecimalDigits = (SQLSMALLINT) table->GetPrecision();
-        }
+    if (DataType)
+    {
+        *DataType = column->getDataType();
     }
 
     if (DecimalDigits)
     {
-        *DecimalDigits = tmpDecimalDigits;
+        *DecimalDigits = column->getDecimalDigits();
     }
 
     // In rets, anything can be null;  Also, no one can hear you scream.
     *Nullable = SQL_NULLABLE;
 
     log->debug(str_stream() << "column(" << columnName << ") OdbcType("
-               << *DataType << ") RETSType(" << table->GetDataType() << ")");
+               << *DataType << ")");
 
     return SQL_SUCCESS;
 }
@@ -613,31 +575,6 @@ SQLRETURN RetsSTMT::SQLExecute()
 DataTranslatorPtr RetsSTMT::getDataTranslator()
 {
     return mDataTranslator;
-}
-
-SQLULEN RetsSTMT::columnSizeHelper(SQLSMALLINT type, SQLULEN length)
-{
-    SQLULEN rlength;
-    switch (type)
-    {
-        case SQL_TYPE_TIMESTAMP:
-            rlength = SQL_TIMESTAMP_LEN;
-            break;
-
-        case SQL_TYPE_DATE:
-            rlength = SQL_DATE_LEN;
-            break;
-
-        case SQL_TYPE_TIME:
-            rlength = SQL_TYPE_TIME;
-            break;
-
-        default:
-            rlength = length;
-            break;
-    }
-
-    return rlength;
 }
 
 SQLRETURN RetsSTMT::diagCursorRowCount(SQLPOINTER DiagInfoPtr)
@@ -1471,16 +1408,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     }
 
     ColumnPtr column = resultSet->getColumn(ColumnNumber);
-    MetadataTable* table = column->getRetsMetadataTable();
-    SQLSMALLINT type;
-    if (table != NULL)
-    {
-        type = mDataTranslator->getPreferedOdbcType(table->GetDataType());
-    }
-    else
-    {
-        type = column->getBestSqlType();
-    }
+    SQLSMALLINT type = column->getDataType();
 
     ColAttributeHelper colAttHelper(this, CharacterAttribute, BufferLength,
                                     StringLength, NumericAttribute);
@@ -1522,33 +1450,14 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
             
         case SQL_DESC_DISPLAY_SIZE:
-            if (table != NULL)
-            {
-                colAttHelper.setInt(table->GetMaximumLength());
-            }
-            else
-            {
-                // This isn't the best solution, but we need to give
-                // it some value.  For now we'll do an arbitrary size
-                // of 256.  That seems bigger than would ever be used
-                // for one of our virtual tables.  I'm sure we'll be
-                // proved wrong.
-                colAttHelper.setInt(256);
-            }
+            colAttHelper.setInt(column->getMaximumLength());
             break;
 
         // fix me:  I know this isn't always right for SQL_DESC_LENTH
         case SQL_DESC_LENGTH:
             if (type == SQL_VARCHAR || type == SQL_CHAR)
             {
-                if (table != NULL)
-                {
-                    colAttHelper.setInt(table->GetMaximumLength());
-                }
-                else
-                {
-                    colAttHelper.setInt(column->getName().size());
-                }
+                colAttHelper.setInt(column->getMaximumLength());
             }
             else
             {
@@ -1580,7 +1489,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             else
             {
-                colAttHelper.setInt(table->GetMaximumLength());
+                colAttHelper.setInt(column->getMaximumLength());
             }
             break;
 
@@ -1589,7 +1498,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             {
                 case SQL_DECIMAL:
                 case SQL_DOUBLE:
-                    colAttHelper.setInt(table->GetPrecision());
+                    colAttHelper.setInt(column->getPrecision());
                     break;
 
                 case SQL_TYPE_TIMESTAMP:
@@ -1607,7 +1516,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
 
         case SQL_DESC_SEARCHABLE:
-            if (table->IsSearchable())
+            if (column->isSearchable())
             {
                 colAttHelper.setInt(SQL_PRED_BASIC);
             }

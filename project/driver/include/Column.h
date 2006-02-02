@@ -26,11 +26,9 @@ namespace odbcrets
 class Column
 {
   public:
-    Column(ResultSet* parent, std::string name, SQLSMALLINT DefaultType);
-    Column(ResultSet* parent, std::string name, librets::MetadataTable* table);
-    Column(ResultSet* parent, std::string name,
-           SQLSMALLINT TargetType, SQLPOINTER TargetValue,
-           SQLLEN BufferLength, SQLLEN *StrLenOrInd);
+    Column(ResultSet* parent, std::string name);
+
+    virtual ~Column();
 
     bool isBound();
 
@@ -43,25 +41,70 @@ class Column
 
     SQLSMALLINT getTargetType();
     SQLSMALLINT getBestSqlType();
-    SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType);
+    virtual SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType) = 0;
 
-    librets::MetadataTable* getRetsMetadataTable();
+    virtual void setData(std::string data);
+    virtual void setData(std::string data, SQLSMALLINT TargetType,
+                         SQLPOINTER TargetValue, SQLINTEGER BufferLength,
+                         SQLINTEGER* StrLenOrInd);
 
-    void setData(std::string data);
-    void setData(std::string data, SQLSMALLINT TargetType,
-                 SQLPOINTER TargetValue, SQLINTEGER BufferLength,
-                 SQLINTEGER* StrLenOrInd);
+    virtual SQLSMALLINT getDataType() = 0;
+    virtual SQLULEN getColumnSize() = 0;
+    virtual SQLSMALLINT  getDecimalDigits() = 0;
+    virtual SQLULEN getMaximumLength() = 0;
+    virtual SQLULEN getPrecision();
+    virtual bool isSearchable();
 
-  private:
+  protected:
+    virtual void cleanData(std::string& data);
+    SQLULEN columnSizeHelper(SQLSMALLINT type, SQLULEN length);
+    
     ResultSet* mParent;
     std::string mName;
-    SQLSMALLINT mDefaultType;
     SQLSMALLINT mTargetType;
-    librets::MetadataTable* mMetadataTablePtr;
     SQLPOINTER mTargetValue;
     SQLLEN mBufferLength;
     SQLLEN* mStrLenOrInd;
     bool mBound;
+};
+
+class FauxColumn : public Column
+{
+  public:
+    FauxColumn(ResultSet* parent, std::string name, SQLSMALLINT DefaultType);
+
+    virtual SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType);
+
+    virtual SQLSMALLINT getDataType();
+    virtual SQLULEN getColumnSize();
+    virtual SQLSMALLINT  getDecimalDigits();
+    virtual SQLULEN getMaximumLength();
+
+  protected:
+    SQLSMALLINT mDefaultType;    
+};
+
+class RetsColumn : public Column
+{
+  public:
+    RetsColumn(ResultSet* parent, std::string name,
+               librets::MetadataTable* table);
+
+    virtual SQLSMALLINT getDataType();
+    virtual SQLULEN getColumnSize();
+    virtual SQLSMALLINT  getDecimalDigits();
+
+    virtual SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType);
+    virtual SQLULEN getMaximumLength();
+    virtual SQLULEN getPrecision();
+
+    virtual bool isSearchable();
+
+  protected:
+    virtual void cleanData(std::string& data);
+
+
+    librets::MetadataTable* mMetadataTablePtr;
 };
 
 typedef boost::shared_ptr<Column> ColumnPtr;

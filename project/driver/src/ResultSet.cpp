@@ -24,10 +24,11 @@ using namespace librets;
 using std::string;
 using std::endl;
 
-ResultSet::ResultSet(EzLoggerPtr logger, DataTranslatorPtr translator,
-                     AppRowDesc* ard)
-    : mLogger(logger), mTranslator(translator), mArdPtr(ard), mGotFirst(false),
-      mColumns(new ColumnVector()), mReportedRowCount(-1)
+ResultSet::ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
+                     DataTranslatorPtr translator, AppRowDesc* ard)
+    : mLogger(logger), mMetadataView(metadataView), mTranslator(translator),
+      mArdPtr(ard), mGotFirst(false), mColumns(new ColumnVector()),
+      mReportedRowCount(-1)
 {
     mResultIterator = mResults.begin();
 }
@@ -102,13 +103,13 @@ bool ResultSet::hasNext()
 
 void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType)
 {
-    ColumnPtr col(new Column(this, name, DefaultType));
+    ColumnPtr col(new FauxColumn(this, name, DefaultType));
     mColumns->push_back(col);
 }
 
 void ResultSet::addColumn(std::string name, MetadataTable* table)
 {
-    ColumnPtr col(new Column(this, name, table));
+    ColumnPtr col(new RetsColumn(this, name, table));
     mColumns->push_back(col);
 }
 
@@ -187,4 +188,9 @@ void ResultSet::setReportedRowCount(int count)
 AppRowDesc* ResultSet::getARD()
 {
     return mArdPtr;
+}
+
+MetadataViewPtr ResultSet::getMetadataView()
+{
+    return mMetadataView;
 }

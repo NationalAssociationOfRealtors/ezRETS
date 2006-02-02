@@ -25,24 +25,12 @@ namespace b = boost;
 using std::string;
 using std::endl;
 
-Column::Column(ResultSet* parent, string name, SQLSMALLINT DefaultType)
-    : mParent(parent), mName(name), mDefaultType(DefaultType),
-      mTargetType(-1), mMetadataTablePtr(NULL), mBound(false)
+Column::Column(ResultSet* parent, string name)
+    : mParent(parent), mName(name), mTargetType(-1), mBound(false)
 {
 }
 
-Column::Column(ResultSet* parent, string name, lr::MetadataTable* table)
-    : mParent(parent), mName(name), mTargetType(-1), mMetadataTablePtr(table),
-      mBound(false)
-{
-}
-
-Column::Column(ResultSet* parent, string name,
-               SQLSMALLINT TargetType, SQLPOINTER TargetValue,
-               SQLLEN BufferLength, SQLLEN *StrLenOrInd)
-    : mParent(parent), mName(name), mTargetType(TargetType),
-      mMetadataTablePtr(NULL), mTargetValue(TargetValue),
-      mBufferLength(BufferLength), mStrLenOrInd(StrLenOrInd), mBound(true)
+Column::~Column()
 {
 }
 
@@ -82,6 +70,10 @@ void Column::setData(string data)
     setData(data, mTargetType, mTargetValue, mBufferLength, mStrLenOrInd);
 }
 
+void Column::cleanData(string& data)
+{
+}
+
 void Column::setData(string data, SQLSMALLINT TargetType,
                      SQLPOINTER TargetValue, SQLINTEGER BufferLength,
                      SQLINTEGER* StrLenOrInd)
@@ -90,13 +82,8 @@ void Column::setData(string data, SQLSMALLINT TargetType,
 
     DataTranslatorPtr dt = mParent->getDataTranslator();
 
-    // if the interpretation is currency, we will strip out commas
-    // Metrolist does this and its definately valid.
-    if (mMetadataTablePtr != NULL &&
-        mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::CURRENCY)
-    {
-        b::erase_all(data, ",");
-    }
+    // In case any child classes need to modify the data in any way.
+    cleanData(data);
 
     // Adjust to offset.  This is the first time we really use the pointers
     // and we must make the adjustment here.  The call to get the ard
@@ -115,7 +102,54 @@ SQLSMALLINT Column::getBestSqlType()
     return getBestSqlType(mTargetType);
 }
 
-SQLSMALLINT Column::getBestSqlType(SQLSMALLINT TargetType)
+string Column::getName()
+{
+    return mName;
+}
+
+SQLULEN Column::getPrecision()
+{
+    return 0;
+}
+
+bool Column::isSearchable()
+{
+    return false;
+}
+
+SQLULEN Column::columnSizeHelper(SQLSMALLINT type, SQLULEN length)
+{
+    SQLULEN rlength;
+    switch (type)
+    {
+        case SQL_TYPE_TIMESTAMP:
+            rlength = SQL_TIMESTAMP_LEN;
+            break;
+
+        case SQL_TYPE_DATE:
+            rlength = SQL_DATE_LEN;
+            break;
+
+        case SQL_TYPE_TIME:
+            rlength = SQL_TYPE_TIME;
+            break;
+
+        default:
+            rlength = length;
+            break;
+    }
+
+    return rlength;
+}
+    
+// FauxColumn
+
+FauxColumn::FauxColumn(ResultSet* parent, string name, SQLSMALLINT DefaultType)
+    : Column(parent, name), mDefaultType(DefaultType)
+{
+}
+
+SQLSMALLINT FauxColumn::getBestSqlType(SQLSMALLINT TargetType)
 {
     SQLSMALLINT type;
 
@@ -123,14 +157,7 @@ SQLSMALLINT Column::getBestSqlType(SQLSMALLINT TargetType)
 
     if (TargetType == -1 || TargetType == SQL_C_DEFAULT)
     {
-        if (mMetadataTablePtr == NULL)
-        {
-            type = mDefaultType;
-        }
-        else
-        {
-            type = dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
-        }
+        type = mDefaultType;
     }
     else
     {
@@ -140,12 +167,145 @@ SQLSMALLINT Column::getBestSqlType(SQLSMALLINT TargetType)
     return type;
 }
 
-string Column::getName()
+SQLSMALLINT FauxColumn::getDataType()
 {
-    return mName;
+    return mDefaultType;
 }
 
-lr::MetadataTable* Column::getRetsMetadataTable()
+SQLULEN FauxColumn::getColumnSize()
 {
-    return mMetadataTablePtr;
+    return columnSizeHelper(mDefaultType, getMaximumLength());
+}
+
+SQLSMALLINT FauxColumn::getDecimalDigits()
+{
+    return 0;
+}
+
+SQLULEN FauxColumn::getMaximumLength()
+{
+    // This isn't the best solution, but we need to give
+    // it some value.  For now we'll do an arbitrary size
+    // of 256.  That seems bigger than would ever be used
+    // for one of our virtual tables.  I'm sure we'll be
+    // proved wrong.
+    return 256;
+}
+
+// RetsColumn
+
+RetsColumn::RetsColumn(ResultSet* parent, string name,
+                       lr::MetadataTable* table)
+    : Column(parent, name), mMetadataTablePtr(table)
+{
+}
+
+SQLSMALLINT RetsColumn::getDataType()
+{
+    DataTranslatorPtr dt = mParent->getDataTranslator();
+    return dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+}
+
+SQLULEN RetsColumn::getColumnSize()
+{
+    SQLULEN columnSize;
+    
+    MetadataViewPtr metadataView = mParent->getMetadataView();
+    // Rather than walking through the lookups, which is a pain, let's
+    // make some reasonable assumptions.  The longest length for a
+    // lookup, according to the RETS 1.7 spec is 128 characters.  So, for a
+    // lookup, we'll say 129 to add the null.  For Lookup Multi, let's
+    // cap it at 20 values, for now.  20 * 128 + 1 = 2561.
+    if (metadataView->IsLookupColumn(mMetadataTablePtr))
+    {
+        if (mMetadataTablePtr->GetInterpretation() ==
+            lr::MetadataTable::LOOKUP)
+        {
+            columnSize = 129;
+        }
+        else
+        {
+            columnSize = 2561;
+        }
+    }
+    else
+    {
+        DataTranslatorPtr dt = mParent->getDataTranslator();
+
+        // Translate DataType
+        SQLSMALLINT dataType =
+            dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+            
+        columnSize =
+            columnSizeHelper(dataType, mMetadataTablePtr->GetMaximumLength());
+    }
+
+    return columnSize;
+}
+
+SQLSMALLINT RetsColumn::getDecimalDigits()
+{
+    return (SQLSMALLINT) mMetadataTablePtr->GetPrecision();
+}
+
+SQLSMALLINT RetsColumn::getBestSqlType(SQLSMALLINT TargetType)
+{
+    SQLSMALLINT type;
+
+    DataTranslatorPtr dt = mParent->getDataTranslator();
+
+    if (TargetType == -1 || TargetType == SQL_C_DEFAULT)
+    {
+        type = dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+    }
+    else
+    {
+        type = TargetType;
+    }
+
+    return type;
+}
+
+SQLULEN RetsColumn::getMaximumLength()
+{
+    return mMetadataTablePtr->GetMaximumLength();
+}
+
+SQLULEN RetsColumn::getPrecision()
+{
+    DataTranslatorPtr dt = mParent->getDataTranslator();
+    SQLSMALLINT dataType =
+        dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+
+    SQLULEN result;
+    
+    switch (dataType)
+    {
+        case SQL_DECIMAL:
+        case SQL_DOUBLE:
+            result = mMetadataTablePtr->GetPrecision();
+            break;
+
+        default:
+            result = 0;
+            break;
+    }
+
+    return result;
+}
+
+bool RetsColumn::isSearchable()
+{
+    return mMetadataTablePtr->IsSearchable();
+}
+    
+void RetsColumn::cleanData(string& data)
+{
+    // if the interpretation is currency, we will strip out commas
+    // Metrolist does this and its definately valid.
+    if (mMetadataTablePtr != NULL &&
+        mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::CURRENCY)
+    {
+        b::erase_all(data, ",");
+    }
 }

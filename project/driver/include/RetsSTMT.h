@@ -132,8 +132,6 @@ class RetsSTMT : public AbstractHandle
     TableNameVectorPtr getMetadataTableNames();
     TableNameVectorPtr getMetadataTableName(std::string name);
 
-    SQLULEN columnSizeHelper(SQLSMALLINT type, SQLULEN length);
-
     std::string makeTableName(
         bool standardNames, librets::MetadataResource* res,
         librets::MetadataClass* clazz);

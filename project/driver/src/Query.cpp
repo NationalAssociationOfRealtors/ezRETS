@@ -53,8 +53,8 @@ ostream& Query::print(std::ostream& out) const
 ResultSetPtr Query::newResultSet()
 {
     ResultSetPtr resultSet(
-        new ResultSet(mStmt->getLogger(), mStmt->getDataTranslator(),
-                      mStmt->getArd()));
+        new ResultSet(mStmt->getLogger(), mStmt->getMetadataView(),
+                      mStmt->getDataTranslator(), mStmt->getArd()));
     return resultSet;
 }
 
