@@ -98,7 +98,7 @@ SQLRETURN SqlQuery::execute()
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In Query::execute()");
+    log->debug("In SqlQuery::execute()");
     log->debug(str_stream() << "Trying statement: " << mSql);
 
     if (mQueryType == SqlToDmqlCompiler::DMQL_QUERY)
@@ -204,6 +204,9 @@ SQLRETURN SqlQuery::doRetsQuery()
     searchRequest->SetSelect(select);
     searchRequest->SetCountType(
         SearchRequest::RECORD_COUNT_AND_RESULTS);
+    searchRequest->SetLimit(mDmqlQuery->GetLimit());
+    searchRequest->SetOffset(mDmqlQuery->GetOffset());
+    
     if (mUseCompactFormat)
     {
         searchRequest->SetFormatType(SearchRequest::COMPACT);
@@ -233,7 +236,17 @@ SQLRETURN SqlQuery::doRetsQuery()
         {
             ColumnPtr column = *j;
             string columnName = column->getName();
-            v->push_back(results->GetString(columnName));
+            string result;
+            try
+            {
+                result = results->GetString(columnName);
+            }
+            catch (std::invalid_argument& e)
+            {
+                result = "";
+                log->debug(str_stream() << e.what() << " -- ignoring");
+            }
+            v->push_back(result);
         }
         mResultSet->addRow(v);
     }
