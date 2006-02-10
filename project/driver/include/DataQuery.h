@@ -14,32 +14,39 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef EZRETS_FWD_H
-#define EZRETS_FWD_H
+#ifndef DATAQUERY_H
+#define DATAQUERY_H
 
 #include <boost/shared_ptr.hpp>
+#include "librets.h"
+#include "ezretsfwd.h"
+#include "Query.h"
 
 namespace odbcrets
 {
-class EzLogger;
-typedef boost::shared_ptr<EzLogger> EzLoggerPtr;
 
-class ResultSet;
-typedef boost::shared_ptr<ResultSet> ResultSetPtr;
+class DataQuery : public Query
+{
+  public:
+    DataQuery(RetsSTMT* stmt, bool useCompactFormat,
+              librets::DmqlQueryPtr dmqlQuery);
 
-class RetsSTMT;
-class RetsENV;
-class RetsDBC;
+    virtual SQLRETURN execute();
 
-class MetadataView;
-typedef boost::shared_ptr<MetadataView> MetadataViewPtr;
+    virtual std::ostream & print(std::ostream & out) const;
 
-class Query;
-typedef boost::shared_ptr<Query> QueryPtr;
+  private:
+    void prepareDataResultSet();
+                          
+    SQLRETURN doRetsQuery();
+    
+    bool mUseCompactFormat;
+    librets::DmqlQueryPtr mDmqlQuery;
+};
 
 }
 
-#endif
+#endif /* DATAQUERY_H */
 
 /* Local Variables: */
 /* mode: c++ */

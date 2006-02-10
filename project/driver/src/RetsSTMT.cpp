@@ -78,7 +78,7 @@ RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
     {
         mDataTranslator.reset(new NativeDataTranslator());
     }
-    mQuery.reset(new NullQuery(this));
+    mQuery = Query::createQuery(this);
 }
 
 RetsSTMT::~RetsSTMT()
@@ -342,8 +342,8 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 
     try
     {
-        mQuery.reset(
-            new SqlQuery(this, mDbc->isUsingCompactFormat(), statement));
+        mQuery =
+            Query::createQuery(this, mDbc->isUsingCompactFormat(), statement);
     }
     catch(SqlStateException& e)
     {
@@ -424,7 +424,7 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         
         // It looks like we're going to return something, so lets set up
         // the result set.
-        mQuery.reset(new NullQuery(this));
+        mQuery = Query::createQuery(this);
         ResultSetPtr resultSet = mQuery->getResultSet();
         resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
         resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -659,7 +659,7 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mQuery.reset(new NullQuery(this));
+    mQuery = Query::createQuery(this);
     ResultSetPtr resultSet = mQuery->getResultSet();
     resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -1001,7 +1001,7 @@ SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 
     bool allTypes = DataType == SQL_ALL_TYPES;
 
-    mQuery.reset(new NullQuery(this));
+    mQuery = Query::createQuery(this);
     ResultSetPtr resultSet = mQuery->getResultSet();
     resultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
     resultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
@@ -1135,7 +1135,7 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
 
     // It looks like we're going to return something, so lets set up
     // the result set.
-    mQuery.reset(new NullQuery(this));
+    mQuery = Query::createQuery(this);
     ResultSetPtr resultSet = mQuery->getResultSet();
     resultSet->addColumn("SCOPE", SQL_SMALLINT);
     resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
@@ -1625,7 +1625,7 @@ SQLRETURN RetsSTMT::SQLStatistics(
         }
     }
 
-    mQuery.reset(new NullQuery(this));
+    mQuery = Query::createQuery(this);
     ResultSetPtr resultSet = mQuery->getResultSet();
     resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -1683,7 +1683,7 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 //         return SQL_ERROR;
     }
 
-    mQuery.reset(new NullQuery(this));
+    mQuery = Query::createQuery(this);
     ResultSetPtr resultSet = mQuery->getResultSet();
     resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);

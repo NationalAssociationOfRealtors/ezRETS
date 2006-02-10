@@ -18,8 +18,8 @@
 #define QUERY_H
 
 #include <boost/shared_ptr.hpp>
+#include "ezrets.h"
 #include "ezretsfwd.h"
-#include "ResultSet.h"
 
 namespace odbcrets
 {
@@ -28,6 +28,10 @@ class Query
   public:
     Query(RetsSTMT* stmt);
     virtual ~Query();
+
+    static QueryPtr createQuery(RetsSTMT* stmt);
+    static QueryPtr createQuery(
+        RetsSTMT* stmt, bool uesCompactFormat, std::string query);
 
     virtual SQLRETURN execute() = 0;
     ResultSetPtr getResultSet();
@@ -46,26 +50,6 @@ class NullQuery : public Query
   public:
     NullQuery(RetsSTMT* stmt);
     virtual SQLRETURN execute();
-};
-
-class SqlQuery : public Query
-{
-  public:
-    SqlQuery(RetsSTMT* stmt, bool useCompactFormat, std::string query);
-
-    virtual SQLRETURN execute();
-
-    virtual std::ostream & print(std::ostream & out) const;
-
-  private:
-    void prepareResultSet();
-                          
-    SQLRETURN doRetsQuery();
-    
-    std::string mSql;
-    bool mUseCompactFormat;
-    librets::SqlToDmqlCompiler::QueryType mQueryType;
-    librets::DmqlQueryPtr mDmqlQuery;
 };
 
 std::ostream & operator<<(std::ostream & out, const Query & query);

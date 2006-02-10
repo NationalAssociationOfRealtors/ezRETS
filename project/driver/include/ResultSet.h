@@ -86,8 +86,6 @@ class ResultSet
     int mReportedRowCount;
 };
 
-typedef boost::shared_ptr<ResultSet> ResultSetPtr;
-
 }
 
 
