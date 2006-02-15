@@ -40,13 +40,7 @@ Query::~Query()
 {
 }
 
-QueryPtr Query::createQuery(RetsSTMT* stmt)
-{
-    QueryPtr q(new NullQuery(stmt));
-    return q;
-}
-
-QueryPtr Query::createQuery(
+QueryPtr Query::createSqlQuery(
     RetsSTMT* stmt, bool useCompactFormat, std::string query)
 {
     EzLoggerPtr log = stmt->getLogger();
@@ -59,6 +53,8 @@ QueryPtr Query::createQuery(
 
     SqlToDmqlCompiler::QueryType queryType = compiler.sqlToDmql(query);
 
+    // Now hand off the query to the proper query time and return a
+    // pointer to that.
     QueryPtr ezQuery;
     if (queryType == SqlToDmqlCompiler::DMQL_QUERY)
     {

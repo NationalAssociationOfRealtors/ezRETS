@@ -29,8 +29,7 @@ class Query
     Query(RetsSTMT* stmt);
     virtual ~Query();
 
-    static QueryPtr createQuery(RetsSTMT* stmt);
-    static QueryPtr createQuery(
+    static QueryPtr createSqlQuery(
         RetsSTMT* stmt, bool uesCompactFormat, std::string query);
 
     virtual SQLRETURN execute() = 0;
