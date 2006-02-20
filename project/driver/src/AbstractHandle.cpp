@@ -14,11 +14,13 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+
+#include <boost/cast.hpp>
 #include "str_stream.h"
 #include "AbstractHandle.h"
 #include "utils.h"
 #include "EzLogger.h"
-#include <boost/cast.hpp>
+#include "SqlStateException.h"
 
 using namespace odbcrets;
 namespace b = boost;
@@ -115,6 +117,11 @@ void AbstractHandle::addError(std::string sqlstate, string message)
                        << message);
     ErrorPtr error(new Error(sqlstate, message));
     addError(error);
+}
+
+void AbstractHandle::addError(SqlStateException& e)
+{
+    addError(e.GetSqlState(), e.GetMessage());
 }
 
 void AbstractHandle::addError(ErrorPtr error)

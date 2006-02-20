@@ -63,6 +63,7 @@ class AbstractHandle
         
     void addError(std::string sqlstate, std::string message);
     void addError(ErrorPtr error);
+    void addError(SqlStateException& e);
     
   protected:
     std::string SqlCharToString(SQLCHAR* cstr);

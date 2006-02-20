@@ -37,6 +37,8 @@ typedef boost::shared_ptr<MetadataView> MetadataViewPtr;
 class Query;
 typedef boost::shared_ptr<Query> QueryPtr;
 
+class SqlStateException;
+
 }
 
 #endif

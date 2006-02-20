@@ -347,7 +347,7 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
     }
     catch(SqlStateException& e)
     {
-        addError(e.GetSqlState(), e.GetMessage());
+        addError(e);
         result = SQL_ERROR;
     }
 
@@ -553,7 +553,7 @@ SQLRETURN RetsSTMT::SQLExecute()
     catch(SqlStateException & e)
     {
         log->debug(str_stream() << "stmt.execute: " << e.what());
-        addError(e.GetSqlState(), e.GetMessage());
+        addError(e);
         result = SQL_ERROR;
     }
     catch (RetsException & e)
