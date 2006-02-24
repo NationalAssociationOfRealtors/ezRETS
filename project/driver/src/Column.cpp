@@ -218,15 +218,7 @@ SQLULEN RetsColumn::getColumnSize()
     // cap it at 20 values, for now.  20 * 128 + 1 = 2561.
     if (metadataView->IsLookupColumn(mMetadataTablePtr))
     {
-        if (mMetadataTablePtr->GetInterpretation() ==
-            lr::MetadataTable::LOOKUP)
-        {
-            columnSize = 129;
-        }
-        else
-        {
-            columnSize = 2561;
-        }
+        columnSize = lookupSizeHelper();
     }
     else
     {
@@ -268,7 +260,20 @@ SQLSMALLINT RetsColumn::getBestSqlType(SQLSMALLINT TargetType)
 
 SQLULEN RetsColumn::getMaximumLength()
 {
-    return mMetadataTablePtr->GetMaximumLength();
+    SQLULEN size;
+    // This needs to be adjusted for Lookups, like we do for ColumnSize.
+    // Good old CompactDecoded!
+    MetadataViewPtr metadataView = mParent->getMetadataView();
+    if (metadataView->IsLookupColumn(mMetadataTablePtr))
+    {
+        size = lookupSizeHelper();
+    }
+    else
+    {
+        size = mMetadataTablePtr->GetMaximumLength();
+    }
+    
+    return size;
 }
 
 SQLULEN RetsColumn::getPrecision()
@@ -308,4 +313,22 @@ void RetsColumn::cleanData(string& data)
     {
         b::erase_all(data, ",");
     }
+}
+
+SQLULEN RetsColumn::lookupSizeHelper()
+{
+    SQLULEN size;
+
+    // Its either a Lookup or a LookupMulti
+    if (mMetadataTablePtr->GetInterpretation() ==
+        lr::MetadataTable::LOOKUP)
+    {
+        size = 129;
+    }
+    else
+    {
+        size = 2561;
+    }
+
+    return size;
 }

@@ -102,6 +102,7 @@ class RetsColumn : public Column
 
   protected:
     virtual void cleanData(std::string& data);
+    SQLULEN lookupSizeHelper();
 
 
     librets::MetadataTable* mMetadataTablePtr;
