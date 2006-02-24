@@ -37,7 +37,7 @@ DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
     EzLoggerPtr log = mStmt->getLogger();
     log->debug(str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
 
-    prepareDataResultSet();
+    prepareResultSet();
 }
 
 SQLRETURN DataQuery::execute()
@@ -61,7 +61,7 @@ SQLRETURN DataQuery::execute()
     return result;
 }
 
-void DataQuery::prepareDataResultSet()
+void DataQuery::prepareResultSet()
 {
     EzLoggerPtr log = mStmt->getLogger();
     log->debug("In prepareDataResultSet");

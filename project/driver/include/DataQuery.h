@@ -36,7 +36,7 @@ class DataQuery : public Query
     virtual std::ostream & print(std::ostream & out) const;
 
   private:
-    void prepareDataResultSet();
+    void prepareResultSet();
                           
     SQLRETURN doRetsQuery();
     
