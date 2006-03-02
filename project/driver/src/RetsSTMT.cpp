@@ -336,8 +336,6 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 
     SQLRETURN result = SQL_SUCCESS;
     
-    // Not sure what else we need to do here.  For now, we'll just copy
-    // the statement into the STMT.
     string statement = SqlCharToString(StatementText, TextLength);
 
     try

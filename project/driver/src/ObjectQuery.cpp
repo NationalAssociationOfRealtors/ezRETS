@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -16,6 +16,7 @@
  */
 
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "Query.h"
 #include "ObjectQuery.h"
 #include "RetsSTMT.h"
@@ -26,6 +27,7 @@
 
 using namespace odbcrets;
 using namespace librets;
+namespace b = boost;
 using std::string;
 using std::ostream;
 
@@ -38,12 +40,58 @@ ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
 
     prepareResultSet();
 
-    throw SqlStateException("42000", "GetObject not supported yet");
+    //throw SqlStateException("42000", "GetObject not supported yet");
 }
 
 SQLRETURN ObjectQuery::execute()
 {
-    return SQL_ERROR;
+    SQLRETURN result = SQL_SUCCESS;
+
+    EzLoggerPtr log = mStmt->getLogger();
+    log->debug("In ObjectQuery::execute()");
+
+    RetsSessionPtr session = mStmt->getRetsSession();
+
+    GetObjectRequest request(mGetObjectQuery->GetResource(),
+                             mGetObjectQuery->GetType());
+
+    // For now, we only support location
+    request.SetLocation(true);
+
+    string key(mGetObjectQuery->GetObjectKey());
+    IntVectorPtr ids = mGetObjectQuery->GetObjectIds();
+    if (ids->empty())
+    {
+        request.AddAllObjects(mGetObjectQuery->GetObjectKey());
+    }
+    else
+    {
+        IntVector::iterator i;
+        for (i = ids->begin(); i != ids->end(); i++)
+        {
+            request.AddObject(mGetObjectQuery->GetObjectKey(), *i);
+        }
+    }
+
+    // FINISH ME KEITH
+    GetObjectResponseAPtr response(session->GetObject(&request));
+
+    ObjectDescriptor* objDesc;
+    while ((objDesc = response->NextObject()) != NULL)
+    {
+        StringVectorPtr row(new StringVector());
+        row->push_back(objDesc->GetObjectKey());
+        row->push_back(b::lexical_cast<string>(objDesc->GetObjectId()));
+        row->push_back(objDesc->GetContentType());
+        row->push_back(objDesc->GetDescription());
+        row->push_back(objDesc->GetLocationUrl());
+
+        // Do something with raw data here
+
+        mResultSet->addRow(row);
+    }
+    
+    return result;
 }
 
 ostream & ObjectQuery::print(std::ostream & out) const
@@ -54,4 +102,10 @@ ostream & ObjectQuery::print(std::ostream & out) const
 
 void ObjectQuery::prepareResultSet()
 {
+    mResultSet->addColumn("object_key", SQL_VARCHAR);
+    mResultSet->addColumn("object_id", SQL_INTEGER);
+    mResultSet->addColumn("mime_type", SQL_VARCHAR);
+    mResultSet->addColumn("description", SQL_VARCHAR);
+    mResultSet->addColumn("location_url", SQL_VARCHAR);
+    //    mResultSet->addColumn("raw_data", SQL_VARCHAR);
 }
