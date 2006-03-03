@@ -26,3 +26,7 @@
 #ifdef GetProfileString
 #undef GetProfileString
 #endif
+
+#ifdef GetObject
+#undef GetObject
+#endif

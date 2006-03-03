@@ -62,18 +62,17 @@ SQLRETURN ObjectQuery::execute()
     IntVectorPtr ids = mGetObjectQuery->GetObjectIds();
     if (ids->empty())
     {
-        request.AddAllObjects(mGetObjectQuery->GetObjectKey());
+        request.AddAllObjects(key);
     }
     else
     {
         IntVector::iterator i;
         for (i = ids->begin(); i != ids->end(); i++)
         {
-            request.AddObject(mGetObjectQuery->GetObjectKey(), *i);
+            request.AddObject(key, *i);
         }
     }
 
-    // FINISH ME KEITH
     GetObjectResponseAPtr response(session->GetObject(&request));
 
     ObjectDescriptor* objDesc;
