@@ -32,7 +32,7 @@ usage = OptionParser.new do |opts|
     drv.attrs["HttpLogFile"] = a
   end
   opts.on('-lARG', '--loginUrl ARG', 'Login URL') do |a|
-    drv.attrs["LoginURL"] = a
+    drv.attrs["LoginUrl"] = a
   end
   opts.on('-pARG', '--password ARG') { |a| drv.attrs["PWD"] = a }
   opts.on('-rARG', '--rets_version ARG') { |a| drv.attrs["RetsVersion"] = a }
