@@ -29,5 +29,6 @@ void StreamEzLogger::log(Level level, std::string data)
     if (level >= mLevel)
     {
         *mOut << data << std::endl;
+        mOut->flush();
     }
 }
