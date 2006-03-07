@@ -202,8 +202,20 @@ RetsColumn::RetsColumn(ResultSet* parent, string name,
 
 SQLSMALLINT RetsColumn::getDataType()
 {
-    DataTranslatorPtr dt = mParent->getDataTranslator();
-    return dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+    SQLSMALLINT result;
+    
+    MetadataViewPtr metadataView = mParent->getMetadataView();
+    if (metadataView->IsLookupColumn(mMetadataTablePtr))
+    {
+        result = SQL_CHAR;
+    }
+    else
+    {
+        DataTranslatorPtr dt = mParent->getDataTranslator();
+        result = dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
+    }
+
+    return result;
 }
 
 SQLULEN RetsColumn::getColumnSize()
@@ -308,6 +320,7 @@ void RetsColumn::cleanData(string& data)
 {
     // if the interpretation is currency, we will strip out commas
     // Metrolist does this and its definately valid.
+    // Mark reports that interrealty also does this.
     if (mMetadataTablePtr != NULL &&
         mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::CURRENCY)
     {
