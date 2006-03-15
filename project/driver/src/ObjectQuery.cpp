@@ -43,6 +43,10 @@ ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     //throw SqlStateException("42000", "GetObject not supported yet");
 }
 
+ObjectQuery::~ObjectQuery()
+{
+}
+
 SQLRETURN ObjectQuery::execute()
 {
     SQLRETURN result = SQL_SUCCESS;

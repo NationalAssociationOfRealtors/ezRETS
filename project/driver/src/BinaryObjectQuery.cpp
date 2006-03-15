@@ -36,6 +36,10 @@ BinaryObjectQuery::BinaryObjectQuery(RetsSTMT* stmt,
 {
 }
 
+BinaryObjectQuery::~BinaryObjectQuery()
+{
+}
+
 void BinaryObjectQuery::prepareResultSet()
 {
     mResultSet->addColumn("object_key", SQL_VARCHAR);
