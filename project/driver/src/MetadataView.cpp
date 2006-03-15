@@ -119,7 +119,7 @@ ResourceClassPairVectorPtr MetadataView::getResourceClassPairs()
 }
 
 MetadataTable* MetadataView::getTable(string resName, string className,
-                                        string tableName)
+                                      string tableName)
 {
 
     MetadataClass* classPtr = getClass(resName, className);
@@ -139,7 +139,7 @@ MetadataTable* MetadataView::getKeyFieldTable(MetadataClass* clazz,
 }
 
 MetadataTable* MetadataView::getTable(MetadataClass* classPtr,
-                                        string tableName, bool stdNames)
+                                      string tableName, bool stdNames)
 {
     if (!areTablesForClassInited(classPtr))
     {
@@ -151,14 +151,9 @@ MetadataTable* MetadataView::getTable(MetadataClass* classPtr,
     {
         TableMapKey key(classPtr, tableName);
         TableMap::iterator i;
-        if (stdNames)
-        {
-            i = mTableStdMapPtr->find(key);
-        }
-        else
-        {
-            i = mTableSysMapPtr->find(key);
-        }
+        i = stdNames ?
+            mTableStdMapPtr->find(key) :  mTableSysMapPtr->find(key);
+        
         if (i != mTableStdMapPtr->end() && i != mTableSysMapPtr->end())
         {
             tablePtr = i->second;
@@ -188,6 +183,9 @@ void MetadataView::initTablesForClass(MetadataClass* clazz)
         MetadataTable* table = *i;
 
         int rdefault = table->GetDefault();
+        // This may not be something to pay attention to at all,
+        // as InterRealty marks the key you need to do GetObject
+        // as non-displayable.
         if (rdefault > -1)
         {
             string stdname = table->GetStandardName();
@@ -214,14 +212,8 @@ MetadataResource* MetadataView::getResource(std::string resName)
     MetadataResource* resourcePtr = NULL;
 
     ResourceMap::iterator i;
-    if (mStandardNames)
-    {
-        i = mResourceByStdNamePtr->find(resName);
-    }
-    else
-    {
-        i = mResourceBySysNamePtr->find(resName);
-    }
+    i = mStandardNames ? mResourceByStdNamePtr->find(resName) :
+                         mResourceBySysNamePtr->find(resName);
 
     if (i != mResourceByStdNamePtr->end() && i != mResourceBySysNamePtr->end())
     {
@@ -241,14 +233,8 @@ MetadataClass* MetadataView::getClass(string resName, string className)
     {
         ClassMapKey key(res, className);
         ClassMap::iterator i;
-        if (mStandardNames)
-        {
-            i = mClassStdMapPtr->find(key);
-        }
-        else
-        {
-            i = mClassSysMapPtr->find(key);
-        }
+        i = mStandardNames ?
+            mClassStdMapPtr->find(key) : mClassSysMapPtr->find(key);
         
         if (i != mClassStdMapPtr->end() && i != mClassSysMapPtr->end())
         {
