@@ -39,6 +39,7 @@ X_OBJS = \
 	$(DIROBJ)\AbstractHandle.obj\
 	$(DIROBJ)\ColAttributeHelper.obj\
 	$(DIROBJ)\Column.obj\
+	$(DIROBJ)\DataCountQuery.obj\
 	$(DIROBJ)\DataQuery.obj\
 	$(DIROBJ)\DateTimeFormatException.obj\
 	$(DIROBJ)\DataTranslationException.obj\
