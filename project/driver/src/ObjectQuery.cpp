@@ -38,7 +38,14 @@ ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     log->debug(str_stream() << "ObjectQuery::ObjectQuery: " <<
                mGetObjectQuery);
 
-    prepareResultSet();
+    if (mGetObjectQuery->GetUseLocation())
+    {
+        prepareLocationResultSet();
+    }
+    else
+    {
+        prepareBinaryResultSet();
+    }
 
     //throw SqlStateException("42000", "GetObject not supported yet");
 }
@@ -55,8 +62,7 @@ SQLRETURN ObjectQuery::execute()
     GetObjectRequest request(mGetObjectQuery->GetResource(),
                              mGetObjectQuery->GetType());
 
-    // For now, we only support location
-    request.SetLocation(true);
+    request.SetLocation(mGetObjectQuery->GetUseLocation());
 
     string key(mGetObjectQuery->GetObjectKey());
     IntVectorPtr ids = mGetObjectQuery->GetObjectIds();
@@ -75,6 +81,8 @@ SQLRETURN ObjectQuery::execute()
 
     GetObjectResponseAPtr response(session->GetObject(&request));
 
+
+    // TODO:  Fork the code here for Location vs Binary
     ObjectDescriptor* objDesc;
     while ((objDesc = response->NextObject()) != NULL)
     {
@@ -99,12 +107,21 @@ ostream & ObjectQuery::print(std::ostream & out) const
     return out;
 }
 
-void ObjectQuery::prepareResultSet()
+void ObjectQuery::prepareLocationResultSet()
 {
     mResultSet->addColumn("object_key", SQL_VARCHAR);
     mResultSet->addColumn("object_id", SQL_INTEGER);
     mResultSet->addColumn("mime_type", SQL_VARCHAR);
     mResultSet->addColumn("description", SQL_VARCHAR);
     mResultSet->addColumn("location_url", SQL_VARCHAR);
-    //    mResultSet->addColumn("raw_data", SQL_VARCHAR);
+    mResultSet->addColumn("raw_data", SQL_VARBINARY);
+}
+
+void ObjectQuery::prepareBinaryResultSet()
+{
+    mResultSet->addColumn("object_key", SQL_VARCHAR);
+    mResultSet->addColumn("object_id", SQL_INTEGER);
+    mResultSet->addColumn("mime_type", SQL_VARCHAR);
+    mResultSet->addColumn("description", SQL_VARCHAR);
+    mResultSet->addColumn("raw_data", SQL_VARBINARY);
 }

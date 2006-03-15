@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -34,7 +34,8 @@ class ObjectQuery : public Query
     virtual std::ostream & print(std::ostream & out) const;
 
   private:
-    void prepareResultSet();
+    void prepareLocationResultSet();
+    void prepareBinaryResultSet();
     
     librets::GetObjectQueryPtr mGetObjectQuery;
 };
