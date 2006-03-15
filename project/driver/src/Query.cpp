@@ -21,6 +21,7 @@
 #include "DataQuery.h"
 #include "DataCountQuery.h"
 #include "ObjectQuery.h"
+#include "BinaryObjectQuery.h"
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -74,8 +75,14 @@ QueryPtr Query::createSqlQuery(
     else
     {
         GetObjectQueryPtr objectQuery = compiler.GetGetObjectQuery();
-
-        ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+        if (objectQuery->GetUseLocation())
+        {
+            ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+        }
+        else
+        {
+            ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
+        }
     }
 
     return ezQuery;
@@ -103,6 +110,8 @@ ResultSetPtr Query::newResultSet()
 NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
 {
 }
+
+void NullQuery::prepareResultSet() { }
 
 SQLRETURN NullQuery::execute()
 {

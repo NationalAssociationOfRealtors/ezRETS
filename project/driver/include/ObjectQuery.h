@@ -17,25 +17,28 @@
 #ifndef OBJECTQUERY_H
 #define OBJECTQUERY_H
 
-#include <boost/shared_ptr.hpp>
 #include "ezretsfwd.h"
-#include "librets.h"
+#include "librets/sql_forward.h"
+#include "librets/protocol_forward.h"
 #include "Query.h"
 
 namespace odbcrets
 {
+
 class ObjectQuery : public Query
 {
   public:
     ObjectQuery(RetsSTMT* stmt, librets::GetObjectQueryPtr objectQuery);
 
+    virtual ~ObjectQuery();
+
     virtual SQLRETURN execute();
 
     virtual std::ostream & print(std::ostream & out) const;
 
-  private:
-    void prepareLocationResultSet();
-    void prepareBinaryResultSet();
+  protected:
+    virtual void prepareResultSet();
+    virtual void handleResponse(librets::GetObjectResponse* response);
     
     librets::GetObjectQueryPtr mGetObjectQuery;
 };

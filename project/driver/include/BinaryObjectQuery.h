@@ -14,52 +14,32 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef QUERY_H
-#define QUERY_H
+#ifndef BINARYOBJECTQUERY_H
+#define BINARYOBJECTQUERY_H
 
 #include "ezrets.h"
 #include "ezretsfwd.h"
+#include "librets/sql_forward.h"
+#include "ObjectQuery.h"
 
 namespace odbcrets
 {
-class Query
+
+class BinaryObjectQuery : public ObjectQuery
 {
   public:
-    Query(RetsSTMT* stmt);
-    virtual ~Query();
+    BinaryObjectQuery(RetsSTMT* stmt, librets::GetObjectQueryPtr objectQuery);
 
-    static QueryPtr createSqlQuery(
-        RetsSTMT* stmt, bool uesCompactFormat, std::string query);
-
-    virtual SQLRETURN execute() = 0;
-    ResultSetPtr getResultSet();
-
-    virtual std::ostream & print(std::ostream & out) const;
-
-  protected:
-    ResultSetPtr newResultSet();
-    virtual void prepareResultSet() = 0;
-
-    RetsSTMT* mStmt;
-    ResultSetPtr mResultSet;
-};
-
-class NullQuery : public Query
-{
-  public:
-    NullQuery(RetsSTMT* stmt);
-    virtual SQLRETURN execute();
+    virtual ~BinaryObjectQuery();
 
   protected:
     virtual void prepareResultSet();
+    virtual void handleResponse(librets::GetObjectResponse* response);
 };
-
-std::ostream & operator<<(std::ostream & out, const Query & query);
-std::ostream & operator<<(std::ostream & out, Query * query);
 
 }
 
-#endif /* QUERY_H */
+#endif /* BINARYOBJECTQUERY_H */
 
 /* Local Variables: */
 /* mode: c++ */

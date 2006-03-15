@@ -38,14 +38,7 @@ ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     log->debug(str_stream() << "ObjectQuery::ObjectQuery: " <<
                mGetObjectQuery);
 
-    if (mGetObjectQuery->GetUseLocation())
-    {
-        prepareLocationResultSet();
-    }
-    else
-    {
-        prepareBinaryResultSet();
-    }
+    prepareResultSet();
 
     //throw SqlStateException("42000", "GetObject not supported yet");
 }
@@ -81,8 +74,13 @@ SQLRETURN ObjectQuery::execute()
 
     GetObjectResponseAPtr response(session->GetObject(&request));
 
+    handleResponse(response.get());
+    
+    return result;
+}
 
-    // TODO:  Fork the code here for Location vs Binary
+void ObjectQuery::handleResponse(GetObjectResponse* response)
+{
     ObjectDescriptor* objDesc;
     while ((objDesc = response->NextObject()) != NULL)
     {
@@ -91,14 +89,22 @@ SQLRETURN ObjectQuery::execute()
         row->push_back(b::lexical_cast<string>(objDesc->GetObjectId()));
         row->push_back(objDesc->GetContentType());
         row->push_back(objDesc->GetDescription());
-        row->push_back(objDesc->GetLocationUrl());
 
-        // Do something with raw data here
+        string location = objDesc->GetLocationUrl();
+        if (!location.empty())
+        {
+            row->push_back(objDesc->GetLocationUrl());
+            row->push_back("");
+        }
+        else
+        {
+            row->push_back("");
+            // Replace this next line with the binary data
+            row->push_back("");
+        }
 
         mResultSet->addRow(row);
     }
-    
-    return result;
 }
 
 ostream & ObjectQuery::print(std::ostream & out) const
@@ -107,21 +113,12 @@ ostream & ObjectQuery::print(std::ostream & out) const
     return out;
 }
 
-void ObjectQuery::prepareLocationResultSet()
+void ObjectQuery::prepareResultSet()
 {
     mResultSet->addColumn("object_key", SQL_VARCHAR);
     mResultSet->addColumn("object_id", SQL_INTEGER);
     mResultSet->addColumn("mime_type", SQL_VARCHAR);
     mResultSet->addColumn("description", SQL_VARCHAR);
     mResultSet->addColumn("location_url", SQL_VARCHAR);
-    mResultSet->addColumn("raw_data", SQL_VARBINARY);
-}
-
-void ObjectQuery::prepareBinaryResultSet()
-{
-    mResultSet->addColumn("object_key", SQL_VARCHAR);
-    mResultSet->addColumn("object_id", SQL_INTEGER);
-    mResultSet->addColumn("mime_type", SQL_VARCHAR);
-    mResultSet->addColumn("description", SQL_VARCHAR);
     mResultSet->addColumn("raw_data", SQL_VARBINARY);
 }
