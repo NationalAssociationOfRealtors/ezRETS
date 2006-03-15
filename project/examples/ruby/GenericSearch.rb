@@ -41,6 +41,7 @@ usage = OptionParser.new do |opts|
   end
   opts.on('-uARG', '--user ARG') { |a| drv.attrs["UID"] = a }
   opts.on('-UARG', '--user_agent ARG') { |a| drv.attrs["UserAgent"] = a }
+  opts.on('-vARG', '--version ARG') { |a| drv.attrs["RetsVersion"] = a }
   opts.on('-h', '--help', 'Show this message') { puts opts ; exit }
   opts.parse!(ARGV)
 end
