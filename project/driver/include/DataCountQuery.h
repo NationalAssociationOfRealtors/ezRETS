@@ -14,38 +14,30 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef DATAQUERY_H
-#define DATAQUERY_H
+#ifndef DATACOUNTQUERY_H
+#define DATACOUNTQUERY_H
 
 #include "librets.h"
 #include "ezretsfwd.h"
-#include "Query.h"
-#include "librets/SearchRequest.h"
+#include "DataQuery.h"
 
 namespace odbcrets
 {
 
-class DataQuery : public Query
+class DataCountQuery : public DataQuery
 {
   public:
-    DataQuery(RetsSTMT* stmt, bool useCompactFormat,
-              librets::DmqlQueryPtr dmqlQuery);
-
-    virtual SQLRETURN execute();
-
-    virtual std::ostream & print(std::ostream & out) const;
+    DataCountQuery(RetsSTMT* stmt, bool useCompactFormat,
+                   librets::DmqlQueryPtr dmqlQuery);
 
   protected:
     virtual void prepareResultSet();
     virtual SQLRETURN doRetsQuery();
-
-    librets::SearchRequest::FormatType mSearchFormat;
-    librets::DmqlQueryPtr mDmqlQuery;
 };
 
 }
 
-#endif /* DATAQUERY_H */
+#endif /* DATACOUNTQUERY_H */
 
 /* Local Variables: */
 /* mode: c++ */

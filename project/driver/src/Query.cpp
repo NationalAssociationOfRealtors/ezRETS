@@ -19,6 +19,7 @@
 #include "ezretsfwd.h"
 #include "Query.h"
 #include "DataQuery.h"
+#include "DataCountQuery.h"
 #include "ObjectQuery.h"
 #include "RetsSTMT.h"
 #include "EzLogger.h"
@@ -60,7 +61,15 @@ QueryPtr Query::createSqlQuery(
     {
         DmqlQueryPtr dmqlQuery = compiler.GetDmqlQuery();
 
-        ezQuery.reset(new DataQuery(stmt, useCompactFormat, dmqlQuery));
+        if (dmqlQuery->GetCountType() == SearchRequest::RECORD_COUNT_ONLY)
+        {
+            ezQuery.reset(
+                new DataCountQuery(stmt, useCompactFormat, dmqlQuery));
+        }
+        else
+        {
+            ezQuery.reset(new DataQuery(stmt, useCompactFormat, dmqlQuery));
+        }
     }
     else
     {

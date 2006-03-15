@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -32,10 +32,13 @@ namespace lu = librets::util;
 
 DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
                      DmqlQueryPtr dmqlQuery)
-    : Query(stmt), mUseCompactFormat(useCompactFormat), mDmqlQuery(dmqlQuery)
+    : Query(stmt), mDmqlQuery(dmqlQuery)
 {
     EzLoggerPtr log = mStmt->getLogger();
     log->debug(str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
+
+    mSearchFormat = useCompactFormat ?
+        SearchRequest::COMPACT : SearchRequest::COMPACT_DECODED;
 
     prepareResultSet();
 }
@@ -126,6 +129,8 @@ void DataQuery::prepareResultSet()
 
 SQLRETURN DataQuery::doRetsQuery()
 {
+    SQLRETURN sqlreturn = SQL_SUCCESS;
+    
     // Get the info to build the query
     string resource = mDmqlQuery->GetResource();
     string clazz = mDmqlQuery->GetClass();
@@ -143,15 +148,7 @@ SQLRETURN DataQuery::doRetsQuery()
         SearchRequest::RECORD_COUNT_AND_RESULTS);
     searchRequest->SetLimit(mDmqlQuery->GetLimit());
     searchRequest->SetOffset(mDmqlQuery->GetOffset());
-    
-    if (mUseCompactFormat)
-    {
-        searchRequest->SetFormatType(SearchRequest::COMPACT);
-    }
-    else
-    {
-        searchRequest->SetFormatType(SearchRequest::COMPACT_DECODED);
-    }
+    searchRequest->SetFormatType(mSearchFormat);
     
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 
@@ -164,6 +161,7 @@ SQLRETURN DataQuery::doRetsQuery()
     // Process the results: while we still have results, walk our already
     // set up columns and filling them in.
     ColumnVectorPtr colvec = mResultSet->getColumns();
+    int rowCount = 0;
     while (results->HasNext())
     {
         StringVectorPtr v(new StringVector());
@@ -186,11 +184,19 @@ SQLRETURN DataQuery::doRetsQuery()
             v->push_back(result);
         }
         mResultSet->addRow(v);
+        rowCount++;
     }
 
+    int reportedCount = results->GetCount();
+    if (reportedCount > rowCount)
+    {
+        mStmt->addError("01000", "ReportedCount is larger then rows "
+                        "processed, server may have limit.");
+        sqlreturn = SQL_SUCCESS_WITH_INFO;
+    }
     mResultSet->setReportedRowCount(results->GetCount());
 
-    return SQL_SUCCESS;
+    return sqlreturn;
 }
 
 ostream & DataQuery::print(std::ostream & out) const
