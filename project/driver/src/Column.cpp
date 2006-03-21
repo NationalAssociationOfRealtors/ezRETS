@@ -144,8 +144,9 @@ SQLULEN Column::columnSizeHelper(SQLSMALLINT type, SQLULEN length)
     
 // FauxColumn
 
-FauxColumn::FauxColumn(ResultSet* parent, string name, SQLSMALLINT DefaultType)
-    : Column(parent, name), mDefaultType(DefaultType)
+FauxColumn::FauxColumn(ResultSet* parent, string name, SQLSMALLINT DefaultType,
+                       SQLULEN maxLength)
+    : Column(parent, name), mDefaultType(DefaultType), mMaxLength(maxLength)
 {
 }
 
@@ -184,12 +185,7 @@ SQLSMALLINT FauxColumn::getDecimalDigits()
 
 SQLULEN FauxColumn::getMaximumLength()
 {
-    // This isn't the best solution, but we need to give
-    // it some value.  For now we'll do an arbitrary size
-    // of 256.  That seems bigger than would ever be used
-    // for one of our virtual tables.  I'm sure we'll be
-    // proved wrong.
-    return 256;
+    return mMaxLength;
 }
 
 // RetsColumn

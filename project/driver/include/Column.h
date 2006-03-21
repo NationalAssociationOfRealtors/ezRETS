@@ -71,7 +71,13 @@ class Column
 class FauxColumn : public Column
 {
   public:
-    FauxColumn(ResultSet* parent, std::string name, SQLSMALLINT DefaultType);
+    // This isn't the best solution, but we need to give
+    // it some value.  For now we'll do an arbitrary size
+    // of 256.  That seems bigger than would ever be used
+    // for one of our virtual tables.  I'm sure we'll be
+    // proved wrong.
+    FauxColumn(ResultSet* parent, std::string name, SQLSMALLINT DefaultType,
+               SQLULEN maxLength = 256);
 
     virtual SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType);
 
@@ -81,7 +87,8 @@ class FauxColumn : public Column
     virtual SQLULEN getMaximumLength();
 
   protected:
-    SQLSMALLINT mDefaultType;    
+    SQLSMALLINT mDefaultType;
+    SQLULEN mMaxLength;
 };
 
 class RetsColumn : public Column
