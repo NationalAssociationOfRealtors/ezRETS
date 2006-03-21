@@ -85,6 +85,13 @@ NativeDataTranslator::NativeDataTranslator()
     // For double we only go from ODBC to rets, not from RETS to odbc
     tmp.reset(new DoubleTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
+
+    // For Binary we only go from ODBC to rets, not from RETS to odbc
+    // Attempt at getting BINARIES working
+    tmp.reset(new BinaryTranslationWorker());
+    mOdbc2Trans[tmp->getOdbcType()] = tmp;
+    mOdbc2Trans[SQL_BINARY] = tmp;
+    mOdbc2Trans[SQL_VARBINARY] = tmp;
 }
 
 /**

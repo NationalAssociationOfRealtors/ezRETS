@@ -59,9 +59,7 @@ void BinaryObjectQuery::handleResponse(GetObjectResponse* response)
         row->push_back(b::lexical_cast<string>(objDesc->GetObjectId()));
         row->push_back(objDesc->GetContentType());
         row->push_back(objDesc->GetDescription());
-
-        // Replace the next line with doing something with raw data here
-        row->push_back("");
+        row->push_back(str_stream() << objDesc->GetDataStream());
 
         mResultSet->addRow(row);
     }

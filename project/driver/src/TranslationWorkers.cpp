@@ -396,3 +396,36 @@ void DoubleTranslationWorker::translate(string data, SQLPOINTER target,
     *result = lexical_cast<SQLDOUBLE>(data);
     setResultSize(resultSize, sizeof(SQLDOUBLE));
 }
+
+SQLSMALLINT BinaryTranslationWorker::getOdbcType()
+{
+    return SQL_LONGVARBINARY;
+}
+
+std::string BinaryTranslationWorker::getOdbcTypeName()
+{
+    return "LONG VARBINARY";
+}
+
+int BinaryTranslationWorker::getOdbcTypeLength() { return -1; }
+
+void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
+                                        SQLLEN targetLen,
+                                        SQLLEN *resultSize)
+{
+    if (data.empty() || b::trim_copy(data).empty())
+    {
+        setResultSize(resultSize, SQL_NULL_DATA);
+        return;
+    }
+
+    // What to do with a binary?
+    if ((target == NULL) || (targetLen == 0))
+    {
+        setResultSize(resultSize, 0);
+        return;
+    }
+
+    SQLLEN size = data.copy((char*) target, targetLen);
+    setResultSize(resultSize, size);
+}

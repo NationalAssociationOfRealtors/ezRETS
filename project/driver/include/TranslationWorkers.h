@@ -148,6 +148,16 @@ class DoubleTranslationWorker : public TranslationWorker
                    SQLLEN *resultSize);
 };
 
+class BinaryTranslationWorker : public TranslationWorker
+{
+  public:
+    SQLSMALLINT getOdbcType();
+    std::string getOdbcTypeName();
+    int getOdbcTypeLength();
+    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
+                   SQLLEN *resultSize);
+};
+
 }
 
 #endif /* TRANSLATIONWORKERS_H */

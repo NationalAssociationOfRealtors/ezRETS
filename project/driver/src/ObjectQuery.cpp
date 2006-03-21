@@ -103,8 +103,7 @@ void ObjectQuery::handleResponse(GetObjectResponse* response)
         else
         {
             row->push_back("");
-            // Replace this next line with the binary data
-            row->push_back("");
+            row->push_back(str_stream() << objDesc->GetDataStream());
         }
 
         mResultSet->addRow(row);
@@ -124,5 +123,5 @@ void ObjectQuery::prepareResultSet()
     mResultSet->addColumn("mime_type", SQL_VARCHAR);
     mResultSet->addColumn("description", SQL_VARCHAR);
     mResultSet->addColumn("location_url", SQL_VARCHAR);
-    mResultSet->addColumn("raw_data", SQL_VARBINARY);
+    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY);
 }
