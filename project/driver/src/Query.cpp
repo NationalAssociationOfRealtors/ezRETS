@@ -85,6 +85,8 @@ QueryPtr Query::createSqlQuery(
         }
     }
 
+    ezQuery->prepareResultSet();
+
     return ezQuery;
 }
 

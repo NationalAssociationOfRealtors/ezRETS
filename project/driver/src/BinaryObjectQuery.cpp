@@ -18,11 +18,11 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include "BinaryObjectQuery.h"
-#include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "librets.h"
 #include "SqlStateException.h"
+#include "ResultSet.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -46,7 +46,7 @@ void BinaryObjectQuery::prepareResultSet()
     mResultSet->addColumn("object_id", SQL_INTEGER);
     mResultSet->addColumn("mime_type", SQL_VARCHAR);
     mResultSet->addColumn("description", SQL_VARCHAR);
-    mResultSet->addColumn("raw_data", SQL_VARBINARY);
+    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY);
 }
 
 void BinaryObjectQuery::handleResponse(GetObjectResponse* response)

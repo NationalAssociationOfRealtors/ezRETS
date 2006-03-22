@@ -37,10 +37,6 @@ ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     EzLoggerPtr log = mStmt->getLogger();
     log->debug(str_stream() << "ObjectQuery::ObjectQuery: " <<
                mGetObjectQuery);
-
-    prepareResultSet();
-
-    //throw SqlStateException("42000", "GetObject not supported yet");
 }
 
 ObjectQuery::~ObjectQuery()

@@ -39,8 +39,6 @@ DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
 
     mSearchFormat = useCompactFormat ?
         SearchRequest::COMPACT : SearchRequest::COMPACT_DECODED;
-
-    prepareResultSet();
 }
 
 SQLRETURN DataQuery::execute()
@@ -68,7 +66,7 @@ void DataQuery::prepareResultSet()
 {
     EzLoggerPtr log = mStmt->getLogger();
     log->debug("In prepareDataResultSet");
-
+    
     MetadataViewPtr metadata = mStmt->getMetadataView();
     
     MetadataClass* clazz =
