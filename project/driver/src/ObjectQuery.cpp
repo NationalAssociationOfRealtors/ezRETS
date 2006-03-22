@@ -27,6 +27,7 @@
 
 using namespace odbcrets;
 using namespace librets;
+namespace lu = librets::util;
 namespace b = boost;
 using std::string;
 using std::ostream;
@@ -99,7 +100,10 @@ void ObjectQuery::handleResponse(GetObjectResponse* response)
         else
         {
             row->push_back("");
-            row->push_back(str_stream() << objDesc->GetDataStream());
+
+            string obj;
+            lu::readIntoString(*(objDesc->GetDataStream()), obj);
+            row->push_back(obj);
         }
 
         mResultSet->addRow(row);

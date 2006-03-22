@@ -26,6 +26,7 @@
 
 using namespace odbcrets;
 using namespace librets;
+namespace lu = librets::util;
 namespace b = boost;
 using std::string;
 using std::ostream;
@@ -59,7 +60,10 @@ void BinaryObjectQuery::handleResponse(GetObjectResponse* response)
         row->push_back(b::lexical_cast<string>(objDesc->GetObjectId()));
         row->push_back(objDesc->GetContentType());
         row->push_back(objDesc->GetDescription());
-        row->push_back(str_stream() << objDesc->GetDataStream());
+
+        string obj;
+        lu::readIntoString(*(objDesc->GetDataStream()), obj);
+        row->push_back(obj);
 
         mResultSet->addRow(row);
     }
