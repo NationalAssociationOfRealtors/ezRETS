@@ -185,6 +185,7 @@ void ResultSet::getData(
 
     string& resCol = (*mResultIterator)->at(rColno);
 
+    SQLSMALLINT type = column->getDataType();
     if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
         type == SQL_VARBINARY)
     {
