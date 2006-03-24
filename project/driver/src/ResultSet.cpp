@@ -132,8 +132,19 @@ void ResultSet::processNextRow()
     for (i = (*mResultIterator)->begin(); i != iEnd; i++, count++)
     {
         ColumnPtr& col = mColumns->at(count);
-        mLogger->debug(str_stream() << count << " " << col->getName() << ": "
-                       << *i);
+
+        SQLSMALLINT type = col->getDataType();
+        if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
+            type == SQL_VARBINARY)
+        {
+            mLogger->debug(str_stream() << count << " " << col->getName() <<
+                           ": " << *i);
+        }
+        else
+        {
+            mLogger->debug(str_stream() << count << " " << col->getName() <<
+                           ": [omitting possible binary data]");
+        }
 
         if (col->isBound())
         {
