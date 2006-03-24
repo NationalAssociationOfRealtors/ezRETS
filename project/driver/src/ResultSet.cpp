@@ -138,12 +138,12 @@ void ResultSet::processNextRow()
             type == SQL_VARBINARY)
         {
             mLogger->debug(str_stream() << count << " " << col->getName() <<
-                           ": " << *i);
+                           ": [omitting possible binary data]");
         }
         else
         {
             mLogger->debug(str_stream() << count << " " << col->getName() <<
-                           ": [omitting possible binary data]");
+                           ": " << *i);
         }
 
         if (col->isBound())
