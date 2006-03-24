@@ -72,8 +72,8 @@ ColumnPtr ResultSet::getColumn(int col)
 }
 
 void ResultSet::bindColumn(int col, SQLSMALLINT TargetType,
-                                 SQLPOINTER TargetValue, SQLLEN BufferLength,
-                                 SQLLEN *StrLenOrInd)
+                           SQLPOINTER TargetValue, SQLLEN BufferLength,
+                           SQLLEN *StrLenOrInd)
 {
     int realCol = col - 1;
     ColumnPtr& foo = mColumns->at(realCol);
@@ -184,8 +184,18 @@ void ResultSet::getData(
     ColumnPtr& column = mColumns->at(rColno);
 
     string& resCol = (*mResultIterator)->at(rColno);
-    mLogger->debug(str_stream() << column->getName() << " " << TargetType
-                   << " " << resCol);
+
+    if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
+        type == SQL_VARBINARY)
+    {
+        mLogger->debug(str_stream() << column->getName() << " " << TargetType
+                       << " [omitting possible binary data]");
+    }
+    else
+    {
+        mLogger->debug(str_stream() << column->getName() << " " << TargetType
+                       << " " << resCol);
+    }
 
     column->setData(resCol, TargetType, TargetValue, BufferLength,
                     StrLenorInd);
