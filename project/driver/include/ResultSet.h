@@ -58,7 +58,8 @@ class ResultSet
     AppRowDesc* getARD();
     MetadataViewPtr getMetadataView();
 
-    void addColumn(std::string name, SQLSMALLINT DefaultType);
+    void addColumn(std::string name, SQLSMALLINT DefaultType,
+                   SQLULEN maxLength = 256);
     void addColumn(std::string name, librets::MetadataTable* table);
     void addRow(librets::StringVectorPtr row);
 

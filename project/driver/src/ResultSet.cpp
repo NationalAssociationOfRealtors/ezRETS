@@ -101,9 +101,10 @@ bool ResultSet::hasNext()
     }
 }
 
-void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType)
+void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType,
+                          SQLULEN maxLength)
 {
-    ColumnPtr col(new FauxColumn(this, name, DefaultType));
+    ColumnPtr col(new FauxColumn(this, name, DefaultType, maxLength));
     mColumns->push_back(col);
 }
 

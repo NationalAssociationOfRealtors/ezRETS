@@ -47,7 +47,7 @@ void BinaryObjectQuery::prepareResultSet()
     mResultSet->addColumn("object_id", SQL_INTEGER);
     mResultSet->addColumn("mime_type", SQL_VARCHAR);
     mResultSet->addColumn("description", SQL_VARCHAR);
-    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY);
+    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 5248000);
 }
 
 void BinaryObjectQuery::handleResponse(GetObjectResponse* response)
