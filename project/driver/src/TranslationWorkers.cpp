@@ -413,7 +413,7 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
                                         SQLLEN targetLen,
                                         SQLLEN *resultSize)
 {
-    if (data.empty() || b::trim_copy(data).empty())
+    if (data.empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
