@@ -1452,8 +1452,10 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
 
         // fix me:  I know this isn't always right for SQL_DESC_LENTH
+        case SQL_COLUMN_LENGTH:
         case SQL_DESC_LENGTH:
-            if (type == SQL_VARCHAR || type == SQL_CHAR)
+            if (type == SQL_VARCHAR || type == SQL_CHAR ||
+                type == SQL_LONGVARBINARY)
             {
                 colAttHelper.setInt(column->getMaximumLength());
             }
@@ -1491,6 +1493,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             break;
 
+        case SQL_COLUMN_PRECISION:
         case SQL_DESC_PRECISION:
             switch(type)
             {
@@ -1509,6 +1512,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
 
         // This is totally wrong
+        case SQL_COLUMN_SCALE:
         case SQL_DESC_SCALE:
             colAttHelper.setInt(0);
             break;
