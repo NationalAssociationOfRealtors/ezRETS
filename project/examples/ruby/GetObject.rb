@@ -2,6 +2,8 @@
 # This ruby example requires the ruby odbc library which can be found
 # at http://www.ch-werner.de/rubyodbc/  Unfortunately, this isn't available
 # as a gem as of yet.
+#
+# Call like: GetObject.rb -e -d debug.txt Property Photo LN000001
 
 $VERBOSE = 1
 
@@ -61,6 +63,11 @@ if drv.attrs.has_key?('HttpLogFile')
   drv.attrs['UseHttpLogging'] = "true"
 end
 
+extentions = {
+  'image/jpeg' => 'jpg',
+  'image/gif' => 'gif'
+}
+
 sql = "select * from object:binary:#{resource} where type='#{type}' and " +
       "object_key='#{object_key}'"
 
@@ -75,7 +82,7 @@ dbc.run(sql) do |stmt|
     puts
   end
   stmt.each do |row|
-    filename = "#{row[0]}.#{row[1]}.jpg"
+    filename = "#{row[0]}.#{row[1]}.#{extentions[row[2]]}"
     File.open(filename, 'w') { |f| f << row[4] }
   end
 end
