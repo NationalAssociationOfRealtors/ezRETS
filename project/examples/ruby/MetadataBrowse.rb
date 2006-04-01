@@ -54,18 +54,21 @@ end
 dbc = ODBC::Database.new
 dbc.drvconnect(drv)
 
+tables = Array.new
+
 dbc.tables do |stmt|
   stmt.each_hash do |row|
-    table = row["TABLE_NAME"]
-    puts table
-    
-    dbc.columns(table) do |cstmt|
-      cstmt.each_hash do |crow|
-        puts "\t" + crow["COLUMN_NAME"] + "\t" + crow["TYPE_NAME"]
-      end
+    tables << row["TABLE_NAME"]
+  end
+end
+
+tables.each do |table|
+  puts table
+  dbc.columns(table) do |stmt|
+    stmt.each_hash do |row|
+      printf("    %-25s  %-25s\n", row["COLUMN_NAME"], row["TYPE_NAME"])
     end
   end
 end
 
 dbc.disconnect
-
