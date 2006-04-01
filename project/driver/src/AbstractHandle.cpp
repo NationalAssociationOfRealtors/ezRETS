@@ -77,6 +77,7 @@ SQLRETURN AbstractHandle::SQLGetDiagRec(
     ErrorPtr error = mErrors.at(adjRecNo);
     string sState = error->getSqlstate();
     sState.copy((char *) Sqlstate, 5);
+    Sqlstate[5] = '\0';
 
     string message = error->getMessage();
     size_t size;
