@@ -238,7 +238,10 @@ SQLRETURN SqlQuery::doRetsQuery()
         mResultSet->addRow(v);
     }
 
-    mResultSet->setReportedRowCount(results->GetCount());
+    if (!mResultSet->isEmpty())
+    {
+        mResultSet->setReportedRowCount(results->GetCount());
+    }
 
     return SQL_SUCCESS;
 }
