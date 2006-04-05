@@ -1,3 +1,17 @@
+Changes since 1.2.0
+-------------------
+ * User-Agent is now "ezRETS/1.2.1 (librets/1.1.0b2.1)"
+
+ Bug fixes:
+  * Two small fixes (one in libRETS) to make ezRETS happy with
+    Paragon.
+  * Null-terminate the error code string.  This makes ruby happy,
+    probably others as well.
+
+ Developer notes:
+  * libRETS 1.1.0b2 or 1.1.0b2.1 is required to build.  b2.1 is only
+    needed for going against Paragon systems.
+
 Changes since 1.1.0
 -------------------
  * User-Agent is now "ezRETS/1.2.0 (librets/1.0.0b1)"
@@ -17,7 +31,7 @@ Changes since 1.1.0
      o #25 - SQLServer DTS now works.
 
  Developer notes:
-  * ezRETS 1.1.0b2 is required to build
+  * libRETS 1.1.0b2 is required to build
 
 Changes since 1.0.0
 -------------------
