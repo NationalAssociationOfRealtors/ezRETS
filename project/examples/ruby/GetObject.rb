@@ -81,9 +81,10 @@ dbc.run(sql) do |stmt|
     end
     puts
   end
-  stmt.each do |row|
-    filename = "#{row[0]}.#{row[1]}.#{extentions[row[2]]}"
-    File.open(filename, 'w') { |f| f << row[4] }
+  stmt.each_hash do |row|
+    filename = row["object_key"] + '.' + row["object_id"].to_s + '.' +
+               extentions[row["mime_type"]]
+    File.open(filename, 'w') { |f| f << row["raw_data"] }
   end
 end
 dbc.disconnect
