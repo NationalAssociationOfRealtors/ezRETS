@@ -131,6 +131,7 @@ class RetsSTMT : public AbstractHandle
     typedef boost::shared_ptr<TableNameVector> TableNameVectorPtr;
     TableNameVectorPtr getMetadataTableNames();
     TableNameVectorPtr getMetadataTableName(std::string name);
+    SQLULEN lookupSizeHelper(librets::MetadataTable* table);
 
     SQLULEN columnSizeHelper(SQLSMALLINT type, SQLULEN length);
 

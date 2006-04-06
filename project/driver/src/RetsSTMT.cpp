@@ -1470,12 +1470,23 @@ SQLRETURN RetsSTMT::SQLColAttribute(
         return SQL_ERROR;
     }
 
+    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
     ColumnPtr column = resultSet->getColumn(ColumnNumber);
     MetadataTable* table = column->getRetsMetadataTable();
+
+    bool isLookup = false;
     SQLSMALLINT type;
     if (table != NULL)
     {
-        type = mDataTranslator->getPreferedOdbcType(table->GetDataType());
+        isLookup = metadataViewPtr->IsLookupColumn(table);
+        if (isLookup)
+        {
+            type = SQL_CHAR;
+        }
+        else
+        {
+            type = mDataTranslator->getPreferedOdbcType(table->GetDataType());
+        }
     }
     else
     {
@@ -1524,7 +1535,14 @@ SQLRETURN RetsSTMT::SQLColAttribute(
         case SQL_DESC_DISPLAY_SIZE:
             if (table != NULL)
             {
-                colAttHelper.setInt(table->GetMaximumLength());
+                if (isLookup)
+                {
+                    colAttHelper.setInt(lookupSizeHelper(table));
+                }
+                else
+                {
+                    colAttHelper.setInt(table->GetMaximumLength());
+                }
             }
             else
             {
@@ -1538,12 +1556,20 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
 
         // fix me:  I know this isn't always right for SQL_DESC_LENTH
+        case SQL_COLUMN_LENGTH:
         case SQL_DESC_LENGTH:
             if (type == SQL_VARCHAR || type == SQL_CHAR)
             {
                 if (table != NULL)
                 {
-                    colAttHelper.setInt(table->GetMaximumLength());
+                    if (isLookup)
+                    {
+                        colAttHelper.setInt(lookupSizeHelper(table));
+                    }
+                    else
+                    {
+                        colAttHelper.setInt(table->GetMaximumLength());
+                    }
                 }
                 else
                 {
@@ -1580,7 +1606,14 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             else
             {
-                colAttHelper.setInt(table->GetMaximumLength());
+                if (isLookup)
+                {
+                    colAttHelper.setInt(lookupSizeHelper(table));
+                }
+                else
+                {
+                    colAttHelper.setInt(table->GetMaximumLength());
+                }
             }
             break;
 
@@ -1926,4 +1959,21 @@ RetsSessionPtr RetsSTMT::getRetsSession()
 AppRowDesc* RetsSTMT::getArd()
 {
     return &ard;
+}
+
+SQLULEN RetsSTMT::lookupSizeHelper(MetadataTable* table)
+{
+    SQLULEN size;
+
+    // Its either a Lookup or a LookupMulti
+    if (table->GetInterpretation() == MetadataTable::LOOKUP)
+    {
+        size = 129;
+    }
+    else
+    {
+        size = 2561;
+    }
+
+    return size;
 }
