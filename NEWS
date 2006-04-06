@@ -1,3 +1,15 @@
+Changes since 1.2.1
+-------------------
+ * User-Agent is now "ezRETS/1.2.2 (librets/1.1.0b2.1)"
+
+ Bug fixes
+  * SQLColAttribute didn't correctly make LOOKUP and LOOKUP_MULTI look like
+    a character field.
+
+ Developer notes:
+  * libRETS 1.1.0b2 or 1.1.0b2.1 is required to build.  b2.1 is only
+    needed for going against Paragon systems.
+
 Changes since 1.2.0
 -------------------
  * User-Agent is now "ezRETS/1.2.1 (librets/1.1.0b2.1)"
