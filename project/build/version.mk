@@ -1,1 +1,1 @@
-VERSION = 1.2.0
+VERSION = 1.99.0
