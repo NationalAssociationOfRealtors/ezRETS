@@ -24,6 +24,7 @@
 #include "ResultSet.h"
 #include "DataTranslator.h"
 #include "Descriptors.h"
+#include "DataStreamInfo.h"
 
 namespace odbcrets
 {
@@ -149,6 +150,7 @@ class RetsSTMT : public AbstractHandle
     RetsDBC* mDbc;
     QueryPtr mQuery;
     odbcrets::DataTranslatorPtr mDataTranslator;
+    DataStreamInfo mDataStreamInfo;
 };
 
 

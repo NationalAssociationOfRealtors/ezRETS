@@ -67,7 +67,8 @@ SQLSMALLINT Column::getTargetType()
 
 void Column::setData(string data)
 {
-    setData(data, mTargetType, mTargetValue, mBufferLength, mStrLenOrInd);
+    setData(data, mTargetType, mTargetValue, mBufferLength, mStrLenOrInd,
+            NULL);
 }
 
 void Column::cleanData(string& data)
@@ -76,7 +77,7 @@ void Column::cleanData(string& data)
 
 void Column::setData(string data, SQLSMALLINT TargetType,
                      SQLPOINTER TargetValue, SQLINTEGER BufferLength,
-                     SQLINTEGER* StrLenOrInd)
+                     SQLINTEGER* StrLenOrInd, DataStreamInfo *streamInfo)
 {
     SQLSMALLINT type = getBestSqlType(TargetType);
 
@@ -94,7 +95,8 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     SQLINTEGER* adjStrLen =
         adjustDescPointer(ard->mBindOffsetPtr, StrLenOrInd);
 
-    dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen);
+    dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen,
+                  streamInfo);
 }
 
 SQLSMALLINT Column::getBestSqlType()

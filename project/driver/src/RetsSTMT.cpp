@@ -29,6 +29,7 @@
 #include "OdbcSqlException.h"
 #include "SqlStateException.h"
 #include "Query.h"
+#include "DataStreamInfo.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -1564,7 +1565,8 @@ SQLRETURN RetsSTMT::SQLGetData(
 {
     mErrors.clear();
 
-    getLogger()->debug("In SQLGetData");
+    EzLoggerPtr log = getLogger();
+    log->debug("In SQLGetData");
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
@@ -1577,8 +1579,35 @@ SQLRETURN RetsSTMT::SQLGetData(
     SQLRETURN retCode = SQL_SUCCESS;
     try
     {
-        resultSet->getData(ColumnNumber, TargetType, TargetValue,
-                             BufferLength, StrLenorInd);
+        if (mDataStreamInfo.column != ColumnNumber)
+        {
+            log->debug("Resetting DataStreamInfo");
+            mDataStreamInfo.reset();
+            mDataStreamInfo.column = ColumnNumber;
+        }
+
+        if (mDataStreamInfo.status == DataStreamInfo::NO_MORE_DATA)
+        {
+            if (StrLenorInd)
+            {
+                *StrLenorInd = SQL_NO_DATA;
+                log->debug("Sending SQL_NO_DATA");
+            }
+        }
+        else
+        {
+            resultSet->getData(ColumnNumber, TargetType, TargetValue,
+                               BufferLength, StrLenorInd, &mDataStreamInfo);
+
+            if (mDataStreamInfo.status == DataStreamInfo::HAS_MORE_DATA)
+            {
+                retCode = SQL_SUCCESS_WITH_INFO;
+                addError("01004", "Data truncated");
+            }
+        }
+
+        log->debug(str_stream() << "DSI: " << mDataStreamInfo.column << " " <<
+                   mDataStreamInfo.status << " " << mDataStreamInfo.offset);
     }
     catch(DateTimeFormatException& e)
     {

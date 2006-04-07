@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,36 +14,33 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef EZRETS_FWD_H
-#define EZRETS_FWD_H
+#ifndef DATASTREAMINFO_H
+#define DATASTREAMINFO_H
 
-#include <boost/shared_ptr.hpp>
+#include "ezrets.h"
+#include <cstddef>
 
 namespace odbcrets
 {
-class EzLogger;
-typedef boost::shared_ptr<EzLogger> EzLoggerPtr;
+class DataStreamInfo
+{
+  public:
+    enum FileStatus { NO_DATA_RETRIEVED, HAS_MORE_DATA, NO_MORE_DATA };
 
-class ResultSet;
-typedef boost::shared_ptr<ResultSet> ResultSetPtr;
+    DataStreamInfo();
 
-class RetsSTMT;
-class RetsENV;
-class RetsDBC;
+    void reset();
 
-class MetadataView;
-typedef boost::shared_ptr<MetadataView> MetadataViewPtr;
+    SQLUSMALLINT column;
+    FileStatus status;
+    std::size_t offset;
+};
 
-class Query;
-typedef boost::shared_ptr<Query> QueryPtr;
-
-class SqlStateException;
-
-class DataStreamInfo;
 }
 
-#endif
+#endif /* DATASTREAMINFO_H */
 
 /* Local Variables: */
 /* mode: c++ */
 /* End: */
+

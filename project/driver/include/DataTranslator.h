@@ -19,6 +19,7 @@
 
 #include "ezrets.h"
 #include "librets.h"
+#include "ezretsfwd.h"
 #include "TranslationWorkers.h"
 #include <boost/shared_ptr.hpp>
 
@@ -35,7 +36,7 @@ class DataTranslator
 
     virtual void translate(
         std::string data, SQLSMALLINT type, SQLPOINTER target,
-        SQLLEN targetLen, SQLLEN *resultSize) = 0;
+        SQLLEN targetLen, SQLLEN *resultSize, DataStreamInfo *streamInfo) = 0;
 
     virtual std::string getOdbcTypeName(SQLSMALLINT type) = 0;
     virtual int getOdbcTypeLength(SQLSMALLINT type) = 0;
@@ -50,7 +51,8 @@ class NativeDataTranslator : public DataTranslator
     SQLSMALLINT getPreferedOdbcType(librets::MetadataTable::DataType type);
 
     void translate(std::string data, SQLSMALLINT type, SQLPOINTER target,
-                   SQLLEN targetLen, SQLLEN *resultSize);
+                   SQLLEN targetLen, SQLLEN *resultSize,
+                   DataStreamInfo *streamInfo);
 
     std::string getOdbcTypeName(SQLSMALLINT type);
     int getOdbcTypeLength(SQLSMALLINT type);
@@ -71,7 +73,7 @@ class CharOnlyDataTranslator : public DataTranslator
 
     void translate(
         std::string data, SQLSMALLINT type, SQLPOINTER target,
-        SQLLEN targetLen, SQLLEN *resultSize);
+        SQLLEN targetLen, SQLLEN *resultSize, DataStreamInfo *streamInfo);
 
     std::string getOdbcTypeName(SQLSMALLINT type);
     int getOdbcTypeLength(SQLSMALLINT type);
@@ -79,7 +81,7 @@ class CharOnlyDataTranslator : public DataTranslator
   private:
     CharacterTranslationWorker mTranslationWorker;
 };
-        
+
 }
 #endif /* DATATRANSLATOR_H */
 

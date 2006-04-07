@@ -18,6 +18,7 @@
 #include "DateTimeFormatException.h"
 #include "str_stream.h"
 #include "utils.h"
+#include "DataStreamInfo.h"
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
@@ -48,7 +49,8 @@ string BitTranslationWorker::getOdbcTypeName() { return "BOOLEAN"; }
 int BitTranslationWorker::getOdbcTypeLength() { return sizeof(char); }
 
 void BitTranslationWorker::translate(string data, SQLPOINTER target,
-                                     SQLLEN targetLen, SQLLEN *resultSize)
+                                     SQLLEN targetLen, SQLLEN *resultSize,
+                                     DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -76,7 +78,8 @@ string DateTranslationWorker::getOdbcTypeName() { return "DATE"; }
 int DateTranslationWorker::getOdbcTypeLength() { return SQL_DATE_LEN; }
 
 void DateTranslationWorker::translate(string data, SQLPOINTER target,
-                                      SQLLEN targetLen, SQLLEN *resultSize)
+                                      SQLLEN targetLen, SQLLEN *resultSize,
+                                      DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -124,7 +127,8 @@ int TimestampTranslationWorker::getOdbcTypeLength()
 
 void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
                                            SQLLEN targetLen,
-                                           SQLLEN *resultSize)
+                                           SQLLEN *resultSize,
+                                           DataStreamInfo *streamInfo)
 {
     // The following definitions are from the Rets spec.  We should
     // be able to handle most of the following:
@@ -205,7 +209,8 @@ string TimeTranslationWorker::getOdbcTypeName() { return "TIME"; }
 int TimeTranslationWorker::getOdbcTypeLength() { return SQL_TIME_LEN; }
 
 void TimeTranslationWorker::translate(string data, SQLPOINTER target,
-                                      SQLLEN targetLen, SQLLEN *resultSize)
+                                      SQLLEN targetLen, SQLLEN *resultSize,
+                                      DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -246,7 +251,8 @@ string TinyTranslationWorker::getOdbcTypeName() { return "TINY"; }
 int TinyTranslationWorker::getOdbcTypeLength() { return sizeof(char); }
 
 void TinyTranslationWorker::translate(string data, SQLPOINTER target,
-                                      SQLLEN targetLen, SQLLEN *resultSize)
+                                      SQLLEN targetLen, SQLLEN *resultSize,
+                                      DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -274,7 +280,8 @@ int SmallIntTranslationWorker::getOdbcTypeLength()
 
 void SmallIntTranslationWorker::translate(string data, SQLPOINTER target,
                                           SQLLEN targetLen,
-                                          SQLLEN *resultSize)
+                                          SQLLEN *resultSize,
+                                          DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -294,7 +301,8 @@ string IntTranslationWorker::getOdbcTypeName() { return "INT"; }
 int IntTranslationWorker::getOdbcTypeLength() { return sizeof(SQLINTEGER); }
 
 void IntTranslationWorker::translate(string data, SQLPOINTER target,
-                                     SQLLEN targetLen, SQLLEN *resultSize)
+                                     SQLLEN targetLen, SQLLEN *resultSize,
+                                     DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -314,7 +322,8 @@ string BigIntTranslationWorker::getOdbcTypeName() { return "LONG"; }
 int BigIntTranslationWorker::getOdbcTypeLength() { return sizeof(SQLBIGINT); }
 
 void BigIntTranslationWorker::translate(string data, SQLPOINTER target,
-                                        SQLLEN targetLen, SQLLEN *resultSize)
+                                        SQLLEN targetLen, SQLLEN *resultSize,
+                                        DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -347,7 +356,8 @@ int DecimalTranslationWorker::getOdbcTypeLength()
 
 void DecimalTranslationWorker::translate(string data, SQLPOINTER target,
                                          SQLLEN targetLen,
-                                         SQLLEN *resultSize)
+                                         SQLLEN *resultSize,
+                                         DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -367,7 +377,8 @@ string CharacterTranslationWorker::getOdbcTypeName() { return "CHARACTER"; }
 int CharacterTranslationWorker::getOdbcTypeLength() { return -1; }
 
 void CharacterTranslationWorker::translate(
-    string data, SQLPOINTER target, SQLLEN targetLen, SQLLEN *resultSize)
+    string data, SQLPOINTER target, SQLLEN targetLen, SQLLEN *resultSize,
+    DataStreamInfo *streamInfo)
 {
     size_t size = copyString(data, (char *) target, targetLen);
     setResultSize(resultSize, size);
@@ -384,7 +395,8 @@ int DoubleTranslationWorker::getOdbcTypeLength() { return sizeof(SQLDOUBLE); }
 
 void DoubleTranslationWorker::translate(string data, SQLPOINTER target,
                                         SQLLEN targetLen,
-                                        SQLLEN *resultSize)
+                                        SQLLEN *resultSize,
+                                        DataStreamInfo *streamInfo)
 {
     if (data.empty() || b::trim_copy(data).empty())
     {
@@ -411,7 +423,8 @@ int BinaryTranslationWorker::getOdbcTypeLength() { return -1; }
 
 void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
                                         SQLLEN targetLen,
-                                        SQLLEN *resultSize)
+                                        SQLLEN *resultSize,
+                                        DataStreamInfo *streamInfo)
 {
     if (data.empty())
     {
@@ -426,6 +439,26 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    SQLLEN size = data.copy((char*) target, targetLen);
+    int offset = 0;
+    if (streamInfo)
+    {
+        offset = streamInfo->offset;
+    }
+
+    SQLLEN size = data.copy((char*) target, targetLen, offset);
     setResultSize(resultSize, size);
+
+    if (streamInfo)
+    {
+        streamInfo->offset += size;
+
+        if (streamInfo->offset >= data.size())
+        {
+            streamInfo->status = DataStreamInfo::NO_MORE_DATA;
+        }
+        else
+        {
+            streamInfo->status = DataStreamInfo::HAS_MORE_DATA;
+        }
+    }
 }

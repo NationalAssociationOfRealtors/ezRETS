@@ -177,7 +177,7 @@ ColumnVectorPtr ResultSet::getColumns()
 
 void ResultSet::getData(
     SQLUSMALLINT colno, SQLSMALLINT TargetType, SQLPOINTER TargetValue,
-    SQLLEN BufferLength, SQLLEN *StrLenorInd)
+    SQLLEN BufferLength, SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
     mLogger->debug("In ResultSet::getData()");
 
@@ -200,7 +200,7 @@ void ResultSet::getData(
     }
 
     column->setData(resCol, TargetType, TargetValue, BufferLength,
-                    StrLenorInd);
+                    StrLenorInd, streamInfo);
 }
 
 void ResultSet::setReportedRowCount(int count)

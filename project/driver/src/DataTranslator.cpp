@@ -100,7 +100,8 @@ NativeDataTranslator::NativeDataTranslator()
  */
 void NativeDataTranslator::translate(string data, SQLSMALLINT type,
                                      SQLPOINTER target, SQLLEN targetLen,
-                                     SQLLEN *resultSize)
+                                     SQLLEN *resultSize,
+                                     DataStreamInfo *streamInfo)
 {
     try
     {
@@ -108,7 +109,7 @@ void NativeDataTranslator::translate(string data, SQLSMALLINT type,
         if (i != mOdbc2Trans.end())
         {
             TranslationWorkerPtr p = i->second;
-            p->translate(data, target, targetLen, resultSize);
+            p->translate(data, target, targetLen, resultSize, streamInfo);
         }
     }
     catch(b::bad_lexical_cast&)
@@ -170,9 +171,10 @@ SQLSMALLINT CharOnlyDataTranslator::getPreferedOdbcType(
 
 void CharOnlyDataTranslator::translate(
     std::string data, SQLSMALLINT type, SQLPOINTER target,
-    SQLLEN targetLen, SQLLEN *resultSize)
+    SQLLEN targetLen, SQLLEN *resultSize, DataStreamInfo *streamInfo)
 {
-    mTranslationWorker.translate(data, target, targetLen, resultSize);
+    mTranslationWorker.translate(data, target, targetLen, resultSize,
+                                 streamInfo);
 }
 
 string CharOnlyDataTranslator::getOdbcTypeName(SQLSMALLINT type)

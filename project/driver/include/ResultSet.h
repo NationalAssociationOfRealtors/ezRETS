@@ -69,7 +69,7 @@ class ResultSet
 
     void getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                  SQLPOINTER TargetValue, SQLLEN BufferLength,
-                 SQLLEN *StrLenorInd);
+                 SQLLEN *StrLenorInd, DataStreamInfo *streamInfo);
 
     void setReportedRowCount(int count);
 

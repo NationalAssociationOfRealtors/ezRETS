@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,36 +14,18 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef EZRETS_FWD_H
-#define EZRETS_FWD_H
 
-#include <boost/shared_ptr.hpp>
+#include "DataStreamInfo.h"
 
-namespace odbcrets
+using namespace odbcrets;
+
+DataStreamInfo::DataStreamInfo()
+    : column(0), status(NO_DATA_RETRIEVED), offset(0) { }
+
+void DataStreamInfo::reset()
 {
-class EzLogger;
-typedef boost::shared_ptr<EzLogger> EzLoggerPtr;
-
-class ResultSet;
-typedef boost::shared_ptr<ResultSet> ResultSetPtr;
-
-class RetsSTMT;
-class RetsENV;
-class RetsDBC;
-
-class MetadataView;
-typedef boost::shared_ptr<MetadataView> MetadataViewPtr;
-
-class Query;
-typedef boost::shared_ptr<Query> QueryPtr;
-
-class SqlStateException;
-
-class DataStreamInfo;
+    column = 0;
+    status = NO_DATA_RETRIEVED;
+    offset = 0;
 }
-
-#endif
-
-/* Local Variables: */
-/* mode: c++ */
-/* End: */
+    

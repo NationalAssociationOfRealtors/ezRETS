@@ -42,6 +42,7 @@ X_OBJS = \
 	$(DIROBJ)\Column.obj\
 	$(DIROBJ)\DataCountQuery.obj\
 	$(DIROBJ)\DataQuery.obj\
+	$(DIROBJ)\DataStreamInfo.obj\
 	$(DIROBJ)\DateTimeFormatException.obj\
 	$(DIROBJ)\DataTranslationException.obj\
 	$(DIROBJ)\DataTranslator.obj\

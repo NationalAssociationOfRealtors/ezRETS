@@ -18,6 +18,7 @@
 #define TRANSLATIONWORKERS_H
 
 #include "ezrets.h"
+#include "ezretsfwd.h"
 #include <string>
 #include <boost/shared_ptr.hpp>
 
@@ -32,7 +33,8 @@ class TranslationWorker
     virtual std::string getOdbcTypeName() = 0;
     virtual int getOdbcTypeLength() = 0;
     virtual void translate(std::string data, SQLPOINTER target,
-                           SQLLEN targetLen, SQLLEN *resultSize) = 0;
+                           SQLLEN targetLen, SQLLEN *resultSize,
+                           DataStreamInfo *streamInfo) = 0;
     static void setResultSize(SQLLEN *resultSize, SQLLEN value);
 };
 
@@ -45,7 +47,7 @@ class BitTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class DateTranslationWorker : public TranslationWorker
@@ -55,7 +57,7 @@ class DateTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class TimestampTranslationWorker : public TranslationWorker
@@ -65,7 +67,7 @@ class TimestampTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class TimeTranslationWorker : public TranslationWorker
@@ -75,7 +77,7 @@ class TimeTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class TinyTranslationWorker : public TranslationWorker
@@ -85,7 +87,7 @@ class TinyTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class SmallIntTranslationWorker : public TranslationWorker
@@ -95,7 +97,7 @@ class SmallIntTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class IntTranslationWorker : public TranslationWorker
@@ -105,7 +107,7 @@ class IntTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class BigIntTranslationWorker : public TranslationWorker
@@ -115,7 +117,7 @@ class BigIntTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class DecimalTranslationWorker : public TranslationWorker
@@ -125,7 +127,7 @@ class DecimalTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class CharacterTranslationWorker : public TranslationWorker
@@ -135,7 +137,7 @@ class CharacterTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class DoubleTranslationWorker : public TranslationWorker
@@ -145,7 +147,7 @@ class DoubleTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 class BinaryTranslationWorker : public TranslationWorker
@@ -155,7 +157,7 @@ class BinaryTranslationWorker : public TranslationWorker
     std::string getOdbcTypeName();
     int getOdbcTypeLength();
     void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
-                   SQLLEN *resultSize);
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
 }
