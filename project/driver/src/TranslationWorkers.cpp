@@ -446,7 +446,7 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
     }
 
     SQLLEN size = data.copy((char*) target, targetLen, offset);
-    setResultSize(resultSize, size);
+
 
     if (streamInfo)
     {
@@ -460,5 +460,9 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         {
             streamInfo->status = DataStreamInfo::HAS_MORE_DATA;
         }
+
+        size = data.size() - streamInfo->offset;
     }
+    
+    setResultSize(resultSize, size);
 }

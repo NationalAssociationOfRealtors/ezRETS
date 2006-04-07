@@ -1588,11 +1588,8 @@ SQLRETURN RetsSTMT::SQLGetData(
 
         if (mDataStreamInfo.status == DataStreamInfo::NO_MORE_DATA)
         {
-            if (StrLenorInd)
-            {
-                *StrLenorInd = SQL_NO_DATA;
-                log->debug("Sending SQL_NO_DATA");
-            }
+            retCode = SQL_NO_DATA;
+            log->debug("Sending SQL_NO_DATA");
         }
         else
         {
@@ -1602,12 +1599,21 @@ SQLRETURN RetsSTMT::SQLGetData(
             if (mDataStreamInfo.status == DataStreamInfo::HAS_MORE_DATA)
             {
                 retCode = SQL_SUCCESS_WITH_INFO;
-                addError("01004", "Data truncated");
+                *StrLenorInd = SQL_NO_TOTAL;
+                //addError("01004", "Data truncated");
+            }
+            else
+            {
+                if (mDataStreamInfo.status == DataStreamInfo::NO_MORE_DATA)
+                {
+                    *StrLenorInd = mDataStreamInfo.offset;
+                }
             }
         }
 
         log->debug(str_stream() << "DSI: " << mDataStreamInfo.column << " " <<
-                   mDataStreamInfo.status << " " << mDataStreamInfo.offset);
+                   mDataStreamInfo.status << " " << mDataStreamInfo.offset
+                   << " --  " << *StrLenorInd << " " << retCode);
     }
     catch(DateTimeFormatException& e)
     {
