@@ -450,6 +450,11 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
 
     if (streamInfo)
     {
+        // We need to report up remaining size for binary data as
+        // it can be streamed upwards.  Although, remaining size
+        // will be equal to buffer lenght if its not a full
+        // buffers worth of data.
+        SQLLEN remaining_size = data.size() - streamInfo->offset;
         streamInfo->offset += size;
 
         if (streamInfo->offset >= data.size())
@@ -461,7 +466,7 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
             streamInfo->status = DataStreamInfo::HAS_MORE_DATA;
         }
 
-        size = data.size() - streamInfo->offset;
+        size = remaining_size;
     }
     
     setResultSize(resultSize, size);

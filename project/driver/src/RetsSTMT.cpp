@@ -1599,15 +1599,8 @@ SQLRETURN RetsSTMT::SQLGetData(
             if (mDataStreamInfo.status == DataStreamInfo::HAS_MORE_DATA)
             {
                 retCode = SQL_SUCCESS_WITH_INFO;
-                *StrLenorInd = SQL_NO_TOTAL;
-                //addError("01004", "Data truncated");
-            }
-            else
-            {
-                if (mDataStreamInfo.status == DataStreamInfo::NO_MORE_DATA)
-                {
-                    *StrLenorInd = mDataStreamInfo.offset;
-                }
+                //*StrLenorInd = SQL_NO_TOTAL;
+                addError("01004", "Data truncated");
             }
         }
 
