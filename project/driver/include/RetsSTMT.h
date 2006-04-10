@@ -127,11 +127,6 @@ class RetsSTMT : public AbstractHandle
     AppRowDesc ard;
     ImpRowDesc ird;
 
-    SQLRETURN processColumn(ResultSetPtr resultSet,
-                            librets::MetadataResource* res,
-                            librets::MetadataClass* clazz,
-                            librets::MetadataTable* table);
-
     librets::StringVectorPtr getSQLGetTypeInfoRow(
         SQLSMALLINT dtype, std::string perc_radix,
         std::string unsigned_att = "", std::string litprefix = "",

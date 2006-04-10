@@ -30,6 +30,7 @@
 #include "SqlStateException.h"
 #include "Query.h"
 #include "TableMetadataQuery.h"
+#include "ColumnMetadataQuery.h"
 #include "DataStreamInfo.h"
 
 using namespace odbcrets;
@@ -39,35 +40,6 @@ using std::string;
 using std::make_pair;
 namespace b = boost;
 namespace ba = boost::algorithm;
-
-class TableNameSorter {
-  public:
-    TableNameSorter(bool useStandardNames)
-        : mUseStandardNames(useStandardNames)
-    {
-    }
-    
-    bool operator()(const MetadataTable* left,
-                    const MetadataTable* right)
-    {
-        string leftName;
-        string rightName;
-        if (mUseStandardNames)
-        {
-            leftName = b::to_upper_copy(left->GetStandardName());
-            rightName = b::to_upper_copy(right->GetStandardName());
-        }
-        else
-        {
-            leftName = b::to_upper_copy(left->GetSystemName());
-            rightName = b::to_upper_copy(right->GetSystemName());
-        }
-        return (leftName < rightName);
-    }
-
-  private:
-    bool mUseStandardNames;
-};
 
 RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
     : AbstractHandle(), mDbc(handle)
@@ -379,33 +351,31 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     if (TableName != NULL)
     {
         tableName = SqlCharToString(TableName, NameLength3);
-        log->debug(str_stream() << "TableName " << tableName);
     }
 
     string tableType("");
     if (TableType != NULL)
     {
         tableType = SqlCharToString(TableType, NameLength4);
-        log->debug(str_stream() << "TableType: " << tableType);
     }
 
-    SQLRETURN returnCode = SQL_SUCCESS;
+    SQLRETURN result = SQL_SUCCESS;
     try
     {
         mQuery.reset(new TableMetadataQuery(this, tableName, tableType));
         mQuery->prepareResultSet();
 
         log->debug(str_stream() << mQuery);
-        returnCode = mQuery->execute();
+        result = mQuery->execute();
     }
     catch(std::exception& e)
     {
         log->debug(str_stream() << "SQLTables exception: " << e.what());
         addError("01000", e.what());
-        returnCode = SQL_ERROR;
+        result = SQL_ERROR;
     }
 
-    return returnCode;
+    return result;
 }
 
 RetsDBC* RetsSTMT::getDbc()
@@ -525,239 +495,35 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         return SQL_ERROR;
     }
 
-    if (SchemaName != NULL && *SchemaName != '\0')
+    string tableName("");
+    if (TableName != NULL)
     {
-        string schName = SqlCharToString(SchemaName, NameLength2);
-        log->debug(str_stream() << "SchemaName " << schName);
+        tableName = SqlCharToString(TableName, NameLength3);
     }
 
-    // It looks like we're going to return something, so lets set up
-    // the result set.
-    mQuery.reset(new NullQuery(this));
-    ResultSetPtr resultSet = mQuery->getResultSet();
-    resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
-    resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-    resultSet->addColumn("TABLE_NAME", SQL_VARCHAR); // NOT NULL
-    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR); // NOT NULL
-    resultSet->addColumn("DATA_TYPE", SQL_SMALLINT); // smallint not null
-    resultSet->addColumn("TYPE_NAME", SQL_VARCHAR); // varchar not null
-    resultSet->addColumn("COLUMN_SIZE", SQL_INTEGER); // int
-    resultSet->addColumn("BUFFER_LENGTH", SQL_INTEGER);
-    resultSet->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
-    resultSet->addColumn("NUM_PREC_RADIX", SQL_SMALLINT);
-    resultSet->addColumn("NULLABLE", SQL_SMALLINT); // not null
-    resultSet->addColumn("REMARKS", SQL_VARCHAR);
-    resultSet->addColumn("COLUMN_DEF", SQL_VARCHAR);
-    resultSet->addColumn("SQL_DATA_TYPE", SQL_SMALLINT); // not null
-    resultSet->addColumn("SQL_DATETIME_SUB", SQL_SMALLINT);
-    resultSet->addColumn("CHAR_OCTET_LENGTH", SQL_INTEGER);
-    resultSet->addColumn("ORDINAL_POSITION", SQL_INTEGER); // not null
-    resultSet->addColumn("IS_NULLABLE", SQL_VARCHAR);
-
-    MetadataResource* res = NULL;
-    MetadataClass* clazz = NULL;
-    string resName, className;
-    ResourceClassPairVectorPtr rcpVectorPtr;
-    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
-
-    // If this is a table name pattern, we need to detect that and throw
-    // back HYC00 as an error.
-    if (TableName == NULL || *TableName == '\0')
+    string columnName("");
+    if (ColumnName != NULL)
     {
-        rcpVectorPtr = metadataViewPtr->getResourceClassPairs();
-    }
-    else
-    {
-        rcpVectorPtr.reset(new ResourceClassPairVector());
-        
-        string tableName = SqlCharToString(TableName, NameLength3);
-        log->debug(str_stream() << "TableName " << tableName);
-        ResourceClassPairPtr pair =
-            metadataViewPtr->getResourceClassPairBySQLTable(tableName);
-        if (pair != NULL)
-        {
-            rcpVectorPtr->push_back(pair);
-        }
+        columnName = SqlCharToString(ColumnName, NameLength4);
     }
 
-    for (ResourceClassPairVector::iterator i = rcpVectorPtr->begin();
-         i != rcpVectorPtr->end(); i++)
+    SQLRETURN result = SQL_SUCCESS;
+    try
     {
-        ResourceClassPairPtr rcp = *i;
-        res = rcp->first;
-        clazz = rcp->second;
+        mQuery.reset(new ColumnMetadataQuery(this, tableName, columnName));
+        mQuery->prepareResultSet();
 
-        MetadataTable* rTable = NULL;
-        SQLRETURN result = SQL_SUCCESS;
-        if (ColumnName != NULL && *ColumnName != '\0')
-        {
-            // we're looking at a specific column, so we won't get data
-            // for all
-            string retsTableName = SqlCharToString(ColumnName, NameLength4);
-            resName = res->GetResourceID();
-            className = clazz->GetClassName();
-            rTable =
-                metadataViewPtr->getTable(resName, className, retsTableName);
-
-            result = processColumn(resultSet, res, clazz, rTable);
-        }
-        else
-        {
-            // lets look at all columns
-            MetadataTableList tables =
-                metadataViewPtr->getTablesForClass(clazz);
-            std::sort(tables.begin(), tables.end(),
-                      TableNameSorter(mDbc->isUsingStandardNames()));
-            for (MetadataTableList::iterator j = tables.begin();
-                 j != tables.end(); j++)
-            {
-                rTable = *j;
-
-                result = processColumn(resultSet, res, clazz, rTable);
-            }
-        }
-
-        if (result != SQL_SUCCESS)
-        {
-            return result;
-        }
+        log->debug(str_stream() << mQuery);
+        result = mQuery->execute();
+    }
+    catch(std::exception& e)
+    {
+        log->debug(str_stream() << "SQLColumns exception: " << e.what());
+        addError("01000", e.what());
+        result = SQL_ERROR;
     }
 
-    return SQL_SUCCESS;
-}
-
-SQLRETURN RetsSTMT::processColumn(ResultSetPtr resultSet,
-                                  MetadataResource* res, MetadataClass* clazz,
-                                  MetadataTable* rTable)
-{
-    MetadataViewPtr metadataView = mDbc->getMetadataView();
-    string sqlTableName = metadataView->makeSQLTableName(res, clazz);
-
-    if (sqlTableName.empty())
-    {
-        return SQL_SUCCESS;
-    }
-
-    string colName;
-    if (mDbc->isUsingStandardNames())
-    {
-        colName = rTable->GetStandardName();
-        if (colName.empty())
-        {
-            return SQL_SUCCESS;
-        }
-    }
-    else
-    {
-        colName = rTable->GetSystemName();
-    }
-
-    StringVectorPtr results(new StringVector());
-    // TABLE_CAT
-    results->push_back("");
-    // TABLE_SCHEMA
-    results->push_back("");
-    // TABLE_NAME
-    results->push_back(sqlTableName);
-    // COLUMN_NAME
-    results->push_back(colName);
-
-    // DATA_TYPE
-    SQLSMALLINT type =
-        mDataTranslator->getPreferedOdbcType(rTable->GetDataType());
-    string typeString = b::lexical_cast<string>(type);
-    results->push_back(typeString);
-
-    // TYPE_NAME
-    results->push_back(mDataTranslator->getOdbcTypeName(type));
-    
-    // COLUMN_SIZE
-    int maxLen = rTable->GetMaximumLength();
-    string maxLenString = b::lexical_cast<string>(maxLen);
-    results->push_back(maxLenString);
-
-    // BUFFER_LENGTH
-    if (type == SQL_VARCHAR || type == SQL_CHAR)
-    {
-        results->push_back(maxLenString);
-    }
-    else
-    {
-        int size = mDataTranslator->getOdbcTypeLength(type);
-        results->push_back(b::lexical_cast<string>(size));
-    }
-
-    // DECIMAL_DIGITS
-    switch(type)
-    {
-        case SQL_DECIMAL:
-        case SQL_DOUBLE:
-            results->push_back(
-                b::lexical_cast<string>(rTable->GetPrecision()));
-            break;
-
-        case SQL_TYPE_TIMESTAMP:
-            results->push_back("3");
-            break;
-
-        default:
-            results->push_back("");
-    }
-
-    // NUM_PREC_RADIX
-    if (type == SQL_DECIMAL || type == SQL_DOUBLE)
-    {
-        results->push_back("10");
-    }
-    else
-    {
-        results->push_back("");
-    }
-
-    // NULLABLE
-    results->push_back(b::lexical_cast<string>(SQL_NULLABLE));
-
-    // REMARKS
-    results->push_back(rTable->GetLongName());
-
-    // COLUMN_DEF
-    results->push_back("");
-
-    // SQL_DATA_TYPE
-    if (type == SQL_TYPE_DATE || type == SQL_TYPE_TIME ||
-        type == SQL_TIMESTAMP_LEN)
-    {
-        results->push_back(b::lexical_cast<string>(SQL_DATETIME));
-    }
-    else
-    {
-        results->push_back(typeString);
-    }
-
-    // SQL_DATETIME_SUB
-    results->push_back(""); // do we need to do something here?
-
-    // CHAR_OCTECT_LENGTH
-    // todo: should be put behind an if for char
-    if (type == SQL_CHAR)
-    {
-        results->push_back(
-            b::lexical_cast<string>(rTable->GetMaximumLength()));
-    }
-    else
-    {
-        results->push_back("");
-    }
-
-    // ORDINAL_POSITION
-    results->push_back("1");  // todo: fix ordinal
-
-    // IS_NULLABLE
-    results->push_back("YES");
-
-    resultSet->addRow(results);
-
-    return SQL_SUCCESS;
+    return result;
 }
 
 void RetsSTMT::unbindColumns()

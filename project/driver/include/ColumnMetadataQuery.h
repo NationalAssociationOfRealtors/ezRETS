@@ -14,22 +14,23 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef TABLEMETADATAQUERY_H
-#define TABLEMETADATAQUERY_H
+#ifndef COLUMNMETADATAQUERY_H
+#define COLUMNMETADATAQUERY_H
 
 #include "ezrets.h"
 #include <string>
 #include "ezretsfwd.h"
+#include "librets/metadata_forward.h"
 #include "Query.h"
 
 namespace odbcrets
 {
 
-class TableMetadataQuery : public Query
+class ColumnMetadataQuery : public Query
 {
   public:
-    TableMetadataQuery(RetsSTMT* stmt, std::string table,
-                       std::string tableType);
+    ColumnMetadataQuery(RetsSTMT* stmt, std::string table,
+                        std::string column);
 
     virtual SQLRETURN execute();
 
@@ -38,13 +39,18 @@ class TableMetadataQuery : public Query
     virtual void prepareResultSet();
 
   private:
+    SQLRETURN ColumnMetadataQuery::processColumn(
+        librets::MetadataResource* res, librets::MetadataClass* clazz,
+        librets::MetadataTable* rTable);
+
     std::string mTable;
-    std::string mTableType;
+    std::string mColumn;
 };
 
 }
 
-#endif /* TABLEMETADATAQUERY_H */
+
+#endif /* COLUMNMETADATAQUERY_H */
 
 /* Local Variables: */
 /* mode: c++ */
