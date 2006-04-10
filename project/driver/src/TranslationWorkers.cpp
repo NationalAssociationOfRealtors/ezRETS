@@ -380,7 +380,36 @@ void CharacterTranslationWorker::translate(
     string data, SQLPOINTER target, SQLLEN targetLen, SQLLEN *resultSize,
     DataStreamInfo *streamInfo)
 {
-    size_t size = copyString(data, (char *) target, targetLen);
+    if ((target == NULL) || (targetLen == 0))
+    {
+        setResultSize(resultSize, 0);
+        return;
+    }
+
+    size_t size = 0;
+    if (streamInfo && data.size() > (SQLULEN) targetLen)
+    {
+        size_t dataSize = data.size();
+
+        // If we're larger than the target buffer, we want to fill the
+        // buffer leaving room for \0
+        SQLLEN adjSize = targetLen - 1;
+        size = data.copy((char *) target, adjSize, streamInfo->offset);
+        ((char*) target)[adjSize] = '\0';
+        
+        SQLLEN remaining_size = dataSize - streamInfo->offset;
+        streamInfo->offset =+ size;
+
+        streamInfo->status = streamInfo->offset >= dataSize ?
+            DataStreamInfo::NO_MORE_DATA : DataStreamInfo::HAS_MORE_DATA;
+
+        size = remaining_size;
+    }
+    else
+    {
+        size = copyString(data, (char *) target, targetLen);
+    }
+    
     setResultSize(resultSize, size);
 }
 
@@ -447,7 +476,6 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
 
     SQLLEN size = data.copy((char*) target, targetLen, offset);
 
-
     if (streamInfo)
     {
         // We need to report up remaining size for binary data as
@@ -455,16 +483,10 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         // will be equal to buffer lenght if its not a full
         // buffers worth of data.
         SQLLEN remaining_size = data.size() - streamInfo->offset;
-        streamInfo->offset += size;
 
-        if (streamInfo->offset >= data.size())
-        {
-            streamInfo->status = DataStreamInfo::NO_MORE_DATA;
-        }
-        else
-        {
-            streamInfo->status = DataStreamInfo::HAS_MORE_DATA;
-        }
+        streamInfo->offset += size;
+        streamInfo->status = streamInfo->offset >= data.size() ?
+            DataStreamInfo::NO_MORE_DATA : DataStreamInfo::HAS_MORE_DATA;
 
         size = remaining_size;
     }
