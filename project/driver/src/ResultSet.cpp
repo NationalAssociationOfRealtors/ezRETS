@@ -27,26 +27,14 @@ using std::endl;
 ResultSet::ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
                      DataTranslatorPtr translator, AppRowDesc* ard)
     : mLogger(logger), mMetadataView(metadataView), mTranslator(translator),
-      mArdPtr(ard), mGotFirst(false), mColumns(new ColumnVector()),
-      mReportedRowCount(-1)
+      mArdPtr(ard), mGotFirst(false), mColumns(new ColumnVector())
 {
     mResultIterator = mResults.begin();
 }
 
 int ResultSet::rowCount()
 {
-    int count;
-
-    if (mReportedRowCount == -1)
-    {
-        count = mResults.size();
-    }
-    else
-    {
-        count = mReportedRowCount;
-    }
-
-    return count;
+    return mResults.size();
 }
 
 int ResultSet::columnCount()
@@ -201,11 +189,6 @@ void ResultSet::getData(
 
     column->setData(resCol, TargetType, TargetValue, BufferLength,
                     StrLenorInd, streamInfo);
-}
-
-void ResultSet::setReportedRowCount(int count)
-{
-    mReportedRowCount = count;
 }
 
 AppRowDesc* ResultSet::getARD()

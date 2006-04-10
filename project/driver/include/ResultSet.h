@@ -71,8 +71,6 @@ class ResultSet
                  SQLPOINTER TargetValue, SQLLEN BufferLength,
                  SQLLEN *StrLenorInd, DataStreamInfo *streamInfo);
 
-    void setReportedRowCount(int count);
-
   private:
     typedef std::vector<librets::StringVectorPtr> StringVectorVector;
 
@@ -84,7 +82,6 @@ class ResultSet
     ColumnVectorPtr mColumns;
     StringVectorVector mResults;
     StringVectorVector::iterator mResultIterator;
-    int mReportedRowCount;
 };
 
 }

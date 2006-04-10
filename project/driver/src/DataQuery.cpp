@@ -185,14 +185,12 @@ SQLRETURN DataQuery::doRetsQuery()
         rowCount++;
     }
 
-    int reportedCount = results->GetCount();
-    if (reportedCount > rowCount)
+    if (results->GetCount() > rowCount)
     {
         mStmt->addError("01000", "ReportedCount is larger then rows "
                         "processed, server may have limit.");
         sqlreturn = SQL_SUCCESS_WITH_INFO;
     }
-    mResultSet->setReportedRowCount(results->GetCount());
 
     return sqlreturn;
 }
