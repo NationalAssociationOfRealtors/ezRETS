@@ -35,8 +35,9 @@ class DataQuery : public Query
 
     virtual std::ostream & print(std::ostream & out) const;
 
-  protected:
     virtual void prepareResultSet();
+
+  protected:
     virtual SQLRETURN doRetsQuery();
 
     librets::SearchRequest::FormatType mSearchFormat;

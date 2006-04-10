@@ -30,6 +30,10 @@ typedef boost::shared_ptr<ResourceClassPair> ResourceClassPairPtr;
 typedef std::vector<ResourceClassPairPtr> ResourceClassPairVector;
 typedef boost::shared_ptr<ResourceClassPairVector> ResourceClassPairVectorPtr;
 
+typedef std::pair<std::string, std::string> TableMetadataPair;
+typedef std::vector<TableMetadataPair> TableMetadataVector;
+typedef boost::shared_ptr<TableMetadataVector> TableMetadataVectorPtr;
+
 class MetadataView : public librets::SqlMetadata
 {
   public:
@@ -57,6 +61,22 @@ class MetadataView : public librets::SqlMetadata
 
     bool IsLookupColumn(librets::MetadataTable* table);
     virtual bool IsLookupColumn(std::string tableName, std::string columnName);
+
+    /**
+     * Searches the metadata and takes Resource:Class combinations and
+     * turns them into table names of the form "data:Resource:Class".
+     * This function can (and will) throw exceptions.
+     */
+    TableMetadataVectorPtr getSQLTableMetadata();
+    TableMetadataVectorPtr getSQLTableMetadata(std::string name);
+
+    /**
+     * Makes a table name based on the Resource and Class passed in.
+     * If we're in StandardName mode, and one of the value doesn't
+     * have a standardname, we return an empty string.
+     */
+    std::string makeSQLTableName(librets::MetadataResource* resource,
+                                 librets::MetadataClass* clazz);
 
   private:
     librets::MetadataTable* getTable(

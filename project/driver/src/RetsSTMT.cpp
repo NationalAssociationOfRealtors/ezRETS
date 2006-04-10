@@ -29,6 +29,7 @@
 #include "OdbcSqlException.h"
 #include "SqlStateException.h"
 #include "Query.h"
+#include "TableMetadataQuery.h"
 #include "DataStreamInfo.h"
 
 using namespace odbcrets;
@@ -362,168 +363,49 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     EzLoggerPtr log = getLogger();
     log->debug("In SQLTables");
 
+
+    if (CatalogName != NULL)
+    {
+        string catName = SqlCharToString(CatalogName, NameLength1);
+        log->debug(str_stream() << "CatalogName " << catName);
+        if (catName.compare("%") != 0 && !catName.empty())
+        {
+            addError("HYC00", "catalogs not supported in this driver");
+            return SQL_ERROR;
+        }
+    }
+
+    string tableName("");
+    if (TableName != NULL)
+    {
+        tableName = SqlCharToString(TableName, NameLength3);
+        log->debug(str_stream() << "TableName " << tableName);
+    }
+
+    string tableType("");
+    if (TableType != NULL)
+    {
+        tableType = SqlCharToString(TableType, NameLength4);
+        log->debug(str_stream() << "TableType: " << tableType);
+    }
+
+    SQLRETURN returnCode = SQL_SUCCESS;
     try
     {
-        if (CatalogName != NULL)
-        {
-            string catName = SqlCharToString(CatalogName, NameLength1);
-            log->debug(str_stream() << "CatalogName " << catName);
-            if (catName.compare("%") != 0 && !catName.empty())
-            {
-                addError("HYC00", "catalogs not supported in this driver");
-                return SQL_ERROR;
-            }
-        }
+        mQuery.reset(new TableMetadataQuery(this, tableName, tableType));
+        mQuery->prepareResultSet();
 
-        if (SchemaName != NULL)
-        {
-            string schName = SqlCharToString(SchemaName, NameLength2);
-            log->debug(str_stream() << "SchemaName " << schName);
-        }
-
-        TableNameVectorPtr myTables;
-        if (TableName != NULL)
-        {
-            string tabName = SqlCharToString(TableName, NameLength3);
-            log->debug(str_stream() << "TableName " << tabName);
-            if (tabName.compare("%") == 0)
-            {
-                tabName.clear();
-            }
-            if (tabName.find("%") != string::npos)
-            {
-                addError("HYC00",
-                        "Search patterns for table names not (yet) supported");
-                return SQL_ERROR;
-            }
-            if(tabName.empty())
-            {
-                myTables = getMetadataTableNames();
-            }
-            else
-            {
-                myTables = getMetadataTableName(tabName);
-            }
-        }
-        else
-        {
-            myTables = getMetadataTableNames();
-        }
-
-        // 2005/12/6
-        // pass TableType and MyTables to SQLTablesQuery?
-        //
-        // How much do we want to pass?  Or should I just do a "set
-        // args" above and pass it all on.
-        
-        // It looks like we're going to return something, so lets set up
-        // the result set.
-        mQuery.reset(new NullQuery(this));
-        ResultSetPtr resultSet = mQuery->getResultSet();
-        resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
-        resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-        resultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
-        resultSet->addColumn("TABLE_TYPE", SQL_VARCHAR);
-        resultSet->addColumn("REMARKS", SQL_VARCHAR);
-
-        if (TableType != NULL)
-        {
-            // If TableType == SQL_ALL_TABLE_TYPES
-            //    return table types we support.  In this case we return just
-            //    TABLE
-            string tableType = SqlCharToString(TableType, NameLength4);
-            log->debug(str_stream() << "TableType: " << tableType);
-            if (!(tableType.compare(SQL_ALL_TABLE_TYPES)))
-            {
-                StringVectorPtr results(new StringVector());
-                results->push_back("");
-                results->push_back("");
-                results->push_back("");
-                results->push_back("TABLE");
-                results->push_back("");
-
-                resultSet->addRow(results);
-
-                return SQL_SUCCESS;
-            }
-
-            // Make sure tableType contains TABLE as a requested type.
-            if (!ba::icontains(tableType, "TABLE"))
-            {
-                return SQL_SUCCESS;
-            }
-        }
-
-        for (TableNameVector::iterator i = myTables->begin();
-             i != myTables->end(); i++)
-        {
-            StringVectorPtr results(new StringVector());
-            results->push_back("");
-            results->push_back("");
-            results->push_back(i->first);
-            results->push_back("TABLE");
-            results->push_back(i->second);
-
-            resultSet->addRow(results);
-        }
+        log->debug(str_stream() << mQuery);
+        returnCode = mQuery->execute();
     }
     catch(std::exception& e)
     {
         log->debug(str_stream() << "SQLTables exception: " << e.what());
         addError("01000", e.what());
-        return SQL_ERROR;
+        returnCode = SQL_ERROR;
     }
 
-    return SQL_SUCCESS;
-}
-
-/**
- * Searches the metadata and takes Resource:Class combinations and
- * turns them into table names of the form "data:Resource:Class".
- * This function can (and will) throw exceptions.
- */
-RetsSTMT::TableNameVectorPtr RetsSTMT::getMetadataTableNames()
-{
-    TableNameVectorPtr tableNameVectorPtr(new TableNameVector());
-    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
-    
-    ResourceClassPairVectorPtr rcVectorPtr =
-        metadataViewPtr->getResourceClassPairs();
-    for(ResourceClassPairVector::iterator i = rcVectorPtr->begin();
-        i != rcVectorPtr->end(); i++)
-    {
-        ResourceClassPairPtr p = *i;
-        MetadataResource* res = p->first;
-        MetadataClass* clazz = p->second;
-        string tableName =
-            makeTableName(mDbc->isUsingStandardNames(), res, clazz);
-
-        if (!tableName.empty())
-        {
-            string description = clazz->GetDescription();
-            tableNameVectorPtr->push_back(make_pair(tableName, description));
-        }
-    }
-
-    return tableNameVectorPtr;
-}
-
-RetsSTMT::TableNameVectorPtr RetsSTMT::getMetadataTableName(string name)
-{
-    TableNameVectorPtr tableNameVectorPtr(new TableNameVector());
-    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
-
-    ResourceClassPairPtr pair =
-        metadataViewPtr->getResourceClassPairBySQLTable(name);
-    if (pair != 0)
-    {
-        MetadataClass* clazz = pair->second;
-        string description = clazz->GetDescription();
-
-        tableNameVectorPtr->push_back(make_pair(name, description));
-    }
-
-    return tableNameVectorPtr;
+    return returnCode;
 }
 
 RetsDBC* RetsSTMT::getDbc()
@@ -748,8 +630,8 @@ SQLRETURN RetsSTMT::processColumn(ResultSetPtr resultSet,
                                   MetadataResource* res, MetadataClass* clazz,
                                   MetadataTable* rTable)
 {
-    string sqlTableName =
-        makeTableName(mDbc->isUsingStandardNames(), res, clazz);
+    MetadataViewPtr metadataView = mDbc->getMetadataView();
+    string sqlTableName = metadataView->makeSQLTableName(res, clazz);
 
     if (sqlTableName.empty())
     {
@@ -876,37 +758,6 @@ SQLRETURN RetsSTMT::processColumn(ResultSetPtr resultSet,
     resultSet->addRow(results);
 
     return SQL_SUCCESS;
-}
-
-/**
- * Makes a table name based on the Resource and Class passed in.  If we're
- * in StandardName mode, and one of the value doesn't have a standardname,
- * we return an empty string.
- */
-string RetsSTMT::makeTableName(bool standardNames, MetadataResource* res,
-                               MetadataClass* clazz)
-{
-    string tableName("");
-    string resName;
-    string className;
-    if (standardNames)
-    {
-        resName = res->GetStandardName();
-        className = clazz->GetStandardName();
-    }
-    else
-    {
-        resName = res->GetResourceID();
-        className = clazz->GetClassName();
-    }
-
-    if (!(resName.empty() || className.empty()))
-    {
-        tableName.append("data:").append(resName).append(":");
-        tableName.append(className);
-    }
-
-    return tableName;
 }
 
 void RetsSTMT::unbindColumns()

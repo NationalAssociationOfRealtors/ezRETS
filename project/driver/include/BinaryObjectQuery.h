@@ -32,8 +32,9 @@ class BinaryObjectQuery : public ObjectQuery
 
     virtual ~BinaryObjectQuery();
 
-  protected:
     virtual void prepareResultSet();
+
+  protected:
     virtual void handleResponse(librets::GetObjectResponse* response);
 };
 

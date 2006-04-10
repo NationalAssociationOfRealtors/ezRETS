@@ -36,8 +36,9 @@ class ObjectQuery : public Query
 
     virtual std::ostream & print(std::ostream & out) const;
 
-  protected:
     virtual void prepareResultSet();
+
+  protected:
     virtual void handleResponse(librets::GetObjectResponse* response);
     
     librets::GetObjectQueryPtr mGetObjectQuery;

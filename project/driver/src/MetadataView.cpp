@@ -319,3 +319,68 @@ bool MetadataView::IsLookupColumn(string tableName, string columnName)
     return IsLookupColumn(table);
 }
 
+TableMetadataVectorPtr MetadataView::getSQLTableMetadata()
+{
+    TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
+    
+    ResourceClassPairVectorPtr rcVectorPtr = getResourceClassPairs();
+    for(ResourceClassPairVector::iterator i = rcVectorPtr->begin();
+        i != rcVectorPtr->end(); i++)
+    {
+        ResourceClassPairPtr p = *i;
+        MetadataResource* res = p->first;
+        MetadataClass* clazz = p->second;
+        string tableName = makeSQLTableName(res, clazz);
+
+        if (!tableName.empty())
+        {
+            string description = clazz->GetDescription();
+            tableMetadataVectorPtr->push_back(
+                make_pair(tableName, description));
+        }
+    }
+
+    return tableMetadataVectorPtr;
+}
+
+TableMetadataVectorPtr MetadataView::getSQLTableMetadata(std::string name)
+{
+    TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
+
+    ResourceClassPairPtr pair = getResourceClassPairBySQLTable(name);
+    if (pair != 0)
+    {
+        MetadataClass* clazz = pair->second;
+        string description = clazz->GetDescription();
+
+        tableMetadataVectorPtr->push_back(make_pair(name, description));
+    }
+
+    return tableMetadataVectorPtr;
+}
+
+string MetadataView::makeSQLTableName(MetadataResource* resource,
+                                      MetadataClass* clazz)
+{
+    string tableName("");
+    string resName;
+    string className;
+    if (mStandardNames)
+    {
+        resName = resource->GetStandardName();
+        className = clazz->GetStandardName();
+    }
+    else
+    {
+        resName = resource->GetResourceID();
+        className = clazz->GetClassName();
+    }
+
+    if (!(resName.empty() || className.empty()))
+    {
+        tableName.append("data:").append(resName).append(":");
+        tableName.append(className);
+    }
+
+    return tableName;
+}

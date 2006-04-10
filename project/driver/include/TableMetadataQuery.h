@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,32 +14,39 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef DATACOUNTQUERY_H
-#define DATACOUNTQUERY_H
+#ifndef TABLEMETADATAQUERY_H
+#define TABLEMETADATAQUERY_H
 
-#include "librets.h"
+#include "ezrets.h"
+#include <string>
 #include "ezretsfwd.h"
-#include "DataQuery.h"
+#include "Query.h"
 
 namespace odbcrets
 {
 
-class DataCountQuery : public DataQuery
+class TableMetadataQuery : public Query
 {
   public:
-    DataCountQuery(RetsSTMT* stmt, bool useCompactFormat,
-                   librets::DmqlQueryPtr dmqlQuery);
+    TableMetadataQuery(RetsSTMT* stmt, std::string table,
+                       std::string tableType);
+
+    virtual SQLRETURN execute();
+
+    virtual std::ostream & print(std::ostream & out) const;
 
     virtual void prepareResultSet();
 
-  protected:
-    virtual SQLRETURN doRetsQuery();
+  private:
+    std::string mTable;
+    std::string mTableType;
 };
 
 }
 
-#endif /* DATACOUNTQUERY_H */
 
+#endif /* TABLEMETADATAQUERY_H */
 /* Local Variables: */
 /* mode: c++ */
 /* End: */
+

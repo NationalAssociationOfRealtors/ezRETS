@@ -127,16 +127,6 @@ class RetsSTMT : public AbstractHandle
     AppRowDesc ard;
     ImpRowDesc ird;
 
-    typedef std::pair<std::string, std::string> TableNamePair;
-    typedef std::vector<TableNamePair> TableNameVector;
-    typedef boost::shared_ptr<TableNameVector> TableNameVectorPtr;
-    TableNameVectorPtr getMetadataTableNames();
-    TableNameVectorPtr getMetadataTableName(std::string name);
-
-    std::string makeTableName(
-        bool standardNames, librets::MetadataResource* res,
-        librets::MetadataClass* clazz);
-
     SQLRETURN processColumn(ResultSetPtr resultSet,
                             librets::MetadataResource* res,
                             librets::MetadataClass* clazz,

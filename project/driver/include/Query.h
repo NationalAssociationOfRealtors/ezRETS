@@ -36,9 +36,10 @@ class Query
 
     virtual std::ostream & print(std::ostream & out) const;
 
+    virtual void prepareResultSet() = 0;
+
   protected:
     ResultSetPtr newResultSet();
-    virtual void prepareResultSet() = 0;
 
     RetsSTMT* mStmt;
     ResultSetPtr mResultSet;
@@ -49,8 +50,6 @@ class NullQuery : public Query
   public:
     NullQuery(RetsSTMT* stmt);
     virtual SQLRETURN execute();
-
-  protected:
     virtual void prepareResultSet();
 };
 
