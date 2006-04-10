@@ -123,5 +123,8 @@ void ObjectQuery::prepareResultSet()
     mResultSet->addColumn("mime_type", SQL_VARCHAR);
     mResultSet->addColumn("description", SQL_VARCHAR);
     mResultSet->addColumn("location_url", SQL_VARCHAR);
-    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 5248000);
+    // We set 10 meg as our max.  Although, the way things are
+    // implemented, this will be ignored by the driver.  Upper layers
+    // might care, though.
+    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 10485760);
 }
