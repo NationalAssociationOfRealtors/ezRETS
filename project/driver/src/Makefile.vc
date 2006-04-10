@@ -76,6 +76,7 @@ X_OBJS = \
 	$(DIROBJ)\SqlStateException.obj\
 	$(DIROBJ)\StmtEntries.obj\
 	$(DIROBJ)\StreamEzLogger.obj\
+	$(DIROBJ)\TableMetadataQuery.obj\
 	$(DIROBJ)\TranslationWorkers.obj\
 	$(DIROBJ)\utils.obj\
 	$(DIROBJ)\ezrets.res
