@@ -40,6 +40,7 @@ X_OBJS = \
 	$(DIROBJ)\BinaryObjectQuery.obj\
 	$(DIROBJ)\ColAttributeHelper.obj\
 	$(DIROBJ)\Column.obj\
+	$(DIROBJ)\ColumnMetadataQuery.obj\
 	$(DIROBJ)\DataCountQuery.obj\
 	$(DIROBJ)\DataQuery.obj\
 	$(DIROBJ)\DataStreamInfo.obj\
