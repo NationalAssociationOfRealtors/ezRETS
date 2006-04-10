@@ -379,11 +379,6 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         {
             string schName = SqlCharToString(SchemaName, NameLength2);
             log->debug(str_stream() << "SchemaName " << schName);
-//             if (schName.compare("%") != 0 && !schName.empty())
-//             {
-//                 addError("HYC00", "schemas not supported in this driver");
-//                 return SQL_ERROR;
-//             }
         }
 
         TableNameVectorPtr myTables;
@@ -652,8 +647,6 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     {
         string schName = SqlCharToString(SchemaName, NameLength2);
         log->debug(str_stream() << "SchemaName " << schName);
-//         addError("HYC00", "schemas not supported in this driver");
-//         return SQL_ERROR;
     }
 
     // It looks like we're going to return something, so lets set up
@@ -1128,8 +1121,6 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
     {
         string schName = SqlCharToString(SchemaName, NameLength2);
         log->debug(str_stream() << "SchemaName " << schName);
-//         addError("HYC00", "schemas not supported in this driver");
-//         return SQL_ERROR;
     }
 
     // It looks like we're going to return something, so lets set up
@@ -1599,7 +1590,6 @@ SQLRETURN RetsSTMT::SQLGetData(
             if (mDataStreamInfo.status == DataStreamInfo::HAS_MORE_DATA)
             {
                 retCode = SQL_SUCCESS_WITH_INFO;
-                //*StrLenorInd = SQL_NO_TOTAL;
                 addError("01004", "Data truncated");
             }
         }
@@ -1709,8 +1699,6 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     {
         string schName = SqlCharToString(SchemaName, SchemaNameSize);
         log->debug(str_stream() << "SchemaName " << schName);
-//         addError("HYC00", "schemas not supported in this driver");
-//         return SQL_ERROR;
     }
 
     mQuery.reset(new NullQuery(this));
@@ -1742,7 +1730,6 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 
     // In the next iteration we'll put in logic to find a unique field
     // once 
-
     if (rTable == NULL)
     {
         return SQL_SUCCESS;
