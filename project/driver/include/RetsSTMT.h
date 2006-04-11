@@ -127,11 +127,6 @@ class RetsSTMT : public AbstractHandle
     AppRowDesc ard;
     ImpRowDesc ird;
 
-    librets::StringVectorPtr getSQLGetTypeInfoRow(
-        SQLSMALLINT dtype, std::string perc_radix,
-        std::string unsigned_att = "", std::string litprefix = "",
-        std::string litsuffix = "");
-    
     RetsDBC* mDbc;
     QueryPtr mQuery;
     odbcrets::DataTranslatorPtr mDataTranslator;

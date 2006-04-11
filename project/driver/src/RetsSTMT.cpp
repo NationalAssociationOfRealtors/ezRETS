@@ -31,6 +31,7 @@
 #include "Query.h"
 #include "TableMetadataQuery.h"
 #include "ColumnMetadataQuery.h"
+#include "TypeInfoMetadataQuery.h"
 #include "DataStreamInfo.h"
 
 using namespace odbcrets;
@@ -531,188 +532,14 @@ void RetsSTMT::unbindColumns()
     mQuery->getResultSet()->unbindColumns();
 }
 
-StringVectorPtr RetsSTMT::getSQLGetTypeInfoRow(
-    SQLSMALLINT dtype, string perc_radix, string unsigned_att,
-    string litprefix, string litsuffix)
-{
-    StringVectorPtr resultRow(new StringVector());
-    // Name
-    resultRow->push_back(mDataTranslator->getOdbcTypeName(dtype));
-    // DATA_TYPE
-    resultRow->push_back(b::lexical_cast<string>(dtype));
-    // COLUMN_SIZE
-    if (dtype == SQL_CHAR || dtype == SQL_VARCHAR)
-    {
-        // RETS doesn't really specify a max length for string data.  We'll
-        // say 16K until we find out that is too small.
-        resultRow->push_back("16384");
-    }
-    else
-    {
-        resultRow->push_back(b::lexical_cast<string>(
-                                 mDataTranslator->getOdbcTypeLength(dtype)));
-    }
-    // LITERAL_PREFIX
-    resultRow->push_back(litprefix);
-    // LITERAL_SUFFIX
-    resultRow->push_back(litsuffix);
-    // CREATE PARAMS
-    // This might need to be "length" for VARCHAR and CHAR, but since we
-    // don't support CREATE, lets leave it NULL for now
-    resultRow->push_back("");
-    // NULLABLE
-    resultRow->push_back(b::lexical_cast<string>(SQL_NULLABLE));
-    // CASE_SENSITIVE
-    resultRow->push_back(b::lexical_cast<string>(SQL_FALSE));
-    // SEARCHABLE
-    resultRow->push_back(b::lexical_cast<string>(SQL_SEARCHABLE));
-    // UNSIGNED_ATTRIBUTE
-    resultRow->push_back(unsigned_att);
-    // FIXED_PERC_SCALE
-    resultRow->push_back(b::lexical_cast<string>(SQL_FALSE));
-    // AUTO_UNIQUE_VALUE
-    resultRow->push_back("");
-    // LOCAL_TYPE_NAME
-    // We could probably support LOCAL_TYPE_NAME if we wanted to
-    resultRow->push_back("");
-    // MINIMUM_SCALE
-    resultRow->push_back("");
-    // MAXIMUM_SCALE
-    resultRow->push_back("");
-    // SQL_DATA_TYPE and SQL_DATETIME_SUB
-    if (dtype == SQL_TYPE_DATE || dtype == SQL_TYPE_TIME ||
-        dtype == SQL_TYPE_TIMESTAMP)
-    {
-        // SQL_DATA_TYPE
-        resultRow->push_back(b::lexical_cast<string>(SQL_DATETIME));
-        // SQL_DATETIME_SUB
-        resultRow->push_back(b::lexical_cast<string>(dtype));
-    }
-    else
-    {
-        // SQL_DATA_TYPE
-        resultRow->push_back(b::lexical_cast<string>(dtype));
-        // SQL_DATETIME_SUB
-        resultRow->push_back("");
-    }
-    // NUM_PERC_RADIX
-    resultRow->push_back(perc_radix);
-    // INTERVAL_PRECISION
-    resultRow->push_back("");
-
-    return resultRow;
-}
-
 SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 {
     mErrors.clear();
     getLogger()->debug(str_stream() << "In SQLGetTypeInfo:" << DataType);
 
-    bool allTypes = DataType == SQL_ALL_TYPES;
-
-    mQuery.reset(new NullQuery(this));
-    ResultSetPtr resultSet = mQuery->getResultSet();
-    resultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
-    resultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
-    resultSet->addColumn("COLUMN_SIZE", SQL_INTEGER);
-    resultSet->addColumn("LITERAL_PREFIX", SQL_VARCHAR);
-    resultSet->addColumn("LITERAL_SUFFIX", SQL_VARCHAR);
-    resultSet->addColumn("CREATE_PARAMS", SQL_VARCHAR);
-    resultSet->addColumn("NULLABLE", SQL_SMALLINT);
-    resultSet->addColumn("CASE_SENSITIVE", SQL_SMALLINT);
-    resultSet->addColumn("SEARCHABLE", SQL_SMALLINT);
-    resultSet->addColumn("UNSIGNED_ATTRIBUTE", SQL_SMALLINT);
-    resultSet->addColumn("FIXED_PREC_SCALE", SQL_SMALLINT);
-    resultSet->addColumn("AUTO_UNIQUE_VALUE", SQL_SMALLINT);
-    resultSet->addColumn("LOCAL_TYPE_NAME", SQL_VARCHAR);
-    resultSet->addColumn("MINIMUM_SCALE", SQL_SMALLINT);
-    resultSet->addColumn("MAXIMUM_SCALE", SQL_SMALLINT);
-    resultSet->addColumn("SQL_DATA_TYPE", SQL_SMALLINT);
-    resultSet->addColumn("SQL_DATETIME_SUB", SQL_SMALLINT);
-    resultSet->addColumn("NUM_PREC_RADIX", SQL_INTEGER);
-    resultSet->addColumn("INTERVAL_PRECISION", SQL_SMALLINT);
-
-    StringVectorPtr resultRow;
-
-    // if DataType == SQL_ALL_TYPES report on all.  Otherwise, just
-    // report on the one we care about.
-    if (allTypes || DataType == SQL_BIT)
-    {
-        resultRow = getSQLGetTypeInfoRow(SQL_BIT, "2");
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_TINYINT)
-    {
-        resultRow = getSQLGetTypeInfoRow(
-            SQL_TINYINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_BIGINT)
-    {
-        resultRow = getSQLGetTypeInfoRow(
-            SQL_BIGINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_CHAR)
-    {
-        resultRow = getSQLGetTypeInfoRow(SQL_CHAR, "10", "", "'", "'");
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_DECIMAL)
-    {
-        resultRow = getSQLGetTypeInfoRow(
-            SQL_DECIMAL, "2", b::lexical_cast<string>(SQL_FALSE));
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_INTEGER)
-    {
-        resultRow = getSQLGetTypeInfoRow(
-            SQL_INTEGER, "2", b::lexical_cast<string>(SQL_FALSE));
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_SMALLINT)
-    {
-        resultRow = getSQLGetTypeInfoRow(
-            SQL_SMALLINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_DOUBLE)
-    {
-        resultRow = getSQLGetTypeInfoRow(
-            SQL_DOUBLE, "2", b::lexical_cast<string>(SQL_FALSE));
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_VARCHAR)
-    {
-        resultRow = getSQLGetTypeInfoRow(SQL_VARCHAR, "10", "", "'", "'");
-        resultSet->addRow(resultRow);
-    }
-    // These need to be special cased.
-    if (allTypes || DataType == SQL_TYPE_DATE)
-    {
-        resultRow = getSQLGetTypeInfoRow(SQL_TYPE_DATE, "2");
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_TYPE_TIME)
-    {
-        resultRow = getSQLGetTypeInfoRow(SQL_TYPE_TIME, "2");
-        resultSet->addRow(resultRow);
-    }
-    if (allTypes || DataType == SQL_TYPE_TIMESTAMP)
-    {
-        resultRow = getSQLGetTypeInfoRow(SQL_TYPE_TIMESTAMP, "2");
-        resultSet->addRow(resultRow);
-    }
-
-    if (resultSet->isEmpty())
-    {
-        addError("HY004",
-                 "Invalid SQL data type. ezRETS does not support it.");
-        return SQL_ERROR;
-    }
-    
-
-    return SQL_SUCCESS;
+    mQuery.reset(new TypeInfoMetadataQuery(this, DataType));
+    mQuery->prepareResultSet();
+    return mQuery->execute();
 }
 
 SQLRETURN RetsSTMT::SQLSpecialColumns(
