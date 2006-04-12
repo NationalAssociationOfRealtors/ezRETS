@@ -134,6 +134,7 @@ SQLRETURN TableMetadataQuery::execute()
 
 std::ostream & TableMetadataQuery::print(std::ostream & out) const
 {
-    out << "TableMetadataQuery: '" << mTable << "' '" << mTableType << "'";
+    out << "TableMetadataQuery: '" << mCatalog << "' '" << mSchema <<
+        "' '" << mTable << "' '" << mTableType << "'";
     return out;
 }
