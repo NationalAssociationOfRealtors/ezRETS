@@ -19,6 +19,7 @@
 #include "TypeInfoMetadataQuery.h"
 #include "ResultSet.h"
 #include "RetsSTMT.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using std::string;
