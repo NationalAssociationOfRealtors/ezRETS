@@ -34,6 +34,7 @@
 #include "TableMetadataQuery.h"
 #include "ColumnMetadataQuery.h"
 #include "TypeInfoMetadataQuery.h"
+#include "SpecialColumnsMetadataQuery.h"
 #include "DataStreamInfo.h"
 #include "ResultSet.h"
 #include "MetadataView.h"
@@ -567,134 +568,11 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
         return SQL_ERROR;
     }
 
-    if (SchemaName != NULL && *SchemaName != '\0')
-    {
-        string schName = SqlCharToString(SchemaName, NameLength2);
-        log->debug(str_stream() << "SchemaName " << schName);
-    }
-
-    // It looks like we're going to return something, so lets set up
-    // the result set.
-    mQuery.reset(new NullQuery(this));
-    ResultSetPtr resultSet = mQuery->getResultSet();
-    resultSet->addColumn("SCOPE", SQL_SMALLINT);
-    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
-    resultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
-    resultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
-    resultSet->addColumn("COLUMN_SIZE", SQL_INTEGER);
-    resultSet->addColumn("BUFFER_LENGTH", SQL_INTEGER);
-    resultSet->addColumn("DECIMAL_DIGITS", SQL_SMALLINT);
-    resultSet->addColumn("PSEUDO_COLUMN", SQL_SMALLINT);
-
-    // Everything is nullable
-    if (Nullable == SQL_NO_NULLS)
-    {
-        return SQL_SUCCESS;
-    }
-
-    // We can't guarentee anything except this request
-    if (Scope > SQL_SCOPE_CURROW)
-    {
-        return SQL_SUCCESS;
-    }
-
-    // Currently we can only handle best rowid.  ROWVER would be too hard
-    // to determine.
-    if (IdentifierType == SQL_ROWVER)
-    {
-        return SQL_SUCCESS;
-    }
-
-    // We can actually determine the primary key from the Metadata,
-    // for now, however, we'll return an empty result set.
-    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
     string table = SqlCharToString(TableName, NameLength3);
-    ResourceClassPairPtr rcp =
-        metadataViewPtr->getResourceClassPairBySQLTable(table);
-
-    if (rcp == NULL)
-    {
-        return SQL_SUCCESS;
-    }
-
-    MetadataResource* res = rcp->first;
-    MetadataClass* clazz = rcp->second;
-    string keyField = res->GetKeyField();
-
-    MetadataTable* rTable =
-        metadataViewPtr->getKeyFieldTable(clazz, keyField);
-
-    // In the next iteration we'll put in logic to find a unique field
-    // once 
-
-    if (rTable == NULL)
-    {
-        return SQL_SUCCESS;
-    }
-    
-    StringVectorPtr results(new StringVector());
-
-    // SCOPE
-    results->push_back(b::lexical_cast<string>(SQL_SCOPE_CURROW));
-
-    // COLUMN_NAME
-    if (mDbc->isUsingStandardNames())
-    {
-        results->push_back(rTable->GetStandardName());
-    }
-    else
-    {
-        results->push_back(rTable->GetSystemName());
-    }
-
-    // DATA_TYPE
-    SQLSMALLINT type =
-        mDataTranslator->getPreferedOdbcType(rTable->GetDataType());
-    string typeString = b::lexical_cast<string>(type);
-    results->push_back(typeString);
-
-    // TYPE_NAME
-    results->push_back(mDataTranslator->getOdbcTypeName(type));
-
-        // COLUMN_SIZE
-    int maxLen = rTable->GetMaximumLength();
-    string maxLenString = b::lexical_cast<string>(maxLen);
-    results->push_back(maxLenString);
-
-    // BUFFER_LENGTH
-    if (type == SQL_VARCHAR || type == SQL_CHAR)
-    {
-        results->push_back(maxLenString);
-    }
-    else
-    {
-        int size = mDataTranslator->getOdbcTypeLength(type);
-        results->push_back(b::lexical_cast<string>(size));
-    }
-
-    // DECIMAL_DIGITS
-    switch(type)
-    {
-        case SQL_DECIMAL:
-        case SQL_DOUBLE:
-            results->push_back(
-                b::lexical_cast<string>(rTable->GetPrecision()));
-            break;
-
-        case SQL_TYPE_TIMESTAMP:
-            results->push_back("3");
-            break;
-
-        default:
-            results->push_back("");
-    }
-
-    // PSEUDO_COLUMN
-    results->push_back(b::lexical_cast<string>(SQL_PC_UNKNOWN));
-
-    resultSet->addRow(results);
-        
-    return SQL_SUCCESS;
+    mQuery.reset(new SpecialColumnsMetadataQuery(this, IdentifierType, table,
+                                                 Scope, Nullable));
+    mQuery->prepareResultSet();
+    return mQuery->execute();
 }
 
 SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
