@@ -44,9 +44,9 @@ X_OBJS = \
 	$(DIROBJ)\DataCountQuery.obj\
 	$(DIROBJ)\DataQuery.obj\
 	$(DIROBJ)\DataStreamInfo.obj\
-	$(DIROBJ)\DateTimeFormatException.obj\
 	$(DIROBJ)\DataTranslationException.obj\
 	$(DIROBJ)\DataTranslator.obj\
+	$(DIROBJ)\DateTimeFormatException.obj\
 	$(DIROBJ)\DbcEntries.obj\
 	$(DIROBJ)\Descriptors.obj\
 	$(DIROBJ)\EnvEntries.obj\
@@ -60,11 +60,12 @@ X_OBJS = \
 	$(DIROBJ)\ObjectQuery.obj\
 	$(DIROBJ)\OdbcEntry.obj\
 	$(DIROBJ)\OdbcSqlException.obj\
+	$(DIROBJ)\PrimaryKeysMetadataQuery.obj\
 	$(DIROBJ)\Query.obj\
+	$(DIROBJ)\ResultSet.obj\
 	$(DIROBJ)\RetsDBC.obj\
 	$(DIROBJ)\RetsENV.obj\
 	$(DIROBJ)\RetsSTMT.obj\
-	$(DIROBJ)\ResultSet.obj\
 	$(DIROBJ)\SQLAllocEnv.obj\
 	$(DIROBJ)\SQLAllocHandle.obj\
 	$(DIROBJ)\SQLError.obj\
@@ -74,11 +75,14 @@ X_OBJS = \
 	$(DIROBJ)\SQLFreeStmt.obj\
 	$(DIROBJ)\SQLGetDiagField.obj\
 	$(DIROBJ)\SQLGetDiagRec.obj\
+	$(DIROBJ)\SpecialColumnsMetadataQuery.obj\
 	$(DIROBJ)\SqlStateException.obj\
+	$(DIROBJ)\StatisticsMetadataQuery.obj\
 	$(DIROBJ)\StmtEntries.obj\
 	$(DIROBJ)\StreamEzLogger.obj\
 	$(DIROBJ)\TableMetadataQuery.obj\
 	$(DIROBJ)\TranslationWorkers.obj\
+	$(DIROBJ)\TypeInfoMetadataQuery.obj\
 	$(DIROBJ)\utils.obj\
 	$(DIROBJ)\ezrets.res
 
