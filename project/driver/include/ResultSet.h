@@ -17,7 +17,6 @@
 #ifndef RESULTSET_H
 #define RESULTSET_H
 
-#include <boost/shared_ptr.hpp>
 #include <vector>
 #include "librets/std_forward.h"
 #include "librets/metadata_forward.h"

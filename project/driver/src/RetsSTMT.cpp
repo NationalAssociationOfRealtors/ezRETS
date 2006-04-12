@@ -17,12 +17,9 @@
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
 #include "RetsDBC.h"
 #include "RetsSTMT.h"
-#include "librets/util.h"
 #include "librets/RetsException.h"
-#include "librets/MetadataResource.h"
 #include "utils.h"
 #include "ColAttributeHelper.h"
 #include "EzLogger.h"
@@ -35,19 +32,18 @@
 #include "ColumnMetadataQuery.h"
 #include "TypeInfoMetadataQuery.h"
 #include "SpecialColumnsMetadataQuery.h"
+#include "StatisticsMetadataQuery.h"
+#include "PrimaryKeysMetadataQuery.h"
 #include "DataStreamInfo.h"
 #include "ResultSet.h"
-#include "MetadataView.h"
 #include "DataTranslator.h"
 #include "Column.h"
 
 using namespace odbcrets;
 using namespace librets;
-using namespace librets::util;
 using std::string;
 using std::make_pair;
 namespace b = boost;
-namespace ba = boost::algorithm;
 
 RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
     : AbstractHandle(), mDbc(handle)
@@ -973,23 +969,9 @@ SQLRETURN RetsSTMT::SQLStatistics(
         }
     }
 
-    mQuery.reset(new NullQuery(this));
-    ResultSetPtr resultSet = mQuery->getResultSet();
-    resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
-    resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-    resultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
-    resultSet->addColumn("NON_UNIQUE", SQL_SMALLINT);
-    resultSet->addColumn("INDEX_QUALIFIER", SQL_VARCHAR);
-    resultSet->addColumn("INDEX_NAME", SQL_VARCHAR);
-    resultSet->addColumn("TYPE", SQL_SMALLINT);
-    resultSet->addColumn("ORDINAL_POSITION", SQL_SMALLINT);
-    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
-    resultSet->addColumn("ASC_OR_DESC", SQL_CHAR);
-    resultSet->addColumn("CARDINALITY", SQL_INTEGER);
-    resultSet->addColumn("PAGES", SQL_INTEGER);
-    resultSet->addColumn("FILTER_CONDITION", SQL_VARCHAR);
-
-    return SQL_SUCCESS;
+    mQuery.reset(new StatisticsMetadataQuery(this));
+    mQuery->prepareResultSet();
+    return mQuery->execute();
 }
 
 SQLRETURN RetsSTMT::SQLNumParams(SQLSMALLINT *pcpar)
@@ -1029,70 +1011,11 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
         log->debug(str_stream() << "SchemaName " << schName);
     }
 
-    mQuery.reset(new NullQuery(this));
-    ResultSetPtr resultSet = mQuery->getResultSet();
-    resultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
-    resultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
-    resultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
-    resultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
-    resultSet->addColumn("KEY_SEQ", SQL_SMALLINT);
-    resultSet->addColumn("PK_NAME", SQL_VARCHAR);
-
-    // We can actually determine the primary key from the Metadata,
-    // for now, however, we'll return an empty result set.
-    MetadataViewPtr metadataViewPtr = mDbc->getMetadataView();
     string table = SqlCharToString(TableName, TableNameSize);
-    ResourceClassPairPtr rcp =
-        metadataViewPtr->getResourceClassPairBySQLTable(table);
 
-    if (rcp == NULL)
-    {
-        return SQL_SUCCESS;
-    }
-
-    MetadataResource* res = rcp->first;
-    MetadataClass* clazz = rcp->second;
-    string keyField = res->GetKeyField();
-
-    MetadataTable* rTable = metadataViewPtr->getKeyFieldTable(clazz, keyField);
-
-    // In the next iteration we'll put in logic to find a unique field
-    // once 
-    if (rTable == NULL)
-    {
-        return SQL_SUCCESS;
-    }
-
-    StringVectorPtr results(new StringVector());
-
-    // TABLE_CAT
-    results->push_back("");
-    // TABLE_SCHEMA
-    results->push_back("");
-    // TABLE_NAME
-    results->push_back(table);
-    // COLUMN_NAME
-    if (mDbc->isUsingStandardNames())
-    {
-        results->push_back(rTable->GetStandardName());
-    }
-    else
-    {
-        results->push_back(rTable->GetSystemName());
-    }
-
-
-    // KEY_SEQ
-    // I think the following is wrong.
-    results->push_back("1");
-
-    // PK_NAME
-    // Our primary keys don't have names
-    results->push_back("");
-
-    resultSet->addRow(results);
-    
-    return SQL_SUCCESS;
+    mQuery.reset(new PrimaryKeysMetadataQuery(this, table));
+    mQuery->prepareResultSet();
+    return mQuery->execute();
 }
 
 SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
