@@ -17,12 +17,9 @@
 #ifndef RETSSTMT_H
 #define RETSSTMT_H
 
-#include <boost/shared_ptr.hpp>
-#include "librets.h"
-#include "MetadataView.h"
+#include "librets/protocol_forward.h"
+#include "ezretsfwd.h"
 #include "AbstractHandle.h"
-#include "ResultSet.h"
-#include "DataTranslator.h"
 #include "Descriptors.h"
 #include "DataStreamInfo.h"
 
@@ -129,7 +126,7 @@ class RetsSTMT : public AbstractHandle
 
     RetsDBC* mDbc;
     QueryPtr mQuery;
-    odbcrets::DataTranslatorPtr mDataTranslator;
+    DataTranslatorPtr mDataTranslator;
     DataStreamInfo mDataStreamInfo;
 };
 

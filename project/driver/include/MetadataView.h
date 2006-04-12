@@ -19,8 +19,10 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <boost/shared_ptr.hpp>
-#include "librets.h"
+#include "librets/SqlMetadata.h"
+#include "librets/RetsMetadata.h"
 
 namespace odbcrets
 {

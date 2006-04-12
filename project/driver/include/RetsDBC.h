@@ -20,10 +20,12 @@
 #include <iosfwd>
 #include <list>
 #include <boost/shared_ptr.hpp>
+#include "librets/protocol_forward.h"
+#include "librets/http_forward.h"
+#include "librets/error_forward.h"
 #include "ezrets.h"
-#include "librets.h"
+#include "ezretsfwd.h"
 #include "AbstractHandle.h"
-#include "MetadataView.h"
 #include "DataSource.h"
 
 namespace odbcrets

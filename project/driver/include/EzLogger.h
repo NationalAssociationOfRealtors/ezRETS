@@ -17,7 +17,6 @@
 #ifndef EZ_LOGGER_H
 #define EZ_LOGGER_H
 
-#include <boost/shared_ptr.hpp>
 #include <string>
 #include "ezretsfwd.h"
 

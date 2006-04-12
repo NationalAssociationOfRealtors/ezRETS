@@ -22,7 +22,8 @@
 #include <ostream>
 #include "ezrets.h"
 #include "commonfwd.h"
-#include "librets.h"
+#include "librets/RetsVersion.h"
+#include "librets/protocol_forward.h"
 
 namespace odbcrets
 {

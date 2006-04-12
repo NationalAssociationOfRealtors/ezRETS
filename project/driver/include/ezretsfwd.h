@@ -18,6 +18,7 @@
 #define EZRETS_FWD_H
 
 #include <boost/shared_ptr.hpp>
+#include <vector>
 
 namespace odbcrets
 {
@@ -40,6 +41,20 @@ typedef boost::shared_ptr<Query> QueryPtr;
 class SqlStateException;
 
 class DataStreamInfo;
+
+class DataTranslator;
+typedef boost::shared_ptr<DataTranslator> DataTranslatorPtr;
+
+struct AppRowDesc;
+struct AppParamDesc;
+
+class Column;
+typedef boost::shared_ptr<Column> ColumnPtr;
+typedef std::vector<ColumnPtr> ColumnVector;
+typedef boost::shared_ptr<ColumnVector> ColumnVectorPtr;
+
+class Error;
+typedef boost::shared_ptr<Error> ErrorPtr;
 }
 
 #endif

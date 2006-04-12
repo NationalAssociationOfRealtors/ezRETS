@@ -23,6 +23,7 @@
 #include "str_stream.h"
 #include <odbcinst.h>
 #include <vector>
+#include "librets/RetsSession.h"
 
 using namespace odbcrets;
 typedef DataSource CLASS;

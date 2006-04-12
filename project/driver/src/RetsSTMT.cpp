@@ -20,7 +20,9 @@
 #include <boost/algorithm/string.hpp>
 #include "RetsDBC.h"
 #include "RetsSTMT.h"
-#include "librets.h"
+#include "librets/util.h"
+#include "librets/RetsException.h"
+#include "librets/MetadataResource.h"
 #include "utils.h"
 #include "ColAttributeHelper.h"
 #include "EzLogger.h"
@@ -33,6 +35,10 @@
 #include "ColumnMetadataQuery.h"
 #include "TypeInfoMetadataQuery.h"
 #include "DataStreamInfo.h"
+#include "ResultSet.h"
+#include "MetadataView.h"
+#include "DataTranslator.h"
+#include "Column.h"
 
 using namespace odbcrets;
 using namespace librets;

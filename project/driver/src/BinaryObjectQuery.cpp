@@ -20,7 +20,9 @@
 #include "BinaryObjectQuery.h"
 #include "EzLogger.h"
 #include "str_stream.h"
-#include "librets.h"
+#include "librets/util.h"
+#include "librets/GetObjectResponse.h"
+#include "librets/ObjectDescriptor.h"
 #include "SqlStateException.h"
 #include "ResultSet.h"
 

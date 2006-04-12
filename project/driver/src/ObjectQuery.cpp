@@ -22,8 +22,14 @@
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
-#include "librets.h"
 #include "SqlStateException.h"
+#include "ResultSet.h"
+#include "librets/util.h"
+#include "librets/RetsSession.h"
+#include "librets/GetObjectResponse.h"
+#include "librets/GetObjectRequest.h"
+#include "librets/GetObjectQuery.h"
+#include "librets/ObjectDescriptor.h"
 
 using namespace odbcrets;
 using namespace librets;

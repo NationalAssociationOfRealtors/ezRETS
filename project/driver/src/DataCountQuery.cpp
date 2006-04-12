@@ -22,7 +22,13 @@
 #include "str_stream.h"
 #include "DataCountQuery.h"
 #include "SqlStateException.h"
-#include "librets.h"
+#include "ResultSet.h"
+#include "MetadataView.h"
+#include "librets/util.h"
+#include "librets/DmqlQuery.h"
+#include "librets/DmqlCriterion.h"
+#include "librets/RetsSession.h"
+#include "librets/SearchResultSet.h"
 
 using namespace odbcrets;
 using namespace librets;

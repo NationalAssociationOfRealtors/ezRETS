@@ -18,7 +18,6 @@
 #define ERROR_H
 
 #include <string>
-#include <boost/shared_ptr.hpp>
 
 namespace odbcrets
 {
@@ -37,7 +36,6 @@ class Error
     std::string mMessage;
 };
 
-typedef boost::shared_ptr<Error> ErrorPtr;
 }
 
 

@@ -19,10 +19,9 @@
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
-#include "librets.h"
-#include "DataTranslator.h"
-#include "Descriptors.h"
-#include "Column.h"
+#include "librets/std_forward.h"
+#include "librets/metadata_forward.h"
+#include "ezrets.h"
 #include "ezretsfwd.h"
 
 namespace odbcrets

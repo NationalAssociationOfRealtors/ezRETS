@@ -20,7 +20,6 @@
 #include <vector>
 #include "ezrets.h"
 #include "ezretsfwd.h"
-#include "Error.h"
 
 namespace odbcrets
 {

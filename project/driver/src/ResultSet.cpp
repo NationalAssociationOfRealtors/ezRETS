@@ -14,10 +14,10 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#include "librets.h"
 #include "ResultSet.h"
 #include "EzLogger.h"
 #include "str_stream.h"
+#include "Column.h"
 
 using namespace odbcrets;
 using namespace librets;

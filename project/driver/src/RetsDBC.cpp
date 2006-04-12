@@ -23,6 +23,10 @@
 #include "str_stream.h"
 #include "EzLogger.h"
 #include "EzRetsErrorHandler.h"
+#include "MetadataView.h"
+#include "librets/RetsSession.h"
+#include "librets/StreamHttpLogger.h"
+#include "librets/LogoutResponse.h"
 
 #include <fstream>
 #include <map>

@@ -17,7 +17,7 @@
 #ifndef DATAQUERY_H
 #define DATAQUERY_H
 
-#include "librets.h"
+#include "librets/sql_forward.h"
 #include "ezretsfwd.h"
 #include "Query.h"
 #include "librets/SearchRequest.h"

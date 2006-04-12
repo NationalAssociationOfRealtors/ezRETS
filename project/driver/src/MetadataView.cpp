@@ -17,6 +17,9 @@
 #include "MetadataView.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include "librets/MetadataResource.h"
+#include "librets/MetadataClass.h"
+#include "librets/MetadataTable.h"
 
 using namespace odbcrets;
 using namespace librets;

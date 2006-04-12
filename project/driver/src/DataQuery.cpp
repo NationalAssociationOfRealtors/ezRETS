@@ -21,8 +21,16 @@
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
-#include "librets.h"
 #include "SqlStateException.h"
+#include "ResultSet.h"
+#include "MetadataView.h"
+#include "Column.h"
+#include "librets/util.h"
+#include "librets/RetsSession.h"
+#include "librets/SearchResultSet.h"
+#include "librets/DmqlQuery.h"
+#include "librets/DmqlCriterion.h"
+#include "librets/MetadataTable.h"
 
 using namespace odbcrets;
 using namespace librets;

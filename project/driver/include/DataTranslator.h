@@ -18,10 +18,9 @@
 #define DATATRANSLATOR_H
 
 #include "ezrets.h"
-#include "librets.h"
 #include "ezretsfwd.h"
+#include "librets/MetadataTable.h"
 #include "TranslationWorkers.h"
-#include <boost/shared_ptr.hpp>
 
 namespace odbcrets
 {
@@ -41,8 +40,6 @@ class DataTranslator
     virtual std::string getOdbcTypeName(SQLSMALLINT type) = 0;
     virtual int getOdbcTypeLength(SQLSMALLINT type) = 0;
 };
-
-typedef boost::shared_ptr<DataTranslator> DataTranslatorPtr;
 
 class NativeDataTranslator : public DataTranslator
 {

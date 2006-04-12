@@ -17,7 +17,7 @@
 #ifndef DATACOUNTQUERY_H
 #define DATACOUNTQUERY_H
 
-#include "librets.h"
+#include "librets/sql_forward.h"
 #include "ezretsfwd.h"
 #include "DataQuery.h"
 

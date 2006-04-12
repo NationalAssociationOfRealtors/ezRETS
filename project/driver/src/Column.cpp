@@ -14,10 +14,13 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+
+#include <boost/algorithm/string/erase.hpp>
 #include "ResultSet.h"
 #include "Column.h"
 #include "RetsSTMT.h"
-#include <boost/algorithm/string/erase.hpp>
+#include "MetadataView.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 namespace lr = librets;

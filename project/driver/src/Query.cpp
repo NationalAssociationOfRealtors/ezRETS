@@ -25,7 +25,12 @@
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
-#include "librets.h"
+#include "ResultSet.h"
+#include "MetadataView.h"
+#include "librets/SqlToDmqlCompiler.h"
+#include "librets/GetObjectQuery.h"
+#include "librets/DmqlQuery.h"
+#include "librets/util.h"
 
 using namespace odbcrets;
 using namespace librets;

@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "EzLogger.h"
 #include "SqlStateException.h"
+#include "Error.h"
 
 using namespace odbcrets;
 namespace b = boost;

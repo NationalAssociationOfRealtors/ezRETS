@@ -19,7 +19,7 @@
 
 #include "ezrets.h"
 #include "ezretsfwd.h"
-#include "librets.h"
+#include "librets/metadata_forward.h"
 
 namespace odbcrets
 {
@@ -114,10 +114,6 @@ class RetsColumn : public Column
 
     librets::MetadataTable* mMetadataTablePtr;
 };
-
-typedef boost::shared_ptr<Column> ColumnPtr;
-typedef std::vector<ColumnPtr> ColumnVector;
-typedef boost::shared_ptr<ColumnVector> ColumnVectorPtr;
 
 }
 
