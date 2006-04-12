@@ -27,8 +27,8 @@ namespace odbcrets
 class TableMetadataQuery : public Query
 {
   public:
-    TableMetadataQuery(RetsSTMT* stmt, std::string table,
-                       std::string tableType);
+    TableMetadataQuery(RetsSTMT* stmt, std::string catalog, std::string schema,
+                       std::string table, std::string tableType);
 
     virtual SQLRETURN execute();
 
@@ -37,6 +37,8 @@ class TableMetadataQuery : public Query
     virtual void prepareResultSet();
 
   private:
+    std::string mCatalog;
+    std::string mSchema;
     std::string mTable;
     std::string mTableType;
 };

@@ -340,21 +340,22 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     log->debug("In SQLTables");
 
 
+    string catalog("");
     if (CatalogName != NULL)
     {
-        string catName = SqlCharToString(CatalogName, NameLength1);
-        log->debug(str_stream() << "CatalogName " << catName);
-        if (catName.compare("%") != 0 && !catName.empty())
-        {
-            addError("HYC00", "catalogs not supported in this driver");
-            return SQL_ERROR;
-        }
+        catalog = SqlCharToString(CatalogName, NameLength1);
     }
 
-    string tableName("");
+    string schema("");
+    if (SchemaName != NULL)
+    {
+        schema = SqlCharToString(SchemaName, NameLength2);
+    }
+
+    string table("");
     if (TableName != NULL)
     {
-        tableName = SqlCharToString(TableName, NameLength3);
+        table = SqlCharToString(TableName, NameLength3);
     }
 
     string tableType("");
@@ -366,7 +367,8 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
     SQLRETURN result = SQL_SUCCESS;
     try
     {
-        mQuery.reset(new TableMetadataQuery(this, tableName, tableType));
+        mQuery.reset(
+            new TableMetadataQuery(this, catalog, schema, table, tableType));
         mQuery->prepareResultSet();
 
         log->debug(str_stream() << mQuery);

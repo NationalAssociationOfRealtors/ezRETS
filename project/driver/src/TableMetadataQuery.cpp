@@ -28,10 +28,22 @@ using std::string;
 using librets::StringVectorPtr;
 using librets::StringVector;
 
-TableMetadataQuery::TableMetadataQuery(RetsSTMT* stmt, string table,
-                                       string tableType)
-    : Query(stmt), mTable(table), mTableType(tableType)
+TableMetadataQuery::TableMetadataQuery(
+    RetsSTMT* stmt, string catalog, string schema, string table,
+    string tableType)
+    : Query(stmt), mCatalog(catalog), mSchema(schema), mTable(table),
+      mTableType(tableType)
 {
+    if (mCatalog.compare("%") == 0)
+    {
+        mTable.clear();
+    }
+
+    if (mSchema.compare("%") == 0)
+    {
+        mSchema.clear();
+    }
+    
     // This asks for all tables, so its the same as an empty string
     // for us.
     if (mTable.compare("%") == 0)
@@ -71,6 +83,16 @@ SQLRETURN TableMetadataQuery::execute()
     // We only support TABLE, so if TABLE isn't asked for, we don't
     // return anything.
     if (!mTableType.empty() && !ba::icontains(mTableType, "TABLE"))
+    {
+        return SQL_SUCCESS;
+    }
+
+    if (!mCatalog.empty())
+    {
+        return SQL_SUCCESS;
+    }
+
+    if (!mSchema.empty())
     {
         return SQL_SUCCESS;
     }
