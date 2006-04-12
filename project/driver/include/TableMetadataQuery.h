@@ -19,7 +19,6 @@
 
 #include "ezrets.h"
 #include <string>
-#include "ezretsfwd.h"
 #include "Query.h"
 
 namespace odbcrets

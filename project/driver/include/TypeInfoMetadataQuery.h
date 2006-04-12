@@ -19,7 +19,6 @@
 
 #include "ezrets.h"
 #include "librets/std_forward.h"
-#include "ezretsfwd.h"
 #include "Query.h"
 
 namespace odbcrets
