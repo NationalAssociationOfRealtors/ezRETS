@@ -17,13 +17,19 @@ AC_SUBST(VERSION)
 
 MY_PROG_CCACHE
 MY_TEST_LIBRETS
+MY_TEST_BOOST
+if test "$HAVE_BOOST" != "1"; then
+   AC_MSG_ERROR([Boost headers are required to build ezRETS])
+fi
 
-
+MY_TEST_IODBC
+if test "$HAVE_IODBC" != "1"; then
 dnl AC_CHECK_HEADER([sql.h], [AC_DEFINE([HAVE_SQL_H])],
 dnl 		[AC_MSG_ERROR([Sorry, can't do anything for you])])
 
-AC_CHECK_HEADERS(sql.h)
-AC_CHECK_HEADERS(odbcinst.h)
+   AC_CHECK_HEADERS(sql.h)
+   AC_CHECK_HEADERS(odbcinst.h)
+fi
 
 AC_CACHE_SAVE
 
