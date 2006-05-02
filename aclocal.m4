@@ -1,4 +1,25 @@
 dnl
+dnl Enables a universal build
+dnl
+dnl Variables:
+dnl  my_use_universal
+dnl
+AC_DEFUN(MY_PROG_UNIVERSAL,
+[AC_ARG_ENABLE(universal,
+AC_HELP_STRING([--enable-universal],
+               [enable universal build on OS X (default: disabled)]),
+	       test "X$enableval" != "Xno" && my_enable_universal=yes,
+           my_enable_universal=no)
+
+my_use_universal=no
+if test "$my_enable_universal" = "yes"; then
+   UNIVERSAL_FLAGS="-arch i386 -arch ppc"
+   my_use_universal=yes
+fi
+AC_SUBST(UNIVERSAL_FLAGS)
+])
+
+dnl
 dnl Tests for ccache and modifies CC and CXX appropriately
 dnl
 dnl Variables:
