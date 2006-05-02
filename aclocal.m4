@@ -182,7 +182,7 @@ AC_DEFUN([MY_TEST_IODBC], [
     [
       AC_CHECK_PROG(my_iodbc_config, iodbc-config, iodbc-config, no)
       if test "$my_iodbc_config" = "no"; then
-        HAVE_IODBC = 0
+        HAVE_IODBC=0
       else
         HAVE_IODBC=1
         IODBC_CFLAGS=`$my_iodbc_config --cflags`

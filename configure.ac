@@ -24,11 +24,13 @@ fi
 
 MY_TEST_IODBC
 if test "$HAVE_IODBC" != "1"; then
-dnl AC_CHECK_HEADER([sql.h], [AC_DEFINE([HAVE_SQL_H])],
-dnl 		[AC_MSG_ERROR([Sorry, can't do anything for you])])
+	AC_CHECK_HEADER([sql.h], [AC_DEFINE([HAVE_SQL_H])],
+	 		[AC_MSG_ERROR([Cannot find sql.h])])
+	AC_CHECK_HEADER([iodbcinst.h], [AC_DEFINE([HAVE_ODBCINST_H])],
+	 		[AC_MSG_ERROR([Cannot find odbcinst.h])])
 
-   AC_CHECK_HEADERS(sql.h)
-   AC_CHECK_HEADERS(odbcinst.h)
+dnl   AC_CHECK_HEADERS(sql.h)
+dnl   AC_CHECK_HEADERS(odbcinst.h)
 fi
 
 AC_CACHE_SAVE
