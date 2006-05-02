@@ -48,7 +48,7 @@ _clean:
 _distclean: _clean
 	$(RM) $(DISTCLEAN_FILES)
 	$(RM) -r autom4te.cache
-	$(RM) makefile
+	$(RM) Makefile
 
 _veryclean: _distclean
 

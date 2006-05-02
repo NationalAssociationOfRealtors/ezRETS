@@ -26,11 +26,14 @@ MY_TEST_IODBC
 if test "$HAVE_IODBC" != "1"; then
 	AC_CHECK_HEADER([sql.h], [AC_DEFINE([HAVE_SQL_H])],
 	 		[AC_MSG_ERROR([Cannot find sql.h])])
-	AC_CHECK_HEADER([iodbcinst.h], [AC_DEFINE([HAVE_ODBCINST_H])],
+	AC_CHECK_HEADER([odbcinst.h], [AC_DEFINE([HAVE_ODBCINST_H])],
 	 		[AC_MSG_ERROR([Cannot find odbcinst.h])])
-
-dnl   AC_CHECK_HEADERS(sql.h)
-dnl   AC_CHECK_HEADERS(odbcinst.h)
+	AC_CHECK_LIB([odbcinst], [SQLWriteDSNToIni],
+		     [AC_DEFINE([HAVE_LIBODBCINST])],
+		     [AC_MSG_ERROR([Cannot find libodbcinst])])
+	AC_CHECK_LIB([odbc], [SQLAllocHandle],
+		     [AC_DEFINE([HAVE_LIBODBC])],
+		     [AC_MSG_ERROR([Cannot find libodbc])])
 fi
 
 AC_CACHE_SAVE
