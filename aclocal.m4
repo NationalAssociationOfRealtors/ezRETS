@@ -218,3 +218,19 @@ AC_DEFUN([MY_TEST_IODBC], [
   AC_SUBST(IODBC_LDFLAGS)
   AC_SUBST(IODBC_PREFIX)
 ])
+
+dnl
+dnl Test to see if the known needed bits of unix odbc are around
+dnl
+AC_DEFUN([MY_TEST_UNIXODBC], [
+	AC_CHECK_HEADER([sql.h], [AC_DEFINE([HAVE_SQL_H])],
+	 		[AC_MSG_ERROR([Cannot find sql.h])])
+	AC_CHECK_HEADER([odbcinst.h], [AC_DEFINE([HAVE_ODBCINST_H])],
+	 		[AC_MSG_ERROR([Cannot find odbcinst.h])])
+	AC_CHECK_LIB([odbcinst], [SQLWriteDSNToIni],
+		     [AC_DEFINE([HAVE_LIBODBCINST])],
+		     [AC_MSG_ERROR([Cannot find libodbcinst])])
+	AC_CHECK_LIB([odbc], [SQLAllocHandle],
+		     [AC_DEFINE([HAVE_LIBODBC])],
+		     [AC_MSG_ERROR([Cannot find libodbc])])
+])
