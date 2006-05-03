@@ -46,7 +46,7 @@ class Column
     virtual void setData(std::string data);
     virtual void setData(std::string data, SQLSMALLINT TargetType,
                          SQLPOINTER TargetValue, SQLINTEGER BufferLength,
-                         SQLINTEGER* StrLenOrInd, DataStreamInfo *streamInfo);
+                         SQLLEN* StrLenOrInd, DataStreamInfo *streamInfo);
 
     virtual SQLSMALLINT getDataType() = 0;
     virtual SQLULEN getColumnSize() = 0;

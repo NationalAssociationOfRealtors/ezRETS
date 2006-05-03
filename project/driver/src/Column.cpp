@@ -80,7 +80,7 @@ void Column::cleanData(string& data)
 
 void Column::setData(string data, SQLSMALLINT TargetType,
                      SQLPOINTER TargetValue, SQLINTEGER BufferLength,
-                     SQLINTEGER* StrLenOrInd, DataStreamInfo *streamInfo)
+                     SQLLEN* StrLenOrInd, DataStreamInfo *streamInfo)
 {
     SQLSMALLINT type = getBestSqlType(TargetType);
 
@@ -95,7 +95,7 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     AppRowDesc* ard = mParent->getARD();
     SQLPOINTER adjTargetValue =
         adjustDescPointer(ard->mBindOffsetPtr, TargetValue);
-    SQLINTEGER* adjStrLen =
+    SQLLEN* adjStrLen = (SQLLEN*)
         adjustDescPointer(ard->mBindOffsetPtr, StrLenOrInd);
 
     dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen,
