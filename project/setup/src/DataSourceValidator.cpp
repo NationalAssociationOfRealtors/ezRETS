@@ -14,6 +14,7 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#include "ezrets.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -25,7 +26,6 @@
 #include <odbcinst.h>
 #endif
 
-#include "ezrets.h"
 #include "DataSourceValidator.h"
 #include "DataSource.h"
 #include "memberfn.h"
