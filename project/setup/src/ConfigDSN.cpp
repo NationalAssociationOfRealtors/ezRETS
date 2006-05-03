@@ -15,8 +15,17 @@
  * appear in supporting documentation.
  */
 
-#include "ezrets.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#ifdef HAVE_IODBC
+#include <iodbcinst.h>
+#else
 #include <odbcinst.h>
+#endif
+
+#include "ezrets.h"
 #include "Setup.h"
 #include "SqlInstallerException.h"
 

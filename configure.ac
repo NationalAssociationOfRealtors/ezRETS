@@ -2,7 +2,7 @@ AC_PREREQ(2.52)
 AC_INIT
 AC_CONFIG_SRCDIR(project/common/include/ezrets.h)
 AC_CONFIG_AUX_DIR(project/build)
-AC_CONFIG_HEADERS([project/driver/src/config.h])
+AC_CONFIG_HEADERS([project/common/include/config.h])
 
 dnl Checks for programs
 AC_PROG_CC
@@ -14,6 +14,8 @@ VERSION=`perl -ane 'print $1 if /VERSION\s+\=\s+(\S+)/' ${ac_top_builddir}projec
 AC_MSG_CHECKING([ezrets version])
 AC_MSG_RESULT($VERSION)
 AC_SUBST(VERSION)
+
+AC_DEFINE([HAVE_IODBC], [], [Use IODBC for our ODBC support])
 
 MY_PROG_CCACHE
 dnl MY_PROG_UNIVERSAL

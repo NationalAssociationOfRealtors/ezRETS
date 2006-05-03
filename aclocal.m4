@@ -206,6 +206,7 @@ AC_DEFUN([MY_TEST_IODBC], [
         HAVE_IODBC=0
       else
         HAVE_IODBC=1
+        AC_DEFINE([HAVE_IODBC], 1)
         IODBC_CFLAGS=`$my_iodbc_config --cflags`
         IODBC_LDFLAGS=`$my_iodbc_config --libs`
         IODBC_PREFIX=`$my_iodbc_config --prefix`

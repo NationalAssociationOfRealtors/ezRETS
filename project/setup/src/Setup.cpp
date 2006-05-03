@@ -15,9 +15,17 @@
  * appear in supporting documentation.
  */
 
-#include "Setup.h"
-#include <odbcinst.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
+#ifdef HAVE_IODBC
+#include <odbcinst.h>
+#else
+#include <odbcinst.h>
+#endif
+
+#include "Setup.h"
 #include "SqlInstallerException.h"
 #include "DataSource.h"
 #include "SetupDialog.h"

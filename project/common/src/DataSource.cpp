@@ -15,15 +15,24 @@
  * appear in supporting documentation.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include "DataSource.h"
 #include "EzRetsException.h"
 #include "str_stream.h"
-#include <odbcinst.h>
 #include <vector>
 #include "librets/RetsSession.h"
+
+#ifdef HAVE_IODBC
+#include <iodbcinst.h>
+#else
+#include <odbcinst.h>
+#endif
 
 using namespace odbcrets;
 typedef DataSource CLASS;
