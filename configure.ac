@@ -15,7 +15,9 @@ AC_MSG_CHECKING([ezrets version])
 AC_MSG_RESULT($VERSION)
 AC_SUBST(VERSION)
 
-AC_DEFINE([HAVE_IODBC], [], [Use IODBC for our ODBC support])
+dnl autoheader wanted this defined, but now that I know how to make
+dnl the config.h.in file properly, we don't want this at all.
+dnl AC_DEFINE([HAVE_IODBC], [], [Use IODBC for our ODBC support])
 
 MY_PROG_CCACHE
 dnl MY_PROG_UNIVERSAL

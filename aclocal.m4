@@ -158,18 +158,18 @@ AC_DEFUN([MY_TEST_BOOST], [
       AC_MSG_ERROR([$ver is too old. Need version $check or higher.])
     fi
 
-#    my_lib="${BOOST_PREFIX}/lib/libboost_filesystem.a"
-#    AC_CHECK_FILE([$my_lib], [BOOST_FILESYSTEM=$my_lib])
-#    my_lib="${BOOST_PREFIX}/lib/libboost_program_options.a"
-#    AC_CHECK_FILE([$my_lib], [BOOST_PROGRAM_OPTIONS=$my_lib])
+dnl    my_lib="${BOOST_PREFIX}/lib/libboost_filesystem.a"
+dnl    AC_CHECK_FILE([$my_lib], [BOOST_FILESYSTEM=$my_lib])
+dnl    my_lib="${BOOST_PREFIX}/lib/libboost_program_options.a"
+dnl    AC_CHECK_FILE([$my_lib], [BOOST_PROGRAM_OPTIONS=$my_lib])
   fi
 
   AC_SUBST(HAVE_BOOST)
   AC_SUBST(BOOST_PREFIX)
   AC_SUBST(BOOST_CFLAGS)
   AC_SUBST(BOOST_LIBS)
-#  AC_SUBST(BOOST_FILESYSTEM)
-#  AC_SUBST(BOOST_PROGRAM_OPTIONS)
+dnl  AC_SUBST(BOOST_FILESYSTEM)
+dnl  AC_SUBST(BOOST_PROGRAM_OPTIONS)
 ])
 
 dnl
@@ -206,7 +206,7 @@ AC_DEFUN([MY_TEST_IODBC], [
         HAVE_IODBC=0
       else
         HAVE_IODBC=1
-        AC_DEFINE([HAVE_IODBC], 1)
+        AC_DEFINE([HAVE_IODBC], [])
         IODBC_CFLAGS=`$my_iodbc_config --cflags`
         IODBC_LDFLAGS=`$my_iodbc_config --libs`
         IODBC_PREFIX=`$my_iodbc_config --prefix`
@@ -221,7 +221,8 @@ AC_DEFUN([MY_TEST_IODBC], [
 ])
 
 dnl
-dnl Test to see if the known needed bits of unix odbc are around
+dnl Test to see if the known needed bits of unix odbc are around.
+dnl if one of these isn't here, configure will stop.
 dnl
 AC_DEFUN([MY_TEST_UNIXODBC], [
 	AC_CHECK_HEADER([sql.h], [AC_DEFINE([HAVE_SQL_H])],
