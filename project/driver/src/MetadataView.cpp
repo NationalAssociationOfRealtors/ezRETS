@@ -130,13 +130,13 @@ MetadataTable* MetadataView::getTable(string resName, string className,
 }
 
 MetadataTable* MetadataView::getTable(MetadataClass* classPtr,
-                                        string tableName)
+                                      string tableName)
 {
     return getTable(classPtr, tableName, mStandardNames);
 }
 
 MetadataTable* MetadataView::getKeyFieldTable(MetadataClass* clazz,
-                                                string keyField)
+                                              string keyField)
 {
     return getTable(clazz, keyField, false);
 }
@@ -282,7 +282,23 @@ ResourceClassPairPtr MetadataView::getResourceClassPairBySQLTable(
 
 MetadataTableList MetadataView::getTablesForClass(MetadataClass* clazz)
 {
-    return mMetadataPtr->GetAllTables(clazz);
+    if (!areTablesForClassInited(clazz))
+    {
+        initTablesForClass(clazz);
+    }
+
+    MetadataTableList tableList;
+
+    TableMap::iterator i;
+    i = mStandardNames ? mTableStdMapPtr->begin() : mTableSysMapPtr->begin();
+    TableMap::iterator end;
+    end = mStandardNames ? mTableStdMapPtr->end() : mTableSysMapPtr->end();
+    for(; i != end; i++)
+    {
+        tableList.push_back(i->second);
+    }
+
+    return tableList;
 }
 
 bool MetadataView::IsLookupColumn(MetadataTable* table)
