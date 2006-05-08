@@ -96,6 +96,10 @@ class MetadataView : public librets::SqlMetadata
     typedef boost::shared_ptr<TableMap> TableMapPtr;
     typedef std::map<librets::MetadataClass*, bool> TablesInitMap;
     typedef boost::shared_ptr<TablesInitMap> TablesInitMapPtr;
+
+    typedef std::map<librets::MetadataClass*,
+                     librets::MetadataTableListPtr> TableListByClass;
+    typedef boost::shared_ptr<TableListByClass> TableListByClassPtr;
     
     void initResources();
     void initClasses();
@@ -112,6 +116,7 @@ class MetadataView : public librets::SqlMetadata
     TableMapPtr mTableSysMapPtr;
     TableMapPtr mTableStdMapPtr;
     TablesInitMapPtr mTablesInitMapPtr;
+    TableListByClassPtr mTableListByClassPtr;
 };
 
 }

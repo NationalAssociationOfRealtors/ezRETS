@@ -118,14 +118,8 @@ void DataQuery::prepareResultSet()
     {
         MetadataTable* table = *i;
         string name;
-        if (mStmt->isUsingStandardNames())
-        {
-            name = table->GetStandardName();
-        }
-        else
-        {
-            name = table->GetSystemName();
-        }
+        name = mStmt->isUsingStandardNames() ?
+            table->GetStandardName() : table->GetSystemName();
         if (!name.empty())
         {
             mResultSet->addColumn(name, table);

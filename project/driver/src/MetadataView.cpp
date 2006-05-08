@@ -37,6 +37,7 @@ MetadataView::MetadataView(bool standardNames, RetsMetadata* metadata)
     mTableSysMapPtr.reset(new TableMap());
     mTableStdMapPtr.reset(new TableMap());
     mTablesInitMapPtr.reset(new TablesInitMap());
+    mTableListByClassPtr.reset(new TableListByClass());
 
     // Preload resources and classes
     initResources();
@@ -180,6 +181,7 @@ bool MetadataView::areTablesForClassInited(MetadataClass* clazz)
 void MetadataView::initTablesForClass(MetadataClass* clazz)
 {
     MetadataTableList tables = mMetadataPtr->GetAllTables(clazz);
+    MetadataTableListPtr ourTables(new MetadataTableList());
     for (MetadataTableList::iterator i = tables.begin();
          i != tables.end(); i++)
     {
@@ -204,8 +206,12 @@ void MetadataView::initTablesForClass(MetadataClass* clazz)
                 TableMapKey key(clazz, sysname);
                 (*mTableSysMapPtr)[key] = table;
             }
+
+            ourTables->push_back(table);
         }
     }
+
+    (*mTableListByClassPtr)[clazz] = ourTables;
 
     (*mTablesInitMapPtr)[clazz] = true;
 }
@@ -287,18 +293,17 @@ MetadataTableList MetadataView::getTablesForClass(MetadataClass* clazz)
         initTablesForClass(clazz);
     }
 
-    MetadataTableList tableList;
+    MetadataTableList returnList;
 
-    TableMap::iterator i;
-    i = mStandardNames ? mTableStdMapPtr->begin() : mTableSysMapPtr->begin();
-    TableMap::iterator end;
-    end = mStandardNames ? mTableStdMapPtr->end() : mTableSysMapPtr->end();
-    for(; i != end; i++)
+    TableListByClass::iterator i = mTableListByClassPtr->find(clazz);
+    if (i == mTableListByClassPtr->end())
     {
-        tableList.push_back(i->second);
+        return returnList;
     }
 
-    return tableList;
+    returnList = *(i->second);
+
+    return returnList;
 }
 
 bool MetadataView::IsLookupColumn(MetadataTable* table)
