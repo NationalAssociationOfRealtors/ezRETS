@@ -69,16 +69,16 @@ class MetadataView : public librets::SqlMetadata
      * turns them into table names of the form "data:Resource:Class".
      * This function can (and will) throw exceptions.
      */
-    TableMetadataVectorPtr getSQLTableMetadata();
-    TableMetadataVectorPtr getSQLTableMetadata(std::string name);
+    TableMetadataVectorPtr getSQLDataTableMetadata();
+    TableMetadataVectorPtr getSQLDataTableMetadata(std::string name);
 
     /**
      * Makes a table name based on the Resource and Class passed in.
      * If we're in StandardName mode, and one of the value doesn't
      * have a standardname, we return an empty string.
      */
-    std::string makeSQLTableName(librets::MetadataResource* resource,
-                                 librets::MetadataClass* clazz);
+    std::string makeSQLDataTableName(librets::MetadataResource* resource,
+                                     librets::MetadataClass* clazz);
 
   private:
     librets::MetadataTable* getTable(

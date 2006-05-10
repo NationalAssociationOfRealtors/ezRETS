@@ -169,7 +169,7 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     MetadataResource* res, MetadataClass* clazz, MetadataTable* rTable)
 {
     MetadataViewPtr metadataView = mStmt->getMetadataView();
-    string sqlTableName = metadataView->makeSQLTableName(res, clazz);
+    string sqlTableName = metadataView->makeSQLDataTableName(res, clazz);
 
     if (sqlTableName.empty())
     {

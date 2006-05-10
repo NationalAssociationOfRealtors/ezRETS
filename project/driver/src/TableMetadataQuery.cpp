@@ -109,11 +109,11 @@ SQLRETURN TableMetadataQuery::execute()
     TableMetadataVectorPtr myTables;
     if(mTable.empty())
     {
-        myTables = metadata->getSQLTableMetadata();
+        myTables = metadata->getSQLDataTableMetadata();
     }
     else
     {
-        myTables = metadata->getSQLTableMetadata(mTable);
+        myTables = metadata->getSQLDataTableMetadata(mTable);
     }
 
     for (TableMetadataVector::iterator i = myTables->begin();

@@ -343,7 +343,7 @@ bool MetadataView::IsLookupColumn(string tableName, string columnName)
     return IsLookupColumn(table);
 }
 
-TableMetadataVectorPtr MetadataView::getSQLTableMetadata()
+TableMetadataVectorPtr MetadataView::getSQLDataTableMetadata()
 {
     TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
     
@@ -354,7 +354,7 @@ TableMetadataVectorPtr MetadataView::getSQLTableMetadata()
         ResourceClassPairPtr p = *i;
         MetadataResource* res = p->first;
         MetadataClass* clazz = p->second;
-        string tableName = makeSQLTableName(res, clazz);
+        string tableName = makeSQLDataTableName(res, clazz);
 
         if (!tableName.empty())
         {
@@ -367,7 +367,7 @@ TableMetadataVectorPtr MetadataView::getSQLTableMetadata()
     return tableMetadataVectorPtr;
 }
 
-TableMetadataVectorPtr MetadataView::getSQLTableMetadata(std::string name)
+TableMetadataVectorPtr MetadataView::getSQLDataTableMetadata(std::string name)
 {
     TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
 
@@ -383,7 +383,7 @@ TableMetadataVectorPtr MetadataView::getSQLTableMetadata(std::string name)
     return tableMetadataVectorPtr;
 }
 
-string MetadataView::makeSQLTableName(MetadataResource* resource,
+string MetadataView::makeSQLDataTableName(MetadataResource* resource,
                                       MetadataClass* clazz)
 {
     string tableName("");
