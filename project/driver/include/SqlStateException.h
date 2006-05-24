@@ -27,7 +27,7 @@ class SqlStateException : public EzRetsException
   public:
     SqlStateException(std::string sqlstate, std::string message) throw();
 
-    virtual SqlStateException::~SqlStateException() throw();
+    virtual ~SqlStateException() throw();
 
     virtual std::string GetSqlState() const throw();
 
