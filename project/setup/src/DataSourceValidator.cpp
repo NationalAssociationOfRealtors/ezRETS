@@ -39,21 +39,21 @@ typedef DataSourceValidator CLASS;
 typedef wxValidator SUPER;
 
 CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
-{{&NameToWindow,        &NameFromWindow,        &NameIsValid},
- {&LoginUrlToWindow,    &LoginUrlFromWindow,    &NonEmpty},
- {&UsernameToWindow,    &UsernameFromWindow,    &NonEmpty},
- {&PasswordToWindow,    &PasswordFromWindow,    &NonEmpty},
- {&StdNamesToWindow,    &StdNamesFromWindow,    &True},
- {&UserAgentToWindow,   &UserAgentFromWindow,   &True},
- {&UseHttpGetToWindow,  &UseHttpGetFromWindow,  &True},
- {&UseHttpLoggingToWindow,  &UseHttpLoggingFromWindow,  &True},
- {&HttpLogFileToWindow,     &HttpLogFileFromWindow,     &True},
- {&UseDebugLoggingToWindow, &UseDebugLoggingFromWindow, &True},
- {&DebugLogFileToWindow,    &DebugLogFileFromWindow,    &True},
- {&RetsVersionToWindow,     &RetsVersionFromWindow,     &True},
- {&UseBulkMetadataToWindow, &UseBulkMetadataFromWindow, &True},
- {&IgnoreMetadataTypeToWindow, &IgnoreMetadataTypeFromWindow, &True},
- {&UseCompactFormatToWindow, &UseCompactFormatFromWindow, &True},
+{{&CLASS::NameToWindow, &CLASS::NameFromWindow, &CLASS::NameIsValid},
+ {&CLASS::LoginUrlToWindow, &CLASS::LoginUrlFromWindow, &CLASS::NonEmpty},
+ {&CLASS::UsernameToWindow, &CLASS::UsernameFromWindow, &CLASS::NonEmpty},
+ {&CLASS::PasswordToWindow, &CLASS::PasswordFromWindow, &CLASS::NonEmpty},
+ {&CLASS::StdNamesToWindow, &CLASS::StdNamesFromWindow, &CLASS::True},
+ {&CLASS::UserAgentToWindow, &CLASS::UserAgentFromWindow, &CLASS::True},
+ {&CLASS::UseHttpGetToWindow, &CLASS::UseHttpGetFromWindow, &CLASS::True},
+ {&CLASS::UseHttpLoggingToWindow, &CLASS::UseHttpLoggingFromWindow, &CLASS::True},
+ {&CLASS::HttpLogFileToWindow, &CLASS::HttpLogFileFromWindow, &CLASS::True},
+ {&CLASS::UseDebugLoggingToWindow, &CLASS::UseDebugLoggingFromWindow, &CLASS::True},
+ {&CLASS::DebugLogFileToWindow, &CLASS::DebugLogFileFromWindow, &CLASS::True},
+ {&CLASS::RetsVersionToWindow, &CLASS::RetsVersionFromWindow, &CLASS::True},
+ {&CLASS::UseBulkMetadataToWindow, &CLASS::UseBulkMetadataFromWindow, &CLASS::True},
+ {&CLASS::IgnoreMetadataTypeToWindow, &CLASS::IgnoreMetadataTypeFromWindow, &CLASS::True},
+ {&CLASS::UseCompactFormatToWindow, &CLASS::UseCompactFormatFromWindow, &CLASS::True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
