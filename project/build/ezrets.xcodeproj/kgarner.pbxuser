@@ -1,0 +1,164 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeBuildStyle = 014CEA520018CE5811CA2923 /* Debug */;
+		activeExecutable = DEFB3A770A27555400AF92A8 /* SimpleSearch */;
+		activeTarget = DEFB3A750A27555400AF92A8 /* SimpleSearch */;
+		addToTargets = (
+			DEFB3A750A27555400AF92A8 /* SimpleSearch */,
+		);
+		breakpointsGroup = DEFB39B60A26627C00AF92A8 /* XCBreakpointsBucket */;
+		codeSenseManager = DEFB39A00A26610800AF92A8 /* Code sense */;
+		executables = (
+			DEFB3A770A27555400AF92A8 /* SimpleSearch */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXErrorsWarningsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					300,
+					200,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXErrorsWarningsDataSource_TypeID,
+					PBXErrorsWarningsDataSource_MessageID,
+					PBXErrorsWarningsDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					410,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					200,
+					230,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 170287294;
+			PBXWorkspaceStateSaveDate = 170287294;
+		};
+		sourceControlManager = DEFB399F0A26610800AF92A8 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	DEFB399A0A2660E900AF92A8 /* ezrets-common */ = {
+		activeExec = 0;
+	};
+	DEFB399F0A26610800AF92A8 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	DEFB39A00A26610800AF92A8 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	DEFB39A40A26618B00AF92A8 /* DataSource.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {747, 9114}}";
+			sepNavSelRange = "{2313, 75}";
+			sepNavVisRect = "{{0, 741}, {747, 352}}";
+			sepNavWindowFrame = "{{15, 41}, {825, 837}}";
+		};
+	};
+	DEFB39B60A26627C00AF92A8 /* XCBreakpointsBucket */ = {
+		isa = XCBreakpointsBucket;
+		name = "Project Breakpoints";
+		objects = (
+		);
+	};
+	DEFB39C80A26656600AF92A8 /* ezrets */ = {
+		activeExec = 0;
+	};
+	DEFB39E40A2665C200AF92A8 /* MetadataView.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {915, 6090}}";
+			sepNavSelRange = "{11801, 65}";
+			sepNavVisRect = "{{0, 5724}, {915, 366}}";
+			sepNavWindowFrame = "{{15, 41}, {825, 837}}";
+		};
+	};
+	DEFB3A5C0A2750F900AF92A8 /* ezretss */ = {
+		activeExec = 0;
+	};
+	DEFB3A750A27555400AF92A8 /* SimpleSearch */ = {
+		activeExec = 0;
+		executables = (
+			DEFB3A770A27555400AF92A8 /* SimpleSearch */,
+		);
+	};
+	DEFB3A770A27555400AF92A8 /* SimpleSearch */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = SimpleSearch;
+		savedGlobals = {
+		};
+		sourceDirectories = (
+		);
+	};
+	DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {915, 4284}}";
+			sepNavSelRange = "{4658, 0}";
+			sepNavVisRect = "{{0, 2330}, {915, 366}}";
+		};
+	};
+}
