@@ -693,10 +693,34 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../setup/include",
+					"$(SRCROOT)/../common/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
 				INSTALL_PATH = /usr/local/lib;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/usr/lib/wx/include/mac-unicode-debug-2.5",
+					"-I/usr/include/wx-2.5",
+					"-D__WXDEBUG__",
+					"-D__WXMAC__",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-DNO_GCC_PRAGMA",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
+					QuickTime,
+					"-framework",
+					IOKit,
+					"-framework",
 					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-lwx_macud-2.5",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;

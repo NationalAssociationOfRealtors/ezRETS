@@ -4,7 +4,7 @@
 		activeBuildConfigurationName = Debug;
 		activeBuildStyle = 014CEA520018CE5811CA2923 /* Debug */;
 		activeExecutable = DEFB3A770A27555400AF92A8 /* SimpleSearch */;
-		activeTarget = DEFB39C80A26656600AF92A8 /* ezrets */;
+		activeTarget = DEFB3A5C0A2750F900AF92A8 /* ezretss */;
 		addToTargets = (
 			DEFB3A750A27555400AF92A8 /* SimpleSearch */,
 		);
@@ -72,8 +72,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 170351217;
-			PBXWorkspaceStateSaveDate = 170351217;
+			PBXPerProjectTemplateStateSaveDate = 170358957;
+			PBXWorkspaceStateSaveDate = 170358957;
 		};
 		sourceControlManager = DEFB399F0A26610800AF92A8 /* Source Control */;
 		userBuildSettings = {
@@ -121,6 +121,21 @@
 	};
 	DEFB3A5C0A2750F900AF92A8 /* ezretss */ = {
 		activeExec = 0;
+	};
+	DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {915, 854}}";
+			sepNavSelRange = "{1256, 59}";
+			sepNavVisRect = "{{0, 539}, {915, 197}}";
+		};
+	};
+	DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {786, 5180}}";
+			sepNavSelRange = "{1263, 0}";
+			sepNavVisRect = "{{0, 130}, {786, 708}}";
+			sepNavWindowFrame = "{{15, 41}, {825, 837}}";
+		};
 	};
 	DEFB3A750A27555400AF92A8 /* SimpleSearch */ = {
 		activeExec = 0;
