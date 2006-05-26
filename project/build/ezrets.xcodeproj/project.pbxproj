@@ -58,11 +58,6 @@
 		DEFB3A2E0A2665C200AF92A8 /* TranslationWorkers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39FE0A2665C200AF92A8 /* TranslationWorkers.cpp */; };
 		DEFB3A2F0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39FF0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp */; };
 		DEFB3A300A2665C200AF92A8 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A000A2665C200AF92A8 /* utils.cpp */; };
-		DEFB3A350A2666B100AF92A8 /* librets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A340A2666B100AF92A8 /* librets.a */; };
-		DEFB3A380A26670400AF92A8 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A370A26670400AF92A8 /* libcurl.a */; };
-		DEFB3A3A0A26672900AF92A8 /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A390A26672900AF92A8 /* libexpat.a */; };
-		DEFB3A3D0A26675B00AF92A8 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */; };
-		DEFB3A4F0A274FCA00AF92A8 /* libantlr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */; };
 		DEFB3A510A274FEF00AF92A8 /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEFB3A530A27500A00AF92A8 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
 		DEFB3A6A0A27516800AF92A8 /* ConfigDSN.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */; };
@@ -150,13 +145,13 @@
 		DEFB39FF0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TypeInfoMetadataQuery.cpp; path = ../driver/src/TypeInfoMetadataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A000A2665C200AF92A8 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = ../driver/src/utils.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A340A2666B100AF92A8 /* librets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librets.a; path = ../../../librets/build/librets/lib/librets.a; sourceTree = SOURCE_ROOT; };
-		DEFB3A370A26670400AF92A8 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../../../../../../opt/local/lib/libcurl.a; sourceTree = SOURCE_ROOT; };
-		DEFB3A390A26672900AF92A8 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = ../../../../../../../opt/local/lib/libexpat.a; sourceTree = SOURCE_ROOT; };
-		DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = ../../../../../../../opt/local/lib/libboost_filesystem.a; sourceTree = SOURCE_ROOT; };
-		DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = ../../../../../../../usr/local/lib/libantlr.a; sourceTree = SOURCE_ROOT; };
-		DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbc.dylib; path = ../../../../../../../usr/lib/libiodbc.dylib; sourceTree = SOURCE_ROOT; };
-		DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbcinst.dylib; path = ../../../../../../../usr/lib/libiodbcinst.dylib; sourceTree = SOURCE_ROOT; };
-		DEFB3A5D0A2750F900AF92A8 /* ezretss.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; name = ezretss.dylib; path = build/Debug/ezretss.dylib; sourceTree = "<group>"; };
+		DEFB3A370A26670400AF92A8 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /opt/local/lib/libcurl.a; sourceTree = "<absolute>"; };
+		DEFB3A390A26672900AF92A8 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = /opt/local/lib/libexpat.a; sourceTree = "<absolute>"; };
+		DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /opt/local/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
+		DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = /usr/local/lib/libantlr.a; sourceTree = "<absolute>"; };
+		DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbc.dylib; path = /usr/lib/libiodbc.dylib; sourceTree = "<absolute>"; };
+		DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbcinst.dylib; path = /usr/lib/libiodbcinst.dylib; sourceTree = "<absolute>"; };
+		DEFB3A5D0A2750F900AF92A8 /* ezretss.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = ezretss.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigDSN.cpp; path = ../setup/src/ConfigDSN.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataSourceValidator.cpp; path = ../setup/src/DataSourceValidator.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A640A27516800AF92A8 /* Setup.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Setup.cpp; path = ../setup/src/Setup.cpp; sourceTree = SOURCE_ROOT; };
@@ -186,11 +181,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEFB39CA0A26658B00AF92A8 /* ezrets-common.a in Frameworks */,
-				DEFB3A350A2666B100AF92A8 /* librets.a in Frameworks */,
-				DEFB3A380A26670400AF92A8 /* libcurl.a in Frameworks */,
-				DEFB3A3A0A26672900AF92A8 /* libexpat.a in Frameworks */,
-				DEFB3A3D0A26675B00AF92A8 /* libboost_filesystem.a in Frameworks */,
-				DEFB3A4F0A274FCA00AF92A8 /* libantlr.a in Frameworks */,
 				DEFB3A510A274FEF00AF92A8 /* libiodbc.dylib in Frameworks */,
 				DEFB3A530A27500A00AF92A8 /* libiodbcinst.dylib in Frameworks */,
 			);
@@ -652,6 +642,17 @@
 					"$(LIBRARY_SEARCH_PATHS)",
 					"$(SRCROOT)/../../../librets/build/librets/lib",
 					/opt/local/lib,
+				);
+				OTHER_LDFLAGS = (
+					/opt/local/lib/libz.a,
+					/opt/local/lib/libcrypto.a,
+					/opt/local/lib/libexpat.a,
+					/opt/local/lib/libcurl.a,
+					/opt/local/lib/libboost_filesystem.a,
+					/usr/local/lib/libantlr.a,
+					/opt/local/lib/libssl.a,
+					/Users/kgarner/src/odbcrets/librets/build/librets/lib/librets.a,
+					"$(OTHER_LDFLAGS)",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezrets;

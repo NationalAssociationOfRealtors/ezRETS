@@ -4,7 +4,7 @@
 		activeBuildConfigurationName = Debug;
 		activeBuildStyle = 014CEA520018CE5811CA2923 /* Debug */;
 		activeExecutable = DEFB3A770A27555400AF92A8 /* SimpleSearch */;
-		activeTarget = DEFB3A750A27555400AF92A8 /* SimpleSearch */;
+		activeTarget = DEFB39C80A26656600AF92A8 /* ezrets */;
 		addToTargets = (
 			DEFB3A750A27555400AF92A8 /* SimpleSearch */,
 		);
@@ -72,8 +72,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 170287294;
-			PBXWorkspaceStateSaveDate = 170287294;
+			PBXPerProjectTemplateStateSaveDate = 170351217;
+			PBXWorkspaceStateSaveDate = 170351217;
 		};
 		sourceControlManager = DEFB399F0A26610800AF92A8 /* Source Control */;
 		userBuildSettings = {
