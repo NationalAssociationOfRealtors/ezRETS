@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE614AFA0A2CC60B005FA065 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB399B0A2660E900AF92A8 /* ezrets-common.a */; };
+		DE614B170A2CCC3A005FA065 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */; };
+		DE614B180A2CCC3A005FA065 /* DBHelperException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */; };
+		DE614B190A2CCC3A005FA065 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */; };
+		DE614B220A2CCC50005FA065 /* NoDsn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */; };
+		DEBEE9C70A2E3CFD00BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
+		DEBEE9C80A2E3D0200BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEFB39A60A26618B00AF92A8 /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39A40A26618B00AF92A8 /* DataSource.cpp */; };
 		DEFB39A70A26618B00AF92A8 /* EzRetsException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */; };
-		DEFB39CA0A26658B00AF92A8 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB399B0A2660E900AF92A8 /* ezrets-common.a */; };
 		DEFB3A010A2665C200AF92A8 /* AbstractHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39CE0A2665C200AF92A8 /* AbstractHandle.cpp */; };
 		DEFB3A020A2665C200AF92A8 /* BinaryObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39CF0A2665C200AF92A8 /* BinaryObjectQuery.cpp */; };
 		DEFB3A030A2665C200AF92A8 /* ColAttributeHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39D00A2665C200AF92A8 /* ColAttributeHelper.cpp */; };
@@ -58,7 +64,6 @@
 		DEFB3A2E0A2665C200AF92A8 /* TranslationWorkers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39FE0A2665C200AF92A8 /* TranslationWorkers.cpp */; };
 		DEFB3A2F0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39FF0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp */; };
 		DEFB3A300A2665C200AF92A8 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A000A2665C200AF92A8 /* utils.cpp */; };
-		DEFB3A510A274FEF00AF92A8 /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEFB3A530A27500A00AF92A8 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
 		DEFB3A6A0A27516800AF92A8 /* ConfigDSN.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */; };
 		DEFB3A6B0A27516800AF92A8 /* DataSourceValidator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */; };
@@ -73,7 +78,6 @@
 		DEFB3A800A27562B00AF92A8 /* DBHelperException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */; };
 		DEFB3A810A27562B00AF92A8 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */; };
 		DEFB3A820A27562B00AF92A8 /* SimpleSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7E0A27562B00AF92A8 /* SimpleSearch.cpp */; };
-		DEFB3A950A27579A00AF92A8 /* libiodbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A940A27579A00AF92A8 /* libiodbc.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -91,7 +95,19 @@
 		};
 /* End PBXBuildStyle section */
 
+/* Begin PBXContainerItemProxy section */
+		DE614AF60A2CC596005FA065 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEFB399A0A2660E900AF92A8;
+			remoteInfo = "ezrets-common";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
+		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB399B0A2660E900AF92A8 /* ezrets-common.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "ezrets-common.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB39A40A26618B00AF92A8 /* DataSource.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataSource.cpp; path = ../common/src/DataSource.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EzRetsException.cpp; path = ../common/src/EzRetsException.cpp; sourceTree = SOURCE_ROOT; };
@@ -145,10 +161,10 @@
 		DEFB39FF0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TypeInfoMetadataQuery.cpp; path = ../driver/src/TypeInfoMetadataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A000A2665C200AF92A8 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = ../driver/src/utils.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A340A2666B100AF92A8 /* librets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librets.a; path = ../../../librets/build/librets/lib/librets.a; sourceTree = SOURCE_ROOT; };
-		DEFB3A370A26670400AF92A8 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /opt/local/lib/libcurl.a; sourceTree = "<absolute>"; };
-		DEFB3A390A26672900AF92A8 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = /opt/local/lib/libexpat.a; sourceTree = "<absolute>"; };
+		DEFB3A370A26670400AF92A8 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /usr/local/lib/libcurl.a; sourceTree = "<absolute>"; };
+		DEFB3A390A26672900AF92A8 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = lib/libexpat.a; sourceTree = EXPAT; };
 		DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /opt/local/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
-		DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = /usr/local/lib/libantlr.a; sourceTree = "<absolute>"; };
+		DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = lib/libantlr.a; sourceTree = ANTLR; };
 		DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbc.dylib; path = /usr/lib/libiodbc.dylib; sourceTree = "<absolute>"; };
 		DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbcinst.dylib; path = /usr/lib/libiodbcinst.dylib; sourceTree = "<absolute>"; };
 		DEFB3A5D0A2750F900AF92A8 /* ezretss.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = ezretss.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,15 +176,22 @@
 		DEFB3A670A27516800AF92A8 /* SetupLog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetupLog.cpp; path = ../setup/src/SetupLog.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A680A27516800AF92A8 /* SqlInstallerException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SqlInstallerException.cpp; path = ../setup/src/SqlInstallerException.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TextValueSizer.cpp; path = ../setup/src/TextValueSizer.cpp; sourceTree = SOURCE_ROOT; };
-		DEFB3A760A27555400AF92A8 /* SimpleSearch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleSearch; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEFB3A760A27555400AF92A8 /* SimpleSearch */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = SimpleSearch; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DBHelper.cpp; path = ../examples/cpp/src/DBHelper.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DBHelperException.cpp; path = ../examples/cpp/src/DBHelperException.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ResultColumn.cpp; path = ../examples/cpp/src/ResultColumn.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A7E0A27562B00AF92A8 /* SimpleSearch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleSearch.cpp; path = ../examples/cpp/src/SimpleSearch.cpp; sourceTree = SOURCE_ROOT; };
-		DEFB3A940A27579A00AF92A8 /* libiodbc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiodbc.a; path = ../../../../../../../usr/lib/libiodbc.a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DE614B1B0A2CCC3A005FA065 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEBEE9C80A2E3D0200BFA1BF /* libiodbc.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEFB39990A2660E900AF92A8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -180,8 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEFB39CA0A26658B00AF92A8 /* ezrets-common.a in Frameworks */,
-				DEFB3A510A274FEF00AF92A8 /* libiodbc.dylib in Frameworks */,
+				DE614AFA0A2CC60B005FA065 /* ezrets-common.a in Frameworks */,
 				DEFB3A530A27500A00AF92A8 /* libiodbcinst.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,7 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEFB3A950A27579A00AF92A8 /* libiodbc.a in Frameworks */,
+				DEBEE9C70A2E3CFD00BFA1BF /* libiodbc.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,26 +230,62 @@
 		08FB7794FE84155DC02AAC07 /* ezrets */ = {
 			isa = PBXGroup;
 			children = (
-				DEFB3A940A27579A00AF92A8 /* libiodbc.a */,
-				DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */,
-				DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */,
-				DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */,
-				DEFB3A7E0A27562B00AF92A8 /* SimpleSearch.cpp */,
-				DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */,
-				DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */,
-				DEFB3A640A27516800AF92A8 /* Setup.cpp */,
-				DEFB3A650A27516800AF92A8 /* SetupApp.cpp */,
-				DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */,
-				DEFB3A670A27516800AF92A8 /* SetupLog.cpp */,
-				DEFB3A680A27516800AF92A8 /* SqlInstallerException.cpp */,
-				DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */,
+				DE614AE90A2CC45C005FA065 /* external libraries */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = ezrets;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DE614AEE0A2CC4ED005FA065 /* setup */,
+				DE614AEC0A2CC4C9005FA065 /* examples */,
+				DE614AEB0A2CC4A5005FA065 /* driver */,
+				DE614AEA0A2CC482005FA065 /* common */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DEFB399B0A2660E900AF92A8 /* ezrets-common.a */,
+				DEFB39C90A26656600AF92A8 /* ezrets.dylib */,
+				DEFB3A5D0A2750F900AF92A8 /* ezretss.dylib */,
+				DEFB3A760A27555400AF92A8 /* SimpleSearch */,
+				DE614B200A2CCC3A005FA065 /* NoDSN */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE614AE90A2CC45C005FA065 /* external libraries */ = {
+			isa = PBXGroup;
+			children = (
+				DEFB3A340A2666B100AF92A8 /* librets.a */,
 				DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */,
 				DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */,
 				DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */,
 				DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */,
 				DEFB3A390A26672900AF92A8 /* libexpat.a */,
 				DEFB3A370A26670400AF92A8 /* libcurl.a */,
-				DEFB3A340A2666B100AF92A8 /* librets.a */,
+			);
+			name = "external libraries";
+			sourceTree = "<group>";
+		};
+		DE614AEA0A2CC482005FA065 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */,
+				DEFB39A40A26618B00AF92A8 /* DataSource.cpp */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
+		DE614AEB0A2CC4A5005FA065 /* driver */ = {
+			isa = PBXGroup;
+			children = (
 				DEFB39CE0A2665C200AF92A8 /* AbstractHandle.cpp */,
 				DEFB39CF0A2665C200AF92A8 /* BinaryObjectQuery.cpp */,
 				DEFB39D00A2665C200AF92A8 /* ColAttributeHelper.cpp */,
@@ -276,30 +334,35 @@
 				DEFB39FE0A2665C200AF92A8 /* TranslationWorkers.cpp */,
 				DEFB39FF0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp */,
 				DEFB3A000A2665C200AF92A8 /* utils.cpp */,
-				DEFB39A40A26618B00AF92A8 /* DataSource.cpp */,
-				DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */,
-				08FB7795FE84155DC02AAC07 /* Source */,
-				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
-			name = ezrets;
+			name = driver;
 			sourceTree = "<group>";
 		};
-		08FB7795FE84155DC02AAC07 /* Source */ = {
+		DE614AEC0A2CC4C9005FA065 /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */,
+				DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */,
+				DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */,
+				DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */,
+				DEFB3A7E0A27562B00AF92A8 /* SimpleSearch.cpp */,
 			);
-			name = Source;
+			name = examples;
 			sourceTree = "<group>";
 		};
-		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+		DE614AEE0A2CC4ED005FA065 /* setup */ = {
 			isa = PBXGroup;
 			children = (
-				DEFB399B0A2660E900AF92A8 /* ezrets-common.a */,
-				DEFB39C90A26656600AF92A8 /* ezrets.dylib */,
-				DEFB3A5D0A2750F900AF92A8 /* ezretss.dylib */,
-				DEFB3A760A27555400AF92A8 /* SimpleSearch */,
+				DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */,
+				DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */,
+				DEFB3A640A27516800AF92A8 /* Setup.cpp */,
+				DEFB3A650A27516800AF92A8 /* SetupApp.cpp */,
+				DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */,
+				DEFB3A670A27516800AF92A8 /* SetupLog.cpp */,
+				DEFB3A680A27516800AF92A8 /* SqlInstallerException.cpp */,
+				DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */,
 			);
-			name = Products;
+			name = setup;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +392,30 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		DE614B150A2CCC3A005FA065 /* NoDSN */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE614B1D0A2CCC3A005FA065 /* Build configuration list for PBXNativeTarget "NoDSN" */;
+			buildPhases = (
+				DE614B160A2CCC3A005FA065 /* Sources */,
+				DE614B1B0A2CCC3A005FA065 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = SimpleSearch;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = NoDSN;
+			productName = SimpleSearch;
+			productReference = DE614B200A2CCC3A005FA065 /* NoDSN */;
+			productType = "com.apple.product-type.tool";
+		};
 		DEFB399A0A2660E900AF92A8 /* ezrets-common */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DEFB399C0A26610800AF92A8 /* Build configuration list for PBXNativeTarget "ezrets-common" */;
@@ -374,6 +461,7 @@
 				ZERO_LINK = YES;
 			};
 			dependencies = (
+				DE614AF70A2CC596005FA065 /* PBXTargetDependency */,
 			);
 			name = ezrets;
 			productName = ezrets;
@@ -457,11 +545,23 @@
 				DEFB39C80A26656600AF92A8 /* ezrets */,
 				DEFB3A5C0A2750F900AF92A8 /* ezretss */,
 				DEFB3A750A27555400AF92A8 /* SimpleSearch */,
+				DE614B150A2CCC3A005FA065 /* NoDSN */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DE614B160A2CCC3A005FA065 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE614B220A2CCC50005FA065 /* NoDsn.cpp in Sources */,
+				DE614B170A2CCC3A005FA065 /* DBHelper.cpp in Sources */,
+				DE614B180A2CCC3A005FA065 /* DBHelperException.cpp in Sources */,
+				DE614B190A2CCC3A005FA065 /* ResultColumn.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEFB39980A2660E900AF92A8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -554,6 +654,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DE614AF70A2CC596005FA065 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEFB399A0A2660E900AF92A8 /* ezrets-common */;
+			targetProxy = DE614AF60A2CC596005FA065 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		1DEB914F08733D8E0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -582,6 +690,40 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		DE614B1E0A2CCC3A005FA065 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../examples/cpp/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = NoDSN;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		DE614B1F0A2CCC3A005FA065 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = SimpleSearch;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -646,8 +788,8 @@
 				OTHER_LDFLAGS = (
 					/opt/local/lib/libz.a,
 					/opt/local/lib/libcrypto.a,
-					/opt/local/lib/libexpat.a,
-					/opt/local/lib/libcurl.a,
+					/usr/local/lib/libexpat.a,
+					/usr/local/lib/libcurl.a,
 					/opt/local/lib/libboost_filesystem.a,
 					/usr/local/lib/libantlr.a,
 					/opt/local/lib/libssl.a,
@@ -792,6 +934,15 @@
 			buildConfigurations = (
 				1DEB914F08733D8E0010E9CD /* Debug */,
 				1DEB915008733D8E0010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE614B1D0A2CCC3A005FA065 /* Build configuration list for PBXNativeTarget "NoDSN" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE614B1E0A2CCC3A005FA065 /* Debug */,
+				DE614B1F0A2CCC3A005FA065 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
