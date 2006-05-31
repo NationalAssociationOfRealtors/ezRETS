@@ -8,7 +8,9 @@ $VERBOSE = 1
 require 'odbc'
 require 'optparse'
 
-DRIVER = "ezRETS ODBC Driver"
+#DRIVER = "ezRETS ODBC Driver"
+DRIVER = '/Users/kgarner/src/odbcrets/ezrets.x/project/build/build/Debug/ezrets.dylib'
+#DRIVER = 'ezRETS ODBC Driver'
 drv = ODBC::Driver.new
 drv.name = DRIVER
 drv.attrs["DRIVER"] = DRIVER
@@ -50,6 +52,7 @@ end
 if drv.attrs.has_key?('HttpLogFile')
   drv.attrs['UseHttpLogging'] = "true"
 end
+
 
 dbc = ODBC::Database.new
 dbc.drvconnect(drv)
