@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE28A7040A30B86F0056399A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7030A30B86F0056399A /* libz.dylib */; };
+		DE28A7060A30B88E0056399A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
+		DE28A7090A30B8B50056399A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
 		DE614AFA0A2CC60B005FA065 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB399B0A2660E900AF92A8 /* ezrets-common.a */; };
 		DE614B170A2CCC3A005FA065 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */; };
 		DE614B180A2CCC3A005FA065 /* DBHelperException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */; };
@@ -103,11 +106,28 @@
 			remoteGlobalIDString = DEFB399A0A2660E900AF92A8;
 			remoteInfo = "ezrets-common";
 		};
+		DE8216B70A30B9F2009C55A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEFB39C80A26656600AF92A8;
+			remoteInfo = ezrets;
+		};
+		DE8216B90A30B9F5009C55A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEFB39C80A26656600AF92A8;
+			remoteInfo = ezrets;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE28A7030A30B86F0056399A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
+		DE28A7050A30B88E0056399A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
+		DE28A7080A30B8B50056399A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
-		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB399B0A2660E900AF92A8 /* ezrets-common.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "ezrets-common.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB39A40A26618B00AF92A8 /* DataSource.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataSource.cpp; path = ../common/src/DataSource.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EzRetsException.cpp; path = ../common/src/EzRetsException.cpp; sourceTree = SOURCE_ROOT; };
@@ -163,7 +183,7 @@
 		DEFB3A340A2666B100AF92A8 /* librets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librets.a; path = ../../../librets/build/librets/lib/librets.a; sourceTree = SOURCE_ROOT; };
 		DEFB3A370A26670400AF92A8 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /usr/local/lib/libcurl.a; sourceTree = "<absolute>"; };
 		DEFB3A390A26672900AF92A8 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = lib/libexpat.a; sourceTree = EXPAT; };
-		DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /opt/local/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
+		DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = lib/libboost_filesystem.a; sourceTree = BOOST; };
 		DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = lib/libantlr.a; sourceTree = ANTLR; };
 		DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbc.dylib; path = /usr/lib/libiodbc.dylib; sourceTree = "<absolute>"; };
 		DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbcinst.dylib; path = /usr/lib/libiodbcinst.dylib; sourceTree = "<absolute>"; };
@@ -176,7 +196,7 @@
 		DEFB3A670A27516800AF92A8 /* SetupLog.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SetupLog.cpp; path = ../setup/src/SetupLog.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A680A27516800AF92A8 /* SqlInstallerException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SqlInstallerException.cpp; path = ../setup/src/SqlInstallerException.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TextValueSizer.cpp; path = ../setup/src/TextValueSizer.cpp; sourceTree = SOURCE_ROOT; };
-		DEFB3A760A27555400AF92A8 /* SimpleSearch */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = SimpleSearch; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEFB3A760A27555400AF92A8 /* SimpleSearch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleSearch; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DBHelper.cpp; path = ../examples/cpp/src/DBHelper.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DBHelperException.cpp; path = ../examples/cpp/src/DBHelperException.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ResultColumn.cpp; path = ../examples/cpp/src/ResultColumn.cpp; sourceTree = SOURCE_ROOT; };
@@ -205,6 +225,9 @@
 			files = (
 				DE614AFA0A2CC60B005FA065 /* ezrets-common.a in Frameworks */,
 				DEFB3A530A27500A00AF92A8 /* libiodbcinst.dylib in Frameworks */,
+				DE28A7040A30B86F0056399A /* libz.dylib in Frameworks */,
+				DE28A7060A30B88E0056399A /* libssl.dylib in Frameworks */,
+				DE28A7090A30B8B50056399A /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +286,9 @@
 		DE614AE90A2CC45C005FA065 /* external libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DE28A7080A30B8B50056399A /* libcrypto.dylib */,
+				DE28A7050A30B88E0056399A /* libssl.dylib */,
+				DE28A7030A30B86F0056399A /* libz.dylib */,
 				DEFB3A340A2666B100AF92A8 /* librets.a */,
 				DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */,
 				DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */,
@@ -410,6 +436,7 @@
 				ZERO_LINK = YES;
 			};
 			dependencies = (
+				DE8216BA0A30B9F5009C55A4 /* PBXTargetDependency */,
 			);
 			name = NoDSN;
 			productName = SimpleSearch;
@@ -519,6 +546,7 @@
 				ZERO_LINK = YES;
 			};
 			dependencies = (
+				DE8216B80A30B9F2009C55A4 /* PBXTargetDependency */,
 			);
 			name = SimpleSearch;
 			productName = SimpleSearch;
@@ -660,6 +688,16 @@
 			target = DEFB399A0A2660E900AF92A8 /* ezrets-common */;
 			targetProxy = DE614AF60A2CC596005FA065 /* PBXContainerItemProxy */;
 		};
+		DE8216B80A30B9F2009C55A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEFB39C80A26656600AF92A8 /* ezrets */;
+			targetProxy = DE8216B70A30B9F2009C55A4 /* PBXContainerItemProxy */;
+		};
+		DE8216BA0A30B9F5009C55A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEFB39C80A26656600AF92A8 /* ezrets */;
+			targetProxy = DE8216B90A30B9F5009C55A4 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -668,11 +706,7 @@
 			buildSettings = {
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/Users/kgarner/src/odbcrets/librets/project/librets/include,
-					/opt/local/include,
-					"$(HEADER_SEARCH_PATHS)",
-				);
+				HEADER_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DHAVE_IODBC",
@@ -688,6 +722,12 @@
 			buildSettings = {
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				OTHER_CFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DHAVE_IODBC",
+					"-DEZRETS_VERSION=\"1.99.1\"",
+				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -703,6 +743,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
 					"$(HEADER_SEARCH_PATHS)",
 				);
@@ -720,9 +761,14 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
+					"$(SRCROOT)/../examples/cpp/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
-				PRODUCT_NAME = SimpleSearch;
+				PRODUCT_NAME = NoDSN;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -730,6 +776,10 @@
 		DEFB399D0A26610800AF92A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -739,6 +789,8 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(LIBRETS)/project/librets/include",
+					"$(BOOST)/include",
 					"$(SRCROOT)/../common/include",
 					"$(HEADER_SEARCH_PATHS)",
 				);
@@ -766,6 +818,10 @@
 		DEFB39CC0A2665B800AF92A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -774,26 +830,20 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
+					"$(LIBRETS)/project/librets/include",
 					"$(SRCROOT)/../driver/include",
 					"$(SRCROOT)/../common/include",
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/../../../librets/build/librets/lib",
-					/opt/local/lib,
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
-					/opt/local/lib/libz.a,
-					/opt/local/lib/libcrypto.a,
-					/usr/local/lib/libexpat.a,
-					/usr/local/lib/libcurl.a,
-					/opt/local/lib/libboost_filesystem.a,
-					/usr/local/lib/libantlr.a,
-					/opt/local/lib/libssl.a,
-					/Users/kgarner/src/odbcrets/librets/build/librets/lib/librets.a,
+					"$(EXPAT)/lib/libexpat.a",
+					"$(CURL)/lib/libcurl.a",
+					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libantlr.a",
+					"$(LIBRETS)/build/build.xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
 				);
 				PREBINDING = NO;
@@ -811,11 +861,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/../../../librets/build/librets/lib",
-					/opt/local/lib,
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = ezrets;
 				ZERO_LINK = NO;
@@ -836,6 +882,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
 				HEADER_SEARCH_PATHS = (
+					"$(LIBRETS)/project/librets/include",
+					"$(BOOST)/include",
 					"$(SRCROOT)/../setup/include",
 					"$(SRCROOT)/../common/include",
 					"$(HEADER_SEARCH_PATHS)",
@@ -881,6 +929,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../setup/include",
+					"$(SRCROOT)/../common/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -902,6 +955,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
 					"$(HEADER_SEARCH_PATHS)",
 				);
@@ -919,6 +973,11 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
+					"$(SRCROOT)/../examples/cpp/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = SimpleSearch;
