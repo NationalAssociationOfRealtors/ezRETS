@@ -21,7 +21,7 @@
 #endif
 
 #ifdef HAVE_IODBC
-#include <odbcinst.h>
+#include <iodbcinst.h>
 #else
 #include <odbcinst.h>
 #endif
