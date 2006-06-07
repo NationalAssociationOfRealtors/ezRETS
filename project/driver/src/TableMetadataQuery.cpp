@@ -113,11 +113,14 @@ SQLRETURN TableMetadataQuery::execute()
     }
     else
     {
-        myTables = metadata->getSQLDataTableMetadata(mTable);
+        if (mTable.compare(0, 5, "data:") == 0)
+        {
+            myTables = metadata->getSQLDataTableMetadata(mTable);
+        }
     }
 
-    for (TableMetadataVector::iterator i = myTables->begin();
-         i != myTables->end(); i++)
+    TableMetadataVector::iterator i;
+    for (i = myTables->begin(); i != myTables->end(); i++)
     {
         StringVectorPtr results(new StringVector());
         results->push_back("");
@@ -127,6 +130,33 @@ SQLRETURN TableMetadataQuery::execute()
         results->push_back(i->second);
 
         mResultSet->addRow(results);
+    }
+
+    if (!mStmt->isDisableGetObjectMetadata())
+    {
+        if (mTable.empty())
+        {
+            myTables = metadata->getSQLObjectTableMetadata();
+        }
+        else
+        {
+            if (mTable.compare(0, 7, "object:"))
+            {
+                myTables = metadata->getSQLObjectTableMetadata(mTable);
+            }
+        }
+
+        for (i = myTables->begin(); i != myTables->end(); i++)
+        {
+            StringVectorPtr results(new StringVector());
+            results->push_back("");
+            results->push_back("");
+            results->push_back(i->first);
+            results->push_back("TABLE");
+            results->push_back(i->second);
+
+            mResultSet->addRow(results);
+        }
     }
     
     return SQL_SUCCESS;

@@ -695,6 +695,11 @@ bool RetsDBC::isUsingStandardNames()
     return mDataSource.GetStandardNames();
 }
 
+bool RetsDBC::isDisableGetObjectMetadata()
+{
+    return mDataSource.GetDisableGetObjectMetadata();
+}
+
 bool RetsDBC::isUsingCompactFormat()
 {
     return mDataSource.GetUseCompactFormat();

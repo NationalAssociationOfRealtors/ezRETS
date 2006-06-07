@@ -58,6 +58,8 @@ const char * CLASS::INI_USE_BULK_METADATA = "UseBulkMetadata";
 const char * CLASS::INI_DRIVER = "DRIVER";
 const char * CLASS::INI_IGNORE_METADATA_TYPE = "IgnoreMetadataType";
 const char * CLASS::INI_USE_COMPACT_FORMAT = "UseCompactFormat";
+const char * CLASS::INI_DISABLE_GETOBJECT_METADATA =
+    "DisableGetObjectMetadata";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -123,6 +125,7 @@ void DataSource::init()
     mUseBulkMetadata = false;
     mIgnoreMetadataType = false;
     mUseCompactFormat = false;
+    mDisableGetObjectMetadata = true;
 }
 
 DataSource::DataSource()
@@ -171,6 +174,8 @@ void DataSource::MergeFromIni()
         mUseBulkMetadata = GetProfileBool(INI_USE_BULK_METADATA, false);
         mIgnoreMetadataType = GetProfileBool(INI_IGNORE_METADATA_TYPE, false);
         mUseCompactFormat = GetProfileBool(INI_USE_COMPACT_FORMAT, false);
+        mDisableGetObjectMetadata =
+            GetProfileBool(INI_DISABLE_GETOBJECT_METADATA, true);
     }
 }
 
@@ -191,6 +196,8 @@ void DataSource::WriteToIni()
     WriteProfileString(INI_USE_BULK_METADATA, mUseBulkMetadata);
     WriteProfileString(INI_IGNORE_METADATA_TYPE, mIgnoreMetadataType);
     WriteProfileString(INI_USE_COMPACT_FORMAT, mUseCompactFormat);
+    WriteProfileString(INI_DISABLE_GETOBJECT_METADATA,
+                       mDisableGetObjectMetadata);
 }
 
 void DataSource::CreateInIni(string driver)
@@ -443,6 +450,16 @@ void DataSource::SetUseCompactFormat(bool useCompactFormat)
     mUseCompactFormat = useCompactFormat;
 }
 
+bool DataSource::GetDisableGetObjectMetadata() const
+{
+    return mDisableGetObjectMetadata;
+}
+
+void DataSource::SetDisableGetObjectMetadata(bool disableGetObjectMetadata)
+{
+    mDisableGetObjectMetadata = disableGetObjectMetadata;
+}
+
 bool DataSource::IsComplete() const
 {
     return (!mLoginUrl.empty() && !mUsername.empty() && !mPassword.empty());
@@ -498,6 +515,12 @@ string DataSource::GetConnectionString() const
     {
         AppendToConnectionString(connectionString, INI_USE_COMPACT_FORMAT,
                                  mUseCompactFormat);
+    }
+    if (!mDisableGetObjectMetadata)
+    {
+        AppendToConnectionString(connectionString,
+                                 INI_DISABLE_GETOBJECT_METADATA,
+                                 mDisableGetObjectMetadata);
     }
 
     return connectionString;
@@ -627,6 +650,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_USE_COMPACT_FORMAT)
         {
             mUseCompactFormat = stringToBool(value);
+        }
+        else if (key == INI_DISABLE_GETOBJECT_METADATA)
+        {
+            mDisableGetObjectMetadata = stringToBool(value);
         }
         else if (key == INI_DRIVER)
         {

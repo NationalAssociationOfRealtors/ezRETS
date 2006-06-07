@@ -367,6 +367,37 @@ TableMetadataVectorPtr MetadataView::getSQLDataTableMetadata()
     return tableMetadataVectorPtr;
 }
 
+TableMetadataVectorPtr MetadataView::getSQLObjectTableMetadata()
+{
+    TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
+
+    MetadataResourceList resources = mMetadataPtr->GetAllResources();
+
+    for (MetadataResourceList::iterator i = resources.begin();
+         i != resources.end(); i++)
+    {
+        MetadataResource* res = *i;
+
+        string sysname = res->GetResourceID();
+        string stdname = res->GetStandardName();
+
+        string description = "GetObject table for Resource ";
+        description.append(sysname);
+        if (!stdname.empty())
+        {
+            description.append("/").append(stdname);
+        }
+
+        string name = makeSQLObjectTableName(res, LOCATION);
+        tableMetadataVectorPtr->push_back(make_pair(name, description));
+
+        name = makeSQLObjectTableName(res, BINARY);
+        tableMetadataVectorPtr->push_back(make_pair(name, description));
+    }
+
+    return tableMetadataVectorPtr;
+}
+
 TableMetadataVectorPtr MetadataView::getSQLDataTableMetadata(std::string name)
 {
     TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
@@ -384,7 +415,7 @@ TableMetadataVectorPtr MetadataView::getSQLDataTableMetadata(std::string name)
 }
 
 string MetadataView::makeSQLDataTableName(MetadataResource* resource,
-                                      MetadataClass* clazz)
+                                          MetadataClass* clazz)
 {
     string tableName("");
     string resName;
@@ -407,4 +438,28 @@ string MetadataView::makeSQLDataTableName(MetadataResource* resource,
     }
 
     return tableName;
+}
+
+string MetadataView::makeSQLObjectTableName(MetadataResource* resource,
+                                            ObjectTableType type)
+{
+    string tableName("");
+    string resName;
+
+    resName = resource->GetResourceID();
+    if (!resName.empty())
+    {
+        tableName.append("object:");
+        tableName.append(type == LOCATION ? "location" : "binary");
+        tableName.append(":").append(resName);
+    }
+
+    return tableName;
+}
+
+TableMetadataVectorPtr MetadataView::getSQLObjectTableMetadata(string name)
+{
+    // TODO: fill my ass in
+    TableMetadataVectorPtr foo;
+    return foo;
 }

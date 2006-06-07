@@ -1097,6 +1097,11 @@ bool RetsSTMT::isUsingStandardNames()
     return mDbc->isUsingStandardNames();
 }
 
+bool RetsSTMT::isDisableGetObjectMetadata()
+{
+    return mDbc->isDisableGetObjectMetadata();
+}
+
 RetsSessionPtr RetsSTMT::getRetsSession()
 {
     return mDbc->getRetsSession();

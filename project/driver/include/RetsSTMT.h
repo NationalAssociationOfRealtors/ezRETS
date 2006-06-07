@@ -37,6 +37,7 @@ class RetsSTMT : public AbstractHandle
     MetadataViewPtr getMetadataView();
     bool isUsingStandardNames();
     librets::RetsSessionPtr getRetsSession();
+    bool isDisableGetObjectMetadata();
 
     DataTranslatorPtr getDataTranslator();
 

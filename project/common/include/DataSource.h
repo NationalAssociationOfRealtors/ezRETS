@@ -115,6 +115,10 @@ class DataSource
 
     void SetUseCompactFormat(bool useCompactFormat);
 
+    bool GetDisableGetObjectMetadata() const;
+
+    void SetDisableGetObjectMetadata(bool disableGetObjectMetadata);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -159,6 +163,7 @@ class DataSource
     static const char * INI_DRIVER;
     static const char * INI_IGNORE_METADATA_TYPE;
     static const char * INI_USE_COMPACT_FORMAT;
+    static const char * INI_DISABLE_GETOBJECT_METADATA;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -209,6 +214,7 @@ class DataSource
     std::string mDriver;
     bool mIgnoreMetadataType;
     bool mUseCompactFormat;
+    bool mDisableGetObjectMetadata;
 };
 
 extern const char * RETS_1_0_STRING;

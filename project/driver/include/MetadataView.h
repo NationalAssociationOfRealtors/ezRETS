@@ -72,13 +72,26 @@ class MetadataView : public librets::SqlMetadata
     TableMetadataVectorPtr getSQLDataTableMetadata();
     TableMetadataVectorPtr getSQLDataTableMetadata(std::string name);
 
+    TableMetadataVectorPtr getSQLObjectTableMetadata();
+    TableMetadataVectorPtr getSQLObjectTableMetadata(std::string name);
+
     /**
-     * Makes a table name based on the Resource and Class passed in.
-     * If we're in StandardName mode, and one of the value doesn't
-     * have a standardname, we return an empty string.
+     * Makes a data table name based on the Resource and Class passed
+     * in.  If we're in StandardName mode, and one of the value
+     * doesn't have a standardname, we return an empty string.
      */
     std::string makeSQLDataTableName(librets::MetadataResource* resource,
                                      librets::MetadataClass* clazz);
+
+    enum ObjectTableType { LOCATION, BINARY };
+    /**
+     * Makes a object table name based on the Resource passed in,
+     * using location as a flag for if we're using location or not.
+     * Since GetObject doesn't have the context of StandardNeames, this
+     * will only ever return a table name based on SystemName.
+     */
+    std::string makeSQLObjectTableName(librets::MetadataResource* resource,
+                                       ObjectTableType type = LOCATION);
 
   private:
     librets::MetadataTable* getTable(
