@@ -459,7 +459,33 @@ string MetadataView::makeSQLObjectTableName(MetadataResource* resource,
 
 TableMetadataVectorPtr MetadataView::getSQLObjectTableMetadata(string name)
 {
-    // TODO: fill my ass in
-    TableMetadataVectorPtr foo;
-    return foo;
+    TableMetadataVectorPtr tableMetadataVectorPtr(new TableMetadataVector());
+
+    StringVector parts;
+    b::split(parts, name, b::is_any_of(":"));
+
+    string resName;
+    try
+    {
+        resName = parts.at(2);
+    }
+    catch (std::exception&)
+    {
+        // We just know it didn't match, no biggie
+    }
+
+    if (!resName.empty())
+    {
+        MetadataResource* res = getResource(resName);
+        string description = "GetObject table for Resource ";
+        description.append(res->GetResourceID());
+        string stdname = res->GetStandardName();
+        if (!stdname.empty())
+        {
+            description.append("/").append(stdname);
+        }
+        tableMetadataVectorPtr->push_back(make_pair(name, description));
+    }
+
+    return tableMetadataVectorPtr;
 }
