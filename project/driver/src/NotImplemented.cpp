@@ -269,8 +269,7 @@ SQLRETURN SQL_API SQLSetConnectAttr(
 
     if (dbc)
     {
-        dbc->getLogger()->debug("In SQLSetConnectOption");
-        // dbc->addError("HY000", "SQLSetConnectAttr not implemented");
+        dbc->getLogger()->debug("In SQLSetConnectAttr");
     }
 
     return SQL_SUCCESS;
@@ -285,10 +284,11 @@ SQLRETURN SQL_API SQLSetConnectOption(SQLHDBC ConnectionHandle,
     if (dbc)
     {
         dbc->getLogger()->debug("In SQLSetConnectOption");
-        dbc->addError("HY000", "SQLSetConnectOption not implemented");
+//        dbc->addError("HY000", "SQLSetConnectOption not implemented");
     }
 
-    return SQL_ERROR;
+//    return SQL_ERROR;
+    return SQL_SUCCESS;
 }
 
 SQLRETURN SQL_API SQLSetCursorName(SQLHSTMT StatementHandle,
