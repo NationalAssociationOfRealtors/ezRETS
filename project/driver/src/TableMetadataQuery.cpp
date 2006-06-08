@@ -110,12 +110,25 @@ SQLRETURN TableMetadataQuery::execute()
     if(mTable.empty())
     {
         myTables = metadata->getSQLDataTableMetadata();
+        if (!mStmt->isDisableGetObjectMetadata())
+        {
+            TableMetadataVectorPtr moreTables =
+                metadata->getSQLObjectTableMetadata();
+
+            myTables->reserve(myTables->size() + moreTables->size());
+            std::copy(moreTables->begin(), moreTables->end(),
+                      std::back_inserter(*myTables));
+        }
     }
     else
     {
         if (mTable.compare(0, 5, "data:") == 0)
         {
             myTables = metadata->getSQLDataTableMetadata(mTable);
+        }
+        else
+        {
+            myTables = metadata->getSQLObjectTableMetadata(mTable);
         }
     }
 
@@ -132,33 +145,6 @@ SQLRETURN TableMetadataQuery::execute()
         mResultSet->addRow(results);
     }
 
-    if (!mStmt->isDisableGetObjectMetadata())
-    {
-        if (mTable.empty())
-        {
-            myTables = metadata->getSQLObjectTableMetadata();
-        }
-        else
-        {
-            if (mTable.compare(0, 7, "object:"))
-            {
-                myTables = metadata->getSQLObjectTableMetadata(mTable);
-            }
-        }
-
-        for (i = myTables->begin(); i != myTables->end(); i++)
-        {
-            StringVectorPtr results(new StringVector());
-            results->push_back("");
-            results->push_back("");
-            results->push_back(i->first);
-            results->push_back("TABLE");
-            results->push_back(i->second);
-
-            mResultSet->addRow(results);
-        }
-    }
-    
     return SQL_SUCCESS;
 }
 
