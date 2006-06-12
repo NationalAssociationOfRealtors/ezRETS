@@ -489,3 +489,8 @@ TableMetadataVectorPtr MetadataView::getSQLObjectTableMetadata(string name)
 
     return tableMetadataVectorPtr;
 }
+
+MetadataResourceList MetadataView::getResources()
+{
+    return mMetadataPtr->GetAllResources();
+}

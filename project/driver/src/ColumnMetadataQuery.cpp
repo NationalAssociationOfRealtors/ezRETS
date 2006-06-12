@@ -17,6 +17,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/split.hpp>
 #include "ColumnMetadataQuery.h"
 #include "MetadataView.h"
 #include "librets/MetadataTable.h"
@@ -115,19 +116,24 @@ SQLRETURN ColumnMetadataQuery::execute()
     MetadataViewPtr metadataViewPtr = mStmt->getMetadataView();
     
     ResourceClassPairVectorPtr rcpVectorPtr;
-    if (mTable.empty())
+    bool tableEmpty = mTable.empty();
+    if (tableEmpty)
     {
+        // This is for "data:" tables
         rcpVectorPtr = metadataViewPtr->getResourceClassPairs();
     }
     else
     {
+        // This is for a specific "data:" table
         rcpVectorPtr.reset(new ResourceClassPairVector());
-        
-        ResourceClassPairPtr pair =
-            metadataViewPtr->getResourceClassPairBySQLTable(mTable);
-        if (pair != NULL)
+        if (mTable.compare(0, 5, "data:") == 0)
         {
-            rcpVectorPtr->push_back(pair);
+            ResourceClassPairPtr pair =
+                metadataViewPtr->getResourceClassPairBySQLTable(mTable);
+            if (pair != NULL)
+            {
+                rcpVectorPtr->push_back(pair);
+            }
         }
     }
 
@@ -161,6 +167,23 @@ SQLRETURN ColumnMetadataQuery::execute()
             result = processColumn(res, clazz, rTable);
         }
     }
+
+    // Add processing for binary tables here?
+//     if (tableEmpty)
+//     {
+//         // This is for "object:" tables
+//         MetadataResourceList resources =
+//             metadataViewPtr->getResources();
+
+//         // For object tables we only need the resources
+//         // -- get resources here
+//     }
+//     else if (mTable.compare(0, 7, "object:") == 0)
+//     {
+//         StringVector parts;
+//         b::split(parts, mTable, b::is_any_of(":"));
+//     }
+
 
     return result;
 }
