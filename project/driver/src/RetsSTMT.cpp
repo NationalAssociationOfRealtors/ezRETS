@@ -20,6 +20,7 @@
 #include "RetsDBC.h"
 #include "RetsSTMT.h"
 #include "librets/RetsException.h"
+#include "librets/RetsSqlException.h"
 #include "utils.h"
 #include "ColAttributeHelper.h"
 #include "EzLogger.h"
@@ -320,6 +321,11 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
     {
         mQuery = Query::createSqlQuery(this, mDbc->isUsingCompactFormat(),
                                        statement);
+    }
+    catch(RetsSqlException& e)
+    {
+        addError("42000", "SQL Syntax error: " + e.GetMessage());
+        result = SQL_ERROR;
     }
     catch(SqlStateException& e)
     {
