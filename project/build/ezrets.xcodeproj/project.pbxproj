@@ -22,6 +22,11 @@
 		DE9631DE0A34B00100EDD298 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB399B0A2660E900AF92A8 /* ezrets-common.a */; };
 		DEBEE9C70A2E3CFD00BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEBEE9C80A2E3D0200BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
+		DEF62EDF0A377896006FB520 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */; };
+		DEF62EE00A377896006FB520 /* DBHelperException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */; };
+		DEF62EE10A3778A5006FB520 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */; };
+		DEF62EE40A3778C6006FB520 /* TablesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEF62EE30A3778C6006FB520 /* TablesTest.cpp */; };
+		DEF62EE50A3778D2006FB520 /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEFB39A60A26618B00AF92A8 /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39A40A26618B00AF92A8 /* DataSource.cpp */; };
 		DEFB39A70A26618B00AF92A8 /* EzRetsException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */; };
 		DEFB3A010A2665C200AF92A8 /* AbstractHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB39CE0A2665C200AF92A8 /* AbstractHandle.cpp */; };
@@ -133,6 +138,8 @@
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
+		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB399B0A2660E900AF92A8 /* ezrets-common.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "ezrets-common.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEFB39A40A26618B00AF92A8 /* DataSource.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataSource.cpp; path = ../common/src/DataSource.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB39A50A26618B00AF92A8 /* EzRetsException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EzRetsException.cpp; path = ../common/src/EzRetsException.cpp; sourceTree = SOURCE_ROOT; };
@@ -217,6 +224,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DEF62ED80A377835006FB520 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEF62EE50A3778D2006FB520 /* libiodbc.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEFB39990A2660E900AF92A8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -289,6 +304,7 @@
 				DEFB3A5D0A2750F900AF92A8 /* ezretss.dylib */,
 				DEFB3A760A27555400AF92A8 /* SimpleSearch */,
 				DE614B200A2CCC3A005FA065 /* NoDSN */,
+				DEF62EDA0A377835006FB520 /* TablesTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -377,6 +393,7 @@
 		DE614AEC0A2CC4C9005FA065 /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				DEF62EE30A3778C6006FB520 /* TablesTest.cpp */,
 				DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */,
 				DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */,
 				DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */,
@@ -451,6 +468,30 @@
 			name = NoDSN;
 			productName = SimpleSearch;
 			productReference = DE614B200A2CCC3A005FA065 /* NoDSN */;
+			productType = "com.apple.product-type.tool";
+		};
+		DEF62ED90A377835006FB520 /* TablesTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEF62EDC0A377853006FB520 /* Build configuration list for PBXNativeTarget "TablesTest" */;
+			buildPhases = (
+				DEF62ED70A377835006FB520 /* Sources */,
+				DEF62ED80A377835006FB520 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = TablesTest;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = TablesTest;
+			productName = TablesTest;
+			productReference = DEF62EDA0A377835006FB520 /* TablesTest */;
 			productType = "com.apple.product-type.tool";
 		};
 		DEFB399A0A2660E900AF92A8 /* ezrets-common */ = {
@@ -584,6 +625,7 @@
 				DEFB3A5C0A2750F900AF92A8 /* ezretss */,
 				DEFB3A750A27555400AF92A8 /* SimpleSearch */,
 				DE614B150A2CCC3A005FA065 /* NoDSN */,
+				DEF62ED90A377835006FB520 /* TablesTest */,
 			);
 		};
 /* End PBXProject section */
@@ -597,6 +639,17 @@
 				DE614B170A2CCC3A005FA065 /* DBHelper.cpp in Sources */,
 				DE614B180A2CCC3A005FA065 /* DBHelperException.cpp in Sources */,
 				DE614B190A2CCC3A005FA065 /* ResultColumn.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEF62ED70A377835006FB520 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEF62EDF0A377896006FB520 /* DBHelper.cpp in Sources */,
+				DEF62EE00A377896006FB520 /* DBHelperException.cpp in Sources */,
+				DEF62EE10A3778A5006FB520 /* ResultColumn.cpp in Sources */,
+				DEF62EE40A3778C6006FB520 /* TablesTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +768,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */;
 			buildSettings = {
+				ARCHS = i386;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"EZRETS_VERSION=\"$(VERSION)\"",
 					HAVE_IODBC,
@@ -785,13 +839,44 @@
 			};
 			name = Release;
 		};
+		DEF62EDD0A377853006FB520 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
+					"$(SRCROOT)/../examples/cpp/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = TablesTest;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		DEF62EDE0A377853006FB520 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = TablesTest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		DEFB399D0A26610800AF92A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -830,10 +915,6 @@
 		DEFB39CC0A2665B800AF92A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -850,12 +931,13 @@
 				);
 				INSTALL_PATH = /usr/local/lib;
 				LIBRARY_SEARCH_PATHS = "";
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
 					"$(BOOST)/lib/libantlr.a",
-					"$(LIBRETS)/build/build.xcode/Development/librets.a",
+					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
 				);
 				PREBINDING = NO;
@@ -1027,6 +1109,15 @@
 			buildConfigurations = (
 				DE614B1E0A2CCC3A005FA065 /* Debug */,
 				DE614B1F0A2CCC3A005FA065 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEF62EDC0A377853006FB520 /* Build configuration list for PBXNativeTarget "TablesTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEF62EDD0A377853006FB520 /* Debug */,
+				DEF62EDE0A377853006FB520 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
