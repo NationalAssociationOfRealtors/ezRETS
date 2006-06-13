@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> -->
 <html>
   <head>
     <title>SQL Support in ezRETS</title>
@@ -16,7 +16,7 @@
     <p>
       <code>
         SELECT<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;* | <i>column</i> [, ...]<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;* | count(*) | <i>column</i> [, ...]<br/>
         &nbsp;&nbsp;&nbsp;&nbsp;FROM <i>table_name</i> [ [AS] <i>alias</i> ]<br/>
         &nbsp;&nbsp;&nbsp;&nbsp;WHERE <i>condition</i> [AND|OR ...]<br/>
         &nbsp;&nbsp;&nbsp;&nbsp;[ LIMIT <i>count</i> ]<br/>
@@ -26,16 +26,19 @@
 
     <h2>Description</h2>
 
-    <h3><i>column</i> names</h3>
+    <h3>column names</h3>
     <p>
-      The <i>column</i> name is taken from the RETS Table names.
+      The <i>column</i> name is taken from the RETS Table names or are
+      defined below for <i>object:*</i> tables.
     </p>
 
     <h3>WHERE clause</h3>
     <p>
-      We support the following operators in where conditions: =, &lt;,
-      &lt;=, &gt;, &gt;=, !=, &lt;&gt;, IN, NOT IN.  Conditions can
-      also be grouped by parenthesis.
+      We support the following operators in where conditions:
+      <code>=</code>, <code>&lt;</code>, <code>&lt;=</code>,
+      <code>&gt;</code>, <code>&gt;=</code>, <code>!=</code>,
+      <code>&lt;&gt;</code>, <code>IN</code>, <code>NOT IN</code>.
+      Conditions can also be grouped by parenthesis.
     </p>
     <p>
       Currently, prepared statements are not supported, so you cannot
@@ -51,16 +54,81 @@
 
     <h3>table names</h3>
     <p>
-      Table names are constructed from the RETS metadata by combining
-      with colons the word <i>data</i>, the Resource name, and Class
-      name.  For example, for the RETS Resource of <i>Property</i> and
-      the Class of <i>ResidentialProperty</i>, the table name is
+      <b>Data Tables:</b>  Table names are constructed from the RETS
+      metadata by combining with colons the word <i>data</i>, the
+      Resource name, and Class name.  For example, for the RETS
+      Resource of <i>Property</i> and the Class of
+      <i>ResidentialProperty</i>, the table name is
       <i>data:Property:ResidentialProperty</i>.
     </p>
     <p>
-      The preface of <i>data</i> is required for future enhancments.
-      When RETS GetObject is supported, it will use the prefix of
-      <i>object</i>.
+      <b>GetObject tables:</b> Object tables are named like this
+      <i>object:location:&lt;Resource&gt;</i> or
+      <i>object:binary:&lt;Resource&gt;</i>.  The big difference is
+      that <i>object:location:*</i> tables will attempt to use the
+      <code>Location=1</code> directive of RETS GetObject, and return
+      a URL to the object requested.  If that cannot be accomplished,
+      it returns the data as a blob.  <i>object:binary:*</i> tables
+      will always get the data as a blob.
+    </p>
+
+    <h3>GetObject support</h3>
+    <p>
+      There are a fixed number of fields returned for each table, and
+      you cannot select only certain fields (for now.)  This means
+      that you can only effectively do a <code>SELECT *</code>&nbsp;&nbsp;
+      <code>count(*)</code> is also not supported for GetObject tables.
+    </p>
+    <p>
+      For <code>object:</code> searches, a WHERE has two required
+      conditions and one optional condition.  You must have
+      <ul>
+        <li><code>type='<i>&lt;some type&gt;</i>'</code></li>
+        and
+        <li><code>object_key='<i>&lt;key value&gt;</i>'</code></li>
+      </ul>
+      as your required arguments.
+      The possible values for type, as taken from the RETS spec, are:
+      <ul>
+        <li><code>Photo</code></li>
+        <li><code>Plat</code></li>
+        <li><code>Video</code></li>
+        <li><code>Audio</code></li>
+        <li><code>Thumbnail</code></li>
+        <li><code>Map</code></li>
+        <li><code>VRImage</code></li>
+      </ul>
+      The <code>object_key</code> is typically the primary key for the
+      RETS Resource type.  The optional arguement of
+      <code>object_id</code> is to request a specific single item.
+      For example, if there were 7 photos for a property and you just
+      wanted the second one, you'd pass <code>object_id=2</code>.
+    </p>
+    <p>
+      The fields returned for each table type are as follows:
+    </p>
+    <p>
+      Table name: <code>object:binary:*</code>
+      <table border="1">
+        <tr><th>Column Name</th><th>Type</th></tr>
+        <tr><td>object_key</td><td>VARCHAR</td></tr>
+        <tr><td>object_id</td><td>INT</td></tr>
+        <tr><td>mime_type</td><td>VARCHAR</td></tr>
+        <tr><td>description</td><td>VARCHAR</td></tr>
+        <tr><td>raw_data</td><td>LONGVARBINARY</td></tr>
+      </table>
+    </p>
+    <p>
+      Table name: <code>object:location:*</code>
+      <table border="1">
+        <tr><th>Column Name</th><th>Type</th></tr>
+        <tr><td>object_key</td><td>VARCHAR</td></tr>
+        <tr><td>object_id</td><td>INT</td></tr>
+        <tr><td>mime_type</td><td>VARCHAR</td></tr>
+        <tr><td>description</td><td>VARCHAR</td></tr>
+        <tr><td>location</td><td>VARCHAR</td></tr>
+        <tr><td>raw_data</td><td>LONGVARBINARY</td></tr>
+      </table>
     </p>
 
     <h2>Limitations</h2>
@@ -94,6 +162,36 @@
       RETS does not have the concept of an ORDER BY, therefor, ezRETS
       does not attempt to support it.  If you supply an ORDER BY, it
       is silently ignored.
+    </p>
+
+    <h3><code>IS NULL</code> or <code>IS NOT NULL</code> not supported</h3>
+    <p>
+      RETS does not have the concept of querying on <code>IS
+      NULL</code> or <code>IS NOT NULL</code>, so the driver does not
+      support queries using those elements.
+    </p>
+
+    <h3>
+      Not all servers support <code>LIMIT</code>, <code>OFFSET</code>,
+      and GetObject
+    </h3>
+    <p>
+      Not all RETS servers support these functions, however, there is
+      not a good way for the driver to test if they are supported or
+      not.  If a query does not do what you think it should do and
+      you're using LIMIT, OFFSET, or a trying to get data from an
+      <i>object:*</i> table, check with the ezRETS-users mailing list
+      or your MLS to see if the equivalent RETS functionality is
+      supported.
+    </p>
+
+    <h3>GetObject talbes do not show up in ODBC metadata</h3>
+    <p>
+      GetObject tables and columns do not show yet up in ODBC metadata
+      queries.  You will need to know the table names and what columns
+      are returned to use those tables.  Wizards and the like will not
+      display these as options as a result.  This is planned to be
+      fixed in a future release.
     </p>
       
   </body>
