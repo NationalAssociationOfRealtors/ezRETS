@@ -22,10 +22,6 @@ document included with ezRETS.
       practice of changing your User-Agent.  To see what ezRETS's
       default User-Agent is, please check the NEWS file.
 
-    * Currently, we do not implement RETS GetObject support. This
-      means you cannot yet get images via ezRETS. This is planned for
-      a future release.
-
 -- Reporting Bugs --
 
 To report bugs, we need a few pieces of information: which MLS or RETS
@@ -51,7 +47,7 @@ do it:
    If you don't feel comfortable sending the logs to the open list,
    you can send them to ezrets-logs@crt.realtors.org which will only
    go to CRT's ezRETS developers.  These will not be shared in their
-   entirety, however, small segments that do not violate any privcy
+   entirety, however, small segments that do not violate any privacy
    may be used in bug descriptions and/or discussion on ezrets-users.
 
 2) Or you can create a "trouble ticket" by visiting

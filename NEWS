@@ -1,3 +1,42 @@
+Changes since 1.2.2
+-------------------
+ * User-Agent is now "ezRETS/2.0.0 (librets/1.1.1)"
+
+ Enhancements
+  * RETS GetObject now supported.  ezRETS can be used to download images.
+  * SQL Syntax document updated with GetObject info
+  * count(*) supported for data queries
+
+ Developer Notes:
+  * libRETS 1.1.1 is required to build
+  * iODBC now supported as well as unixODBC for unix systems
+
+Changes since 1.2.1
+-------------------
+ * User-Agent is now "ezRETS/1.2.2 (librets/1.1.0b2.1)"
+
+ Bug fixes
+  * SQLColAttribute didn't correctly make LOOKUP and LOOKUP_MULTI look like
+    a character field.
+
+ Developer notes:
+  * libRETS 1.1.0b2 or 1.1.0b2.1 is required to build.  b2.1 is only
+    needed for going against Paragon systems.
+
+Changes since 1.2.0
+-------------------
+ * User-Agent is now "ezRETS/1.2.1 (librets/1.1.0b2.1)"
+
+ Bug fixes:
+  * Two small fixes (one in libRETS) to make ezRETS happy with
+    Paragon.
+  * Null-terminate the error code string.  This makes ruby happy,
+    probably others as well.
+
+ Developer notes:
+  * libRETS 1.1.0b2 or 1.1.0b2.1 is required to build.  b2.1 is only
+    needed for going against Paragon systems.
+
 Changes since 1.1.0
 -------------------
  * User-Agent is now "ezRETS/1.2.0 (librets/1.0.0b1)"
