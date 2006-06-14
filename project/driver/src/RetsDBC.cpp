@@ -127,9 +127,9 @@ SQLRETURN RetsDBC::SQLConnect(SQLCHAR *DataSource,
         mDataSource.SetPassword(SqlCharToString(Authentication, AuthLength));
     }
 
-    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " " <<
-               lr::RetsSession::DEFAULT_USER_AGENT<< " " << __DATE__ << " " <<
-               __TIME__);
+    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " (" <<
+               lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
+               << __TIME__);
     log->debug(str_stream() << mDataSource);
 
     if (!login())
@@ -199,8 +199,9 @@ SQLRETURN RetsDBC::SQLDriverConnect(
 
     log->debug("post load from INI");
 
-    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " " <<
-	       __DATE__ << " " << __TIME__);
+    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " (" <<
+               lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
+               << __TIME__);
     log->debug(str_stream() << mDataSource);
     log->debug(str_stream() << "In connection: " << inConString);
     
