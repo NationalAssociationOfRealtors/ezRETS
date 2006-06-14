@@ -1,5 +1,5 @@
-Installing the Prequisites
-==========================
+Installing the Prerequisites
+============================
 
 Microsoft Visual C++
 --------------------
@@ -13,11 +13,11 @@ to the path.
 
 
 wxWidgets
----------
+----------
   Version: 2.6.2 or higher.  Earlier versions have some Windows related bugs.
   URL: http://www.wxwidgets.org/
 
-  You must build wxWidgets and not used a prepared binary, as we depend
+  You must build wxWidgets and not used a prepare binary, as we depend
   on it being built a certain way.
 
   wxWidgets/build/msw/config.vc needs to be edited in the following manor:
@@ -34,12 +34,12 @@ installation.  You need to compile and install the filesystem and
 program options libraries.
 
 librets
--------
-  Version: 1.0.0 or higher
+--------
+  Version: 1.1.1 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
   You will need to build libRETS with librets/project/build/config.vc edited
-  in the following mannor:
+  in the following manor:
   RUNTIME_LIBS = static
 
 Ruby

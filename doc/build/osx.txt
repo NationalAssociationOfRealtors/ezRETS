@@ -1,0 +1,26 @@
+Installing the Prerequisites
+============================
+
+Install Apple's Developers Tools / XCode
+
+Boost
+-----
+  Version: 1.32.0 or higher.
+  URL: http://www.boost.org/
+
+Boost has it's own build system, bjam.  Read it's instructions for
+installation.  You need to compile and install the filesystem and
+program options libraries.
+
+librets
+--------
+  Version 1.1.1 or higher
+  URL: http://www.crt.realtors.org/projects/rets/librets
+
+
+Building ezrets
+===============
+
+This will be better documented in the future.  In the meantime, you
+can try your hand at using XCode to build it.  The project files is at
+EZRETS/project/build/ezrets.xcodeproj

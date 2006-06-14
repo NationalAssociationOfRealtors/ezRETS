@@ -1,5 +1,5 @@
-Installing the Prequisites
-==========================
+Installing the Prerequisites
+============================
 
 gcc
 ---
@@ -20,13 +20,22 @@ program options libraries.
 
 
 librets
--------
-  Version 1.0.0 or higher
+--------
+  Version 1.1.1 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
 
+unixODBC or iODBC
+-------------------
+  unixODBC Version 2.2.x or higher
+  URL: http://www.unixodbc.org/
+
+  iODBC Version 3.52.1 or higher
+  URL: http://www.iodbc.org/
+
+
 Building ezrets
-===============
+================
 
 Run the following commands:
   % ./configure
