@@ -56,7 +56,7 @@ BEGIN
             VALUE "FileDescription", "CRT ezRETS ODBC Setup"
             VALUE "FileVersion", "<%= commaspver %>, 0"
             VALUE "InternalName", "ezretss"
-            VALUE "LegalCopyright", "Copyright (C) 2005"
+            VALUE "LegalCopyright", "Copyright (C) 2005,2006"
             VALUE "OriginalFilename", "ezretss.dll"
             VALUE "ProductName", "ezRETS ODBC Setup"
             VALUE "ProductVersion", "<%= commaspver %>, 0"

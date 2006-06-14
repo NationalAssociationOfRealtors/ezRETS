@@ -50,7 +50,7 @@ BEGIN
             VALUE "FileDescription", "ezRETS ODBC Driver"
             VALUE "FileVersion", "<%= commaspver %>, 0"
             VALUE "InternalName", "ezrets"
-            VALUE "LegalCopyright", "Copyright (C) 2005"
+            VALUE "LegalCopyright", "Copyright (C) 2005,2006"
             VALUE "OriginalFilename", "ezrets.dll"
             VALUE "ProductName", "ezRETS ODBC Driver"
             VALUE "ProductVersion", "<%= commaspver %>, 0"
