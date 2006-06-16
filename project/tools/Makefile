@@ -1,7 +1,7 @@
 
 all: sql_defines
 
-OSX_CFLAGS = -D_BSD_WCHAR_T_DEFINED_ -I/opt/local/include
+OSX_CFLAGS = -D_BSD_WCHAR_T_DEFINED_
 
 osx:
 	$(MAKE) CXXFLAGS="$(OSX_CFLAGS)"

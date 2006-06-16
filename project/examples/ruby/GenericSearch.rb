@@ -58,8 +58,7 @@ if (ARGV.length < 1)
   exit 1
 end
 
-#sql = ARGV[0]
-sql = File.read('/Volumes/stuff/fuggy.fuck.txt')
+sql = ARGV[0]
 
 if drv.attrs.has_key?('DebugLogFile')
   drv.attrs['UseDebugLogging'] = "true"

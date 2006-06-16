@@ -172,8 +172,7 @@ string DBHelper::describeColumn(int num)
     char name[1024];
     SQLSMALLINT nameLen;
     SQLSMALLINT dataType;
-//    SQLUINTEGER columnSize;
-	long unsigned int columnSize;
+    SQLUINTEGER columnSize;
     SQLSMALLINT decDig;
     SQLSMALLINT nullable;
     SQLRETURN result =
