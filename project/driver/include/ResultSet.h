@@ -20,6 +20,7 @@
 #include <vector>
 #include "librets/std_forward.h"
 #include "librets/metadata_forward.h"
+#include "librets/SearchRequest.h"
 #include "ezrets.h"
 #include "ezretsfwd.h"
 
@@ -58,7 +59,8 @@ class ResultSet
 
     void addColumn(std::string name, SQLSMALLINT DefaultType,
                    SQLULEN maxLength = 256);
-    void addColumn(std::string name, librets::MetadataTable* table);
+    void addColumn(std::string name, librets::MetadataTable* table,
+                   librets::SearchRequest::FormatType format);
     void addRow(librets::StringVectorPtr row);
 
     ColumnPtr getColumn(int col);

@@ -20,6 +20,7 @@
 #include "ezrets.h"
 #include "ezretsfwd.h"
 #include "librets/metadata_forward.h"
+#include "librets/SearchRequest.h"
 
 namespace odbcrets
 {
@@ -95,7 +96,8 @@ class RetsColumn : public Column
 {
   public:
     RetsColumn(ResultSet* parent, std::string name,
-               librets::MetadataTable* table);
+               librets::MetadataTable* table,
+               librets::SearchRequest::FormatType searchFormat);
 
     virtual SQLSMALLINT getDataType();
     virtual SQLULEN getColumnSize();
@@ -113,6 +115,7 @@ class RetsColumn : public Column
 
 
     librets::MetadataTable* mMetadataTablePtr;
+    librets::SearchRequest::FormatType mSearchFormat;
 };
 
 }

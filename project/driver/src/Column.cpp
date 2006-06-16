@@ -196,8 +196,10 @@ SQLULEN FauxColumn::getMaximumLength()
 // RetsColumn
 
 RetsColumn::RetsColumn(ResultSet* parent, string name,
-                       lr::MetadataTable* table)
-    : Column(parent, name), mMetadataTablePtr(table)
+                       lr::MetadataTable* table,
+                       lr::SearchRequest::FormatType searchFormat)
+    : Column(parent, name), mMetadataTablePtr(table),
+      mSearchFormat(searchFormat)
 {
 }
 
@@ -224,12 +226,8 @@ SQLULEN RetsColumn::getColumnSize()
     SQLULEN columnSize;
     
     MetadataViewPtr metadataView = mParent->getMetadataView();
-    // Rather than walking through the lookups, which is a pain, let's
-    // make some reasonable assumptions.  The longest length for a
-    // lookup, according to the RETS 1.7 spec is 128 characters.  So, for a
-    // lookup, we'll say 129 to add the null.  For Lookup Multi, let's
-    // cap it at 20 values, for now.  20 * 128 + 1 = 2561.
-    if (metadataView->IsLookupColumn(mMetadataTablePtr))
+    if (mSearchFormat == lr::SearchRequest::COMPACT_DECODED &&
+        metadataView->IsLookupColumn(mMetadataTablePtr))
     {
         columnSize = lookupSizeHelper();
     }
@@ -277,7 +275,8 @@ SQLULEN RetsColumn::getMaximumLength()
     // This needs to be adjusted for Lookups, like we do for ColumnSize.
     // Good old CompactDecoded!
     MetadataViewPtr metadataView = mParent->getMetadataView();
-    if (metadataView->IsLookupColumn(mMetadataTablePtr))
+    if (mSearchFormat == lr::SearchRequest::COMPACT_DECODED &&
+        metadataView->IsLookupColumn(mMetadataTablePtr))
     {
         size = lookupSizeHelper();
     }
@@ -333,7 +332,11 @@ SQLULEN RetsColumn::lookupSizeHelper()
 {
     SQLULEN size;
 
-    // Its either a Lookup or a LookupMulti
+    // Rather than walking through the lookups, which is a pain, let's
+    // make some reasonable assumptions.  The longest length for a
+    // lookup, according to the RETS 1.7 spec is 128 characters.  So, for a
+    // lookup, we'll say 129 to add the null.  For Lookup Multi, let's
+    // cap it at 20 values, for now.  20 * 128 + 1 = 2561.
     if (mMetadataTablePtr->GetInterpretation() ==
         lr::MetadataTable::LOOKUP)
     {

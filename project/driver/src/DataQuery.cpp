@@ -122,7 +122,7 @@ void DataQuery::prepareResultSet()
             table->GetStandardName() : table->GetSystemName();
         if (!name.empty())
         {
-            mResultSet->addColumn(name, table);
+            mResultSet->addColumn(name, table, mSearchFormat);
         }
     }
 }
