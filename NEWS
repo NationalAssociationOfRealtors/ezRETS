@@ -1,3 +1,14 @@
+Changes since 2.0.0
+-------------------
+ * User-Agent is now "ezRETS/2.0.1 (librets/1.1.1)"
+
+ Bug fixes
+
+  * Column widths where reported at COMPACT-DECODED size when COMPACT
+    was used as the search format.  So switching to COMPACT when
+    COMPACT-DECODED caused MS Query to have Out of Memory issue had
+    no positive effect.  Thanks to Elliot Onn for helping discover this.
+
 Changes since 1.2.2
 -------------------
  * User-Agent is now "ezRETS/2.0.0 (librets/1.1.1)"
