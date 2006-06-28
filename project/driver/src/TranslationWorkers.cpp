@@ -23,6 +23,8 @@
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/erase.hpp>
+#include <boost/detail/endian.hpp>
 
 using namespace odbcrets;
 using std::string;
@@ -331,7 +333,7 @@ void BigIntTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    setResultSize(resultSize, SQL_NULL_DATA);
+    //    setResultSize(resultSize, SQL_NULL_DATA);
 
     // This doesn't work for BIGINT
     //     std::istringstream in(data);
@@ -340,6 +342,10 @@ void BigIntTranslationWorker::translate(string data, SQLPOINTER target,
 
     // Nor does this
     //    SQLBIGINT v = lexical_cast<SQLBIGINT>(data);
+
+    SQLBIGINT* result = (SQLBIGINT*) target;
+    *result = lexical_cast<int64_t>(data);
+    setResultSize(resultSize, sizeof(SQLBIGINT));
 }
 
 SQLSMALLINT DecimalTranslationWorker::getOdbcType()
@@ -492,4 +498,93 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
     }
     
     setResultSize(resultSize, size);
+}
+
+SQLSMALLINT NumericTranslationWorker::getOdbcType() { return SQL_NUMERIC; }
+
+// I'm not sure if this one is correct
+string NumericTranslationWorker::getOdbcTypeName() { return "NUMERIC"; }
+
+int NumericTranslationWorker::getOdbcTypeLength() {
+    return sizeof(SQL_NUMERIC_STRUCT);
+}
+
+void NumericTranslationWorker::translate(string data, SQLPOINTER target,
+                                         SQLLEN targetLen, SQLLEN *resultSize,
+                                         DataStreamInfo *streamInfo)
+{
+    // We better trim it to be safe
+    string trimd = b::trim_copy(data);
+    if (trimd.empty())
+    {
+        setResultSize(resultSize, SQL_NULL_DATA);
+        return;
+    }
+
+    try
+    {
+        SQL_NUMERIC_STRUCT* numeric = (SQL_NUMERIC_STRUCT*) target;
+
+        // 0 for negative, 1 for positive
+        if (trimd.at(0) == '-')
+        {
+            numeric->sign = 0;
+            // Remove the first character, i.e. the sign
+            b::erase_head(trimd, 1);
+        }
+        else
+        {
+            numeric->sign = 1;
+        }
+
+        size_t index = trimd.find_first_of('.');
+        if (index == string::npos)
+        {
+            numeric->scale = 0;
+            numeric->precision = 0;
+        }
+        else
+        {
+            // the minus one is to make up for index being zero based
+            size_t scale = trimd.length() - index - 1;
+
+            // For now we'll set scale and precision to be the same.
+            // Eventually, we'll want to get it froim the RETS metadata?
+            numeric->scale = b::numeric_cast<SQLSCHAR>(scale);
+            numeric->precision = b::numeric_cast<SQLCHAR>(scale);
+
+            b::erase_all(trimd, ".");
+        }
+
+        // Set the whole array to zero
+        std::fill(&numeric->val[0], &numeric->val[SQL_MAX_NUMERIC_LEN], 0);
+
+        // From http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/odbcc_data_types.asp
+        //
+        // A number is stored in the val field of the SQL_NUMERIC_STRUCT
+        // structure as a scaled integer, in little endian mode (the
+        // leftmost byte being the least-significant byte). For example,
+        // the number 10.001 base 10, with a scale of 4, is scaled to an
+        // integer of 100010. Because this is 186AA in hexadecimal format,
+        // the value in SQL_NUMERIC_STRUCT would be "AA 86 01 00 00
+        // ... 00", with the number of bytes defined by the
+        // SQL_MAX_NUMERIC_LEN #define.
+
+        // this should be 8 bytes.
+        uint64_t intvalue = lexical_cast<uint64_t>(trimd);
+        char* chararray = (char*) &intvalue;
+
+#ifdef BOOST_BIG_ENDIAN
+        std::reverse(&chararray[0], &chararrah[7]);
+#endif    
+        std::copy((char*) &numeric->val[0], &chararray[0], &chararray[7]);
+    
+        setResultSize(resultSize, sizeof(SQL_NUMERIC_STRUCT));
+    }
+    catch(std::bad_cast&)
+    {
+        throw DataTranslationException(
+            str_stream() << "bad_cast: could not convert \"" << data <<
+            "\" to NUMERIC");
+    }
 }

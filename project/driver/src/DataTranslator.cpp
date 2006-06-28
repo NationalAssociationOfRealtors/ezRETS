@@ -91,6 +91,10 @@ NativeDataTranslator::NativeDataTranslator()
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
     mOdbc2Trans[SQL_BINARY] = tmp;
     mOdbc2Trans[SQL_VARBINARY] = tmp;
+
+    // For numeric, we only go from ODBC to rets, not from RETS to odbc
+    tmp.reset(new NumericTranslationWorker());
+    mOdbc2Trans[tmp->getOdbcType()] = tmp;
 }
 
 /**
