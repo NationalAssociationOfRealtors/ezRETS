@@ -25,6 +25,7 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/erase.hpp>
 #include <boost/detail/endian.hpp>
+#include <boost/cstdint.hpp>
 
 using namespace odbcrets;
 using std::string;
@@ -344,7 +345,7 @@ void BigIntTranslationWorker::translate(string data, SQLPOINTER target,
     //    SQLBIGINT v = lexical_cast<SQLBIGINT>(data);
 
     SQLBIGINT* result = (SQLBIGINT*) target;
-    *result = lexical_cast<int64_t>(data);
+    *result = lexical_cast<b::int64_t>(data);
     setResultSize(resultSize, sizeof(SQLBIGINT));
 }
 
@@ -571,12 +572,16 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
         // SQL_MAX_NUMERIC_LEN #define.
 
         // this should be 8 bytes.
-        uint64_t intvalue = lexical_cast<uint64_t>(trimd);
+        b::uint64_t intvalue = lexical_cast<b::uint64_t>(trimd);
         char* chararray = (char*) &intvalue;
 
 #ifdef BOOST_BIG_ENDIAN
+        // Converting to little endian
         std::reverse(&chararray[0], &chararrah[7]);
-#endif    
+#endif
+        // We are ignoring anything over 8 bytes because they are the
+        // most significant bytes and should be 0 because intvalue is
+        // only 8 bytes
         std::copy((char*) &numeric->val[0], &chararray[0], &chararray[7]);
     
         setResultSize(resultSize, sizeof(SQL_NUMERIC_STRUCT));
