@@ -5,7 +5,7 @@ Install Apple's Developers Tools / XCode
 
 Boost
 -----
-  Version: 1.32.0 or higher.
+  Version: 1.33.1 or higher.
   URL: http://www.boost.org/
 
 Boost has it's own build system, bjam.  Read it's instructions for
@@ -22,5 +22,5 @@ Building ezrets
 ===============
 
 This will be better documented in the future.  In the meantime, you
-can try your hand at using XCode to build it.  The project files is at
+can try your hand at using XCode to build it.  The project file is at
 EZRETS/project/build/ezrets.xcodeproj

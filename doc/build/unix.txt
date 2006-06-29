@@ -11,7 +11,7 @@ Earlier versions of gcc do not have good C++ support.
 
 Boost
 -----
-  Version: 1.32.0 or higher.
+  Version: 1.31.1 or higher.
   URL: http://www.boost.org/
 
 Boost has it's own build system, bjam.  Read it's instructions for

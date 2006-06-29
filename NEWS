@@ -1,9 +1,20 @@
+Changes since 2.0.1
+-------------------
+ * User-Agent is now "ezRETS/2.0.2 (librets/1.1.1)"
+
+ Enhancements
+  * Translator for SQL_NUMERIC has been written.  SQLServer DTS asks
+    for fields as NUMERIC in some circustances.  Reported by Wayne
+    Bienek.
+
+ Developer Notes
+  * Due to NUMERIC translator, boost 1.33.1 is now required
+
 Changes since 2.0.0
 -------------------
  * User-Agent is now "ezRETS/2.0.1 (librets/1.1.1)"
 
  Bug fixes
-
   * Column widths where reported at COMPACT-DECODED size when COMPACT
     was used as the search format.  So switching to COMPACT when
     COMPACT-DECODED caused MS Query to have Out of Memory issue had
