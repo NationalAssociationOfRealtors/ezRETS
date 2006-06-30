@@ -17,6 +17,10 @@
 #ifndef TRANSLATIONWORKERS_H
 #define TRANSLATIONWORKERS_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "ezrets.h"
 #include "ezretsfwd.h"
 #include <string>

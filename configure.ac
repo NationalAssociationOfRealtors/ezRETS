@@ -33,7 +33,7 @@ if test "$HAVE_IODBC" != "1"; then
    MY_TEST_UNIXODBC
 fi
 
-AC_CACHE_SAVE
+MY_TEST_LONG_LONG
 
 MY_TEST_DEPENDS
 
@@ -52,10 +52,11 @@ if test -n "$GCC"; then
   fi
 fi
 
-
 AC_CONFIG_FILES([
   Makefile
 ])
+
+AC_CACHE_SAVE
 
 AC_OUTPUT
 

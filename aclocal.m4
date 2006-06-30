@@ -143,8 +143,8 @@ AC_DEFUN([MY_TEST_BOOST], [
     BOOST_CFLAGS="-I${BOOST_PREFIX}/include"
     BOOST_LIBS=
 
-    check="1_32_0"
-    check_int=103200
+    check="1_33_1"
+    check_int=103301
     AC_MSG_CHECKING([for boost >= $check])
 		
     ver=`perl -ane "print /\#define\s+BOOST_LIB_VERSION\s+\"(\S+)\"/" ${BOOST_PREFIX}/include/boost/version.hpp`
@@ -235,4 +235,20 @@ AC_DEFUN([MY_TEST_UNIXODBC], [
 	AC_CHECK_LIB([odbc], [SQLAllocHandle],
 		     [AC_DEFINE([HAVE_LIBODBC])],
 		     [AC_MSG_ERROR([Cannot find libodbc])])
+])
+
+dnl
+dnl Test to see if LONG LONG is supported.  Allows us to use a 64 bit int
+dnl for SQLBIGINT if possible.  Mostly so we're not using a struct in
+dnl unixODBC.
+dnl
+AC_DEFUN([MY_TEST_LONG_LONG], [
+  AC_CACHE_CHECK(for long long int, ac_cv_c_long_long,
+    [AC_TRY_COMPILE(,[long long int i;],
+         ac_cv_c_long_long=yes,
+         ac_cv_c_long_long=no)])
+    if test $ac_cv_c_long_long = yes; then
+      AC_DEFINE(HAVE_LONG_LONG, 1,
+        [Define if your compiler supports the \`long long' type.])
+    fi
 ])

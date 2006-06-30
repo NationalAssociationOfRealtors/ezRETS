@@ -17,3 +17,6 @@
 
 /* Use IODBC headers for our ODBC support */
 #undef HAVE_IODBC
+
+/* We can use "long long int" to make a 64 bit int */
+#undef HAVE_LONG_LONG
