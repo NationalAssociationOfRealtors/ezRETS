@@ -54,6 +54,7 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&CLASS::UseBulkMetadataToWindow, &CLASS::UseBulkMetadataFromWindow, &CLASS::True},
  {&CLASS::IgnoreMetadataTypeToWindow, &CLASS::IgnoreMetadataTypeFromWindow, &CLASS::True},
  {&CLASS::UseCompactFormatToWindow, &CLASS::UseCompactFormatFromWindow, &CLASS::True},
+ {&CLASS::UAPasswordToWindow, &CLASS::UAPasswordFromWindow, &CLASS::True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -61,7 +62,7 @@ const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
     "Name", "Login URL", "Username", "Password", "Standard Names",
     "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
     "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
-    "Ignore Metadata Type"
+    "Ignore Metadata Type", "Use Compfact Format", "UA Password"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -365,5 +366,19 @@ bool CLASS::UseCompactFormatFromWindow(wxWindow * window)
     wxChoice * choice = (wxChoice *) window;
     mDataSource->SetUseCompactFormat(
         choice->GetStringSelection() == "COMPACT");
+    return true;
+}
+
+bool CLASS::UAPasswordToWindow(wxWindow * window)
+{
+    wxTextCtrl * textCtrl = (wxTextCtrl *) window;
+    textCtrl->SetValue(mDataSource->GetUAauthPassword().c_str());
+    return true;
+}
+
+bool CLASS::UAPasswordFromWindow(wxWindow * window)
+{
+    wxTextCtrl * textCtrl = (wxTextCtrl *) window;
+    mDataSource->SetUAauthPassword(textCtrl->GetValue().c_str());
     return true;
 }

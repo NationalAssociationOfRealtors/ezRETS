@@ -216,10 +216,10 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                        validator.SetField(DSV::CUSTOM_USER_AGENT));
     tvs->AddRow("Custom User-Agent:", userAgent);
 
-//     wxTextCtrl * uaAuthPasswd =
-//         new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, textSize, 0,
-//                        validator.SetField(DSV::UA_PASSWORD));
-//     tvs->AddRow("UA Auth Password: ", uaAuthPasswd);
+    wxTextCtrl * uaAuthPasswd =
+        new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, textSize, 0,
+                       validator.SetField(DSV::UA_PASSWORD));
+    tvs->AddRow("UA Auth Password: ", uaAuthPasswd);
 
     wxArrayString httpMethodChoices;
     httpMethodChoices.Add(wxT("GET"));
@@ -285,7 +285,6 @@ wxPanel * SetupDialog::CreateLoggingPanel(wxWindow * parent)
 
     wxPanel * panel = new wxPanel(parent);
     wxBoxSizer * topSizer = new wxBoxSizer(wxVERTICAL);
-    TextValueSizer * tvs = new TextValueSizer(panel);
     
     DataSourceValidator validator = DataSourceValidator(mDataSource);
 

@@ -34,7 +34,6 @@ class DataSourceValidator : public wxValidator
         PASSWORD,
         STANDARD_NAMES,
         CUSTOM_USER_AGENT,
-        //        UA_PASSWORD,
         USE_HTTP_GET,
         USE_HTTP_LOGGING,
         HTTP_LOG_FILE,
@@ -44,6 +43,7 @@ class DataSourceValidator : public wxValidator
         USE_BULK_METADATA,
         IGNORE_METADATA_TYPE,
         USE_COMPACT_FORMAT,
+        UA_PASSWORD,
         NUM_FIELDS
     };
     
@@ -129,6 +129,10 @@ class DataSourceValidator : public wxValidator
     bool UseCompactFormatToWindow(wxWindow * window);
 
     bool UseCompactFormatFromWindow(wxWindow * window);
+
+    bool UAPasswordToWindow(wxWindow * window);
+
+    bool UAPasswordFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);

@@ -119,6 +119,14 @@ class DataSource
 
     void SetDisableGetObjectMetadata(bool disableGetObjectMetadata);
 
+    std::string GetUAauthPassword() const;
+
+    void SetUAauthPassword(std::string passwd);
+
+    std::string GetUAauthMode() const;
+
+    void SetUAauthMode(std::string mode);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -164,6 +172,8 @@ class DataSource
     static const char * INI_IGNORE_METADATA_TYPE;
     static const char * INI_USE_COMPACT_FORMAT;
     static const char * INI_DISABLE_GETOBJECT_METADATA;
+    static const char * INI_UA_AUTH_PASSWORD;
+    static const char * INI_UA_AUTH_MODE;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -215,6 +225,9 @@ class DataSource
     bool mIgnoreMetadataType;
     bool mUseCompactFormat;
     bool mDisableGetObjectMetadata;
+    std::string mUAauthPassword;
+    // This will change to match the enum in librets
+    std::string mUAauthMode;
 };
 
 extern const char * RETS_1_0_STRING;

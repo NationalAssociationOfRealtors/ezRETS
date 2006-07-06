@@ -60,6 +60,8 @@ const char * CLASS::INI_IGNORE_METADATA_TYPE = "IgnoreMetadataType";
 const char * CLASS::INI_USE_COMPACT_FORMAT = "UseCompactFormat";
 const char * CLASS::INI_DISABLE_GETOBJECT_METADATA =
     "DisableGetObjectMetadata";
+const char * CLASS::INI_UA_AUTH_PASSWORD = "UaAuthPassword";
+const char * CLASS::INI_UA_AUTH_MODE = "UaAuthMode";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -126,6 +128,7 @@ void DataSource::init()
     mIgnoreMetadataType = false;
     mUseCompactFormat = false;
     mDisableGetObjectMetadata = true;
+    // mUAauthMode = NONE
 }
 
 DataSource::DataSource()
@@ -176,6 +179,8 @@ void DataSource::MergeFromIni()
         mUseCompactFormat = GetProfileBool(INI_USE_COMPACT_FORMAT, false);
         mDisableGetObjectMetadata =
             GetProfileBool(INI_DISABLE_GETOBJECT_METADATA, true);
+        MergeFromProfileString(mUAauthPassword, INI_UA_AUTH_PASSWORD);
+        // MergeFromProfileString(mUAauthMode, INI_UA_AUTH_MODE);
     }
 }
 
@@ -198,6 +203,8 @@ void DataSource::WriteToIni()
     WriteProfileString(INI_USE_COMPACT_FORMAT, mUseCompactFormat);
     WriteProfileString(INI_DISABLE_GETOBJECT_METADATA,
                        mDisableGetObjectMetadata);
+    WriteProfileString(INI_UA_AUTH_PASSWORD, mUAauthPassword);
+    // WriteProfileString(INI_UA_AUTH_MODE, mUAauthMode);
 }
 
 void DataSource::CreateInIni(string driver)
@@ -412,7 +419,7 @@ void DataSource::SetDebugLogFile(string debugLogFile)
 
 lr::RetsVersion DataSource::GetRetsVersion() const
 {
-    return StringToRetsVersion(mRetsVersionString, DEFAULT_RETS_VERSION);;
+    return StringToRetsVersion(mRetsVersionString, DEFAULT_RETS_VERSION);
 }
 
 void DataSource::SetRetsVersion(lr::RetsVersion retsVersion)
@@ -460,6 +467,24 @@ void DataSource::SetDisableGetObjectMetadata(bool disableGetObjectMetadata)
     mDisableGetObjectMetadata = disableGetObjectMetadata;
 }
 
+string DataSource::GetUAauthPassword() const
+{
+    return mUAauthPassword;
+}
+
+void DataSource::SetUAauthPassword(std::string passwd)
+{
+    mUAauthPassword = passwd;
+}
+
+// string DataSource::GetUAauthMode() const
+// {
+// }
+
+// void DataSource::SetUAauthMode(std::string mode)
+// {
+// }
+ 
 bool DataSource::IsComplete() const
 {
     return (!mLoginUrl.empty() && !mUsername.empty() && !mPassword.empty());
@@ -523,6 +548,11 @@ string DataSource::GetConnectionString() const
                                  mDisableGetObjectMetadata);
     }
 
+    AppendToConnectionString(connectionString, INI_UA_AUTH_PASSWORD,
+                             mUAauthPassword);
+
+    AppendToConnectionString(connectionString, INI_UA_AUTH_MODE, mUAauthMode);
+
     return connectionString;
 }
 
@@ -574,7 +604,9 @@ ostream & DataSource::Print(ostream & out) const
         << ", use bulk metadata: " << mUseBulkMetadata
         << ", ignore metadata type: " << mIgnoreMetadataType
         << ", use COMPACT format: " << mUseCompactFormat
-        << ", RETS version: " << mRetsVersionString;
+        << ", RETS version: " << mRetsVersionString
+        << ", UA Password: " << mUAauthPassword
+        << ", UA mode: " << mUAauthMode;
 
     return out;
 }
@@ -655,6 +687,14 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         {
             mDisableGetObjectMetadata = stringToBool(value);
         }
+        else if (key == INI_UA_AUTH_PASSWORD)
+        {
+            mUAauthPassword = value;
+        }
+//         else if (key == INI_UA_AUTH_MODE)
+//         {
+//             mUAauthMode = foo;
+//         }
         else if (key == INI_DRIVER)
         {
             mDriver = value;
@@ -668,6 +708,7 @@ lr::RetsSessionPtr CLASS::CreateRetsSession() const
     session->UseHttpGet(mUseHttpGet);
     session->SetUserAgent(GetUserAgent());
     session->SetRetsVersion(GetRetsVersion());
+    // Logic for "if mode = UA_AUTH_INTER or UA_UATH != NONE
     return session;
 }
 
