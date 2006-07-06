@@ -34,6 +34,10 @@
 #include "str_stream.h"
 #include <sstream>
 
+#ifdef __WXMAC__
+#include <wx/mac/carbon/private.h>
+#endif
+
 using namespace odbcrets;
 using std::string;
 using std::map;
@@ -162,12 +166,15 @@ strmap Setup::att2map(LPCSTR attributes)
 
 int Setup::ShowDialog(DataSourcePtr dataSource)
 {
-    wxWindow * parent = new wxTopLevelWindow();
+    wxWindow * parent = NULL;
 #ifdef __WXMSW__
+    parent = new wxTopLevelWindow();
     parent->SetHWND(mParent);
     parent->SetId(wxGetWindowId((WXHWND) mParent));
     parent->AdoptAttributesFromHWND();
-#endif
+#elif __WXMAC__
+    parent = wxFindWinFromMacWindow(MAC_WXHWND(mParent));
+#endif    
     SetupDialog setupDialog(dataSource,
                             parent, _T("ezRETS ODBC Setup"));
 #ifdef __WXMSW__

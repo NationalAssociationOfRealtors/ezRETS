@@ -4,11 +4,12 @@
 		activeBuildConfigurationName = Debug;
 		activeBuildStyle = 014CEA520018CE5811CA2923 /* Debug */;
 		activeExecutable = DEB8B37A0A5C71F00040184E /* testApp */;
-		activeTarget = DEB8B3780A5C71F00040184E /* testApp */;
+		activeTarget = DEFB39C80A26656600AF92A8 /* ezrets */;
 		addToTargets = (
 			DEB8B3780A5C71F00040184E /* testApp */,
 		);
 		breakpoints = (
+			DE0566180A5DAE4600E80B17 /* Setup.cpp:166 */,
 		);
 		breakpointsGroup = DEFB39B60A26627C00AF92A8 /* XCBreakpointsBucket */;
 		codeSenseManager = DEFB39A00A26610800AF92A8 /* Code sense */;
@@ -182,6 +183,14 @@
 			PBXPerProjectTemplateStateSaveDate = 173895804;
 			PBXWorkspaceStateSaveDate = 173895804;
 		};
+		perUserProjectItems = {
+			DE0565EE0A5D998E00E80B17 /* PBXTextBookmark */ = DE0565EE0A5D998E00E80B17 /* PBXTextBookmark */;
+			DE0565EF0A5D998E00E80B17 /* PBXTextBookmark */ = DE0565EF0A5D998E00E80B17 /* PBXTextBookmark */;
+			DE0565F00A5D998E00E80B17 /* PBXTextBookmark */ = DE0565F00A5D998E00E80B17 /* PBXTextBookmark */;
+			DE0565F10A5D998E00E80B17 /* PBXTextBookmark */ = DE0565F10A5D998E00E80B17 /* PBXTextBookmark */;
+			DE0565F40A5D99DA00E80B17 /* PBXTextBookmark */ = DE0565F40A5D99DA00E80B17 /* PBXTextBookmark */;
+			DE0566090A5D9AF800E80B17 /* PBXTextBookmark */ = DE0566090A5D9AF800E80B17 /* PBXTextBookmark */;
+		};
 		sourceControlManager = DEFB399F0A26610800AF92A8 /* Source Control */;
 		userBuildSettings = {
 			SYMROOT = ../../build/xcode;
@@ -194,6 +203,84 @@
 			sepNavVisRect = "{{0, 0}, {1116, 492}}";
 			sepNavWindowFrame = "{{15, 42}, {546, 1136}}";
 		};
+	};
+	DE0565E90A5D852C00E80B17 /* logo.xpm */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = text;
+		name = logo.xpm;
+		path = /Users/kgarner/src/odbcrets/ezrets/project/build/../setup/src/logo.xpm;
+		sourceTree = "<absolute>";
+	};
+	DE0565EE0A5D998E00E80B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = DE0565E90A5D852C00E80B17 /* logo.xpm */;
+		name = "logo.xpm: 153";
+		rLen = 0;
+		rLoc = 115731;
+		rType = 0;
+		vrLen = 272;
+		vrLoc = 0;
+	};
+	DE0565EF0A5D998E00E80B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "warning: unused variable 'tvs'";
+		fRef = DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */;
+		rLen = 1;
+		rLoc = 286;
+		rType = 1;
+	};
+	DE0565F00A5D998E00E80B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = DE0565E90A5D852C00E80B17 /* logo.xpm */;
+		name = "logo.xpm: 153";
+		rLen = 0;
+		rLoc = 115731;
+		rType = 0;
+		vrLen = 272;
+		vrLoc = 0;
+	};
+	DE0565F10A5D998E00E80B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */;
+		name = "SetupDialog.cpp: 450";
+		rLen = 0;
+		rLoc = 16472;
+		rType = 0;
+		vrLen = 347;
+		vrLoc = 10551;
+	};
+	DE0565F40A5D99DA00E80B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */;
+		name = "SetupDialog.cpp: 450";
+		rLen = 0;
+		rLoc = 16472;
+		rType = 0;
+		vrLen = 347;
+		vrLoc = 10551;
+	};
+	DE0566090A5D9AF800E80B17 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */;
+		name = "SetupDialog.cpp: 450";
+		rLen = 0;
+		rLoc = 16472;
+		rType = 0;
+		vrLen = 347;
+		vrLoc = 10551;
+	};
+	DE0566180A5DAE4600E80B17 /* Setup.cpp:166 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = DEFB3A640A27516800AF92A8 /* Setup.cpp */;
+		functionName = "Setup::ShowDialog()";
+		hitCount = 0;
+		lineNumber = 166;
+		modificationTime = 173911973.695839;
+		state = 1;
 	};
 	DE614B150A2CCC3A005FA065 /* NoDSN */ = {
 		activeExec = 0;
@@ -321,13 +408,14 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1116, 574}}";
 			sepNavSelRange = "{1087, 0}";
-			sepNavVisRect = "{{0, 82}, {1116, 492}}";
+			sepNavVisRect = "{{0, 69}, {1116, 492}}";
 		};
 	};
 	DEFB39B60A26627C00AF92A8 /* XCBreakpointsBucket */ = {
 		isa = XCBreakpointsBucket;
 		name = "Project Breakpoints";
 		objects = (
+			DE0566180A5DAE4600E80B17 /* Setup.cpp:166 */,
 		);
 	};
 	DEFB39C80A26656600AF92A8 /* ezrets */ = {
@@ -370,17 +458,17 @@
 	};
 	DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1116, 5180}}";
-			sepNavSelRange = "{2373, 0}";
-			sepNavVisRect = "{{0, 311}, {1116, 492}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 5390}}";
+			sepNavSelRange = "{10702, 0}";
+			sepNavVisRect = "{{0, 4648}, {1116, 492}}";
 			sepNavWindowFrame = "{{15, 41}, {825, 837}}";
 		};
 	};
 	DEFB3A640A27516800AF92A8 /* Setup.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {951, 2492}}";
-			sepNavSelRange = "{4588, 24}";
-			sepNavVisRect = "{{0, 2190}, {951, 302}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 2562}}";
+			sepNavSelRange = "{4277, 0}";
+			sepNavVisRect = "{{0, 2070}, {1116, 492}}";
 			sepNavWindowFrame = "{{8, 78}, {546, 1498}}";
 		};
 	};
@@ -394,10 +482,17 @@
 	};
 	DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1116, 6300}}";
-			sepNavSelRange = "{13248, 0}";
-			sepNavVisRect = "{{0, 4493}, {1116, 492}}";
+			sepNavIntBoundsRect = "{{0, 0}, {949, 6300}}";
+			sepNavSelRange = "{16472, 0}";
+			sepNavVisRect = "{{0, 3892}, {949, 238}}";
 			sepNavWindowFrame = "{{520, 200}, {545, 1032}}";
+		};
+	};
+	DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 630}}";
+			sepNavSelRange = "{502, 0}";
+			sepNavVisRect = "{{0, 0}, {1116, 492}}";
 		};
 	};
 	DEFB3A750A27555400AF92A8 /* SimpleSearch */ = {

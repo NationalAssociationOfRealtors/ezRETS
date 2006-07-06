@@ -13,6 +13,7 @@
 		DE0565AD0A5D718800E80B17 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
 		DE0565B40A5D71CD00E80B17 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0565B30A5D71CD00E80B17 /* testApp.cpp */; };
 		DE0565C50A5D73A100E80B17 /* ezrets32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0565C40A5D73A100E80B17 /* ezrets32x32.png */; };
+		DE0565F20A5D99B500E80B17 /* librets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A340A2666B100AF92A8 /* librets.a */; };
 		DE28A7040A30B86F0056399A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7030A30B86F0056399A /* libz.dylib */; };
 		DE28A7060A30B88E0056399A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
 		DE28A7090A30B8B50056399A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
@@ -21,7 +22,6 @@
 		DE614B190A2CCC3A005FA065 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */; };
 		DE614B220A2CCC50005FA065 /* NoDsn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */; };
 		DE9631620A349C7400EDD298 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
-		DE9631640A349C9600EDD298 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7030A30B86F0056399A /* libz.dylib */; };
 		DE9631650A349C9600EDD298 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
 		DE9631660A349C9600EDD298 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
 		DE9631680A349CB400EDD298 /* Setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A640A27516800AF92A8 /* Setup.cpp */; };
@@ -285,11 +285,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE9631640A349C9600EDD298 /* libz.dylib in Frameworks */,
-				DE9631650A349C9600EDD298 /* libssl.dylib in Frameworks */,
-				DE9631660A349C9600EDD298 /* libcrypto.dylib in Frameworks */,
 				DE9631620A349C7400EDD298 /* libiodbcinst.dylib in Frameworks */,
 				DEFB3A720A27518700AF92A8 /* ezrets-common.a in Frameworks */,
+				DE0565F20A5D99B500E80B17 /* librets.a in Frameworks */,
+				DE9631650A349C9600EDD298 /* libssl.dylib in Frameworks */,
+				DE9631660A349C9600EDD298 /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1184,8 +1184,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -1193,16 +1193,21 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(WXWIDGETS)/include/wx-2.6",
-					"$(LIBRETS)/project/librets/include",
 					"$(BOOST)/include",
-					"$(SRCROOT)/../setup/include",
+					"$(LIBRETS)/project/librets/include",
+					"$(SRCROOT)/../driver/include",
 					"$(SRCROOT)/../common/include",
+					"$(SRCROOT)/../setup/include",
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/../../../librets/build/librets/lib",
+				);
+				MACH_O_TYPE = mh_bundle;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-I/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-2.6",
@@ -1212,16 +1217,9 @@
 					"-DNO_GCC_PRAGMA",
 				);
 				OTHER_LDFLAGS = (
-					"$(EXPAT)/lib/libexpat.a",
-					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libantlr.a",
-					"$(LIBRETS)/build/build.xcode/Development/librets.a",
-					"$(WXWIDGETS)/lib/libwx_mac-2.6.a",
-					"$(WXWIDGETS)/lib/libwxexpat-2.6.a",
-					"$(WXWIDGETS)/lib/libwxtiff-2.6.a",
-					"$(WXWIDGETS)/lib/libwxjpeg-2.6.a",
-					"$(WXWIDGETS)/lib/libwxpng-2.6a",
+					"-framework",
+					Carbon,
+					"-L/usr/local/encap/wxWidgets-2.6.3/lib",
 					"-framework",
 					QuickTime,
 					"-framework",
@@ -1232,10 +1230,27 @@
 					Cocoa,
 					"-framework",
 					System,
+					"/usr/local/encap/wxWidgets-2.6.3/lib/libwx_mac-2.6.a",
+					"-framework",
+					WebKit,
+					"-lwxexpat-2.6",
+					"-lwxtiff-2.6",
+					"-lwxjpeg-2.6",
+					"-lwxpng-2.6",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"$(EXPAT)/lib/libexpat.a",
+					"$(CURL)/lib/libcurl.a",
+					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libantlr.a",
+					"$(LIBRETS)/build/xcode/Development/librets.a",
+					"$(OTHER_LDFLAGS)",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
-				ZERO_LINK = YES;
+				USER_HEADER_SEARCH_PATHS = "/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-static-2.6 /usr/local/encap/wxWidgets-2.6.3/include/wx-2.6 $(USER_HEADER_SEARCH_PATHS)";
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
