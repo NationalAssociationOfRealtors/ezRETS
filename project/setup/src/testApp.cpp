@@ -4,6 +4,10 @@
 #include "SetupLog.h"
 #include "str_stream.h"
 
+#ifdef __WXMAC__
+#include "ezretss.xpm"
+#endif
+
 using namespace odbcrets;
 
 class TestApp : public wxApp
@@ -51,7 +55,7 @@ TestFrame::TestFrame(const wxString & title)
     SetIcon(wxICON(ezretss));
     wxMenu * fileMenu = new wxMenu();
     fileMenu->Append(ID_QUIT, "E&xit\tAlt-X", "Quit this program");
-    fileMenu->Append(ID_EDIT, "Edit Data Source", "Edit a data source");
+    fileMenu->Append(ID_EDIT, "Edit &Data Source\tCtrl-D", "Edit a data source");
     wxMenuBar * menuBar = new wxMenuBar();
     menuBar->Append(fileMenu, "&File");
 

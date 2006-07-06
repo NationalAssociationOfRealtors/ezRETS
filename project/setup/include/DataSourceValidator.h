@@ -34,6 +34,7 @@ class DataSourceValidator : public wxValidator
         PASSWORD,
         STANDARD_NAMES,
         CUSTOM_USER_AGENT,
+        //        UA_PASSWORD,
         USE_HTTP_GET,
         USE_HTTP_LOGGING,
         HTTP_LOG_FILE,

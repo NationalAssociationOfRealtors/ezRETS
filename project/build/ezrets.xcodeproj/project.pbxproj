@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE05659F0A5D70EF00E80B17 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB399B0A2660E900AF92A8 /* ezrets-common.a */; };
+		DE0565A20A5D712800E80B17 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
+		DE0565A30A5D713300E80B17 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
+		DE0565AD0A5D718800E80B17 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
+		DE0565B40A5D71CD00E80B17 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0565B30A5D71CD00E80B17 /* testApp.cpp */; };
+		DE0565C50A5D73A100E80B17 /* ezrets32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0565C40A5D73A100E80B17 /* ezrets32x32.png */; };
 		DE28A7040A30B86F0056399A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7030A30B86F0056399A /* libz.dylib */; };
 		DE28A7060A30B88E0056399A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
 		DE28A7090A30B8B50056399A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
@@ -20,6 +26,13 @@
 		DE9631660A349C9600EDD298 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
 		DE9631680A349CB400EDD298 /* Setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A640A27516800AF92A8 /* Setup.cpp */; };
 		DE9631DE0A34B00100EDD298 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB399B0A2660E900AF92A8 /* ezrets-common.a */; };
+		DEB8B3830A5C73510040184E /* librets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A340A2666B100AF92A8 /* librets.a */; };
+		DEB8B3850A5C73740040184E /* DataSourceValidator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */; };
+		DEB8B3860A5C73740040184E /* Setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A640A27516800AF92A8 /* Setup.cpp */; };
+		DEB8B3880A5C73740040184E /* SetupDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A660A27516800AF92A8 /* SetupDialog.cpp */; };
+		DEB8B3890A5C73740040184E /* SetupLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A670A27516800AF92A8 /* SetupLog.cpp */; };
+		DEB8B38A0A5C73740040184E /* SqlInstallerException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A680A27516800AF92A8 /* SqlInstallerException.cpp */; };
+		DEB8B38B0A5C73740040184E /* TextValueSizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */; };
 		DEBEE9C70A2E3CFD00BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEBEE9C80A2E3D0200BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEF62EDF0A377896006FB520 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */; };
@@ -132,12 +145,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE0565B30A5D71CD00E80B17 /* testApp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = testApp.cpp; path = ../setup/src/testApp.cpp; sourceTree = SOURCE_ROOT; };
+		DE0565BC0A5D72FD00E80B17 /* ezretss.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = ezretss.ico; path = ../setup/src/ezretss.ico; sourceTree = SOURCE_ROOT; };
+		DE0565C40A5D73A100E80B17 /* ezrets32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ezrets32x32.png; path = ../setup/src/ezrets32x32.png; sourceTree = SOURCE_ROOT; };
 		DE28A7030A30B86F0056399A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		DE28A7050A30B88E0056399A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		DE28A7080A30B8B50056399A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
 		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB399B0A2660E900AF92A8 /* ezrets-common.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "ezrets-common.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +242,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DEB8B3770A5C71F00040184E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE0565AD0A5D718800E80B17 /* libiodbcinst.dylib in Frameworks */,
+				DE05659F0A5D70EF00E80B17 /* ezrets-common.a in Frameworks */,
+				DEB8B3830A5C73510040184E /* librets.a in Frameworks */,
+				DE0565A30A5D713300E80B17 /* libssl.dylib in Frameworks */,
+				DE0565A20A5D712800E80B17 /* libcrypto.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEF62ED80A377835006FB520 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -277,10 +307,13 @@
 		08FB7794FE84155DC02AAC07 /* ezrets */ = {
 			isa = PBXGroup;
 			children = (
+				DE0565C40A5D73A100E80B17 /* ezrets32x32.png */,
+				DE0565BC0A5D72FD00E80B17 /* ezretss.ico */,
 				DE614AE90A2CC45C005FA065 /* external libraries */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 				DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */,
+				DEB8B37B0A5C71F00040184E /* testApp-Info.plist */,
 			);
 			name = ezrets;
 			sourceTree = "<group>";
@@ -305,6 +338,7 @@
 				DEFB3A760A27555400AF92A8 /* SimpleSearch */,
 				DE614B200A2CCC3A005FA065 /* NoDSN */,
 				DEF62EDA0A377835006FB520 /* TablesTest */,
+				DEB8B3790A5C71F00040184E /* testApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -406,6 +440,7 @@
 		DE614AEE0A2CC4ED005FA065 /* setup */ = {
 			isa = PBXGroup;
 			children = (
+				DE0565B30A5D71CD00E80B17 /* testApp.cpp */,
 				DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */,
 				DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */,
 				DEFB3A640A27516800AF92A8 /* Setup.cpp */,
@@ -469,6 +504,60 @@
 			productName = SimpleSearch;
 			productReference = DE614B200A2CCC3A005FA065 /* NoDSN */;
 			productType = "com.apple.product-type.tool";
+		};
+		DEB8B3780A5C71F00040184E /* testApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEB8B37C0A5C71F10040184E /* Build configuration list for PBXNativeTarget "testApp" */;
+			buildPhases = (
+				DEB8B3750A5C71F00040184E /* Resources */,
+				DEB8B3760A5C71F00040184E /* Sources */,
+				DEB8B3770A5C71F00040184E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "testApp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = testApp;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			dependencies = (
+			);
+			name = testApp;
+			productName = testApp;
+			productReference = DEB8B3790A5C71F00040184E /* testApp.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.testApp</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.application";
 		};
 		DEF62ED90A377835006FB520 /* TablesTest */ = {
 			isa = PBXNativeTarget;
@@ -626,9 +715,21 @@
 				DEFB3A750A27555400AF92A8 /* SimpleSearch */,
 				DE614B150A2CCC3A005FA065 /* NoDSN */,
 				DEF62ED90A377835006FB520 /* TablesTest */,
+				DEB8B3780A5C71F00040184E /* testApp */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DEB8B3750A5C71F00040184E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE0565C50A5D73A100E80B17 /* ezrets32x32.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DE614B160A2CCC3A005FA065 /* Sources */ = {
@@ -639,6 +740,20 @@
 				DE614B170A2CCC3A005FA065 /* DBHelper.cpp in Sources */,
 				DE614B180A2CCC3A005FA065 /* DBHelperException.cpp in Sources */,
 				DE614B190A2CCC3A005FA065 /* ResultColumn.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEB8B3760A5C71F00040184E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEB8B3850A5C73740040184E /* DataSourceValidator.cpp in Sources */,
+				DEB8B3860A5C73740040184E /* Setup.cpp in Sources */,
+				DEB8B3880A5C73740040184E /* SetupDialog.cpp in Sources */,
+				DEB8B3890A5C73740040184E /* SetupLog.cpp in Sources */,
+				DEB8B38A0A5C73740040184E /* SqlInstallerException.cpp in Sources */,
+				DEB8B38B0A5C73740040184E /* TextValueSizer.cpp in Sources */,
+				DE0565B40A5D71CD00E80B17 /* testApp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,6 +950,103 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = NoDSN;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		DEB8B37D0A5C71F10040184E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(GCC_PREPROCESSOR_DEFINITIONS)",
+					__WXMAC__,
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					NO_GCC_PRAGMA,
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(BOOST)/include",
+					"$(LIBRETS)/project/librets/include",
+					"$(SRCROOT)/../driver/include",
+					"$(SRCROOT)/../common/include",
+					"$(SRCROOT)/../setup/include",
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				INFOPLIST_FILE = "testApp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/../../../librets/build/librets/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+					"-L/usr/local/encap/wxWidgets-2.6.3/lib",
+					"-framework",
+					QuickTime,
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"/usr/local/encap/wxWidgets-2.6.3/lib/libwx_mac-2.6.a",
+					"-framework",
+					WebKit,
+					"-lwxexpat-2.6",
+					"-lwxtiff-2.6",
+					"-lwxjpeg-2.6",
+					"-lwxpng-2.6",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"$(EXPAT)/lib/libexpat.a",
+					"$(CURL)/lib/libcurl.a",
+					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libantlr.a",
+					"$(LIBRETS)/build/xcode/Development/librets.a",
+					"$(OTHER_LDFLAGS)",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = testApp;
+				USER_HEADER_SEARCH_PATHS = "/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-static-2.6 /usr/local/encap/wxWidgets-2.6.3/include/wx-2.6 $(USER_HEADER_SEARCH_PATHS)";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		DEB8B37E0A5C71F10040184E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "testApp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(LIBRARY_SEARCH_PATHS)",
+					"$(SRCROOT)/../../../librets/build/librets/lib",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = testApp;
+				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1115,6 +1327,15 @@
 			buildConfigurations = (
 				DE614B1E0A2CCC3A005FA065 /* Debug */,
 				DE614B1F0A2CCC3A005FA065 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEB8B37C0A5C71F10040184E /* Build configuration list for PBXNativeTarget "testApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEB8B37D0A5C71F10040184E /* Debug */,
+				DEB8B37E0A5C71F10040184E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

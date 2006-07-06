@@ -24,6 +24,9 @@
 #include "Setup.h"
 #include "librets.h"
 #include "logo.xpm"
+#ifdef __WXMAC__
+#include "ezretss.xpm"
+#endif
 
 using namespace odbcrets;
 using std::string;
@@ -103,8 +106,8 @@ SetupDialog::SetupDialog(DataSourcePtr dataSource, wxWindow * parent,
     SetIcon(wxICON(ezretss));
     wxBoxSizer * sizer = new wxBoxSizer(wxVERTICAL);
     
-    wxBitmap logo(logo);
-    sizer->Add(new BitmapPanel(this, logo));
+    wxBitmap display_logo(logo);
+    sizer->Add(new BitmapPanel(this, display_logo));
 
     mNotebook = new wxNotebook(this, wxID_ANY);
 
@@ -212,6 +215,11 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
         new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, textSize, 0,
                        validator.SetField(DSV::CUSTOM_USER_AGENT));
     tvs->AddRow("Custom User-Agent:", userAgent);
+
+//     wxTextCtrl * uaAuthPasswd =
+//         new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, textSize, 0,
+//                        validator.SetField(DSV::UA_PASSWORD));
+//     tvs->AddRow("UA Auth Password: ", uaAuthPasswd);
 
     wxArrayString httpMethodChoices;
     httpMethodChoices.Add(wxT("GET"));

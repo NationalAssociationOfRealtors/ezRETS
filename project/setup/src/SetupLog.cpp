@@ -22,7 +22,7 @@ using namespace odbcrets;
 #ifdef __WIN__
 const char * SetupLog::LOGFILE = "c:\\odbcretsDSN.txt";
 #else
-const char * SetupLog::LOGFILE = "/tmp/odbcrestDSN.txt";
+const char * SetupLog::LOGFILE = "/tmp/odbcretsDSN.txt";
 #endif
 
 SetupLog odbcrets::slog;

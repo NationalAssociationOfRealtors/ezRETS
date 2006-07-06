@@ -43,12 +43,13 @@ BOOL INSTAPI ConfigDSN(HWND hwndParent, WORD fRequest, LPCSTR lpszDriver,
     }
     catch (SqlInstallerException & e)
     {
-        SQLPostInstallerError(e.GetErrorCode(), e.what());
+        SQLPostInstallerError(e.GetErrorCode(), const_cast<char*>(e.what()));
         rc = FALSE;
     }
     catch (std::exception & e)
     {
-        SQLPostInstallerError(ODBC_ERROR_GENERAL_ERR, e.what());
+        SQLPostInstallerError(ODBC_ERROR_GENERAL_ERR,
+                              const_cast<char*>(e.what()));
         rc = FALSE;
     }
     catch (...)
