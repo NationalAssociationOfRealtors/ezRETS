@@ -23,6 +23,7 @@
 #include "ezrets.h"
 #include "commonfwd.h"
 #include "librets/RetsVersion.h"
+#include "librets/UserAgentAuthType.h"
 #include "librets/protocol_forward.h"
 
 namespace odbcrets
@@ -119,13 +120,13 @@ class DataSource
 
     void SetDisableGetObjectMetadata(bool disableGetObjectMetadata);
 
-    std::string GetUAauthPassword() const;
+    std::string GetUserAgentPassword() const;
 
-    void SetUAauthPassword(std::string passwd);
+    void SetUserAgentPassword(std::string passwd);
 
-    std::string GetUAauthMode() const;
+    librets::UserAgentAuthType GetUserAgentAuthType() const;
 
-    void SetUAauthMode(std::string mode);
+    void SetUserAgentAuthType(librets::UserAgentAuthType type);
 
     /**
      * Checks to see if all the required entries are filled in.
@@ -172,12 +173,13 @@ class DataSource
     static const char * INI_IGNORE_METADATA_TYPE;
     static const char * INI_USE_COMPACT_FORMAT;
     static const char * INI_DISABLE_GETOBJECT_METADATA;
-    static const char * INI_UA_AUTH_PASSWORD;
-    static const char * INI_UA_AUTH_MODE;
+    static const char * INI_USER_AGENT_PASSWORD;
+    static const char * INI_USER_AGENT_AUTH_TYPE;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
-
+    static const librets::UserAgentAuthType DEFAULT_UA_AUTH_TYPE;
+    
     void init();
 
     std::string GetProfileString(std::string entry,
@@ -225,18 +227,24 @@ class DataSource
     bool mIgnoreMetadataType;
     bool mUseCompactFormat;
     bool mDisableGetObjectMetadata;
-    std::string mUAauthPassword;
-    // This will change to match the enum in librets
-    std::string mUAauthMode;
+    std::string mUserAgentPassword;
+    std::string mUserAgentAuthTypeString;
 };
 
 extern const char * RETS_1_0_STRING;
 extern const char * RETS_1_5_STRING;
 
+extern const char * USER_AGENT_AUTH_NONE_STRING;
+extern const char * USER_AGENT_AUTH_INTEREALTY_STRING;
+
 std::string RetsVersionToString(librets::RetsVersion retsVersion);
 
 librets::RetsVersion StringToRetsVersion(std::string versionString,
                                          librets::RetsVersion defaultVersion);
+
+std::string UserAgentAuthTypeToString(librets::UserAgentAuthType authType);
+librets::UserAgentAuthType StringToUserAgentAuthType(
+    std::string typeString, librets::UserAgentAuthType defaultType);
 
 std::ostream & operator<<(std::ostream & out,
                           librets::RetsVersion retsVersion);

@@ -46,15 +46,23 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&CLASS::StdNamesToWindow, &CLASS::StdNamesFromWindow, &CLASS::True},
  {&CLASS::UserAgentToWindow, &CLASS::UserAgentFromWindow, &CLASS::True},
  {&CLASS::UseHttpGetToWindow, &CLASS::UseHttpGetFromWindow, &CLASS::True},
- {&CLASS::UseHttpLoggingToWindow, &CLASS::UseHttpLoggingFromWindow, &CLASS::True},
+ {&CLASS::UseHttpLoggingToWindow, &CLASS::UseHttpLoggingFromWindow,
+  &CLASS::True},
  {&CLASS::HttpLogFileToWindow, &CLASS::HttpLogFileFromWindow, &CLASS::True},
- {&CLASS::UseDebugLoggingToWindow, &CLASS::UseDebugLoggingFromWindow, &CLASS::True},
+ {&CLASS::UseDebugLoggingToWindow, &CLASS::UseDebugLoggingFromWindow,
+  &CLASS::True},
  {&CLASS::DebugLogFileToWindow, &CLASS::DebugLogFileFromWindow, &CLASS::True},
  {&CLASS::RetsVersionToWindow, &CLASS::RetsVersionFromWindow, &CLASS::True},
- {&CLASS::UseBulkMetadataToWindow, &CLASS::UseBulkMetadataFromWindow, &CLASS::True},
- {&CLASS::IgnoreMetadataTypeToWindow, &CLASS::IgnoreMetadataTypeFromWindow, &CLASS::True},
- {&CLASS::UseCompactFormatToWindow, &CLASS::UseCompactFormatFromWindow, &CLASS::True},
- {&CLASS::UAPasswordToWindow, &CLASS::UAPasswordFromWindow, &CLASS::True},
+ {&CLASS::UseBulkMetadataToWindow, &CLASS::UseBulkMetadataFromWindow,
+  &CLASS::True},
+ {&CLASS::IgnoreMetadataTypeToWindow, &CLASS::IgnoreMetadataTypeFromWindow,
+  &CLASS::True},
+ {&CLASS::UseCompactFormatToWindow, &CLASS::UseCompactFormatFromWindow,
+  &CLASS::True},
+ {&CLASS::UserAgentPasswordToWindow, &CLASS::UserAgentPasswordFromWindow,
+  &CLASS::True},
+ {&CLASS::UserAgentAuthTypeToWindow, &CLASS::UserAgentAuthTypeFromWindow,
+  &CLASS::True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -369,16 +377,34 @@ bool CLASS::UseCompactFormatFromWindow(wxWindow * window)
     return true;
 }
 
-bool CLASS::UAPasswordToWindow(wxWindow * window)
+bool CLASS::UserAgentPasswordToWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    textCtrl->SetValue(mDataSource->GetUAauthPassword().c_str());
+    textCtrl->SetValue(mDataSource->GetUserAgentPassword().c_str());
     return true;
 }
 
-bool CLASS::UAPasswordFromWindow(wxWindow * window)
+bool CLASS::UserAgentPasswordFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetUAauthPassword(textCtrl->GetValue().c_str());
+    mDataSource->SetUserAgentPassword(textCtrl->GetValue().c_str());
+    return true;
+}
+
+bool CLASS::UserAgentAuthTypeToWindow(wxWindow * window)
+{
+    wxChoice * choice = (wxChoice *) window;
+    string typeString =
+        UserAgentAuthTypeToString(mDataSource->GetUserAgentAuthType());
+    choice->SetStringSelection(typeString.c_str());
+    return true;
+}
+
+bool CLASS::UserAgentAuthTypeFromWindow(wxWindow * window)
+{
+    wxChoice * choice = (wxChoice *) window;
+    mDataSource->SetUserAgentAuthType(
+        StringToUserAgentAuthType(choice->GetStringSelection().c_str(),
+                                  librets::USER_AGENT_AUTH_NONE));
     return true;
 }

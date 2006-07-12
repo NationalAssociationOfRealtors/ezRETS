@@ -216,10 +216,21 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                        validator.SetField(DSV::CUSTOM_USER_AGENT));
     tvs->AddRow("Custom User-Agent:", userAgent);
 
-    wxTextCtrl * uaAuthPasswd =
+    wxArrayString userAgentAuthTypeChoices;
+    userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_NONE_STRING);
+    userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_INTEREALTY_STRING);
+    wxChoice * userAgentAuthType =
+        new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                     userAgentAuthTypeChoices, 0,
+                     validator.SetField(DSV::USER_AGENT_AUTH_TYPE));
+    wxSizerFlags valueFlags(1);
+    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
+    tvs->AddRow("User-Agent Auth Type:", userAgentAuthType, valueFlags);
+
+    wxTextCtrl * userAgentPasswd =
         new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, textSize, 0,
-                       validator.SetField(DSV::UA_PASSWORD));
-    tvs->AddRow("UA Auth Password: ", uaAuthPasswd);
+                       validator.SetField(DSV::USER_AGENT_PASSWORD));
+    tvs->AddRow("User-Agent Password: ", userAgentPasswd);
 
     wxArrayString httpMethodChoices;
     httpMethodChoices.Add(wxT("GET"));
@@ -228,8 +239,6 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
         new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                      httpMethodChoices, 0,
                      validator.SetField(DSV::USE_HTTP_GET));
-    wxSizerFlags valueFlags(1);
-    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
     tvs->AddRow("HTTP Method:", httpMethod, valueFlags);
 
     wxArrayString retsVersionChoices;
@@ -241,7 +250,20 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                      validator.SetField(DSV::RETS_VERSION));
     tvs->AddRow("RETS Version:", retsVersion, valueFlags);
 
+    wxArrayString retsFormatChoices;
+    retsFormatChoices.Add(wxT("COMPACT"));
+    retsFormatChoices.Add(wxT("COMPACT-DECODED"));
+    wxChoice * retsFormat =
+        new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                     retsFormatChoices, 0,
+                     validator.SetField(DSV::USE_COMPACT_FORMAT));
+    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
+    tvs->AddRow("RETS Format:", retsFormat, valueFlags);
+
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
+
+
+    wxBoxSizer * checkBoxSizer = new wxBoxSizer(wxHORIZONTAL);
     
     wxCheckBox * useBulkMetadata =
         new wxCheckBox(panel, wxID_ANY, "Use Bulk Metadata",
@@ -252,7 +274,8 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                 "download will happen when the connection "
                                 "is established.");
 
-    topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
+    checkBoxSizer->Add(useBulkMetadata, 0, wxTOP | wxRIGHT, 10);
+    //topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
     wxCheckBox * ignoreMetadataType =
         new wxCheckBox(panel, wxID_ANY, "Ignore Metadata Type",
@@ -263,17 +286,11 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                    "  Everything will appear as a character"
                                    " field.");
 
-    topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
+    checkBoxSizer->Add(ignoreMetadataType, 0, wxTOP | wxLEFT | wxRIGHT, 10);
+    //topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
 
-    wxArrayString retsFormatChoices;
-    retsFormatChoices.Add(wxT("COMPACT"));
-    retsFormatChoices.Add(wxT("COMPACT-DECODED"));
-    wxChoice * retsFormat =
-        new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                     retsFormatChoices, 0,
-                     validator.SetField(DSV::USE_COMPACT_FORMAT));
-    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
-    tvs->AddRow("RETS Format:", retsFormat, valueFlags);
+    //topSizer->Add(checkBoxSizer, wxSizerFlags(0).Expand());
+    topSizer->Add(checkBoxSizer, 0, wxALIGN_LEFT);
 
     panel->SetSizer(topSizer);
     return panel;
