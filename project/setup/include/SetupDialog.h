@@ -43,6 +43,7 @@ class SetupDialog : public wxDialog
   private:
     void UpdateLoginUrl();
     wxPanel * CreateBasicPanel(wxWindow * parent);
+    wxPanel * CreateUserAgentPanel(wxWindow * parent);
     wxPanel * CreateAdvancedPanel(wxWindow * parent);
     wxPanel * CreateLoggingPanel(wxWindow * parent);
     void UpdateLoggingState();

@@ -117,6 +117,13 @@ SetupDialog::SetupDialog(DataSourcePtr dataSource, wxWindow * parent,
                    wxSizerFlags(1).Border(wxALL, 10).Expand());
     pagePanel->SetSizer(pageSizer);
     mNotebook->AddPage(pagePanel, "Basic");
+
+    pagePanel = new wxPanel(mNotebook);
+    pageSizer = new wxBoxSizer(wxVERTICAL);
+    pageSizer->Add(CreateUserAgentPanel(pagePanel),
+                   wxSizerFlags(1).Border(wxALL, 10).Expand());
+    pagePanel->SetSizer(pageSizer);
+    mNotebook->AddPage(pagePanel, "User-Agent");
     
     pagePanel = new wxPanel(mNotebook);
     pageSizer = new wxBoxSizer(wxVERTICAL);
@@ -201,14 +208,14 @@ wxPanel * SetupDialog::CreateBasicPanel(wxWindow * parent)
     return panel;
 }
 
-wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
+wxPanel * SetupDialog::CreateUserAgentPanel(wxWindow * parent)
 {
     wxSize textSize(-1, -1);
 
     wxPanel * panel = new wxPanel(parent);
     wxBoxSizer * topSizer = new wxBoxSizer(wxVERTICAL);
     TextValueSizer * tvs = new TextValueSizer(panel);
-    
+
     DataSourceValidator validator = DataSourceValidator(mDataSource);
 
     wxTextCtrl * userAgent =
@@ -232,6 +239,22 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                        validator.SetField(DSV::USER_AGENT_PASSWORD));
     tvs->AddRow("User-Agent Password: ", userAgentPasswd);
 
+    topSizer->Add(tvs, wxSizerFlags(0).Expand());
+    
+    panel->SetSizer(topSizer);
+    return panel;
+}
+
+wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
+{
+    wxSize textSize(-1, -1);
+
+    wxPanel * panel = new wxPanel(parent);
+    wxBoxSizer * topSizer = new wxBoxSizer(wxVERTICAL);
+    TextValueSizer * tvs = new TextValueSizer(panel);
+    
+    DataSourceValidator validator = DataSourceValidator(mDataSource);
+
     wxArrayString httpMethodChoices;
     httpMethodChoices.Add(wxT("GET"));
     httpMethodChoices.Add(wxT("POST"));
@@ -239,6 +262,8 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
         new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                      httpMethodChoices, 0,
                      validator.SetField(DSV::USE_HTTP_GET));
+    wxSizerFlags valueFlags(1);
+    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
     tvs->AddRow("HTTP Method:", httpMethod, valueFlags);
 
     wxArrayString retsVersionChoices;
@@ -257,14 +282,10 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
         new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                      retsFormatChoices, 0,
                      validator.SetField(DSV::USE_COMPACT_FORMAT));
-    valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
     tvs->AddRow("RETS Format:", retsFormat, valueFlags);
 
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
 
-
-    wxBoxSizer * checkBoxSizer = new wxBoxSizer(wxHORIZONTAL);
-    
     wxCheckBox * useBulkMetadata =
         new wxCheckBox(panel, wxID_ANY, "Use Bulk Metadata",
                        wxDefaultPosition, wxDefaultSize, 0,
@@ -274,8 +295,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                 "download will happen when the connection "
                                 "is established.");
 
-    checkBoxSizer->Add(useBulkMetadata, 0, wxTOP | wxRIGHT, 10);
-    //topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
+    topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
     wxCheckBox * ignoreMetadataType =
         new wxCheckBox(panel, wxID_ANY, "Ignore Metadata Type",
@@ -286,11 +306,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                    "  Everything will appear as a character"
                                    " field.");
 
-    checkBoxSizer->Add(ignoreMetadataType, 0, wxTOP | wxLEFT | wxRIGHT, 10);
-    //topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
-
-    //topSizer->Add(checkBoxSizer, wxSizerFlags(0).Expand());
-    topSizer->Add(checkBoxSizer, 0, wxALIGN_LEFT);
+    topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
 
     panel->SetSizer(topSizer);
     return panel;
