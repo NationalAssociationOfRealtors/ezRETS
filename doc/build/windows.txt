@@ -35,7 +35,7 @@ program options libraries.
 
 librets
 --------
-  Version: 1.1.1 or higher
+  Version: 1.1.2 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
   You will need to build libRETS with librets/project/build/config.vc edited

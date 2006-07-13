@@ -42,6 +42,9 @@ RetsVersion     = 1.5
 UseBulkMetadata = false
 IgnoreMetadataType = false
 UseCompactFormat = false
+EnableUserAgentAuth = true
+UserAgentAuthType = NON-STANDARD INTEREALTY
+UserAgentPassword = SomePassword
 
 It should be not noted that in an odbc.ini declaration, the following
 fields are optional:
@@ -55,6 +58,9 @@ fields are optional:
  * UseBulkMetadata
  * IgnoreMetadataType
  * UseCompactFormat
+ * EnableUserAgentAuth
+ * UserAgentAuthType
+ * UserAgentPassword
 
 
 Definitions of attributes:
@@ -75,3 +81,5 @@ Definitions of attributes:
  * IgnoreMetadataType - Don't trust the server's metadata on what it reports
                         as the native data type, just return everything as
                         Character data.
+ * EnableUserAgentAuth - Turns on User-Agent Authentication
+ * UserAgentAuthType - Currently only "NON-STANDARD INTEREALTY" is supported.

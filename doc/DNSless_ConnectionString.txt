@@ -5,7 +5,7 @@ your ODBC interface's documentation.
 
 For ezRETS a typical connection string will look something like:
 
-LoginUrl=http://demo.crt.realtors.org:6103/rets/login;UID=Joe;PWD=Schmoe;StandardNames=true;UserAgent=optional/1.0;UseHttpGet=false;UseHttpLogging=true;HttpLogFile=/tmp/ezrets.http;UseDebugLogging=true;DebugLogFile=/tmp/ezrets;RetsVersion=1.5;UseBulkMetadata=false;IgnoreMetadataType=false;
+LoginUrl=http://demo.crt.realtors.org:6103/rets/login;UID=Joe;PWD=Schmoe;StandardNames=true;UserAgent=optional/1.0;UseHttpGet=false;UseHttpLogging=true;HttpLogFile=/tmp/ezrets.http;UseDebugLogging=true;DebugLogFile=/tmp/ezrets;RetsVersion=1.5;UseBulkMetadata=false;IgnoreMetadataType=false;EnableUserAgentAuth=true;UserAgentAuthType=NON-STANDARD INTEREALTY;UserAgentPassword=SomePasswd
 
 It should be not noted that in a connection string the following
 fields are optional:
@@ -18,6 +18,9 @@ fields are optional:
  * RetsVersion
  * UseBulkMetadata
  * IgnoreMetadataType
+ * EnableUserAgentAuth
+ * UserAgentAuthType
+ * UserAgentPassword
 
 Definitions of attributes:
  * LoginURL - RETS Server's LoginURL
@@ -37,3 +40,5 @@ Definitions of attributes:
  * IgnoreMetadataType - Don't trust the server's metadata on what it reports
                         as the native data type, just return everything as
                         Character data.
+ * EnableUserAgentAuth - Turns on User-Agent Authentication
+ * UserAgentAuthType - Currently only "NON-STANDARD INTEREALTY" is supported.
