@@ -59,6 +59,8 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
   &CLASS::True},
  {&CLASS::UseCompactFormatToWindow, &CLASS::UseCompactFormatFromWindow,
   &CLASS::True},
+ {&CLASS::EnableUserAgentAuthToWindow, &CLASS::EnableUserAgentAuthFromWindow,
+  &CLASS::True},
  {&CLASS::UserAgentPasswordToWindow, &CLASS::UserAgentPasswordFromWindow,
   &CLASS::True},
  {&CLASS::UserAgentAuthTypeToWindow, &CLASS::UserAgentAuthTypeFromWindow,
@@ -70,7 +72,8 @@ const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
     "Name", "Login URL", "Username", "Password", "Standard Names",
     "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
     "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
-    "Ignore Metadata Type", "Use Compfact Format", "UA Password"
+    "Ignore Metadata Type", "Use Compact Format", "Enable User-Agent Auth",
+    "User-Agent Password", "User-Agent Auth Type"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -405,6 +408,20 @@ bool CLASS::UserAgentAuthTypeFromWindow(wxWindow * window)
     wxChoice * choice = (wxChoice *) window;
     mDataSource->SetUserAgentAuthType(
         StringToUserAgentAuthType(choice->GetStringSelection().c_str(),
-                                  librets::USER_AGENT_AUTH_NONE));
+                                  librets::USER_AGENT_AUTH_INTEREALTY));
+    return true;
+}
+
+bool CLASS::EnableUserAgentAuthToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetEnableUserAgentAuth());
+    return true;
+}
+
+bool CLASS::EnableUserAgentAuthFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetEnableUserAgentAuth(checkBox->GetValue());
     return true;
 }

@@ -1,14 +1,20 @@
 Changes since 2.0.1
 -------------------
- * User-Agent is now "ezRETS/2.0.2 (librets/1.1.1)"
+ * User-Agent is now "ezRETS/2.0.2 (librets/1.1.2)"
 
  Enhancements
+  * Add support for Interealty's non-standard User-Agent
+    Authentication which is in use in many markets.  Requested by
+    Brandon Munday.
   * Translator for SQL_NUMERIC has been written.  SQLServer DTS asks
     for fields as NUMERIC in some circustances.  Reported by Wayne
     Bienek.
+  * Translator for SQL_BIGINT has been implemented.  Hasn't been
+    reported as an issue, but fixed for completeness sake.
 
  Developer Notes
   * Due to NUMERIC translator, boost 1.33.1 is now required
+  * libRETS 1.1.2 is required to build.
 
 Changes since 2.0.0
 -------------------

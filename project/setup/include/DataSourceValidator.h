@@ -43,6 +43,7 @@ class DataSourceValidator : public wxValidator
         USE_BULK_METADATA,
         IGNORE_METADATA_TYPE,
         USE_COMPACT_FORMAT,
+        ENABLE_USER_AGENT_AUTH,
         USER_AGENT_PASSWORD,
         USER_AGENT_AUTH_TYPE,
         NUM_FIELDS
@@ -138,6 +139,10 @@ class DataSourceValidator : public wxValidator
     bool UserAgentAuthTypeToWindow(wxWindow * window);
 
     bool UserAgentAuthTypeFromWindow(wxWindow * window);
+
+    bool EnableUserAgentAuthToWindow(wxWindow * window);
+
+    bool EnableUserAgentAuthFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);

@@ -120,6 +120,10 @@ class DataSource
 
     void SetDisableGetObjectMetadata(bool disableGetObjectMetadata);
 
+    bool GetEnableUserAgentAuth() const;
+
+    void SetEnableUserAgentAuth(bool enable);
+
     std::string GetUserAgentPassword() const;
 
     void SetUserAgentPassword(std::string passwd);
@@ -173,6 +177,7 @@ class DataSource
     static const char * INI_IGNORE_METADATA_TYPE;
     static const char * INI_USE_COMPACT_FORMAT;
     static const char * INI_DISABLE_GETOBJECT_METADATA;
+    static const char * INI_ENABLE_USER_AGENT_AUTH;
     static const char * INI_USER_AGENT_PASSWORD;
     static const char * INI_USER_AGENT_AUTH_TYPE;
 
@@ -227,6 +232,7 @@ class DataSource
     bool mIgnoreMetadataType;
     bool mUseCompactFormat;
     bool mDisableGetObjectMetadata;
+    bool mEnableUserAgentAuth;
     std::string mUserAgentPassword;
     std::string mUserAgentAuthTypeString;
 };
@@ -234,7 +240,7 @@ class DataSource
 extern const char * RETS_1_0_STRING;
 extern const char * RETS_1_5_STRING;
 
-extern const char * USER_AGENT_AUTH_NONE_STRING;
+extern const char * USER_AGENT_AUTH_RETS_1_7_STRING;
 extern const char * USER_AGENT_AUTH_INTEREALTY_STRING;
 
 std::string RetsVersionToString(librets::RetsVersion retsVersion);

@@ -69,6 +69,9 @@ class SetupDialog : public wxDialog
     bool mDebug;
     wxNotebook * mNotebook;
 
+    wxCheckBox * mEnableUserAgentPassword;
+    wxTextCtrl * mUserAgentPassword;
+
     wxCheckBox * mEnableHttpLogging;
     wxTextCtrl * mHttpLogFile;
     wxButton * mHttpBrowse;

@@ -223,8 +223,23 @@ wxPanel * SetupDialog::CreateUserAgentPanel(wxWindow * parent)
                        validator.SetField(DSV::CUSTOM_USER_AGENT));
     tvs->AddRow("Custom User-Agent:", userAgent);
 
+    topSizer->Add(tvs, wxSizerFlags(0).Expand());
+    
+    wxBoxSizer * userAgentBox = new wxBoxSizer(wxVERTICAL);
+    mEnableUserAgentPassword =
+        new wxCheckBox(panel, wxID_ANY, "Enable User-Agent Authentication",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::ENABLE_USER_AGENT_AUTH));
+    userAgentBox->Add(mEnableUserAgentPassword,
+                      wxSizerFlags(0).Border(wxTOP, 10));
+
+    wxBoxSizer * userAgentInfoBox = new wxBoxSizer(wxHORIZONTAL);
+    userAgentInfoBox->AddSpacer(10);
+
+    TextValueSizer * userAgenttvs = new TextValueSizer(panel);
     wxArrayString userAgentAuthTypeChoices;
-    userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_NONE_STRING);
+    // Uncomment the following line when we actually support RETS 1.7
+//     userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_RETS_1_7_STRING);
     userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_INTEREALTY_STRING);
     wxChoice * userAgentAuthType =
         new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
@@ -232,14 +247,20 @@ wxPanel * SetupDialog::CreateUserAgentPanel(wxWindow * parent)
                      validator.SetField(DSV::USER_AGENT_AUTH_TYPE));
     wxSizerFlags valueFlags(1);
     valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
-    tvs->AddRow("User-Agent Auth Type:", userAgentAuthType, valueFlags);
+    userAgenttvs->AddRow("User-Agent Auth Type:", userAgentAuthType,
+                         valueFlags);
 
-    wxTextCtrl * userAgentPasswd =
+    mUserAgentPassword =
         new wxTextCtrl(panel, wxID_ANY, "", wxDefaultPosition, textSize, 0,
                        validator.SetField(DSV::USER_AGENT_PASSWORD));
-    tvs->AddRow("User-Agent Password: ", userAgentPasswd);
+    userAgenttvs->AddRow("User-Agent Password: ", mUserAgentPassword);
 
-    topSizer->Add(tvs, wxSizerFlags(0).Expand());
+    userAgentInfoBox->Add(userAgenttvs,
+                          wxSizerFlags(0).Expand().Border(wxTOP,10));
+
+    userAgentBox->Add(userAgentInfoBox, wxSizerFlags(0).Expand());
+
+    topSizer->Add(userAgentBox, wxSizerFlags(0).Expand().Border(wxTOP, 10));
     
     panel->SetSizer(topSizer);
     return panel;
@@ -392,6 +413,14 @@ bool SetupDialog::Validate()
     {
         wxMessageBox("The debug log file must not be empty.\n",
                      "Invalid Debug Log File", wxICON_ERROR);
+        return false;
+    }
+
+    if (mEnableUserAgentPassword->GetValue() &&
+        mUserAgentPassword->GetValue().empty())
+    {
+        wxMessageBox("The User-Agent Password must not be empty.\n",
+                     "Invalid User-Agenet Password", wxICON_ERROR);
         return false;
     }
 
