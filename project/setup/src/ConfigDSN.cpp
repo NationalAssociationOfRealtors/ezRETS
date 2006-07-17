@@ -30,6 +30,8 @@
 #include "Setup.h"
 #include "SqlInstallerException.h"
 
+#include "wx/init.h"
+
 using namespace odbcrets;
 
 BOOL INSTAPI ConfigDSN(HWND hwndParent, WORD fRequest, LPCSTR lpszDriver,
@@ -38,8 +40,18 @@ BOOL INSTAPI ConfigDSN(HWND hwndParent, WORD fRequest, LPCSTR lpszDriver,
     BOOL rc = true;
     try
     {
+#ifdef __WXMAC__
+        int argc = 0;
+        char **argv = NULL;
+        wxEntryStart(argc, argv);
+#endif
+
         Setup setup;
         setup.ConfigDSN(hwndParent, fRequest, lpszDriver, lpszAttributes);
+
+#ifdef __WXMAC__
+        wxEntryCleanup();
+#endif
     }
     catch (SqlInstallerException & e)
     {

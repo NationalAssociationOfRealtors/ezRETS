@@ -167,22 +167,29 @@ strmap Setup::att2map(LPCSTR attributes)
 int Setup::ShowDialog(DataSourcePtr dataSource)
 {
     wxWindow * parent = NULL;
+
 #ifdef __WXMSW__
     parent = new wxTopLevelWindow();
     parent->SetHWND(mParent);
     parent->SetId(wxGetWindowId((WXHWND) mParent));
     parent->AdoptAttributesFromHWND();
-#elif __WXMAC__
-    parent = wxFindWinFromMacWindow(MAC_WXHWND(mParent));
 #endif    
+
     SetupDialog setupDialog(dataSource,
                             parent, _T("ezRETS ODBC Setup"));
+
 #ifdef __WXMSW__
     slog.debug(str_stream() << "ComCtl32Version: " <<
                wxApp::GetComCtl32Version());
     parent->SetHWND(0);
 #endif
+
     int rc = setupDialog.ShowModal();
-    parent->Destroy();
+
+    if (parent)
+    {
+        parent->Destroy();
+    }
+
     return rc;
 }
