@@ -168,6 +168,7 @@ void DataSource::init()
     mIgnoreMetadataType = false;
     mUseCompactFormat = false;
     mDisableGetObjectMetadata = true;
+    mEnableUserAgentAuth = false;
 }
 
 DataSource::DataSource()
