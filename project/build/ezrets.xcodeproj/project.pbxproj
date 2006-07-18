@@ -13,7 +13,6 @@
 		DE0565AD0A5D718800E80B17 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
 		DE0565B40A5D71CD00E80B17 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0565B30A5D71CD00E80B17 /* testApp.cpp */; };
 		DE0565C50A5D73A100E80B17 /* ezrets32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0565C40A5D73A100E80B17 /* ezrets32x32.png */; };
-		DE0565F20A5D99B500E80B17 /* librets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A340A2666B100AF92A8 /* librets.a */; };
 		DE28A7040A30B86F0056399A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7030A30B86F0056399A /* libz.dylib */; };
 		DE28A7060A30B88E0056399A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
 		DE28A7090A30B8B50056399A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
@@ -151,10 +150,11 @@
 		DE28A7030A30B86F0056399A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		DE28A7050A30B88E0056399A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		DE28A7080A30B8B50056399A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		DE34DCA60A6C27C500A9CB0E /* UnixInit.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UnixInit.cpp; path = ../setup/src/UnixInit.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
-		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
 		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -210,7 +210,7 @@
 		DEFB39FE0A2665C200AF92A8 /* TranslationWorkers.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TranslationWorkers.cpp; path = ../driver/src/TranslationWorkers.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB39FF0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TypeInfoMetadataQuery.cpp; path = ../driver/src/TypeInfoMetadataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB3A000A2665C200AF92A8 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = ../driver/src/utils.cpp; sourceTree = SOURCE_ROOT; };
-		DEFB3A340A2666B100AF92A8 /* librets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librets.a; path = ../../../librets/build/librets/lib/librets.a; sourceTree = SOURCE_ROOT; };
+		DEFB3A340A2666B100AF92A8 /* librets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librets.a; path = build/xcode/Development/librets.a; sourceTree = LIBRETS; };
 		DEFB3A370A26670400AF92A8 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /usr/local/lib/libcurl.a; sourceTree = "<absolute>"; };
 		DEFB3A390A26672900AF92A8 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = lib/libexpat.a; sourceTree = EXPAT; };
 		DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = lib/libboost_filesystem.a; sourceTree = BOOST; };
@@ -287,7 +287,6 @@
 			files = (
 				DE9631620A349C7400EDD298 /* libiodbcinst.dylib in Frameworks */,
 				DEFB3A720A27518700AF92A8 /* ezrets-common.a in Frameworks */,
-				DE0565F20A5D99B500E80B17 /* librets.a in Frameworks */,
 				DE9631650A349C9600EDD298 /* libssl.dylib in Frameworks */,
 				DE9631660A349C9600EDD298 /* libcrypto.dylib in Frameworks */,
 			);
@@ -440,6 +439,7 @@
 		DE614AEE0A2CC4ED005FA065 /* setup */ = {
 			isa = PBXGroup;
 			children = (
+				DE34DCA60A6C27C500A9CB0E /* UnixInit.cpp */,
 				DE0565B30A5D71CD00E80B17 /* testApp.cpp */,
 				DEFB3A620A27516800AF92A8 /* ConfigDSN.cpp */,
 				DEFB3A630A27516800AF92A8 /* DataSourceValidator.cpp */,
@@ -883,7 +883,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"EZRETS_VERSION=\"$(VERSION)\"",
 					HAVE_IODBC,
@@ -1203,10 +1206,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(SRCROOT)/../../../librets/build/librets/lib",
-				);
+				LIBRARY_SEARCH_PATHS = "$(LIBRARY_SEARCH_PATHS)";
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
