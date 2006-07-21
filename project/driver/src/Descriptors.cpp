@@ -15,6 +15,11 @@
  * appear in supporting documentation.
  */
 #include "Descriptors.h"
+#include "RetsSTMT.h"
+#include "EzLogger.h"
+#include "str_stream.h"
+
+using namespace odbcrets;
 
 SQLPOINTER odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr)
 {
@@ -34,4 +39,51 @@ SQLINTEGER* odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr)
         result = (SQLINTEGER*) ((char*) ptr + *offset);
     }
     return result;
+}
+
+BaseDesc::BaseDesc(RetsSTMT* parent)
+    : AbstractHandle(), mParent(parent)
+{
+}
+
+EzLoggerPtr BaseDesc::getLogger()
+{
+    return mParent->getLogger();
+}
+
+RetsSTMT* BaseDesc::getParent()
+{
+    return mParent;
+}
+
+SQLRETURN BaseDesc::SQLSetDescField(
+    SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
+    SQLINTEGER BufferLength)
+{
+    EzLoggerPtr log = getLogger();
+    log->debug(str_stream() << "In SQLSetDescField " << RecNumber << " " <<
+               FieldIdentifier);
+
+    addError("HY000", "SQLSetDescField not implemented yet.");
+    return SQL_ERROR;
+}
+
+AppParamDesc::AppParamDesc(RetsSTMT* parent)
+    : BaseDesc(parent), mBindOffsetPtr(0), mArrayStatusPtr(0)
+{
+}
+
+ImpParamDesc::ImpParamDesc(RetsSTMT* parent)
+    : BaseDesc(parent), mArrayStatusPtr(0), mRowProcessedPtr(0)
+{
+}
+
+AppRowDesc::AppRowDesc(RetsSTMT* parent)
+    : BaseDesc(parent), mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0)
+{
+}
+
+ImpRowDesc::ImpRowDesc(RetsSTMT* parent)
+    : BaseDesc(parent), mArrayStatusPtr(0), mRowsProcessedPtr(0)
+{
 }

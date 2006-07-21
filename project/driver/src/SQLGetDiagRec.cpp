@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -49,7 +49,7 @@ class SQLGetDiagRec : public OdbcEntry
         }
 
         if (mHandleType != SQL_HANDLE_STMT && mHandleType != SQL_HANDLE_DBC &&
-            mHandleType != SQL_HANDLE_ENV)
+            mHandleType != SQL_HANDLE_ENV && mHandleType != SQL_HANDLE_DESC)
         {
             throw OdbcSqlException(SQL_INVALID_HANDLE,
                                    "Unsupported Handle Type");

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -137,4 +137,28 @@ void StmtOdbcEntry::logException(std::exception& e)
 void StmtOdbcEntry::logException()
 {
     addError(mStmt, "HY000", "Unknown ezrets exception");
+}
+
+DescOdbcEntry::DescOdbcEntry(SQLHDESC desc)
+{
+    mDesc = static_cast<BaseDesc*>(desc);
+}
+
+void DescOdbcEntry::assertPrecondition()
+{
+    if (!mDesc)
+    {
+        throw OdbcSqlException(SQL_INVALID_HANDLE,
+                               "Invalid Statement Handle");
+    }
+}
+
+void DescOdbcEntry::logException(std::exception& e)
+{
+    addError(mDesc, "HY000", e.what());
+}
+
+void DescOdbcEntry::logException()
+{
+    addError(mDesc, "HY000", "Unknown ezrets exception");
 }

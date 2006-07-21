@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -301,20 +301,6 @@ SQLRETURN SQL_API SQLSetCursorName(SQLHSTMT StatementHandle,
         stmt->getLogger()->debug("In SQLSetCursorname");
         stmt->addError("HY000", "SQLSetCursorname not implemented");
     }
-
-    return SQL_ERROR;
-}
-
-SQLRETURN SQL_API SQLSetDescField(SQLHDESC DescriptorHandle,
-                                  SQLSMALLINT RecNumber,
-                                  SQLSMALLINT FieldIdentifier,
-                                  SQLPOINTER Value, SQLINTEGER BufferLength)
-{
-//     STMT* stmt = static_cast<STMT*>(StatementHandle);
-// #ifdef _DEBUG
-//     std::ostream& out = stmt->getLog();
-//     out << "In SQLSetDescField" << std::endl;
-// #endif
 
     return SQL_ERROR;
 }

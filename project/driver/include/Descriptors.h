@@ -18,6 +18,7 @@
 #define DESCRIPTORS_H
 
 #include "ezrets.h"
+#include "AbstractHandle.h"
 /*
  * See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/odbcsqlsetstmtattr.asp
  *
@@ -43,28 +44,46 @@ namespace odbcrets
 SQLPOINTER adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr);
 SQLINTEGER* adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr);
 
-struct AppParamDesc // aka apd
+class BaseDesc : public AbstractHandle
 {
   public:
-    AppParamDesc() : mBindOffsetPtr(0), mArrayStatusPtr(0) { }
+    RetsSTMT* getParent();
+    virtual EzLoggerPtr getLogger();
+
+    SQLRETURN SQLSetDescField(SQLSMALLINT RecNumber,
+                              SQLSMALLINT FieldIdentifier,
+                              SQLPOINTER Value, SQLINTEGER BufferLength);
     
+  protected:
+    BaseDesc(RetsSTMT* parent);
+
+    RetsSTMT* mParent;
+};
+
+class AppParamDesc : public BaseDesc // aka apd
+{
+  public:
+    AppParamDesc(RetsSTMT* parent);
+
     SQLUINTEGER* mBindOffsetPtr;
     SQLUINTEGER mBindType;
     SQLUSMALLINT* mArrayStatusPtr;
     SQLUINTEGER mArraySize;
 };
 
-struct ImpParamDesc // aka ipd
+class ImpParamDesc : public BaseDesc // aka ipd
 {
-    ImpParamDesc() : mArrayStatusPtr(0), mRowProcessedPtr(0) { }
+  public:
+    ImpParamDesc(RetsSTMT* parent);
+
     SQLUSMALLINT* mArrayStatusPtr;
     SQLUINTEGER* mRowProcessedPtr;
 };
 
-struct AppRowDesc // aka ard
+class AppRowDesc : public BaseDesc // aka ard
 {
   public:
-    AppRowDesc() : mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0) { }
+    AppRowDesc(RetsSTMT* parent);
     
     SQLUINTEGER mArraySize;
     SQLUINTEGER* mBindOffsetPtr;
@@ -82,16 +101,16 @@ struct AppRowDesc // aka ard
     // SQLPOINTER mOctetLengthPtr;
 };
 
-struct ImpRowDesc // aka ird
+class ImpRowDesc : public BaseDesc // aka ird
 {
-    ImpRowDesc() : mArrayStatusPtr(0), mRowsProcessedPtr(0) { }
+  public:
+    ImpRowDesc(RetsSTMT* parent);
     
     SQLSMALLINT* mArrayStatusPtr;
     SQLUINTEGER* mRowsProcessedPtr;
 };
 
 }
-    
 
 #endif /* DESCRIPTORS_H */
 /* Local Variables: */

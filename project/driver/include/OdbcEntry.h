@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -20,6 +20,7 @@
 #include <exception>
 #include "ezrets.h"
 #include "AbstractHandle.h"
+#include "Descriptors.h"
 
 namespace odbcrets
 {
@@ -78,6 +79,20 @@ class StmtOdbcEntry : public OdbcEntry
 
   protected:
     STMT* mStmt;
+};
+
+class DescOdbcEntry : public OdbcEntry
+{
+  public:
+    DescOdbcEntry(SQLHDESC desc);
+
+  protected:
+    void assertPrecondition();
+    void logException(std::exception& e);
+    void logException();
+
+  protected:
+    BaseDesc* mDesc;
 };
 
 }

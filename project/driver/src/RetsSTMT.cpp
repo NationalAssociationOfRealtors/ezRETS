@@ -47,7 +47,8 @@ using std::make_pair;
 namespace b = boost;
 
 RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
-    : AbstractHandle(), mDbc(handle)
+    : AbstractHandle(), mDbc(handle), apd(this), ipd(this), ard(this),
+      ird(this)
 {
     if (ignoreMetadata)
     {
