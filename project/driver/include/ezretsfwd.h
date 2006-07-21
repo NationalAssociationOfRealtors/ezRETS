@@ -45,8 +45,8 @@ class DataStreamInfo;
 class DataTranslator;
 typedef boost::shared_ptr<DataTranslator> DataTranslatorPtr;
 
-struct AppRowDesc;
-struct AppParamDesc;
+class AppRowDesc;
+class AppParamDesc;
 
 class Column;
 typedef boost::shared_ptr<Column> ColumnPtr;

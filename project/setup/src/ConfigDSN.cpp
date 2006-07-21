@@ -30,7 +30,9 @@
 #include "Setup.h"
 #include "SqlInstallerException.h"
 
+#ifdef __WXMAC__
 #include "wx/init.h"
+#endif
 
 using namespace odbcrets;
 
