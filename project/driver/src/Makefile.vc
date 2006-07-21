@@ -48,6 +48,7 @@ X_OBJS = \
 	$(DIROBJ)\DataTranslator.obj\
 	$(DIROBJ)\DateTimeFormatException.obj\
 	$(DIROBJ)\DbcEntries.obj\
+	$(DIROBJ)\DescEntries.obj\
 	$(DIROBJ)\Descriptors.obj\
 	$(DIROBJ)\EnvEntries.obj\
 	$(DIROBJ)\Error.obj\
