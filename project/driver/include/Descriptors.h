@@ -47,23 +47,27 @@ SQLINTEGER* adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr);
 class BaseDesc : public AbstractHandle
 {
   public:
-    RetsSTMT* getParent();
+    virtual void setParent(STMT* parent);
+    virtual RetsSTMT* getParent();
     virtual EzLoggerPtr getLogger();
 
     SQLRETURN SQLSetDescField(SQLSMALLINT RecNumber,
                               SQLSMALLINT FieldIdentifier,
                               SQLPOINTER Value, SQLINTEGER BufferLength);
-    
-  protected:
-    BaseDesc(RetsSTMT* parent);
 
+    virtual std::string getType() = 0;
+
+  protected:
+    BaseDesc();
+    
     RetsSTMT* mParent;
 };
 
 class AppParamDesc : public BaseDesc // aka apd
 {
   public:
-    AppParamDesc(RetsSTMT* parent);
+    AppParamDesc();
+    virtual std::string getType();
 
     SQLUINTEGER* mBindOffsetPtr;
     SQLUINTEGER mBindType;
@@ -74,7 +78,8 @@ class AppParamDesc : public BaseDesc // aka apd
 class ImpParamDesc : public BaseDesc // aka ipd
 {
   public:
-    ImpParamDesc(RetsSTMT* parent);
+    ImpParamDesc();
+    virtual std::string getType();
 
     SQLUSMALLINT* mArrayStatusPtr;
     SQLUINTEGER* mRowProcessedPtr;
@@ -83,7 +88,8 @@ class ImpParamDesc : public BaseDesc // aka ipd
 class AppRowDesc : public BaseDesc // aka ard
 {
   public:
-    AppRowDesc(RetsSTMT* parent);
+    AppRowDesc();
+    virtual std::string getType();
     
     SQLUINTEGER mArraySize;
     SQLUINTEGER* mBindOffsetPtr;
@@ -104,7 +110,8 @@ class AppRowDesc : public BaseDesc // aka ard
 class ImpRowDesc : public BaseDesc // aka ird
 {
   public:
-    ImpRowDesc(RetsSTMT* parent);
+    ImpRowDesc();
+    virtual std::string getType();
     
     SQLSMALLINT* mArrayStatusPtr;
     SQLUINTEGER* mRowsProcessedPtr;

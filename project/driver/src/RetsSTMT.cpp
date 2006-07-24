@@ -47,9 +47,13 @@ using std::make_pair;
 namespace b = boost;
 
 RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
-    : AbstractHandle(), mDbc(handle), apd(this), ipd(this), ard(this),
-      ird(this)
+    : AbstractHandle(), mDbc(handle)
 {
+    apd.setParent(this);
+    ipd.setParent(this);
+    ard.setParent(this);
+    ird.setParent(this);
+    
     if (ignoreMetadata)
     {
         mDataTranslator.reset(new CharOnlyDataTranslator());

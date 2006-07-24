@@ -20,6 +20,7 @@
 #include "str_stream.h"
 
 using namespace odbcrets;
+using std::string;
 
 SQLPOINTER odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr)
 {
@@ -41,14 +42,19 @@ SQLINTEGER* odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr)
     return result;
 }
 
-BaseDesc::BaseDesc(RetsSTMT* parent)
-    : AbstractHandle(), mParent(parent)
+BaseDesc::BaseDesc()
+    : AbstractHandle()
 {
 }
 
 EzLoggerPtr BaseDesc::getLogger()
 {
     return mParent->getLogger();
+}
+
+void BaseDesc::setParent(STMT* parent)
+{
+    mParent = parent;
 }
 
 RetsSTMT* BaseDesc::getParent()
@@ -61,29 +67,55 @@ SQLRETURN BaseDesc::SQLSetDescField(
     SQLINTEGER BufferLength)
 {
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLSetDescField " << RecNumber << " " <<
-               FieldIdentifier);
+    log->debug(str_stream() << "In SQLSetDescField " << getType() << " " <<
+               RecNumber << " " << FieldIdentifier << " " << Value);
+
+    // Items called by 
+    // 1004 - SQL_DESC_OCTET_LENGTH_PTR
+    // 1005 - SQL_DESC_PRECISION 0xf
+    // 1006 - SQL_DESC_SCALE 0x5
+    // 1010 - SQL_DESC_DATA_PTR 0x50 ?
 
     addError("HY000", "SQLSetDescField not implemented yet.");
     return SQL_ERROR;
 }
 
-AppParamDesc::AppParamDesc(RetsSTMT* parent)
-    : BaseDesc(parent), mBindOffsetPtr(0), mArrayStatusPtr(0)
+AppParamDesc::AppParamDesc()
+    : BaseDesc(), mBindOffsetPtr(0), mArrayStatusPtr(0)
 {
 }
 
-ImpParamDesc::ImpParamDesc(RetsSTMT* parent)
-    : BaseDesc(parent), mArrayStatusPtr(0), mRowProcessedPtr(0)
+string AppParamDesc::getType()
+{
+    return "APD";
+}
+
+ImpParamDesc::ImpParamDesc()
+    : BaseDesc(), mArrayStatusPtr(0), mRowProcessedPtr(0)
 {
 }
 
-AppRowDesc::AppRowDesc(RetsSTMT* parent)
-    : BaseDesc(parent), mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0)
+string ImpParamDesc::getType()
+{
+    return "IPD";
+}
+
+AppRowDesc::AppRowDesc()
+    : BaseDesc(), mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0)
 {
 }
 
-ImpRowDesc::ImpRowDesc(RetsSTMT* parent)
-    : BaseDesc(parent), mArrayStatusPtr(0), mRowsProcessedPtr(0)
+string AppRowDesc::getType()
 {
+    return "ARD";
+}
+
+ImpRowDesc::ImpRowDesc()
+    : BaseDesc(), mArrayStatusPtr(0), mRowsProcessedPtr(0)
+{
+}
+
+string ImpRowDesc::getType()
+{
+    return "IRD";
 }
