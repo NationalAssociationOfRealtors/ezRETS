@@ -16,11 +16,9 @@
  */
 #include "AbstractHandle.h"
 #include "EzLogger.h"
-#include "RetsENV.h"
-#include "RetsDBC.h"
-#include "RetsSTMT.h"
 
 using odbcrets::AbstractHandle;
+using odbcrets::EzLoggerPtr;
 
 SQLRETURN SQL_API SQLBindParameter(SQLHSTMT StatementHandle,
                                    SQLUSMALLINT ParameterNumber,
@@ -31,7 +29,7 @@ SQLRETURN SQL_API SQLBindParameter(SQLHSTMT StatementHandle,
                                    SQLPOINTER ParameterValue,
                                    SQLLEN *StrLen_or_Ind)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -45,7 +43,7 @@ SQLRETURN SQL_API SQLBindParameter(SQLHSTMT StatementHandle,
 SQLRETURN SQL_API SQLBulkOperations(SQLHSTMT StatementHandle,
                                     SQLSMALLINT Operation)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -58,7 +56,7 @@ SQLRETURN SQL_API SQLBulkOperations(SQLHSTMT StatementHandle,
 
 SQLRETURN SQL_API SQLCancel(SQLHSTMT StatementHandle)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -71,7 +69,7 @@ SQLRETURN SQL_API SQLCancel(SQLHSTMT StatementHandle)
 
 SQLRETURN SQL_API SQLCloseCursor(SQLHSTMT StatementHandle)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -93,7 +91,7 @@ SQLRETURN SQL_API SQLColumnPrivileges(SQLHSTMT StatementHandle,
                                       SQLCHAR *szColumnName,
                                       SQLSMALLINT cbColumnName)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -108,11 +106,16 @@ SQLRETURN SQL_API SQLColumnPrivileges(SQLHSTMT StatementHandle,
 SQLRETURN SQL_API SQLCopyDesc(SQLHDESC SourceDescHandle,
                               SQLHDESC TargetDescHandle)
 {
-//     STMT* stmt = static_cast<STMT*>(StatementHandle);
-// #ifdef _DEBUG
-//     std::ostream& out = stmt->getLog();
-//     out << "In SQLCopyDesc" << std::endl;
-// #endif
+
+    AbstractHandle* desc = static_cast<AbstractHandle*>(SourceDescHandle);
+
+    if (desc)
+    {
+        EzLoggerPtr log = desc->getLogger();
+        log->debug("In SQLCopyDesc");
+        
+        desc->addError("HY000", "SQLCopyDesc not implemented");
+    }
 
     return SQL_ERROR;
 }
@@ -122,7 +125,7 @@ SQLRETURN SQL_API SQLDescribeParam(SQLHSTMT StatementHandle,
                                    SQLULEN *pcbParamDef, SQLSMALLINT *pibScale,
                                    SQLSMALLINT *pfNullable)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -157,7 +160,7 @@ SQLRETURN SQL_API SQLForeignKeys(
     SQLSMALLINT cbFkSchemaName, SQLCHAR *szFkTableName,
     SQLSMALLINT cbFkTableName)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -173,7 +176,7 @@ SQLRETURN SQL_API SQLGetCursorName(SQLHSTMT StatementHandle,
                                    SQLSMALLINT BufferLength,
                                    SQLSMALLINT *NameLength)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -190,7 +193,7 @@ SQLRETURN SQL_API SQLNativeSql(SQLHDBC ConnectionHandle,
                                SQLCHAR *szSqlStr, SQLINTEGER cbSqlStrMax,
                                SQLINTEGER *pcbSqlStr)
 {
-    DBC* dbc = static_cast<DBC*>(ConnectionHandle);
+    AbstractHandle* dbc = static_cast<AbstractHandle*>(ConnectionHandle);
 
     if (dbc)
     {
@@ -203,7 +206,7 @@ SQLRETURN SQL_API SQLNativeSql(SQLHDBC ConnectionHandle,
 
 SQLRETURN SQL_API SQLParamData(SQLHSTMT StatementHandle, SQLPOINTER *Value)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -220,7 +223,7 @@ SQLRETURN SQL_API SQLProcedureColumns(
     SQLCHAR *szProcName, SQLSMALLINT cbProcName, SQLCHAR *szColumnName,
     SQLSMALLINT cbColumnName)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -236,7 +239,7 @@ SQLRETURN SQL_API SQLProcedures(
     SQLSMALLINT cbCatalogName, SQLCHAR *szSchemaName, SQLSMALLINT cbSchemaName,
     SQLCHAR *szProcName, SQLSMALLINT cbProcName)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -250,7 +253,7 @@ SQLRETURN SQL_API SQLProcedures(
 SQLRETURN SQL_API SQLPutData(SQLHSTMT StatementHandle, SQLPOINTER Data,
                              SQLLEN StrLen_or_Ind)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -265,7 +268,7 @@ SQLRETURN SQL_API SQLSetConnectAttr(
     SQLHDBC ConnectionHandle, SQLINTEGER Attribute, SQLPOINTER ValuePtr,
     SQLINTEGER StringLength)
 {
-    DBC* dbc = static_cast<DBC*>(ConnectionHandle);
+    AbstractHandle* dbc = static_cast<AbstractHandle*>(ConnectionHandle);
 
     if (dbc)
     {
@@ -279,7 +282,7 @@ SQLRETURN SQL_API SQLSetConnectAttr(
 SQLRETURN SQL_API SQLSetConnectOption(SQLHDBC ConnectionHandle,
                                       SQLUSMALLINT Option, SQLULEN Value)
 {
-    DBC* dbc = static_cast<DBC*>(ConnectionHandle);
+    AbstractHandle* dbc = static_cast<AbstractHandle*>(ConnectionHandle);
 
     if (dbc)
     {
@@ -294,7 +297,7 @@ SQLRETURN SQL_API SQLSetConnectOption(SQLHDBC ConnectionHandle,
 SQLRETURN SQL_API SQLSetCursorName(SQLHSTMT StatementHandle,
                                    SQLCHAR *CursorName, SQLSMALLINT NameLength)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -312,11 +315,15 @@ SQLRETURN SQL_API SQLSetDescRec(SQLHDESC DescriptorHandle,
                                 SQLPOINTER Data, SQLLEN *StringLength,
                                 SQLLEN *Indicator)
 {
-//     STMT* stmt = static_cast<STMT*>(StatementHandle);
-// #ifdef _DEBUG
-//     std::ostream& out = stmt->getLog();
-//     out << "In SQLSetDescRec" << std::endl;
-// #endif
+    AbstractHandle* desc = static_cast<AbstractHandle*>(DescriptorHandle);
+
+    if (desc)
+    {
+        EzLoggerPtr log = desc->getLogger();
+        log->debug("In SQLSetDescRec");
+
+        desc->addError("HY000", "SQLSetDescRec not implemented");
+    }
 
     return SQL_ERROR;
 }
@@ -330,7 +337,7 @@ SQLRETURN SQL_API SQLSetParam(SQLHSTMT StatementHandle,
                               SQLPOINTER ParameterValue,
                               SQLLEN *StrLen_or_Ind)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -344,7 +351,7 @@ SQLRETURN SQL_API SQLSetParam(SQLHSTMT StatementHandle,
 SQLRETURN SQL_API SQLSetPos(SQLHSTMT StatementHandle, SQLSETPOSIROW irow,
                             SQLUSMALLINT fOption, SQLUSMALLINT fLock)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -359,7 +366,7 @@ SQLRETURN SQL_API SQLSetScrollOptions(
     SQLHSTMT StatementHandle, SQLUSMALLINT fConcurrency, SQLLEN crowKeyset,
     SQLUSMALLINT crowRowset)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -375,7 +382,7 @@ SQLRETURN SQL_API SQLTablePrivileges(
     SQLSMALLINT cbCatalogName, SQLCHAR *szSchemaName,
     SQLSMALLINT cbSchemaName, SQLCHAR *szTableName, SQLSMALLINT cbTableName)
 {
-    STMT* stmt = static_cast<STMT*>(StatementHandle);
+    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
     if (stmt)
     {
@@ -390,7 +397,7 @@ SQLRETURN SQL_API SQLTransact(SQLHENV EnvironmentHandle,
                               SQLHDBC ConnectionHandle,
                               SQLUSMALLINT CompletionType)
 {
-    ENV* env = static_cast<ENV*>(EnvironmentHandle);
+    AbstractHandle* env = static_cast<AbstractHandle*>(EnvironmentHandle);
 
     if (env)
     {
