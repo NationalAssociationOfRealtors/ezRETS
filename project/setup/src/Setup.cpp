@@ -26,6 +26,7 @@
 #include <odbcinst.h>
 #endif
 
+#include "librets/RetsSession.h"
 #include "Setup.h"
 #include "SqlInstallerException.h"
 #include "DataSource.h"
@@ -54,6 +55,8 @@ void Setup::ConfigDSN(HWND parent, WORD request, LPCSTR driver,
         slog.enableDebug();
     }
     slog.debug("We are in ConfigDSN");
+    slog.debug(str_stream() << "ezrets " << EZRETS_VERSION);
+    slog.debug(str_stream() << librets::RetsSession::DEFAULT_USER_AGENT);
     slog.debug(str_stream() << "request = " << request);
     slog.debug(str_stream() << "driver = " << driver);
   
