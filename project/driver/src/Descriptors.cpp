@@ -42,8 +42,8 @@ SQLINTEGER* odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr)
     return result;
 }
 
-BaseDesc::BaseDesc()
-    : AbstractHandle()
+BaseDesc::BaseDesc(DescriptorType type)
+    : AbstractHandle(), mType(type)
 {
 }
 
@@ -67,55 +67,58 @@ SQLRETURN BaseDesc::SQLSetDescField(
     SQLINTEGER BufferLength)
 {
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLSetDescField " << getType() << " " <<
-               RecNumber << " " << FieldIdentifier << " " << Value);
+    log->debug(str_stream() << "In SQLSetDescField " <<
+               BaseDesc::getTypeString(mType) << " " << RecNumber << " " <<
+               FieldIdentifier << " " << Value);
 
     // Items called by 
-    // 1004 - SQL_DESC_OCTET_LENGTH_PTR
-    // 1005 - SQL_DESC_PRECISION 0xf
-    // 1006 - SQL_DESC_SCALE 0x5
-    // 1010 - SQL_DESC_DATA_PTR 0x50 ?
+    // 1004 - SQL_DESC_OCTET_LENGTH_PTR -- APD only
+    // 1005 - SQL_DESC_PRECISION 0xf -- ALL
+    // 1006 - SQL_DESC_SCALE 0x5 -- ALL
+    // 1010 - SQL_DESC_DATA_PTR 0x50 ? -- APD, ARD, and IPD
 
     addError("HY000", "SQLSetDescField not implemented yet.");
     return SQL_ERROR;
 }
 
-AppParamDesc::AppParamDesc()
-    : BaseDesc(), mBindOffsetPtr(0), mArrayStatusPtr(0)
+BaseDesc::DescriptorType BaseDesc::getType()
 {
+    return mType;
 }
 
-string AppParamDesc::getType()
+string BaseDesc::getTypeString(DescriptorType type)
 {
-    return "APD";
+    switch(type)
+    {
+        case APD:
+            return "APD";
+        case IPD:
+            return "IPD";
+        case ARD:
+            return "ARD";
+        case IRD:
+            return "IRD";
+        default:
+            return "";
+    }
+}
+
+AppParamDesc::AppParamDesc()
+    : BaseDesc(APD), mBindOffsetPtr(0), mArrayStatusPtr(0)
+{
 }
 
 ImpParamDesc::ImpParamDesc()
-    : BaseDesc(), mArrayStatusPtr(0), mRowProcessedPtr(0)
+    : BaseDesc(IPD), mArrayStatusPtr(0), mRowProcessedPtr(0)
 {
-}
-
-string ImpParamDesc::getType()
-{
-    return "IPD";
 }
 
 AppRowDesc::AppRowDesc()
-    : BaseDesc(), mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0)
+    : BaseDesc(ARD), mArraySize(1), mBindOffsetPtr(0), mArrayStatusPtr(0)
 {
-}
-
-string AppRowDesc::getType()
-{
-    return "ARD";
 }
 
 ImpRowDesc::ImpRowDesc()
-    : BaseDesc(), mArrayStatusPtr(0), mRowsProcessedPtr(0)
+    : BaseDesc(IRD), mArrayStatusPtr(0), mRowsProcessedPtr(0)
 {
-}
-
-string ImpRowDesc::getType()
-{
-    return "IRD";
 }
