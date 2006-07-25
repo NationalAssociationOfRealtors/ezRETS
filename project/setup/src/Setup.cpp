@@ -34,10 +34,6 @@
 #include "str_stream.h"
 #include <sstream>
 
-#ifdef __WXMAC__
-#include <wx/mac/carbon/private.h>
-#endif
-
 using namespace odbcrets;
 using std::string;
 using std::map;

@@ -505,7 +505,7 @@ void SetupDialog::OnTest(wxCommandEvent & event)
     {
         wxLogError(e.GetContextMessage().c_str());
         wxLogError(e.GetMessage().c_str());
-        wxLogError("A RETS login error occured.");
+        wxLogError("A RETS login error occurred.");
         wxLog::FlushActive();
     }
 }
