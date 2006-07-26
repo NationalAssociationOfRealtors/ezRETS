@@ -22,6 +22,8 @@
 using namespace odbcrets;
 using std::string;
 
+char* BaseDesc::TypeNames[] = { "APD", "IPD", "ARD", "IRD" };
+
 SQLPOINTER odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr)
 {
     SQLPOINTER result = ptr;
@@ -68,8 +70,23 @@ SQLRETURN BaseDesc::SQLSetDescField(
 {
     EzLoggerPtr log = getLogger();
     log->debug(str_stream() << "In SQLSetDescField " <<
-               BaseDesc::getTypeString(mType) << " " << RecNumber << " " <<
+               TypeNames[mType] << " " << RecNumber << " " <<
                FieldIdentifier << " " << Value);
+
+    SQLRETURN result = SQL_SUCCESS;
+    switch(FieldIdentifier)
+    {
+        case 1004:
+            result = SQL_SUCCESS_WITH_INFO;
+            addError("01S02", "Option Value Changed");
+            break;
+
+        default:
+            result = SQL_ERROR;
+            addError("HY000",
+                     "SQLSetDescField not implemented for this field yet.");
+            break;
+    }
 
     // Items called by 
     // 1004 - SQL_DESC_OCTET_LENGTH_PTR -- APD only
@@ -77,30 +94,7 @@ SQLRETURN BaseDesc::SQLSetDescField(
     // 1006 - SQL_DESC_SCALE 0x5 -- ALL
     // 1010 - SQL_DESC_DATA_PTR 0x50 ? -- APD, ARD, and IPD
 
-    addError("HY000", "SQLSetDescField not implemented yet.");
-    return SQL_ERROR;
-}
-
-BaseDesc::DescriptorType BaseDesc::getType()
-{
-    return mType;
-}
-
-string BaseDesc::getTypeString(DescriptorType type)
-{
-    switch(type)
-    {
-        case APD:
-            return "APD";
-        case IPD:
-            return "IPD";
-        case ARD:
-            return "ARD";
-        case IRD:
-            return "IRD";
-        default:
-            return "";
-    }
+    return result;
 }
 
 AppParamDesc::AppParamDesc()

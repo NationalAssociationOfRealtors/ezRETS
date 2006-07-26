@@ -47,8 +47,6 @@ SQLINTEGER* adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr);
 class BaseDesc : public AbstractHandle
 {
   public:
-    enum DescriptorType { APD, IPD, ARD, IRD };
-
     virtual void setParent(STMT* parent);
     virtual RetsSTMT* getParent();
     virtual EzLoggerPtr getLogger();
@@ -57,10 +55,10 @@ class BaseDesc : public AbstractHandle
         SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
         SQLINTEGER BufferLength);
 
-    virtual DescriptorType getType();
-    static std::string getTypeString(DescriptorType type);
-
   protected:
+    enum DescriptorType { APD, IPD, ARD, IRD };
+    static char* TypeNames[];
+
     BaseDesc(DescriptorType type);
     
     RetsSTMT* mParent;
