@@ -44,6 +44,31 @@ class SQLSetDescField : public DescOdbcEntry
     SQLINTEGER mBufferLength;
 };
 
+class SQLGetDescField : public DescOdbcEntry
+{
+  public:
+    SQLGetDescField (SQLHDESC DescriptorHandle, SQLSMALLINT RecNumber,
+                     SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
+                     SQLINTEGER BufferLength, SQLINTEGER* StringLength)
+        : DescOdbcEntry(DescriptorHandle), mRecNumber(RecNumber),
+          mFieldIdentifier(FieldIdentifier), mValue(Value),
+          mBufferLength(BufferLength), mStringLength(StringLength) {}
+
+  protected:
+    SQLRETURN UncaughtOdbcEntry()
+    {
+        return mDesc->SQLGetDescField(mRecNumber, mFieldIdentifier, mValue,
+                                      mBufferLength, mStringLength);
+    }
+
+  private:
+    SQLSMALLINT mRecNumber;
+    SQLSMALLINT mFieldIdentifier;
+    SQLPOINTER mValue;
+    SQLINTEGER mBufferLength;
+    SQLINTEGER* mStringLength;
+};
+
 }
 
 namespace o = odbcrets;
@@ -56,4 +81,15 @@ SQLRETURN SQL_API SQLSetDescField(
                                     FieldIdentifier, Value, BufferLength);
 
     return setDescField();
+}
+
+SQLRETURN SQL_API SQLGetDescField (
+    SQLHDESC DescriptorHandle, SQLSMALLINT RecNumber,
+    SQLSMALLINT FieldIdentifier, SQLPOINTER Value, SQLINTEGER BufferLength,
+    SQLINTEGER* StringLength)
+{
+    o::SQLGetDescField getField(DescriptorHandle, RecNumber, FieldIdentifier,
+                                Value, BufferLength, StringLength);
+
+    return getField();
 }

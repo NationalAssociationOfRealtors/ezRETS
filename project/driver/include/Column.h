@@ -44,10 +44,11 @@ class Column
     SQLSMALLINT getBestSqlType();
     virtual SQLSMALLINT getBestSqlType(SQLSMALLINT TargetType) = 0;
 
-    virtual void setData(std::string data);
-    virtual void setData(std::string data, SQLSMALLINT TargetType,
-                         SQLPOINTER TargetValue, SQLINTEGER BufferLength,
-                         SQLLEN* StrLenOrInd, DataStreamInfo *streamInfo);
+    virtual void setData(SQLUSMALLINT colNo, std::string data);
+    virtual void setData(SQLUSMALLINT colNo, std::string data,
+                         SQLSMALLINT TargetType, SQLPOINTER TargetValue,
+                         SQLINTEGER BufferLength, SQLLEN* StrLenOrInd,
+                         DataStreamInfo *streamInfo);
 
     virtual SQLSMALLINT getDataType() = 0;
     virtual SQLULEN getColumnSize() = 0;

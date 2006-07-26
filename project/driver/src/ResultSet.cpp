@@ -138,7 +138,7 @@ void ResultSet::processNextRow()
 
         if (col->isBound())
         {
-            col->setData(*i);
+            col->setData(count, *i);
         }
     }
 }
@@ -188,8 +188,8 @@ void ResultSet::getData(
                        << " " << resCol);
     }
 
-    column->setData(resCol, TargetType, TargetValue, BufferLength,
-                    StrLenorInd, streamInfo);
+    column->setData(rColno, resCol, TargetType, TargetValue, BufferLength,
+                     StrLenorInd, streamInfo);
 }
 
 AppRowDesc* ResultSet::getARD()

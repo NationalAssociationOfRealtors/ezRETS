@@ -44,6 +44,7 @@ SQLGetConnectAttr
 SQLGetConnectOption
 SQLGetCursorName
 SQLGetData
+SQLGetDescField
 SQLGetStmtAttr
 SQLGetTypeInfo
 SQLMoreResults

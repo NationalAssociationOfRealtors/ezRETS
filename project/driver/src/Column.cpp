@@ -68,17 +68,17 @@ SQLSMALLINT Column::getTargetType()
     return mTargetType;
 }
 
-void Column::setData(string data)
+void Column::setData(SQLUSMALLINT colNo, string data)
 {
-    setData(data, mTargetType, mTargetValue, mBufferLength, mStrLenOrInd,
-            NULL);
+    setData(colNo, data, mTargetType, mTargetValue, mBufferLength,
+            mStrLenOrInd, NULL);
 }
 
 void Column::cleanData(string& data)
 {
 }
 
-void Column::setData(string data, SQLSMALLINT TargetType,
+void Column::setData(SQLUSMALLINT colNo, string data, SQLSMALLINT TargetType,
                      SQLPOINTER TargetValue, SQLINTEGER BufferLength,
                      SQLLEN* StrLenOrInd, DataStreamInfo *streamInfo)
 {
@@ -90,13 +90,20 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     cleanData(data);
 
     // Adjust to offset.  This is the first time we really use the pointers
-    // and we must make the adjustment here.  The call to get the ard
-    // is really ugly and a sign that we need to refactor.
+    // and we must make the adjustment here.
     AppRowDesc* ard = mParent->getARD();
     SQLPOINTER adjTargetValue =
         adjustDescPointer(ard->mBindOffsetPtr, TargetValue);
     SQLLEN* adjStrLen = (SQLLEN*)
         adjustDescPointer(ard->mBindOffsetPtr, StrLenOrInd);
+
+    // See SQLSetDescField for info on this.
+    SQLUINTEGER dataPtrOffset = ard->getDataPtr(colNo);
+    if (dataPtrOffset)
+    {
+        adjTargetValue = adjustDescPointer(&dataPtrOffset, adjTargetValue);
+        adjStrLen = (SQLLEN*) adjustDescPointer(&dataPtrOffset, adjStrLen);
+    }
 
     dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen,
                   streamInfo);

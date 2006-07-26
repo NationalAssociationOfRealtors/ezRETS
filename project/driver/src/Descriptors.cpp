@@ -76,9 +76,21 @@ SQLRETURN BaseDesc::SQLSetDescField(
     SQLRETURN result = SQL_SUCCESS;
     switch(FieldIdentifier)
     {
-        case 1004:
-            result = SQL_SUCCESS_WITH_INFO;
-            addError("01S02", "Option Value Changed");
+
+        case SQL_DESC_OCTET_LENGTH_PTR:
+            if (Value != 0)
+            {
+                result = SQL_SUCCESS_WITH_INFO;
+                addError("01S02", "Option Value Changed");
+            }
+            break;
+
+        case SQL_DESC_PRECISION:
+        case SQL_DESC_SCALE:
+            break;
+
+        case SQL_DESC_DATA_PTR:
+            mDescDataPtrs[RecNumber - 1] = (SQLUINTEGER) Value;
             break;
 
         default:
@@ -95,6 +107,40 @@ SQLRETURN BaseDesc::SQLSetDescField(
     // 1010 - SQL_DESC_DATA_PTR 0x50 ? -- APD, ARD, and IPD
 
     return result;
+}
+
+SQLRETURN BaseDesc::SQLGetDescField (
+        SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
+        SQLINTEGER BufferLength, SQLINTEGER* StringLength)
+{
+    EzLoggerPtr log = getLogger();
+    log->debug(str_stream() << "In SQLGetDescField " <<
+               TypeNames[mType] << " " << RecNumber << " " <<
+               FieldIdentifier << " " << Value);
+
+    SQLRETURN result = SQL_SUCCESS;
+//     switch(FieldIdentifier)
+//     {
+//         default:
+            result = SQL_ERROR;
+            addError("HY000",
+                     "SQLGetDescField not implemented for this field yet.");
+//             break;
+//     }
+
+    return result;
+}
+
+SQLUINTEGER BaseDesc::getDataPtr(SQLSMALLINT RecNumber)
+{
+    SQLUINTEGER value = 0;
+    std::map<int, SQLUINTEGER>::iterator i = mDescDataPtrs.find(RecNumber);
+    if (i != mDescDataPtrs.end())
+    {
+        value = i->second;
+    }
+
+    return value;
 }
 
 AppParamDesc::AppParamDesc()

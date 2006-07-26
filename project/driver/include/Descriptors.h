@@ -19,6 +19,7 @@
 
 #include "ezrets.h"
 #include "AbstractHandle.h"
+#include <map>
 /*
  * See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/odbcsqlsetstmtattr.asp
  *
@@ -55,6 +56,12 @@ class BaseDesc : public AbstractHandle
         SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
         SQLINTEGER BufferLength);
 
+    virtual SQLRETURN SQLGetDescField (
+        SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
+        SQLINTEGER BufferLength, SQLINTEGER* StringLength);
+
+    virtual SQLUINTEGER getDataPtr(SQLSMALLINT RecNumber);
+    
   protected:
     enum DescriptorType { APD, IPD, ARD, IRD };
     static char* TypeNames[];
@@ -63,6 +70,8 @@ class BaseDesc : public AbstractHandle
     
     RetsSTMT* mParent;
     DescriptorType mType;
+
+    std::map<int, SQLUINTEGER> mDescDataPtrs;
 };
 
 class AppParamDesc : public BaseDesc // aka apd
