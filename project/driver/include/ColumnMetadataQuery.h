@@ -38,7 +38,7 @@ class ColumnMetadataQuery : public Query
     virtual void prepareResultSet();
 
   private:
-    SQLRETURN ColumnMetadataQuery::processColumn(
+    SQLRETURN processColumn(
         librets::MetadataResource* res, librets::MetadataClass* clazz,
         librets::MetadataTable* rTable);
 
