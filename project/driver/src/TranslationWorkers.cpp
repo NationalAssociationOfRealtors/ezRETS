@@ -481,7 +481,14 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         offset = streamInfo->offset;
     }
 
-    SQLLEN size = data.copy((char*) target, targetLen, offset);
+    // Changed to try to fix the problem Nick Russo is seeing.
+    // Does vbs really pass in null for the target?  It would explain
+    // the error we're seeing.
+    SQLLEN size = 0;
+    if (target)
+    {
+        size = data.copy((char*) target, targetLen, offset);
+    }
 
     if (streamInfo)
     {
