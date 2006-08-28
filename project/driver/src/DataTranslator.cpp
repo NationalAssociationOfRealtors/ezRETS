@@ -72,9 +72,12 @@ NativeDataTranslator::NativeDataTranslator()
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
     mRets2Odbc[MetadataTable::LONG] = tmp->getOdbcType();
 
-    tmp.reset(new DecimalTranslationWorker());
-    mOdbc2Trans[tmp->getOdbcType()] = tmp;
-    mRets2Odbc[MetadataTable::DECIMAL] = tmp->getOdbcType();
+    // DecimalTranslation is NOT working for SQL DTS, should we just
+    // treat it as character?
+//     tmp.reset(new DecimalTranslationWorker());
+//     mOdbc2Trans[tmp->getOdbcType()] = tmp;
+//     mRets2Odbc[MetadataTable::DECIMAL] = tmp->getOdbcType();
+    mRets2Odbc[MetadataTable::DECIMAL] = SQL_VARCHAR;
 
     tmp.reset(new CharacterTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
