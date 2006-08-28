@@ -209,7 +209,7 @@ SQLRETURN RetsSTMT::SQLFetch()
     {
         retCode = SQL_ERROR;
         addError("01S01",
-                 str_stream() << "Error retriving data: " << e.what());
+                 str_stream() << "Error retrieving data: " << e.what());
     }
 
     return retCode;
