@@ -889,7 +889,9 @@ SQLRETURN RetsSTMT::SQLGetData(
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLGetData");
+    log->debug(str_stream() << "In SQLGetData: " << ColumnNumber << " " <<
+               TargetType << " " << TargetValue << " " << BufferLength << " "
+               << StrLenorInd);
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
