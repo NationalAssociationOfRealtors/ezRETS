@@ -387,7 +387,7 @@ void CharacterTranslationWorker::translate(
     string data, SQLPOINTER target, SQLLEN targetLen, SQLLEN *resultSize,
     DataStreamInfo *streamInfo)
 {
-    if ((target == NULL) || (targetLen == 0))
+    if (target == NULL)
     {
         setResultSize(resultSize, 0);
         return;
@@ -468,8 +468,7 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    // What to do with a binary?
-    if ((target == NULL) || (targetLen == 0))
+    if (target == NULL)
     {
         setResultSize(resultSize, 0);
         return;
@@ -481,7 +480,11 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         offset = streamInfo->offset;
     }
 
-    SQLLEN size = data.copy((char*) target, targetLen, offset);
+    SQLLEN size = 0;
+    if (target)
+    {
+        size = data.copy((char*) target, targetLen, offset);
+    }
 
     if (streamInfo)
     {

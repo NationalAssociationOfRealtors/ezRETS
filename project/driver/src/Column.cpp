@@ -92,14 +92,21 @@ void Column::setData(string data, SQLSMALLINT TargetType,
     // Adjust to offset.  This is the first time we really use the pointers
     // and we must make the adjustment here.  The call to get the ard
     // is really ugly and a sign that we need to refactor.
-    AppRowDesc* ard = mParent->getARD();
-    SQLPOINTER adjTargetValue =
-        adjustDescPointer(ard->mBindOffsetPtr, TargetValue);
-    SQLLEN* adjStrLen = (SQLLEN*)
-        adjustDescPointer(ard->mBindOffsetPtr, StrLenOrInd);
+    SQLPOINTER tvalue = TargetValue;
+    SQLLEN* strLen = StrLenOrInd;
 
-    dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen,
-                  streamInfo);
+    // We only have streamInfo if we're in SQLGetData.  SQLGetData doesn't
+    // honor the Bind offset ptr, since its not a bind.  This is really
+    // hacky this way.  We should probably have some sort of indicator for
+    // if this setData is via SQLGetData or SQLFetch or whatever.
+    if (!streamInfo)
+    {
+        AppRowDesc* ard = mParent->getARD();
+        tvalue = adjustDescPointer(ard->mBindOffsetPtr, tvalue);
+        strLen = (SQLLEN*) adjustDescPointer(ard->mBindOffsetPtr, strLen);
+    }
+
+    dt->translate(data, type, tvalue, BufferLength, strLen, streamInfo);
 }
 
 SQLSMALLINT Column::getBestSqlType()
