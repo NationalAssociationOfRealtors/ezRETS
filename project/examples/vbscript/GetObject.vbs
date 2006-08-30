@@ -1,3 +1,7 @@
+' This can be excuted from the command line using cscript as in:
+' % cscript GetObject.vbs
+' To run it in the debugger, pass the //X flag to cscript
+
 ' Stream constants
 Const adTypeBinary = 1
 Const adTypeText = 2
