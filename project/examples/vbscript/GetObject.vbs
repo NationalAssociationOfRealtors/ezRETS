@@ -23,7 +23,6 @@ wscript.echo "m_rs(0): " & m_rs(0).Name & " = " & m_rs(0)
 wscript.echo "m_rs(1): " & m_rs(1).Name & " = " & m_rs(1)
 wscript.echo "m_rs(2): " & m_rs(2).Name & " = " & m_rs(2)
 wscript.echo "m_rs(3): " & m_rs(3).Name & " = " & m_rs(3)
-wscript.echo "m_rs(4): " & m_rs(4).Name & " = " & m_rs(4)
  
 'Dim BlobSize
 'BlobSize = m_rs("raw_data")
