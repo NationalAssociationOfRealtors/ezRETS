@@ -13,6 +13,7 @@
 		DE0565AD0A5D718800E80B17 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
 		DE0565B40A5D71CD00E80B17 /* testApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0565B30A5D71CD00E80B17 /* testApp.cpp */; };
 		DE0565C50A5D73A100E80B17 /* ezrets32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = DE0565C40A5D73A100E80B17 /* ezrets32x32.png */; };
+		DE0F29C90A716EB400A928AE /* DescEntries.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0F29C80A716EB400A928AE /* DescEntries.cpp */; };
 		DE28A7040A30B86F0056399A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7030A30B86F0056399A /* libz.dylib */; };
 		DE28A7060A30B88E0056399A /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
 		DE28A7090A30B8B50056399A /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
@@ -147,6 +148,7 @@
 		DE0565B30A5D71CD00E80B17 /* testApp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = testApp.cpp; path = ../setup/src/testApp.cpp; sourceTree = SOURCE_ROOT; };
 		DE0565BC0A5D72FD00E80B17 /* ezretss.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = ezretss.ico; path = ../setup/src/ezretss.ico; sourceTree = SOURCE_ROOT; };
 		DE0565C40A5D73A100E80B17 /* ezrets32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ezrets32x32.png; path = ../setup/src/ezrets32x32.png; sourceTree = SOURCE_ROOT; };
+		DE0F29C80A716EB400A928AE /* DescEntries.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DescEntries.cpp; path = ../driver/src/DescEntries.cpp; sourceTree = SOURCE_ROOT; };
 		DE28A7030A30B86F0056399A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		DE28A7050A30B88E0056399A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		DE28A7080A30B8B50056399A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
@@ -154,7 +156,7 @@
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
-		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
 		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -306,6 +308,7 @@
 		08FB7794FE84155DC02AAC07 /* ezrets */ = {
 			isa = PBXGroup;
 			children = (
+				DE0F29C80A716EB400A928AE /* DescEntries.cpp */,
 				DE0565C40A5D73A100E80B17 /* ezrets32x32.png */,
 				DE0565BC0A5D72FD00E80B17 /* ezretss.ico */,
 				DE614AE90A2CC45C005FA065 /* external libraries */,
@@ -829,6 +832,7 @@
 				DEFB3A2E0A2665C200AF92A8 /* TranslationWorkers.cpp in Sources */,
 				DEFB3A2F0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp in Sources */,
 				DEFB3A300A2665C200AF92A8 /* utils.cpp in Sources */,
+				DE0F29C90A716EB400A928AE /* DescEntries.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -883,10 +887,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = i386;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"EZRETS_VERSION=\"$(VERSION)\"",
 					HAVE_IODBC,
