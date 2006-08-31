@@ -580,7 +580,7 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
 
 #ifdef BOOST_BIG_ENDIAN
         // Converting to little endian
-        std::reverse(&chararray[0], &chararrah[7]);
+        std::reverse(&chararray[0], &chararray[7]);
 #endif
         // We are ignoring anything over 8 bytes because they are the
         // most significant bytes and should be 0 because intvalue is
