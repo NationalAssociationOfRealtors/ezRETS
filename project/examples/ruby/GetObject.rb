@@ -91,7 +91,7 @@ dbc.run(sql) do |stmt|
   stmt.each_hash do |row|
     filename = row["object_key"] + '.' + row["object_id"].to_s + '.' +
                extentions[row["mime_type"]]
-    File.open(filename, 'w') { |f| f << row["raw_data"] }
+    File.open(filename, 'wb') { |f| f << row["raw_data"] }
   end
 end
 dbc.disconnect
