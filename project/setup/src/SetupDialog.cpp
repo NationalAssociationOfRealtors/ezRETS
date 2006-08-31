@@ -329,6 +329,17 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
 
     topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
 
+    wxCheckBox * treatDecimalAsString =
+        new wxCheckBox(panel, wxID_ANY, "Treat DECIMAL as VARCHAR",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::TREAT_DECIMAL_AS_STRING));
+    treatDecimalAsString->SetToolTip("If checked, ezRETS will treat the"
+                                     " DECIMAL data type as a VARCHAR."
+                                     "  All DECIMALs will appear as a"
+                                     " character field.");
+
+    topSizer->Add(treatDecimalAsString, wxSizerFlags(0).Border(wxTOP, 10));
+
     panel->SetSizer(topSizer);
     return panel;
 }

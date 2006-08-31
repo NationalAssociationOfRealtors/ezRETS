@@ -46,6 +46,7 @@ class DataSourceValidator : public wxValidator
         ENABLE_USER_AGENT_AUTH,
         USER_AGENT_PASSWORD,
         USER_AGENT_AUTH_TYPE,
+        TREAT_DECIMAL_AS_STRING,
         NUM_FIELDS
     };
     
@@ -143,6 +144,10 @@ class DataSourceValidator : public wxValidator
     bool EnableUserAgentAuthToWindow(wxWindow * window);
 
     bool EnableUserAgentAuthFromWindow(wxWindow * window);
+
+    bool TreatDecimalAsStringToWindow(wxWindow * window);
+
+    bool TreatDecimalAsStringFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);

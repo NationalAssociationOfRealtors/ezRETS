@@ -36,7 +36,7 @@ DataTranslator::~DataTranslator()
 {
 }
 
-NativeDataTranslator::NativeDataTranslator()
+NativeDataTranslator::NativeDataTranslator(int translationQuirks)
 {
     TranslationWorkerPtr tmp(new BitTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
@@ -72,9 +72,20 @@ NativeDataTranslator::NativeDataTranslator()
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
     mRets2Odbc[MetadataTable::LONG] = tmp->getOdbcType();
 
-    tmp.reset(new DecimalTranslationWorker());
-    mOdbc2Trans[tmp->getOdbcType()] = tmp;
-    mRets2Odbc[MetadataTable::DECIMAL] = tmp->getOdbcType();
+    // This if condition and its true state is a total hack work
+    // around until I can figure out what I'm doing wrong with SQL
+    // Server DTS and the SQL_NUMERIC translation.  This code should
+    // not survive past 2.0.4
+    if (translationQuirks & DECIMAL_AS_STRING)
+    {
+        mRets2Odbc[MetadataTable::DECIMAL] = SQL_VARCHAR;
+    }
+    else
+    {
+        tmp.reset(new DecimalTranslationWorker());
+        mOdbc2Trans[tmp->getOdbcType()] = tmp;
+        mRets2Odbc[MetadataTable::DECIMAL] = tmp->getOdbcType();
+    }
 
     tmp.reset(new CharacterTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;

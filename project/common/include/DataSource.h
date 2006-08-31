@@ -132,6 +132,10 @@ class DataSource
 
     void SetUserAgentAuthType(librets::UserAgentAuthType type);
 
+    bool GetTreatDecimalAsString() const;
+
+    void SetTreatDecimalAsString(bool enable);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -180,6 +184,7 @@ class DataSource
     static const char * INI_ENABLE_USER_AGENT_AUTH;
     static const char * INI_USER_AGENT_PASSWORD;
     static const char * INI_USER_AGENT_AUTH_TYPE;
+    static const char * INI_TREAT_DECIMAL_AS_STRING;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -235,6 +240,7 @@ class DataSource
     bool mEnableUserAgentAuth;
     std::string mUserAgentPassword;
     std::string mUserAgentAuthTypeString;
+    bool mTreatDecimalAsString;
 };
 
 extern const char * RETS_1_0_STRING;

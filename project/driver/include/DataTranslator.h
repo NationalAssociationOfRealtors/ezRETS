@@ -44,7 +44,7 @@ class DataTranslator
 class NativeDataTranslator : public DataTranslator
 {
   public:
-    NativeDataTranslator();
+    NativeDataTranslator(int translationQuirks = 0);
     SQLSMALLINT getPreferedOdbcType(librets::MetadataTable::DataType type);
 
     void translate(std::string data, SQLSMALLINT type, SQLPOINTER target,
@@ -53,6 +53,8 @@ class NativeDataTranslator : public DataTranslator
 
     std::string getOdbcTypeName(SQLSMALLINT type);
     int getOdbcTypeLength(SQLSMALLINT type);
+
+    static const int DECIMAL_AS_STRING = 0x1;
 
   private:
     typedef std::map<SQLSMALLINT, TranslationWorkerPtr> SQLTypeMap;

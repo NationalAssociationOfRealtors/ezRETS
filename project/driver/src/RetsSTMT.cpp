@@ -60,7 +60,16 @@ RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
     }
     else
     {
-        mDataTranslator.reset(new NativeDataTranslator());
+        if (mDbc->isTreatDecimalAsString())
+        {
+            mDataTranslator.reset(
+                new NativeDataTranslator(
+                    NativeDataTranslator::DECIMAL_AS_STRING));
+        }
+        else
+        {
+            mDataTranslator.reset(new NativeDataTranslator());
+        }
     }
     mQuery.reset(new NullQuery(this));
 }

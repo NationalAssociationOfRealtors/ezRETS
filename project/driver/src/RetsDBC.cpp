@@ -707,6 +707,11 @@ bool RetsDBC::isUsingCompactFormat()
     return mDataSource.GetUseCompactFormat();
 }
 
+bool RetsDBC::isTreatDecimalAsString()
+{
+    return mDataSource.GetTreatDecimalAsString();
+}
+
 lr::RetsSessionPtr RetsDBC::getRetsSession()
 {
     return mRetsSessionPtr;

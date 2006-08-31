@@ -63,6 +63,7 @@ const char * CLASS::INI_DISABLE_GETOBJECT_METADATA =
 const char * CLASS::INI_ENABLE_USER_AGENT_AUTH = "EnableUserAgentAuth";
 const char * CLASS::INI_USER_AGENT_PASSWORD = "UserAgentPassword";
 const char * CLASS::INI_USER_AGENT_AUTH_TYPE = "UserAgentAuthType";
+const char * CLASS::INI_TREAT_DECIMAL_AS_STRING = "TreatDecimalAsString";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -169,6 +170,7 @@ void DataSource::init()
     mUseCompactFormat = false;
     mDisableGetObjectMetadata = true;
     mEnableUserAgentAuth = false;
+    mTreatDecimalAsString = false;
 }
 
 DataSource::DataSource()
@@ -223,6 +225,8 @@ void DataSource::MergeFromIni()
             GetProfileBool(INI_ENABLE_USER_AGENT_AUTH, false);
         MergeFromProfileString(mUserAgentPassword, INI_USER_AGENT_PASSWORD);
         MergeFromProfileString(mUserAgentAuthTypeString, INI_USER_AGENT_AUTH_TYPE);
+        mTreatDecimalAsString =
+            GetProfileBool(INI_TREAT_DECIMAL_AS_STRING, false);
     }
 }
 
@@ -248,6 +252,7 @@ void DataSource::WriteToIni()
     WriteProfileString(INI_ENABLE_USER_AGENT_AUTH, mEnableUserAgentAuth);
     WriteProfileString(INI_USER_AGENT_PASSWORD, mUserAgentPassword);
     WriteProfileString(INI_USER_AGENT_AUTH_TYPE, mUserAgentAuthTypeString);
+    WriteProfileString(INI_TREAT_DECIMAL_AS_STRING, mTreatDecimalAsString);
 }
 
 void DataSource::CreateInIni(string driver)
@@ -540,6 +545,16 @@ void DataSource::SetEnableUserAgentAuth(bool enable)
 {
     mEnableUserAgentAuth = enable;
 }
+
+bool DataSource::GetTreatDecimalAsString() const
+{
+    return mTreatDecimalAsString;
+}
+
+void DataSource::SetTreatDecimalAsString(bool enable)
+{
+    mTreatDecimalAsString = enable;
+}
  
 bool DataSource::IsComplete() const
 {
@@ -613,6 +628,12 @@ string DataSource::GetConnectionString() const
         AppendToConnectionString(connectionString, INI_USER_AGENT_AUTH_TYPE,
                                  mUserAgentAuthTypeString);
     }
+
+    if (mTreatDecimalAsString)
+    {
+        AppendToConnectionString(connectionString, INI_TREAT_DECIMAL_AS_STRING,
+                                 mTreatDecimalAsString);
+    }
     
     return connectionString;
 }
@@ -655,20 +676,39 @@ ostream & DataSource::Print(ostream & out) const
     }
     out << "login URL: " << mLoginUrl
         << ", username: " << mUsername
-        << ", standard names: " << mStandardNames
         << ", custom user agent: " << mCustomUserAgent
         << ", use HTTP get: " << mUseHttpGet
         << ", use HTTP logging: " << mUseHttpLogging
         << ", HTTP log file: " << mHttpLogFile
         << ", use debug loggin: " << mUseDebugLogging
         << ", debug log file: " << mDebugLogFile
-        << ", use bulk metadata: " << mUseBulkMetadata
-        << ", ignore metadata type: " << mIgnoreMetadataType
-        << ", use COMPACT format: " << mUseCompactFormat
-        << ", RETS version: " << mRetsVersionString
-        << ", Enabled User-Agent Auth: " << mEnableUserAgentAuth
-        << ", User-Agent Password: " << mUserAgentPassword
-        << ", User-Agent Type: " << mUserAgentAuthTypeString;
+        << ", RETS version: " << mRetsVersionString;
+    if (mStandardNames)
+    {
+        out << ", standard names: " << mStandardNames;
+    }
+    if (mUseBulkMetadata)
+    {
+        out << ", use bulk metadata: " << mUseBulkMetadata;
+    }
+    if (mIgnoreMetadataType)
+    {
+        out << ", ignore metadata type: " << mIgnoreMetadataType;
+    }
+    if (mUseCompactFormat)
+    {
+        out << ", use COMPACT format: " << mUseCompactFormat;
+    }
+    if (mEnableUserAgentAuth)
+    {
+        out << ", Enabled User-Agent Auth: " << mEnableUserAgentAuth
+            << ", User-Agent Password: " << mUserAgentPassword
+            << ", User-Agent Type: " << mUserAgentAuthTypeString;
+    }
+    if (mTreatDecimalAsString)
+    {
+        out << ", Treat Decimal As String: " << mTreatDecimalAsString;
+    }
 
     return out;
 }
@@ -764,6 +804,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_DRIVER)
         {
             mDriver = value;
+        }
+        else if (key == INI_TREAT_DECIMAL_AS_STRING)
+        {
+            mTreatDecimalAsString = stringToBool(value);
         }
     }
 }

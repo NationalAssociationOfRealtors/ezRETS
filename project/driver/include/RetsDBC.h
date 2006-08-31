@@ -66,6 +66,7 @@ class RetsDBC : public AbstractHandle
     bool isUsingStandardNames();
     bool isUsingCompactFormat();
     bool isDisableGetObjectMetadata();
+    bool isTreatDecimalAsString();
     bool canBeFreed();
 
     virtual SQLRETURN diagConnectionName(

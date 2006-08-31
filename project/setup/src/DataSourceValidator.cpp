@@ -65,6 +65,8 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
   &CLASS::True},
  {&CLASS::UserAgentAuthTypeToWindow, &CLASS::UserAgentAuthTypeFromWindow,
   &CLASS::True},
+ {&CLASS::TreatDecimalAsStringToWindow, &CLASS::TreatDecimalAsStringFromWindow,
+  &CLASS::True},
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -73,7 +75,7 @@ const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
     "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
     "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
     "Ignore Metadata Type", "Use Compact Format", "Enable User-Agent Auth",
-    "User-Agent Password", "User-Agent Auth Type"
+    "User-Agent Password", "User-Agent Auth Type", "Treat Decimal As String"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -423,5 +425,19 @@ bool CLASS::EnableUserAgentAuthFromWindow(wxWindow * window)
 {
     wxCheckBox * checkBox = (wxCheckBox *) window;
     mDataSource->SetEnableUserAgentAuth(checkBox->GetValue());
+    return true;
+}
+
+bool CLASS::TreatDecimalAsStringToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetTreatDecimalAsString());
+    return true;
+}
+
+bool CLASS::TreatDecimalAsStringFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetTreatDecimalAsString(checkBox->GetValue());
     return true;
 }
