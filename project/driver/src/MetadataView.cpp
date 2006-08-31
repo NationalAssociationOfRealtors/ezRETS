@@ -187,28 +187,21 @@ void MetadataView::initTablesForClass(MetadataClass* clazz)
     {
         MetadataTable* table = *i;
 
-        int rdefault = table->GetDefault();
-        // This may not be something to pay attention to at all,
-        // as InterRealty marks the key you need to do GetObject
-        // as non-displayable.
-        if (rdefault > -1)
+        string stdname = table->GetStandardName();
+        if (!stdname.empty())
         {
-            string stdname = table->GetStandardName();
-            if (!stdname.empty())
-            {
-                TableMapKey key(clazz, stdname);
-                (*mTableStdMapPtr)[key] = table;
-            }
-
-            string sysname = table->GetSystemName();
-            if (!sysname.empty())
-            {
-                TableMapKey key(clazz, sysname);
-                (*mTableSysMapPtr)[key] = table;
-            }
-
-            ourTables->push_back(table);
+            TableMapKey key(clazz, stdname);
+            (*mTableStdMapPtr)[key] = table;
         }
+
+        string sysname = table->GetSystemName();
+        if (!sysname.empty())
+        {
+            TableMapKey key(clazz, sysname);
+            (*mTableSysMapPtr)[key] = table;
+        }
+
+        ourTables->push_back(table);
     }
 
     (*mTableListByClassPtr)[clazz] = ourTables;
