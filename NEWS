@@ -1,3 +1,31 @@
+Changes since 2.0.2
+-------------------
+ * User-Agent is now "ezRETS/2.0.3 (librets/1.1.4)"
+
+ Enhancement
+   * NOT BACKWARDS COMPATIBLE: In the past, ezRETS honored the RETS
+     Table Metadata item of "Default" when the value was set to -1.
+     This caused that particular field to be hidden in ezRETS view of
+     the world.  After running into numerous cases where this has been
+     a hinderence, it has been deceided that the Default value will be
+     completely ignored.  All data defined in the RETS Metadata will
+     be made available to ezRETS.
+
+ Bug fixes
+   * Fixed edge case around SQLGetData and zero length buffers which
+     caused vbscript issues when doing ODBC and getting BLOBS.  Thanks
+     to Mike Kujawski and Nick Russo with their debuggingn assistance.
+   * Put work around option to treat RETS DECIMALS as VARCHARs instead
+     of trying to translate to a native type.  This should allow
+     people using SQLServer DTS to work.  Eventually, this will be removed
+     when issue causing the crash is fixed.
+   * User-Agent Auth is disabled by default.  No default condition was
+     set inthe past, so it was randomly on or off which lead to
+     confusion.
+
+ Developer Notes
+   * libRETS 1.1.4 is not required, but strongly suggested.
+
 Changes since 2.0.1
 -------------------
  * User-Agent is now "ezRETS/2.0.2 (librets/1.1.2)"
