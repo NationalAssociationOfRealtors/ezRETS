@@ -678,11 +678,17 @@ ostream & DataSource::Print(ostream & out) const
         << ", username: " << mUsername
         << ", custom user agent: " << mCustomUserAgent
         << ", use HTTP get: " << mUseHttpGet
-        << ", use HTTP logging: " << mUseHttpLogging
-        << ", HTTP log file: " << mHttpLogFile
-        << ", use debug loggin: " << mUseDebugLogging
-        << ", debug log file: " << mDebugLogFile
         << ", RETS version: " << mRetsVersionString;
+    if (mUseHttpLogging)
+    {
+        out << ", use HTTP logging: " << mUseHttpLogging
+            << ", HTTP log file: " << mHttpLogFile;
+    }
+    if (mUseDebugLogging)
+    {
+        out << ", use debug loggin: " << mUseDebugLogging
+            << ", debug log file: " << mDebugLogFile;
+    }
     if (mStandardNames)
     {
         out << ", standard names: " << mStandardNames;
