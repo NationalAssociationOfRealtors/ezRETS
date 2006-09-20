@@ -1,3 +1,17 @@
+Changes since 2.0.3
+-------------------
+ * User-Agent is now "ezRETS/2.0.4 (librets/1.1.4)"
+
+ Bug fixes 
+   * Fixed error where any BLOB after the first wasn't being
+     returned. Thanks to Mike Kujawski for finding this error via some
+     VBScript code. This bug manifested itself form the following
+     sequence of low level ODBC calls, where col is the same column:
+     SQLGetData(col); SQLFetch(); SQLGetData(col).
+   * Fixed error where BLOBs would be returned incorrectly when when
+     ezRETS had the advanced feature of "Ignore Metadata Type" turned
+     on.  Thanks again to Mike Kujawski.
+
 Changes since 2.0.2
 -------------------
  * User-Agent is now "ezRETS/2.0.3 (librets/1.1.4)"
@@ -7,20 +21,20 @@ Changes since 2.0.2
      Table Metadata item of "Default" when the value was set to -1.
      This caused that particular field to be hidden in ezRETS view of
      the world.  After running into numerous cases where this has been
-     a hinderence, it has been deceided that the Default value will be
+     a hindrance, it has been decided that the Default value will be
      completely ignored.  All data defined in the RETS Metadata will
      be made available to ezRETS.
 
  Bug fixes
    * Fixed edge case around SQLGetData and zero length buffers which
      caused vbscript issues when doing ODBC and getting BLOBS.  Thanks
-     to Mike Kujawski and Nick Russo with their debuggingn assistance.
+     to Mike Kujawski and Nick Russo with their debugging assistance.
    * Put work around option to treat RETS DECIMALS as VARCHARs instead
      of trying to translate to a native type.  This should allow
      people using SQLServer DTS to work.  Eventually, this will be removed
      when issue causing the crash is fixed.
    * User-Agent Auth is disabled by default.  No default condition was
-     set inthe past, so it was randomly on or off which lead to
+     set in the past, so it was randomly on or off which lead to
      confusion.
 
  Developer Notes
