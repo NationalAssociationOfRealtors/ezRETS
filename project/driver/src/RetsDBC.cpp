@@ -203,7 +203,10 @@ SQLRETURN RetsDBC::SQLDriverConnect(
                lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
                << __TIME__);
     log->debug(str_stream() << mDataSource);
-    log->debug(str_stream() << "In connection: " << inConString);
+
+    // This logging really isn't needed anymore.  Also, this way we won't
+    // leak passwords.
+    // log->debug(str_stream() << "In connection: " << inConString);
     
     // ifdefs based on platform? and DriverCompletion
     // NOTE: This is where the dialog box for the password and whatnot
@@ -253,7 +256,9 @@ SQLRETURN RetsDBC::SQLDriverConnect(
                         numeric_cast<SQLSMALLINT>(conString.size()));
     }
 
-    log->debug(str_stream() << "Out connection: " << conString);
+    // This logging really isn't needed anymore.  Also, this way we won't
+    // leak passwords.
+    // log->debug(str_stream() << "Out connection: " << conString);
 
     return retCode;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,9 +14,6 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-// TODO:
-// BigInt::translate
-
 #include "DataTranslator.h"
 #include "str_stream.h"
 #include "DataTranslationException.h"
@@ -37,6 +34,7 @@ DataTranslator::~DataTranslator()
 }
 
 NativeDataTranslator::NativeDataTranslator(int translationQuirks)
+    : DataTranslator()
 {
     TranslationWorkerPtr tmp(new BitTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
@@ -125,6 +123,12 @@ void NativeDataTranslator::translate(string data, SQLSMALLINT type,
             TranslationWorkerPtr p = i->second;
             p->translate(data, target, targetLen, resultSize, streamInfo);
         }
+        else
+        {
+            throw DataTranslationException(
+                str_stream() << "ezRETS has no translator to turn \""
+                << data << "\" to target type " << type);
+        }
     }
     catch(b::bad_lexical_cast&)
     {
@@ -177,28 +181,76 @@ int NativeDataTranslator::getOdbcTypeLength(SQLSMALLINT type)
     return length;
 }
 
+CharOnlyDataTranslator::CharOnlyDataTranslator() : DataTranslator()
+{
+    TranslationWorkerPtr worker(new BinaryTranslationWorker());
+    // For Binary we only go from ODBC to rets, not from RETS to odbc
+    // Attempt at getting BINARIES working
+    mExceptionMap[worker->getOdbcType()] = worker;
+    mExceptionMap[SQL_BINARY] = worker;
+    mExceptionMap[SQL_VARBINARY] = worker;
+}
+
 SQLSMALLINT CharOnlyDataTranslator::getPreferedOdbcType(
     librets::MetadataTable::DataType type)
 {
-    return mTranslationWorker.getOdbcType();
+    // Since this function is for on the fly RETS types to ODBC types,
+    // our blob exceptions won't fall into this.  We can safely just
+    // return the Character type.
+    return mCharTranslationWorker.getOdbcType();
 }
 
 void CharOnlyDataTranslator::translate(
     std::string data, SQLSMALLINT type, SQLPOINTER target,
     SQLLEN targetLen, SQLLEN *resultSize, DataStreamInfo *streamInfo)
 {
-    mTranslationWorker.translate(data, target, targetLen, resultSize,
-                                 streamInfo);
+    SQLTypeMap::iterator i = mExceptionMap.find(type);
+    if (i == mExceptionMap.end())
+    {
+        mCharTranslationWorker.translate(data, target, targetLen, resultSize,
+                                         streamInfo);
+    }
+    else
+    {
+        // Our only exceptions are really only going to be blog related
+        // but lets keep it nice and generic.
+        TranslationWorkerPtr w = i->second;
+        w->translate(data, target, targetLen, resultSize, streamInfo);
+    }
 }
 
 string CharOnlyDataTranslator::getOdbcTypeName(SQLSMALLINT type)
 {
-    return mTranslationWorker.getOdbcTypeName();
+    string name;
+    SQLTypeMap::iterator i = mExceptionMap.find(type);
+    if (i == mExceptionMap.end())
+    {
+        name = mCharTranslationWorker.getOdbcTypeName();
+    }
+    else
+    {
+        TranslationWorkerPtr w = i->second;
+        name = w->getOdbcTypeName();
+    }
+
+    return name;
 }
 
 int CharOnlyDataTranslator::getOdbcTypeLength(SQLSMALLINT type)
 {
-    return mTranslationWorker.getOdbcTypeLength();
+    int length = -1;
+    SQLTypeMap::iterator i = mExceptionMap.find(type);
+    if (i == mExceptionMap.end())
+    {
+        length = mCharTranslationWorker.getOdbcTypeLength();
+    }
+    else
+    {
+        TranslationWorkerPtr w = i->second;
+        length = w->getOdbcTypeLength();
+    }
+
+    return length;
 }
 
 

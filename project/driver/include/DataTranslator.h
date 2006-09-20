@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -39,6 +39,11 @@ class DataTranslator
 
     virtual std::string getOdbcTypeName(SQLSMALLINT type) = 0;
     virtual int getOdbcTypeLength(SQLSMALLINT type) = 0;
+
+  protected:
+    typedef std::map<SQLSMALLINT, TranslationWorkerPtr> SQLTypeMap;
+    typedef
+        std::map<librets::MetadataTable::DataType, SQLSMALLINT> RetsTypeMap;
 };
 
 class NativeDataTranslator : public DataTranslator
@@ -57,10 +62,6 @@ class NativeDataTranslator : public DataTranslator
     static const int DECIMAL_AS_STRING = 0x1;
 
   private:
-    typedef std::map<SQLSMALLINT, TranslationWorkerPtr> SQLTypeMap;
-    typedef
-        std::map<librets::MetadataTable::DataType, SQLSMALLINT> RetsTypeMap;
-
     RetsTypeMap mRets2Odbc;
     SQLTypeMap mOdbc2Trans;
 };
@@ -68,6 +69,7 @@ class NativeDataTranslator : public DataTranslator
 class CharOnlyDataTranslator : public DataTranslator
 {
   public:
+    CharOnlyDataTranslator();
     SQLSMALLINT getPreferedOdbcType(librets::MetadataTable::DataType type);
 
     void translate(
@@ -78,7 +80,8 @@ class CharOnlyDataTranslator : public DataTranslator
     int getOdbcTypeLength(SQLSMALLINT type);
 
   private:
-    CharacterTranslationWorker mTranslationWorker;
+    CharacterTranslationWorker mCharTranslationWorker;
+    SQLTypeMap mExceptionMap;
 };
 
 }

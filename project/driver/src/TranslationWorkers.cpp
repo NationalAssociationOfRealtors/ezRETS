@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2006 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -334,16 +334,6 @@ void BigIntTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    //    setResultSize(resultSize, SQL_NULL_DATA);
-
-    // This doesn't work for BIGINT
-    //     std::istringstream in(data);
-    //     SQLBIGINT* result = (SQLBIGINT*) target;
-    //     in >> *result;
-
-    // Nor does this
-    //    SQLBIGINT v = lexical_cast<SQLBIGINT>(data);
-
     SQLBIGINT* result = (SQLBIGINT*) target;
     *result = lexical_cast<b::int64_t>(data);
     setResultSize(resultSize, sizeof(SQLBIGINT));
@@ -465,12 +455,6 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
     if (data.empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
-        return;
-    }
-
-    if (target == NULL)
-    {
-        setResultSize(resultSize, 0);
         return;
     }
 

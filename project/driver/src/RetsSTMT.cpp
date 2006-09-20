@@ -207,6 +207,17 @@ SQLRETURN RetsSTMT::SQLFetch()
     SQLRETURN retCode = SQL_SUCCESS;
     try
     {
+        // DataStreamInfo needs to be reset here as well.  The scenerio that
+        // played out was
+        // 1) SQLFetch
+        // 2) SQLGetData on column 5
+        // 3) SQLFetch
+        // 4) SQLGetData on column 5
+        // In that scenerio, the DataStream was never reset, so a BLOB
+        // wasn't being returned, even thought data was there.
+        // SQLFetch "resets" the row anyway, so the DataStream helper
+        // should be reset.
+        mDataStreamInfo.reset();
         resultSet->processNextRow();
     }
     catch(DateTimeFormatException& e)
@@ -918,6 +929,12 @@ SQLRETURN RetsSTMT::SQLGetData(
     SQLRETURN retCode = SQL_SUCCESS;
     try
     {
+        // A case not covered here for DataStreamInfo being reset is
+        // having to be reset after a call to SQLFetch().  Its
+        // possible (and it did happen) that a user could ask for the
+        // same column after a fetch, and that would not be caught in
+        // our reset scenerio.  SQLFetch now also does a
+        // DataStreamInfo.reset()
         if (mDataStreamInfo.column != ColumnNumber)
         {
             log->debug("Resetting DataStreamInfo");
@@ -942,9 +959,10 @@ SQLRETURN RetsSTMT::SQLGetData(
             }
         }
 
-        log->debug(str_stream() << "DSI: " << mDataStreamInfo.column << " " <<
-                   mDataStreamInfo.status << " " << mDataStreamInfo.offset
-                   << " --  " << *StrLenorInd << " " << retCode);
+        log->debug(str_stream() << "DSI: " << mDataStreamInfo.column
+                   << " Status:" << mDataStreamInfo.status << " Offset:"
+                   << mDataStreamInfo.offset << " -- Len:" << *StrLenorInd
+                   << " retCode:" << retCode);
     }
     catch(DateTimeFormatException& e)
     {
