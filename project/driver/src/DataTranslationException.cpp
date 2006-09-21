@@ -23,3 +23,8 @@ DataTranslationException::DataTranslationException(string message)
     : EzRetsException(message)
 {
 }
+
+MissingTranslatorException::MissingTranslatorException(string message)
+    : EzRetsException(message)
+{
+}

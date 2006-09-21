@@ -220,6 +220,11 @@ SQLRETURN RetsSTMT::SQLFetch()
         mDataStreamInfo.reset();
         resultSet->processNextRow();
     }
+    catch(MissingTranslatorException& e)
+    {
+        retCode = SQL_SUCCESS_WITH_INFO;
+        addError("01000", str_stream() << "Translator issue:" << e.what());
+    }
     catch(DateTimeFormatException& e)
     {
         retCode = SQL_ERROR;

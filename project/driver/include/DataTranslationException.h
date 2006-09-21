@@ -27,6 +27,12 @@ class DataTranslationException : public EzRetsException
     DataTranslationException(std::string message);
 };
 
+class MissingTranslatorException : public EzRetsException
+{
+  public:
+    MissingTranslatorException(std::string message);
+};
+
 }
 
 #endif
