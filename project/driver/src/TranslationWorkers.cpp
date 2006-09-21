@@ -580,3 +580,24 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
             "\" to NUMERIC");
     }
 }
+
+SQLSMALLINT ULongTranslationWorker::getOdbcType() { return SQL_C_ULONG; }
+
+string ULongTranslationWorker::getOdbcTypeName() { return "ULONG"; }
+
+int ULongTranslationWorker::getOdbcTypeLength() { return sizeof(ULONG); }
+
+void ULongTranslationWorker::translate(string data, SQLPOINTER target,
+                                       SQLLEN targetLen, SQLLEN *resultSize,
+                                       DataStreamInfo *streamInfo)
+{
+    if (data.empty() || b::trim_copy(data).empty())
+    {
+        setResultSize(resultSize, SQL_NULL_DATA);
+        return;
+    }
+
+    ULONG* result = (ULONG*) target;
+    *result = lexical_cast<ULONG>(data);
+    setResultSize(resultSize, sizeof(ULONG));
+}

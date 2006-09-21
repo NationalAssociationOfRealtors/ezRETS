@@ -174,6 +174,16 @@ class NumericTranslationWorker : public TranslationWorker
                    SQLLEN *resultSize, DataStreamInfo *streamInfo);
 };
 
+class ULongTranslationWorker : public TranslationWorker
+{
+  public:
+    SQLSMALLINT getOdbcType();
+    std::string getOdbcTypeName();
+    int getOdbcTypeLength();
+    void translate(std::string data, SQLPOINTER target, SQLLEN targetLen,
+                   SQLLEN *resultSize, DataStreamInfo *streamInfo);
+};
+
 }
 
 #endif /* TRANSLATIONWORKERS_H */
