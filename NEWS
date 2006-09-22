@@ -1,3 +1,15 @@
+Changes since 2.0.4
+-------------------
+ * User-Agent is now "ezRETS/2.0.5 (librets/1.1.4)"
+
+ Enhancement
+   * Added a translator to go from RETS to ODBC's SQL_C_ULONG.
+
+ Bug fixes
+   * Fix bug introduced in 2.0.4 which made a missing translator a
+     fatal error.  This was an undocumented change that caused grief
+     for some users.
+
 Changes since 2.0.3
 -------------------
  * User-Agent is now "ezRETS/2.0.4 (librets/1.1.4)"
