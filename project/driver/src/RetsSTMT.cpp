@@ -219,6 +219,23 @@ SQLRETURN RetsSTMT::SQLFetch()
         // should be reset.
         mDataStreamInfo.reset();
         resultSet->processNextRow();
+
+        // Set Descripter info
+        if (ird.mRowsProcessedPtr)
+        {
+            // If we made it this far, we have processed the one row.
+            // If we didn't make it this far, it doesn't matter as the
+            // value of ROWS_FETCHED is undefined if not SQL_SUCCESS*
+            log->debug("Setting Rows Processed on IRC");
+            *ird.mRowsProcessedPtr = 1;
+        }
+
+        // This would be needed for we supported SQL_ATTR_ROW_STATUS_PTR
+        // which we do not as of yet.
+//         if (ird.mArrayStatusPtr)
+//         {
+//             *ird.mArrayStatusPtr = result;
+//         }
     }
     catch(MissingTranslatorException& e)
     {
@@ -252,8 +269,6 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     
     switch (Attribute)
     {
-        // To make iODBC and MS ODBC DM work, return dummy pointers
-        // Idea borrowed from MySQL ODBC driver
         case SQL_ATTR_APP_ROW_DESC:
             *(SQLPOINTER *) Value = &ard;
             SetStringLength(StringLength, SQL_IS_POINTER);
@@ -705,7 +720,11 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
                 result = SQL_SUCCESS_WITH_INFO;
             }
             break;
-            
+
+        case SQL_ATTR_ROWS_FETCHED_PTR:
+            ird.mRowsProcessedPtr = (SQLUINTEGER*) Value;
+            break;
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_CURSOR_SCROLLABLE:
@@ -723,7 +742,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_ROW_NUMBER:
         case SQL_ATTR_ROW_OPERATION_PTR:
         case SQL_ATTR_ROW_STATUS_PTR:
-        case SQL_ATTR_ROWS_FETCHED_PTR:
         case SQL_ATTR_SIMULATE_CURSOR:
         case SQL_ATTR_USE_BOOKMARKS:
         default:
@@ -1123,15 +1141,6 @@ SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
     else
     {
         result = SQLFetch();
-        if (ird.mRowsProcessedPtr)
-        {
-            *ird.mRowsProcessedPtr = (result != SQL_ERROR) ? 1 : 0;
-        }
-
-        if (ird.mArrayStatusPtr)
-        {
-            *ird.mArrayStatusPtr = result;
-        }
     }
 
     return result;
