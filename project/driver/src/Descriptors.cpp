@@ -77,6 +77,7 @@ SQLRETURN BaseDesc::SQLSetDescField(
     switch(FieldIdentifier)
     {
 
+        case SQL_DESC_BIND_TYPE:
         case SQL_DESC_OCTET_LENGTH_PTR:
             if (Value != 0)
             {
