@@ -105,8 +105,14 @@ NativeDataTranslator::NativeDataTranslator(int translationQuirks)
     tmp.reset(new NumericTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
 
-    // For now, I think we only go from ODBC to rets for ULongs
+    // For now, I think we only go from ODBC to rets for ULongs.
+    // RETS doesn't have unsigned types
     tmp.reset(new ULongTranslationWorker());
+    mOdbc2Trans[SQL_C_ULONG] = tmp;
+
+    // For now, I think we only go from ODBC to rets for ULongs
+    // RETS doesn't have unsigned types
+    tmp.reset(new UShortTranslationWorker());
     mOdbc2Trans[SQL_C_ULONG] = tmp;
 }
 
@@ -129,6 +135,11 @@ void NativeDataTranslator::translate(string data, SQLSMALLINT type,
         }
         else
         {
+            // Tell the upper levels this field is null
+            if (resultSize)
+            {
+                *resultSize = SQL_NULL_DATA;
+            }
             throw MissingTranslatorException(
                 str_stream() << "ezRETS has no translator to turn \""
                 << data << "\" to target type " << type);

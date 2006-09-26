@@ -601,3 +601,24 @@ void ULongTranslationWorker::translate(string data, SQLPOINTER target,
     *result = lexical_cast<ULONG>(data);
     setResultSize(resultSize, sizeof(ULONG));
 }
+
+SQLSMALLINT UShortTranslationWorker::getOdbcType() { return SQL_C_USHORT; }
+
+string UShortTranslationWorker::getOdbcTypeName() { return "USHORT"; }
+
+int UShortTranslationWorker::getOdbcTypeLength() { return sizeof(USHORT); }
+
+void UShortTranslationWorker::translate(string data, SQLPOINTER target,
+                                       SQLLEN targetLen, SQLLEN *resultSize,
+                                       DataStreamInfo *streamInfo)
+{
+    if (data.empty() || b::trim_copy(data).empty())
+    {
+        setResultSize(resultSize, SQL_NULL_DATA);
+        return;
+    }
+
+    USHORT* result = (USHORT*) target;
+    *result = lexical_cast<USHORT>(data);
+    setResultSize(resultSize, sizeof(USHORT));
+}
