@@ -205,6 +205,7 @@ SQLRETURN RetsSTMT::SQLFetch()
     }
 
     SQLRETURN retCode = SQL_SUCCESS;
+    SQLSMALLINT rowResult = SQL_ROW_SUCCESS;
     try
     {
         // DataStreamInfo needs to be reset here as well.  The scenerio that
@@ -230,28 +231,30 @@ SQLRETURN RetsSTMT::SQLFetch()
             *ird.mRowsProcessedPtr = 1;
         }
 
-        // This would be needed for we supported SQL_ATTR_ROW_STATUS_PTR
-        // which we do not as of yet.
-//         if (ird.mArrayStatusPtr)
-//         {
-//             *ird.mArrayStatusPtr = result;
-//         }
     }
     catch(MissingTranslatorException& e)
     {
         retCode = SQL_SUCCESS_WITH_INFO;
+        rowResult = SQL_ROW_SUCCESS_WITH_INFO;
         addError("01000", str_stream() << "Translator issue:" << e.what());
     }
     catch(DateTimeFormatException& e)
     {
         retCode = SQL_ERROR;
+        rowResult = SQL_ROW_ERROR;
         addError("22007", e.what());
     }
     catch(std::exception& e)
     {
         retCode = SQL_ERROR;
+        rowResult = SQL_ROW_ERROR;
         addError("01S01",
                  str_stream() << "Error retrieving data: " << e.what());
+    }
+
+    if (ird.mArrayStatusPtr)
+    {
+        *ird.mArrayStatusPtr = rowResult;
     }
 
     return retCode;
@@ -725,6 +728,10 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             ird.mRowsProcessedPtr = (SQLUINTEGER*) Value;
             break;
 
+        case SQL_ATTR_ROW_STATUS_PTR:
+            ird.mArrayStatusPtr = (SQLSMALLINT*) Value;
+            break;
+
         case SQL_ATTR_APP_PARAM_DESC:
         case SQL_ATTR_APP_ROW_DESC:
         case SQL_ATTR_CURSOR_SCROLLABLE:
@@ -741,7 +748,6 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
         case SQL_ATTR_PARAM_STATUS_PTR:
         case SQL_ATTR_ROW_NUMBER:
         case SQL_ATTR_ROW_OPERATION_PTR:
-        case SQL_ATTR_ROW_STATUS_PTR:
         case SQL_ATTR_SIMULATE_CURSOR:
         case SQL_ATTR_USE_BOOKMARKS:
         default:
