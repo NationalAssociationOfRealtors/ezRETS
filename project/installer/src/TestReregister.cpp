@@ -37,7 +37,7 @@ void unregister()
     BOOL success = FALSE;
     DWORD count;
     
-    success = SQLRemoveDriver(DRIVER_NAME, FALSE, &count);
+    success = SQLRemoveDriver("TezRETS ODBC Driver", TRUE, &count);
     if (success == FALSE)
     {
         // SQLInstallerError should be called here to see what's up
@@ -55,9 +55,9 @@ void rregister()
     WORD pathoutsize;
     DWORD count;
     
-    LPCSTR driver = "ezRETS ODBC Driver\0Driver=ezrets.dylib\0Setup=ezretss.dylib\0\0";
-    LPCSTR pathin = "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug";
-    //    LPCSTR pathin = NULL;
+    LPCSTR driver = "TezRETS ODBC Driver\0Driver=ezrets.dll\0Setup=ezretss.dll\0\0";
+    //LPCSTR pathin = "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug";
+    LPCSTR pathin = NULL;
     //LPSTR pathout;
     char pathout[150];
     success = SQLInstallDriverEx(driver, pathin, pathout, 150,
@@ -81,6 +81,14 @@ void rregister()
 
 int main()
 {
-    rregister();
-    //unregister();
+    //rregister();
+    unregister();
 }
+
+// On install, we'll see if the driver is already installed
+// if so, we do a SQLRemoveDriver with FALSE as the second item
+// Then, in either case, we do a SQLInstallDriverEx
+
+// On uninstall, we just do a SQLRemoveDriver with TRUE as the second item
+
+// Both register and unregister are working on windows

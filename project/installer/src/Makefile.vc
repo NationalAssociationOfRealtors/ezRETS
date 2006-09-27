@@ -3,12 +3,12 @@
 
 CCNODBG    = cl.exe /MD /O2 /DNDEBUG
 CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ
-CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc
+CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc /I../../common/include
 LINKDLL    = link.exe /DLL
 LINKLIB    = link.exe /lib
 LDFLAGS_STD = /nologo
 
-SYSLIBS = user32.lib winmm.lib odbcinst32.lib
+SYSLIBS = user32.lib winmm.lib odbccp32.lib
 
 DIROBJ = release
 TARGET = $(DIROBJ)\TestReregister.exe
@@ -26,7 +26,7 @@ all: $(TARGET)
 $(TARGET): $(DIROBJ)
 
 $(DIROBJ)\TestReregister.exe: $(TESTREREGISTER_OBJS)
-	$(LINK) /out:$(DIROBJ)\ConnectTest.exe $(TESTREREGISTER_OBJS) $(SYSLIBS)
+	$(LINK) /out:$(DIROBJ)\TestReregister.exe $(TESTREREGISTER_OBJS) $(SYSLIBS)
 
 
 $(DIROBJ):
