@@ -1,5 +1,5 @@
 LIB_FLAGS = -liodbcinst
-CFLAGS = -g -DHAVE_IODBC -I../../common/include
+CFLAGS = -g -DHAVE_IODBC -I../../common/include -Wall
 
 all: TestReregister
 

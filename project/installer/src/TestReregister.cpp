@@ -35,9 +35,9 @@ using std::endl;
 void unregister()
 {
     BOOL success = FALSE;
-    LPDWORD count;
+    DWORD count;
     
-    success = SQLRemoveDriver(DRIVER_NAME, FALSE, count);
+    success = SQLRemoveDriver(DRIVER_NAME, FALSE, &count);
     if (success == FALSE)
     {
         // SQLInstallerError should be called here to see what's up
@@ -45,36 +45,42 @@ void unregister()
     }
     else
     {
-        cout << "The count is " << *count << endl;
+        cout << "The count is " << count << endl;
     }
 }
 
 void rregister()
 {
     BOOL success = FALSE;
-    WORD* pathoutsize;
-    LPDWORD count;
+    WORD pathoutsize;
+    DWORD count;
     
-    LPCSTR driver = "TezRETS ODBC Driver\0Driver=ezrets.so\0Setup=ezretss.so\0\0";
-    //    LPCSTR driver = DRIVER_NAME "\0Driver=ezrets.dylib\0Setup=ezretss.dylib\0\0";
-    //    LPCSTR pathin = "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug";
-    LPCSTR pathin = NULL;
+    LPCSTR driver = "ezRETS ODBC Driver\0Driver=ezrets.dylib\0Setup=ezretss.dylib\0\0";
+    LPCSTR pathin = "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug";
+    //    LPCSTR pathin = NULL;
     //LPSTR pathout;
-    char pathout[70];
-    success = SQLInstallDriverEx(driver, pathin, pathout, 70,
-                                 pathoutsize, ODBC_INSTALL_COMPLETE, count);
+    char pathout[150];
+    success = SQLInstallDriverEx(driver, pathin, pathout, 150,
+                                 &pathoutsize, ODBC_INSTALL_COMPLETE, &count);
 
-    if (success == false)
+    if (success == FALSE)
     {
-        cout << "ERROR!" << endl;
+        DWORD errorCode;
+        char message[SQL_MAX_MESSAGE_LENGTH];
+        WORD length;
+        RETCODE dude = SQLInstallerError(1, &errorCode, message,
+                                         SQL_MAX_MESSAGE_LENGTH, &length);
+        cout << dude << " " << errorCode << " " << message << endl;
     }
     else
     {
-        cout << "WHEE" << endl;
+        cout << "WHEE:" << count << endl;
+        cout << pathout << endl;
     }
 }
 
 int main()
 {
     rregister();
+    //unregister();
 }
