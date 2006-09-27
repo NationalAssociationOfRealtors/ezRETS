@@ -1,0 +1,51 @@
+
+!include <../../build/Makefile.vc>
+
+CCNODBG    = cl.exe /MD /O2 /DNDEBUG
+CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ
+CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc
+LINKDLL    = link.exe /DLL
+LINKLIB    = link.exe /lib
+LDFLAGS_STD = /nologo
+
+SYSLIBS = user32.lib winmm.lib odbcinst32.lib
+
+DIROBJ = release
+TARGET = $(DIROBJ)\TestReregister.exe
+CC  = $(CCDEBUG)
+CXX     = $(CCDEBUG)
+CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
+LDFLAGS = $(LDFLAGS_STD)
+LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
+
+TESTREREGISTER_OBJS = $(DIROBJ)\TestReRegister.obj 
+
+
+all: $(TARGET)
+
+$(TARGET): $(DIROBJ)
+
+$(DIROBJ)\TestReregister.exe: $(TESTREREGISTER_OBJS)
+	$(LINK) /out:$(DIROBJ)\ConnectTest.exe $(TESTREREGISTER_OBJS) $(SYSLIBS)
+
+
+$(DIROBJ):
+	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
+
+clean:
+	@-erase /s *.dll 2> NUL
+	@-erase /s *.exp 2> NUL
+	@-erase /s *.idb 2> NUL
+	@-erase /s *.lib 2> NUL
+	@-erase /s *.obj 2> NUL
+	@-erase /s *.pch 2> NUL
+	@-erase /s *.pdb 2> NUL
+	@-erase /s *.res 2> NUL
+
+.SUFFIXES: .c .cpp .obj .res
+
+{.\}.c{$(DIROBJ)\}.obj:
+	$(CC) $(CFLAGS) /Fo"$@"  $<
+
+{.\}.cpp{$(DIROBJ)\}.obj:
+	$(CXX) $(CFLAGS) /Fo"$@"  $<
