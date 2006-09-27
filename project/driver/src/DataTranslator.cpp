@@ -113,7 +113,7 @@ NativeDataTranslator::NativeDataTranslator(int translationQuirks)
     // For now, I think we only go from ODBC to rets for ULongs
     // RETS doesn't have unsigned types
     tmp.reset(new UShortTranslationWorker());
-    mOdbc2Trans[SQL_C_ULONG] = tmp;
+    mOdbc2Trans[SQL_C_USHORT] = tmp;
 }
 
 /**
