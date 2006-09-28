@@ -11,7 +11,7 @@ LDFLAGS_STD = /nologo
 SYSLIBS = user32.lib winmm.lib odbccp32.lib
 
 DIROBJ = release
-TARGET = $(DIROBJ)\TestReregister.exe
+TARGET = $(DIROBJ)\TestReregister.exe $(DIROBJ)\RegisterDriver.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
@@ -19,7 +19,7 @@ LDFLAGS = $(LDFLAGS_STD)
 LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
 
 TESTREREGISTER_OBJS = $(DIROBJ)\TestReRegister.obj 
-
+REGISTERDRIVER_OBJS = $(DIROBJ)\RegisterDriver.obj
 
 all: $(TARGET)
 
@@ -27,6 +27,9 @@ $(TARGET): $(DIROBJ)
 
 $(DIROBJ)\TestReregister.exe: $(TESTREREGISTER_OBJS)
 	$(LINK) /out:$(DIROBJ)\TestReregister.exe $(TESTREREGISTER_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\RegisterDriver.exe: $(REGISTERDRIVER_OBJS)
+	$(LINK) /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
 
 
 $(DIROBJ):

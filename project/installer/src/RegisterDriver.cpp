@@ -27,8 +27,6 @@
 #include <odbcinst.h>
 #endif
 
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -46,21 +44,9 @@ bool isEzInstalled()
     WORD driver_size;
     
     success = SQLGetInstalledDrivers(drivers, 4096, &driver_size);
-
-    string drstr(drivers, driver_size);
-    std::vector<string> tokens;
-    b::split(tokens, drstr, b::is_any_of("\0"));
-    for(std::vector<string>::iterator i = tokens.begin();
-        i != tokens.end(); i++)
+    if (success != FALSE)
     {
-        string tok = *i;
-        cout << tok << endl;
-        if (tok == DRIVER_NAME)
-        {
-            found = true;
-        }
     }
-
     return found;
 }
 
