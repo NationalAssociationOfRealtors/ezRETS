@@ -36,9 +36,14 @@ size_t o::copyString(string src, char* dest, size_t length)
     }
     size_t size = src.copy(dest, length);
 
-    if (size == length)
+    // It should never be greater than....but just in case.
+    if (size >= length)
     {
-        dest[size - 1] = '\0';
+        dest[length - 1] = '\0';
+        // This is a test to see if I fix the "mystery" character in
+        // SQLServer DTS.  I'm telling it a size 11 string, but its
+        // really size 10, and the null.
+        size = length - 1;
     }
     else
     {
