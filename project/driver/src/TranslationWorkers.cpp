@@ -172,7 +172,7 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
         }
         else
         {
-            // Offset here due to ambigueity in spec.  Is the T required?
+            // Offset here due to ambiguity in spec.  Is the T required?
             // Is there a space after that questionably required T?
         
             // o is for Offset!  M is for monkey

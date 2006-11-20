@@ -60,7 +60,7 @@ QueryPtr Query::createSqlQuery(
 
     SqlToDmqlCompiler::QueryType queryType = compiler.sqlToDmql(query);
 
-    // Now hand off the query to the proper query time and return a
+    // Now hand off the query to the proper query type and return a
     // pointer to that.
     QueryPtr ezQuery;
     if (queryType == SqlToDmqlCompiler::DMQL_QUERY)
