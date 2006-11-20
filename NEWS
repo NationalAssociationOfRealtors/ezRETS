@@ -1,3 +1,22 @@
+Changes since 2.0.5
+-------------------
+ * User-Agent is now "ezRETS/2.0.6 (librets/1.1.5)"
+
+ Bug Fixes
+  * Test fix for SQLServer DTS and string length.
+
+ Enhancements
+   * Translator for unsigned short implemented, fixes SQLServer DTS
+   * Returns NULL and logs to debug log for fields where ezRETS does
+     not yet have a translator.
+   * Implemented SQL_ATTR_ROWS_FETCHED_PTR and SQL_ATTR_ROW_STATUS_PTR
+     and related IRD filling in.
+
+ Developer Notes
+   * libRETS 1.1.5 is not required, but strongly suggested as it has a
+     SQL to DMQL translator fix that allows you to search for strings
+     that have a space in them, such as "New Hamshire"
+
 Changes since 2.0.4
 -------------------
  * User-Agent is now "ezRETS/2.0.5 (librets/1.1.4)"
