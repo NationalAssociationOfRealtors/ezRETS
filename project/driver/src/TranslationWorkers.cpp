@@ -27,6 +27,8 @@
 #include <boost/detail/endian.hpp>
 #include <boost/cstdint.hpp>
 
+#include <fstream>
+
 using namespace odbcrets;
 using std::string;
 using boost::lexical_cast;
@@ -501,6 +503,17 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
                                          SQLLEN targetLen, SQLLEN *resultSize,
                                          DataStreamInfo *streamInfo)
 {
+    std::ofstream file("c:\\odbcrets\\logs\\broken.numeric.txt",
+                       std::ios::app);
+    time_t curTime;
+    time(&curTime);
+    file << "*** Opened at " << ctime(&curTime) << std::endl;
+    file << "data: " << data << std::endl;
+    file << "target: " << target << std::endl;
+    file << "targetLen: " << targetLen << std::endl;
+    file << "resultSize: " << resultSize << std::endl;
+    file << "streamInfo: " << streamInfo << std::endl;
+
     // We better trim it to be safe
     string trimd = b::trim_copy(data);
     if (trimd.empty())
@@ -513,6 +526,12 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
     {
         SQL_NUMERIC_STRUCT* numeric = (SQL_NUMERIC_STRUCT*) target;
 
+        file << "Numeric components" << std::endl;
+        file << "sign: " << (int) numeric->sign << std::endl;
+        file << "scale: " << (int) numeric->scale << std::endl;
+        file << "precision: " << (int) numeric->precision << std::endl;
+        file << "val: " << &numeric->val[0] << std::endl;
+
         // 0 for negative, 1 for positive
         if (trimd.at(0) == '-')
         {
@@ -524,6 +543,8 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
         {
             numeric->sign = 1;
         }
+
+        file << "step one: steal underpants" << std::endl;
 
         size_t index = trimd.find_first_of('.');
         if (index == string::npos)
@@ -543,9 +564,12 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
 
             b::erase_all(trimd, ".");
         }
+        file << "step two: ???" << std::endl;
 
         // Set the whole array to zero
         std::fill(&numeric->val[0], &numeric->val[SQL_MAX_NUMERIC_LEN], 0);
+
+        file << "profit!" << std::endl;
 
         // From http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/odbcc_data_types.asp
         //
@@ -562,16 +586,23 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
         b::uint64_t intvalue = lexical_cast<b::uint64_t>(trimd);
         char* chararray = (char*) &intvalue;
 
+        file << "more profit! " << intvalue << std::endl;
+
 #ifdef BOOST_BIG_ENDIAN
+        file << "Trying to reverse" << std::endl;
         // Converting to little endian
         std::reverse(&chararray[0], &chararray[7]);
+        file << "we got the reverse!" << std::endl;
 #endif
+        file << "trying to copy" << std::endl;
         // We are ignoring anything over 8 bytes because they are the
         // most significant bytes and should be 0 because intvalue is
         // only 8 bytes
-        std::copy((char*) &numeric->val[0], &chararray[0], &chararray[7]);
+        std::copy(&chararray[0], &chararray[7], (char*) &numeric->val[0]);
+        file << "copy/choppy" << std::endl;
     
         setResultSize(resultSize, sizeof(SQL_NUMERIC_STRUCT));
+        file << "resultsize" << std::endl;
     }
     catch(std::bad_cast&)
     {
