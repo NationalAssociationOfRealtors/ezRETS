@@ -544,8 +544,20 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
             numeric->sign = 1;
         }
 
+        // From http://msdn.microsoft.com/library/default.asp?url=/library/en-us/odbc/htm/odbcc_data_types.asp
+        //
+        // The precision and scale fields of the SQL_C_NUMERIC data
+        // type are never used for input from an application, only for
+        // output from the driver to the application. When the driver
+        // writes a numeric value into the SQL_NUMERIC_STRUCT, it will
+        // use its own driver-specific default as the value for the
+        // precision field, and it will use the value in the
+        // SQL_DESC_SCALE field of the application descriptor (which
+        // defaults to 0) for the scale field. An application can
+        // provide its own values for precision and scale by setting
+        // the SQL_DESC_PRECISION and SQL_DESC_SCALE fields of the
+        // application descriptor.
         file << "step one: steal underpants" << std::endl;
-
         size_t index = trimd.find_first_of('.');
         if (index == string::npos)
         {
@@ -600,6 +612,15 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
         // only 8 bytes
         std::copy(&chararray[0], &chararray[7], (char*) &numeric->val[0]);
         file << "copy/choppy" << std::endl;
+
+        // Here lies total debugging code.  I want to see what our
+        // numeric val array looks like in hex.
+        file << "Hex dump: ";
+        file.setf(std::ios::hex);
+        for (int o = 0; o < SQL_MAX_NUMERIC_LEN; o++)
+        {
+            file << (int) numeric->val[o] << " ";
+        }
     
         setResultSize(resultSize, sizeof(SQL_NUMERIC_STRUCT));
         file << "resultsize" << std::endl;
