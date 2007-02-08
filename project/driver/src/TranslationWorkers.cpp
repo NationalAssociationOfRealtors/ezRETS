@@ -596,7 +596,7 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
 
         // this should be 8 bytes.
         b::uint64_t intvalue = lexical_cast<b::uint64_t>(trimd);
-        char* chararray = (char*) &intvalue;
+        unsigned char* chararray = (unsigned char*) &intvalue;
 
         file << "more profit! " << intvalue << std::endl;
 
@@ -616,11 +616,12 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
         // Here lies total debugging code.  I want to see what our
         // numeric val array looks like in hex.
         file << "Hex dump: ";
-        file.setf(std::ios::hex);
+        file << std::hex << std::internal;
         for (int o = 0; o < SQL_MAX_NUMERIC_LEN; o++)
         {
-            file << (int) numeric->val[o] << " ";
+            file << (unsigned short) numeric->val[o] << " ";
         }
+        file << std::endl;
     
         setResultSize(resultSize, sizeof(SQL_NUMERIC_STRUCT));
         file << "resultsize" << std::endl;
