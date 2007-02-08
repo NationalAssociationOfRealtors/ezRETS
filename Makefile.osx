@@ -1,0 +1,10 @@
+# On OS X, we use xcode.  This is just a simple makefile to call
+# xcodebuild to build ezRETS
+
+all: ezrets ezretss
+
+ezrets:
+	cd project/build && xcodebuild -target ezrets -configuration Debug
+
+ezretss:
+	cd project/build && xcodebuild -target ezretss -configuration Debug
