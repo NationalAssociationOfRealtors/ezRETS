@@ -21,6 +21,8 @@ fields are optional:
  * EnableUserAgentAuth
  * UserAgentAuthType
  * UserAgentPassword
+ * UseCompactFormat
+ * TreatDecimcalAsString
 
 Definitions of attributes:
  * LoginURL - RETS Server's LoginURL
@@ -42,3 +44,8 @@ Definitions of attributes:
                         Character data.
  * EnableUserAgentAuth - Turns on User-Agent Authentication
  * UserAgentAuthType - Currently only "NON-STANDARD INTEREALTY" is supported.
+ * UseCompactFormat - If true, ezRETS will use COMPACT format instead of
+                      COMPACT-DECODED
+ * TreatDecimalAsString - Causes DECIMAL fields to be treated as CHAR fields.
+                          This is a temporary work around for failures with
+                          VBScript and SQLServer DTS.
