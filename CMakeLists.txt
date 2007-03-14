@@ -1,18 +1,30 @@
-project(ezrets)
+project(ezrets CXX)
+
+SET(PROJECT_BINARY_DIR build)
+
+FIND_PROGRAM(LIBRETS_CONFIG librets-config DOC "librets-config program")
+IF (LIBRETS_CONFIG)
+  EXEC_PROGRAM(${LIBRETS_CONFIG} ARGS "--cflags" OUTPUT_VARIABLE LIBRETS_CFLAGS)
+  EXEC_PROGRAM(${LIBRETS_CONFIG} ARGS "--libs" OUTPUT_VARIABLE LIBRETS_CFLAGS)
+ENDIF (LIBRETS_CONFIG)
+
+#SET (LIBRETS_CONFIG ON CACHE FILEPATH "Where is your librets-config")
 
 INCLUDE(CheckIncludeFile)
-FIND_PACKAGE(wxWidgets)
+#FIND_PACKAGE(wxWidgets)
+INCLUDE(FindwxWidgets)
 
 IF (WIN32)
-   INCLUDE(FindRuby)
+  INCLUDE(FindRuby)
 ENDIF (WIN32)
 
-FIND_FILE(WITH_IODBC iodbc-config)
+FIND_PROGRAM(WITH_IODBC iodbc-config DOC "Do we have IODBC?")
 if (WITH_IODBC)
-   ADD_DEFINITIONS(-DHAVE_IODBC)
+  ADD_DEFINITIONS(-DHAVE_IODBC)
 else (WITH_IODBC)
-	CHECK_INCLUDE_FILE(sql.h SQL_H_FOUND)
-	CHECK_INCLUDE_FILE(odbcinst.h ODBCINST_H_FOUND)
+  CHECK_INCLUDE_FILE(sql.h SQL_H_FOUND)
+  CHECK_INCLUDE_FILE(odbcinst.h ODBCINST_H_FOUND)
 ENDIF (WITH_IODBC)
 
-add_subdirectory(project/common/src)
+ADD_SUBDIRECTORY(project/common/src build/ezrets-common)
+
