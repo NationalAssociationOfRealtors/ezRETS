@@ -9,6 +9,7 @@ exec_prefix=@exec_prefix@
 bindir=@bindir@
 mandir=@mandir@
 sysconfdir=@sysconfdir@
+datarootdir=@datarootdir@
 docdir=$(datadir)/doc
 
 INSTALL=@INSTALL@

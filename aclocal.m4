@@ -104,6 +104,14 @@ AC_DEFUN([MY_TEST_LIBRETS], [
       fi
     ]
   )
+  AC_MSG_CHECKING(if libRETS has SQL compiler)
+  my_librets_config_sql=`$my_librets_config --sql`
+  if test "x$my_librets_config_sql" != "xtrue"; then
+     AC_MSG_RESULT(no)
+     AC_MSG_ERROR([libRETS must be compiled with --enable-sql-compiler])
+  else
+     AC_MSG_RESULT(yes)
+  fi
   LIBRETS_CFLAGS=`$my_librets_config --cflags`
   LIBRETS_LDFLAGS=`$my_librets_config --libs`
   AC_SUBST(LIBRETS_CFLAGS)
