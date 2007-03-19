@@ -393,8 +393,11 @@ void CharacterTranslationWorker::translate(
         // If we're larger than the target buffer, we want to fill the
         // buffer leaving room for \0
         SQLLEN adjSize = targetLen - 1;
-        size = data.copy((char *) target, adjSize, streamInfo->offset);
-        ((char*) target)[adjSize] = '\0';
+        if (adjSize > 0)
+        {
+            size = data.copy((char *) target, adjSize, streamInfo->offset);
+            ((char*) target)[adjSize] = '\0';
+        }
         
         SQLLEN remaining_size = dataSize - streamInfo->offset;
         streamInfo->offset =+ size;
