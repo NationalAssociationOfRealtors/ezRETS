@@ -624,8 +624,12 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
 //         {
 //             file << (unsigned short) numeric->val[o] << " ";
 //         }
-//         file << std::endl;
-    
+//         file << std::endl << std::dec;
+
+//         file << "sign: " << (int) numeric->sign << std::endl;
+//         file << "scale: " << (int) numeric->scale << std::endl;
+//         file << "precision: " << (int) numeric->precision << std::endl;
+
         setResultSize(resultSize, sizeof(SQL_NUMERIC_STRUCT));
 //         file << "resultsize" << std::endl;
     }
@@ -635,6 +639,8 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
             str_stream() << "bad_cast: could not convert \"" << data <<
             "\" to NUMERIC");
     }
+
+//    file << std::endl << std::endl;
 }
 
 SQLSMALLINT ULongTranslationWorker::getOdbcType() { return SQL_C_ULONG; }
