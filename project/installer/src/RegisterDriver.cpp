@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2007 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -31,10 +31,36 @@
 #include <vector>
 #include <iostream>
 
-namespace b = boost;
+#include <boost/program_options.hpp>
+
 using std::string;
 using std::endl;
 using std::cout;
+
+namespace po = boost::program_options;
+
+typedef std::vector<string> StrVector;
+
+/**
+ * Converts lpszAttributes of "foo=bar\0baz=lar\0\0" to a map.
+ */
+StrVector drivers2vector(LPCSTR drivers)
+{
+    StrVector drvvector;
+    LPCSTR i = drivers;
+    
+    while (*i)
+    {
+        int len = strlen(i);
+        string drv(i, len);
+
+        drvvector.push_back(drv);
+
+        i += len + 1;
+    }
+
+    return drvvector;
+}
 
 bool isEzInstalled()
 {
@@ -44,8 +70,22 @@ bool isEzInstalled()
     WORD driver_size;
     
     success = SQLGetInstalledDrivers(drivers, 4096, &driver_size);
+    //success = SQLGetAvailableDrivers("/Users/kgarner/Library/ODBC/odbcinst.ini", drivers, 4096,
+    //                                     &driver_size);
     if (success != FALSE)
     {
+        StrVector drvs = drivers2vector(drivers);
+        StrVector::iterator i;
+        for (i = drvs.begin(); i != drvs.end(); i++)
+        {
+            string driver = *i;
+            if (driver == DRIVER_NAME)
+            {
+                found = true;
+                break;
+            }
+        }
+        
     }
     return found;
 }
@@ -54,17 +94,23 @@ void unregister(bool remove_dsn=false)
 {
     BOOL success = FALSE;
     DWORD count;
+    BOOL remove = FALSE;
+    if (remove_dsn)
+    {
+        remove = TRUE;
+    }
 
-    // Unregister the driver without removing the DSN
-    success = SQLRemoveDriver(DRIVER_NAME, FALSE, &count);
+    // Unregister the driver with or without removing the DSN
+    success = SQLRemoveDriver(DRIVER_NAME, remove, &count);
     if (success == FALSE)
     {
-        // SQLInstallerError should be called here to see what's up
-        cout << "Error" << endl;
-    }
-    else
-    {
-        cout << "The count is " << count << endl;
+        DWORD errorCode;
+        char message[SQL_MAX_MESSAGE_LENGTH];
+        WORD length;
+        RETCODE dude = SQLInstallerError(1, &errorCode, message,
+                                         SQL_MAX_MESSAGE_LENGTH, &length);
+        cout << "Error removing: " << dude << " " << errorCode << " "
+             << message << endl;
     }
 }
 
@@ -73,8 +119,19 @@ void registr()
     BOOL success = FALSE;
     WORD pathoutsize;
     DWORD count;
+
+#ifdef _MAC_
+#define DRIVER_PATH "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug/"
+#define DYN_EXT "dylib"
+#elif _WIN32_
+#define DRIVER_PATH
+#define DYN_EXT "dll"
+#else
+#define DRIVER_PATH
+#define DYN_EXT "so"
+#endif
     
-    LPCSTR driver = DRIVER_NAME "\0Driver=ezrets.dll\0Setup=ezretss.dll\0\0";
+    LPCSTR driver = DRIVER_NAME "\0Driver=" DRIVER_PATH "ezrets." DYN_EXT "\0Setup=" DRIVER_PATH "ezretss." DYN_EXT "\0\0";
     LPCSTR pathin = NULL;
     char pathout[150];
     success = SQLInstallDriverEx(driver, pathin, pathout, 150,
@@ -89,20 +146,43 @@ void registr()
                                          SQL_MAX_MESSAGE_LENGTH, &length);
         cout << dude << " " << errorCode << " " << message << endl;
     }
-    else
-    {
-        cout << "WHEE:" << count << endl;
-        cout << pathout << endl;
-    }
 }
 
-int main()
+int main(int argc, char **argv)
 {
-    if (isEzInstalled())
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("install,i", "install the driver")
+        ("remove,r", "remove the driver")
+        ("destructive,d", "remove destructively");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);    
+
+    bool ezInstalled = isEzInstalled();
+
+    if (vm.count("install"))
     {
-        //        unregister();
-        // Do the remove without doing nuking DSNs
+        if (ezInstalled)
+        {
+            cout << "ezRETS already installed" << endl;
+        }
+        else
+        {
+            registr();
+        }
     }
 
-    //    registr();
+    if (vm.count("remove"))
+    {
+        if (ezInstalled)
+        {
+            unregister(vm.count("destructive"));
+        }
+        else
+        {
+            cout << "ezRETS not installed" << endl;
+        }
+    }
 }
