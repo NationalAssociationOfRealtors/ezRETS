@@ -104,6 +104,19 @@ AC_DEFUN([MY_TEST_LIBRETS], [
       fi
     ]
   )
+
+  check="1.1.8"
+  check_hex="010108"
+  AC_MSG_CHECKING([libRETS version >= $check])
+  ver=`$my_librets_config --version`
+  hex_ver=`$my_librets_config --vernum`
+
+  ok=`perl -e "print (hex('$hex_ver')>=hex('$check_hex') ? '1' : '0')"`
+  if test x$ok == x0; then
+     AC_MSG_ERROR([libRETS $ver is too old.  $check or newer is required.])
+  fi				       			       
+  AC_MSG_RESULT($ver)
+
   AC_MSG_CHECKING(if libRETS has SQL compiler)
   my_librets_config_sql=`$my_librets_config --sql`
   if test "x$my_librets_config_sql" != "xtrue"; then
@@ -112,6 +125,7 @@ AC_DEFUN([MY_TEST_LIBRETS], [
   else
      AC_MSG_RESULT(yes)
   fi
+
   LIBRETS_CFLAGS=`$my_librets_config --cflags`
   LIBRETS_LDFLAGS=`$my_librets_config --libs`
   AC_SUBST(LIBRETS_CFLAGS)
