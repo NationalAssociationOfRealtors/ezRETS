@@ -3,7 +3,7 @@ Installing the Prerequisites
 
 Microsoft Visual C++
 --------------------
-  Version: 2003.  Earlier version have buggy C++ support.
+  Version: 2003.  Earlier versions have buggy C++ support.
   URL: http://msdn.microsoft.com/visualc/
 
 Only building from the command line is supported.  Install Visual C++
@@ -34,8 +34,8 @@ installation.  You need to compile and install the filesystem and
 program options libraries.
 
 librets
---------
-  Version: 1.1.2 or higher
+-------
+  Version: 1.1.8 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
   You will need to build libRETS with librets/project/build/config.vc edited

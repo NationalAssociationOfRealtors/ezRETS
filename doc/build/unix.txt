@@ -21,18 +21,24 @@ program options libraries.
 
 librets
 --------
-  Version 1.1.2 or higher
+  Version 1.1.8 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
+libRETS must be compiled with the SQL Compiler (aka SQL to DMQL
+translator) built into it.
 
 unixODBC or iODBC
 -------------------
   unixODBC Version 2.2.x or higher
   URL: http://www.unixodbc.org/
 
+unixODBC is supported on any unix not OS X.
+
   iODBC Version 3.52.1 or higher
   URL: http://www.iodbc.org/
 
+Currently iODBC is only supported on OS X where it is shipped with the
+system.
 
 Building ezrets
 ================
