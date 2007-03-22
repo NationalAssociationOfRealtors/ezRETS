@@ -8,15 +8,14 @@ LINKDLL    = link.exe /DLL
 LINKLIB    = link.exe /lib
 LDFLAGS_STD = /nologo
 
-SYSLIBS = user32.lib winmm.lib odbccp32.lib
-
+SYSLIBS = user32.lib winmm.lib odbccp32.lib  libboost_program_options-vc71-mt.lib
 DIROBJ = release
 TARGET = $(DIROBJ)\RegisterDriver.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
-LDFLAGS = $(LDFLAGS_STD)
-LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
+LDFLAGS = $(LDFLAGS_STD) $(BOOST_LDFLAGS)
+LINK    = link.exe $(LDFLAGS)
 
 REGISTERDRIVER_OBJS = $(DIROBJ)\RegisterDriver.obj
 

@@ -123,7 +123,7 @@ void registr()
 #ifdef _MAC_
 #define DRIVER_PATH "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug/"
 #define DYN_EXT "dylib"
-#elif _WIN32_
+#elif __WIN__
 #define DRIVER_PATH
 #define DYN_EXT "dll"
 #else
@@ -178,11 +178,20 @@ int main(int argc, char **argv)
     {
         if (ezInstalled)
         {
-            unregister(vm.count("destructive"));
+            if (vm.count("destructive"))
+            {
+                unregister(true);
+            }
+            else
+            {
+                unregister(false);
+            }
         }
         else
         {
             cout << "ezRETS not installed" << endl;
         }
     }
+
+    exit(0);
 }
