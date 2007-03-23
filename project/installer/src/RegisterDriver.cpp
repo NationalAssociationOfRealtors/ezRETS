@@ -127,7 +127,7 @@ void registr()
 #define DRIVER_PATH
 #define DYN_EXT "dll"
 #else
-#define DRIVER_PATH
+#define DRIVER_PATH "/usr/local/lib/"
 #define DYN_EXT "so"
 #endif
     
