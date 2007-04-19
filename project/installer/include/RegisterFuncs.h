@@ -26,15 +26,21 @@
 #include <odbcinst.h>
 #endif
 
+#ifdef __WIN__
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT
+#endif
+
 #include <string>
 #include <vector>
 
 typedef std::vector<std::string> StrVector;
 
-__declspec(dllexport) StrVector drivers2vector(LPCSTR drivers);
-__declspec(dllexport) bool isEzInstalled();
-__declspec(dllexport) void unregister(bool remove_dsn=false);
-__declspec(dllexport) void registr();
+DLLEXPORT StrVector drivers2vector(LPCSTR drivers);
+DLLEXPORT bool isEzInstalled();
+DLLEXPORT void unregister(bool remove_dsn=false);
+DLLEXPORT void registr();
 
 #endif /* REGISTERFUNCS_H */
 
