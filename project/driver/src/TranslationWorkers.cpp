@@ -27,7 +27,7 @@
 #include <boost/detail/endian.hpp>
 #include <boost/cstdint.hpp>
 
-#include <fstream>
+//#include <fstream>
 
 using namespace odbcrets;
 using std::string;
@@ -574,6 +574,9 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
 
             // For now we'll set scale and precision to be the same.
             // Eventually, we'll want to get it froim the RETS metadata?
+            //
+            // Actually, it looks like the calling application will tell
+            // us the scale and precision to use...
             numeric->scale = b::numeric_cast<SQLSCHAR>(scale);
             numeric->precision = b::numeric_cast<SQLCHAR>(scale);
 
@@ -610,6 +613,7 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
 //        file << "we got the reverse!" << std::endl;
 #endif
 //        file << "trying to copy" << std::endl;
+
         // We are ignoring anything over 8 bytes because they are the
         // most significant bytes and should be 0 because intvalue is
         // only 8 bytes

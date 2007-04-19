@@ -1,9 +1,27 @@
+Changes since 2.0.6
+-------------------
+ * User-Agent is now "ezRETS/2.0.7 (librets/1.1.8)"
+
+ Bug Fixes
+  * Fix crash with SQLServer DTS when asking for BLOB as character
+    stream and buffer length of 0.
+  * Fix crash with SQLServer (and other things like ADO) when a
+    Decimal is retrieved as a SQL_NUMERIC.  The value returned may
+    still be incorrect, but a fatal crash is no longer happening,
+    which almost every new user hit.  The work around for the bad
+    value is still to turn on "Treat Decimal as VARCHAR"
+
+ Developer Notes
+   * libRETS 1.1.8 now required to build.  The configure script now checks
+     to see if libRETS is at the required version and if it had the SQL
+     translator compiled in.
+
 Changes since 2.0.5
 -------------------
  * User-Agent is now "ezRETS/2.0.6 (librets/1.1.5)"
 
  Bug Fixes
-  * Test fix for SQLServer DTS and string length.
+   * Test fix for SQLServer DTS and string length.
 
  Enhancements
    * Translator for unsigned short implemented, fixes SQLServer DTS
