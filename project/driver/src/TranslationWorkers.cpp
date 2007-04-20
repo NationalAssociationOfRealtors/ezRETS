@@ -379,30 +379,34 @@ void CharacterTranslationWorker::translate(
     string data, SQLPOINTER target, SQLLEN targetLen, SQLLEN *resultSize,
     DataStreamInfo *streamInfo)
 {
-    if (target == NULL)
+    if(data.empty())
     {
-        setResultSize(resultSize, 0);
-        return;
+        setResultSize(resultSize, SQL_NULL_DATA);
     }
 
+    // If we have stream info, we act widely different than if we do not.
+    // If so, we act more like the BinaryTranslator.
+    // If not, we just do a simple copy.
     size_t size = 0;
-    if (streamInfo && data.size() > (SQLULEN) targetLen)
+    if (streamInfo)
     {
-        size_t dataSize = data.size();
+        // Take one off the targetlen so we can null terminate
+        SQLLEN adjTargetLen = targetLen - 1;
 
-        // If we're larger than the target buffer, we want to fill the
-        // buffer leaving room for \0
-        SQLLEN adjSize = targetLen - 1;
-        if (adjSize > 0)
+        if (target && (adjTargetLen > 0))
         {
-            size = data.copy((char *) target, adjSize, streamInfo->offset);
-            ((char*) target)[adjSize] = '\0';
+            size = data.copy((char *) target, adjTargetLen,
+                             streamInfo->offset);
+            ((char*) target)[adjTargetLen] = '\0';
         }
-        
-        SQLLEN remaining_size = dataSize - streamInfo->offset;
-        streamInfo->offset =+ size;
 
-        streamInfo->status = streamInfo->offset >= dataSize ?
+        // We need to report up remaining text size as it can be
+        // streamed upwards.  Although, remaining size will be equal
+        // to buffer lenght if its not a full buffers worth of data.
+        SQLLEN remaining_size = data.size() - streamInfo->offset;
+
+        streamInfo->offset =+ size;
+        streamInfo->status = streamInfo->offset >= data.size() ?
             DataStreamInfo::NO_MORE_DATA : DataStreamInfo::HAS_MORE_DATA;
 
         size = remaining_size;
@@ -411,9 +415,10 @@ void CharacterTranslationWorker::translate(
     {
         size = copyString(data, (char *) target, targetLen);
     }
-    
+
     setResultSize(resultSize, size);
 }
+
 
 SQLSMALLINT DoubleTranslationWorker::getOdbcType()
 {

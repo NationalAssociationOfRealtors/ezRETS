@@ -28,13 +28,12 @@ using boost::lexical_cast;
 using boost::numeric_cast;
 namespace b = boost;
 
-
 DataTranslator::~DataTranslator()
 {
 }
 
 NativeDataTranslator::NativeDataTranslator(int translationQuirks)
-    : DataTranslator()
+  : DataTranslator()
 {
     TranslationWorkerPtr tmp(new BitTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
@@ -141,9 +140,11 @@ void NativeDataTranslator::translate(string data, SQLSMALLINT type,
             {
                 *resultSize = SQL_NULL_DATA;
             }
+
             throw MissingTranslatorException(
                 str_stream() << "ezRETS has no translator to turn \""
-                << data << "\" to target type " << type);
+                << data << "\" to target type " << type <<
+                " please contact the ezRETS development team.");
         }
     }
     catch(b::bad_lexical_cast&)

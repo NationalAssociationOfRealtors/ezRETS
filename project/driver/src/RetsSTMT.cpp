@@ -234,9 +234,9 @@ SQLRETURN RetsSTMT::SQLFetch()
     }
     catch(MissingTranslatorException& e)
     {
-        retCode = SQL_SUCCESS_WITH_INFO;
-        rowResult = SQL_ROW_SUCCESS_WITH_INFO;
-        addError("01000", str_stream() << "Translator issue:" << e.what());
+        retCode = SQL_ERROR;
+        rowResult = SQL_ROW_ERROR;
+        addError("HY000", str_stream() << "Translator issue: " << e.what());
     }
     catch(DateTimeFormatException& e)
     {
