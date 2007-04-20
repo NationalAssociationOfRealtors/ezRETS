@@ -156,7 +156,7 @@
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
-		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
 		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -887,8 +887,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					MAC,
 					"EZRETS_VERSION=\"$(VERSION)\"",
 					HAVE_IODBC,
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
