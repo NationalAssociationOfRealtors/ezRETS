@@ -172,7 +172,14 @@ string DBHelper::describeColumn(int num)
     char name[1024];
     SQLSMALLINT nameLen;
     SQLSMALLINT dataType;
+
+    // iODBC weirdness I don't care to look at right now
+#ifdef MAC
+    long unsigned int columnSize;
+#else
     SQLUINTEGER columnSize;
+#endif
+
     SQLSMALLINT decDig;
     SQLSMALLINT nullable;
     SQLRETURN result =
