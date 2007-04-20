@@ -68,6 +68,7 @@ NativeDataTranslator::NativeDataTranslator(int translationQuirks)
 
     tmp.reset(new BigIntTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
+    mOdbc2Trans[SQL_C_SBIGINT] = tmp;
     mRets2Odbc[MetadataTable::LONG] = tmp->getOdbcType();
 
     // This if condition and its true state is a total hack work
@@ -227,7 +228,7 @@ void CharOnlyDataTranslator::translate(
     }
     else
     {
-        // Our only exceptions are really only going to be blog related
+        // Our only exceptions are really only going to be blob related
         // but lets keep it nice and generic.
         TranslationWorkerPtr w = i->second;
         w->translate(data, target, targetLen, resultSize, streamInfo);
