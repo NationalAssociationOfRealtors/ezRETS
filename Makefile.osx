@@ -8,3 +8,7 @@ ezrets:
 
 ezretss:
 	cd project/build && xcodebuild -target ezretss -configuration Debug
+
+clean:
+	cd project/build && xcodebuild -target ezrets -configuration Debug clean
+	cd project/build && xcodebuild -target ezretss -configuration Debug clean
