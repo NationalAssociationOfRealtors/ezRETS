@@ -28,6 +28,12 @@ string odbcrets::getTypeName(SQLSMALLINT type)
     string result;
     switch (type)
     {
+        case SQL_VARCHAR:
+            result = "SQL_VARCHAR";
+            break;
+        case SQL_DECIMAL:
+            result = "SQL_DECIMAL";
+            break;
         case SQL_C_CHAR:
             result = "SQL_C_CHAR";
             break;

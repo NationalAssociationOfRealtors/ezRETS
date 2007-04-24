@@ -22,10 +22,12 @@ ignore_defines = {
   "SQL_C_BOOKMARK" => 1,
   "SQL_C_VARBOOKMARK" => 1
 }
-  
+
+# This inits defines and adds some that aren't picked up by the
+# regular expression.
+defines = ["SQL_VARCHAR", "SQL_DECIMAL"]
 
 files = %w{sql.h sqlext.h sqltypes.h}
-defines = Array.new
 files.each do |file|
   File.open(File.join(OPTIONS[:prefix], file)) do |f|
     f.each do |line|
