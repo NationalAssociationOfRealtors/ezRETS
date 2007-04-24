@@ -25,7 +25,7 @@ ignore_defines = {
 
 # This inits defines and adds some that aren't picked up by the
 # regular expression.
-defines = ["SQL_VARCHAR", "SQL_DECIMAL"]
+defines = ["SQL_VARCHAR", "SQL_DECIMAL", "SQL_LONGVARBINARY"]
 
 files = %w{sql.h sqlext.h sqltypes.h}
 files.each do |file|
