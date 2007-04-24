@@ -17,6 +17,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "ezrets.h"
 #include <string>
 
 namespace odbcrets
@@ -29,6 +30,12 @@ size_t copyString(std::string src, char* dest, size_t length);
  * In truth, this just pads with 0 to the left of each of x.y.z
  */
 std::string formatVersionLong(std::string value);
+
+/**
+ * Translates from the SQL Type to a string showing the name.  It'll
+ * be useful in about 10,000 places.
+ */
+std::string getTypeName(SQLSMALLINT type);
 }
 #endif /* UTILS_H */
 

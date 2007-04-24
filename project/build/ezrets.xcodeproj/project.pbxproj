@@ -21,6 +21,7 @@
 		DE614B180A2CCC3A005FA065 /* DBHelperException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7C0A27562B00AF92A8 /* DBHelperException.cpp */; };
 		DE614B190A2CCC3A005FA065 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7D0A27562B00AF92A8 /* ResultColumn.cpp */; };
 		DE614B220A2CCC50005FA065 /* NoDsn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */; };
+		DE64FB750BDE8DE900C32F19 /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE64FB740BDE8DE900C32F19 /* GetTypeName.cpp */; };
 		DE9631620A349C7400EDD298 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
 		DE9631650A349C9600EDD298 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7050A30B88E0056399A /* libssl.dylib */; };
 		DE9631660A349C9600EDD298 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE28A7080A30B8B50056399A /* libcrypto.dylib */; };
@@ -155,8 +156,9 @@
 		DE34DCA60A6C27C500A9CB0E /* UnixInit.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UnixInit.cpp; path = ../setup/src/UnixInit.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE64FB740BDE8DE900C32F19 /* GetTypeName.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GetTypeName.cpp; path = ../driver/src/GetTypeName.cpp; sourceTree = SOURCE_ROOT; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
-		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
 		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
@@ -308,7 +310,6 @@
 		08FB7794FE84155DC02AAC07 /* ezrets */ = {
 			isa = PBXGroup;
 			children = (
-				DE0F29C80A716EB400A928AE /* DescEntries.cpp */,
 				DE0565C40A5D73A100E80B17 /* ezrets32x32.png */,
 				DE0565BC0A5D72FD00E80B17 /* ezretss.ico */,
 				DE614AE90A2CC45C005FA065 /* external libraries */,
@@ -374,10 +375,12 @@
 		DE614AEB0A2CC4A5005FA065 /* driver */ = {
 			isa = PBXGroup;
 			children = (
+				DE64FB740BDE8DE900C32F19 /* GetTypeName.cpp */,
 				DEFB39CE0A2665C200AF92A8 /* AbstractHandle.cpp */,
 				DEFB39CF0A2665C200AF92A8 /* BinaryObjectQuery.cpp */,
 				DEFB39D00A2665C200AF92A8 /* ColAttributeHelper.cpp */,
 				DEFB39D10A2665C200AF92A8 /* Column.cpp */,
+				DE0F29C80A716EB400A928AE /* DescEntries.cpp */,
 				DEFB39D20A2665C200AF92A8 /* ColumnMetadataQuery.cpp */,
 				DEFB39D30A2665C200AF92A8 /* DataCountQuery.cpp */,
 				DEFB39D40A2665C200AF92A8 /* DataQuery.cpp */,
@@ -833,6 +836,7 @@
 				DEFB3A2F0A2665C200AF92A8 /* TypeInfoMetadataQuery.cpp in Sources */,
 				DEFB3A300A2665C200AF92A8 /* utils.cpp in Sources */,
 				DE0F29C90A716EB400A928AE /* DescEntries.cpp in Sources */,
+				DE64FB750BDE8DE900C32F19 /* GetTypeName.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
