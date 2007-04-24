@@ -1,3 +1,20 @@
+Changes since 2.0.7
+-------------------
+ * User-Agent is now "ezRETS/2.0.8 (librets/1.1.8)"
+
+ Non-backwards compatible changes
+  * Undoing a change in 2.0.5, missing translators are now fatal on a
+    search.  Its better to have a query not work than to have a user
+    wondering why only have the data is showing up.
+
+ Enhancements
+  * Added a translator mapping to go from RETS to ODBC's
+    SQL_C_SBIGINT.  This is the same as the existing mapping of
+    SQL_C_BIGINT.
+  * Rewrote Character translator to see behave better when it is used
+    with SQLGetData
+  * Made "missing translator" messages more human readable, hopefully.
+
 Changes since 2.0.6
 -------------------
  * User-Agent is now "ezRETS/2.0.7 (librets/1.1.8)"
