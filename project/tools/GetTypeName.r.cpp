@@ -23,7 +23,7 @@
 
 using std::string;
 
-string getTypeName(SQLSMALLINT type)
+string odbcrets::getTypeName(SQLSMALLINT type)
 {
     string result;
     switch (type)

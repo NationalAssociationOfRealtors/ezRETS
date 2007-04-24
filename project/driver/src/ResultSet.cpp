@@ -18,6 +18,7 @@
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "Column.h"
+#include "utils.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -179,13 +180,14 @@ void ResultSet::getData(
     if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
         type == SQL_VARBINARY)
     {
-        mLogger->debug(str_stream() << column->getName() << " " << TargetType
-                       << " [omitting possible binary data]");
+        mLogger->debug(str_stream() << column->getName() << " " <<
+                       getTypeName(TargetType) <<
+                       " [omitting possible binary data]");
     }
     else
     {
-        mLogger->debug(str_stream() << column->getName() << " " << TargetType
-                       << " " << resCol);
+        mLogger->debug(str_stream() << column->getName() << " " <<
+                       getTypeName(TargetType) << " " << resCol);
     }
 
     column->setData(rColno, resCol, TargetType, TargetValue, BufferLength,

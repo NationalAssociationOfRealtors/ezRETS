@@ -17,6 +17,7 @@
 #include "DataTranslator.h"
 #include "str_stream.h"
 #include "DataTranslationException.h"
+#include "utils.h"
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
@@ -143,7 +144,7 @@ void NativeDataTranslator::translate(string data, SQLSMALLINT type,
 
             throw MissingTranslatorException(
                 str_stream() << "ezRETS has no translator to turn \""
-                << data << "\" to target type " << type <<
+                << data << "\" to target type " << getTypeName(type) <<
                 " please contact the ezRETS development team.");
         }
     }
@@ -151,7 +152,7 @@ void NativeDataTranslator::translate(string data, SQLSMALLINT type,
     {
         throw DataTranslationException(
             str_stream() << "bad_lexical_cast: could not convert \""
-            << data << "\" to target type " << type);
+            << data << "\" to target type " << getTypeName(type));
     }
 }
 

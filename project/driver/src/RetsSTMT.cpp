@@ -90,7 +90,8 @@ SQLRETURN RetsSTMT::SQLBindCol(SQLUSMALLINT ColumnNumber,
     mErrors.clear();
 
     getLogger()->debug(str_stream() << "In SQLBindCol " << ColumnNumber
-                       << " " << TargetType << " " << BufferLength);
+                       << " " << getTypeName(TargetType) << " " <<
+                       BufferLength);
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
@@ -159,7 +160,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     *Nullable = SQL_NULLABLE;
 
     log->debug(str_stream() << "column(" << columnName << ") OdbcType("
-               << *DataType << ")");
+               << getTypeName(*DataType) << ")");
 
     return SQL_SUCCESS;
 }
@@ -594,7 +595,8 @@ void RetsSTMT::unbindColumns()
 SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 {
     mErrors.clear();
-    getLogger()->debug(str_stream() << "In SQLGetTypeInfo:" << DataType);
+    getLogger()->debug(str_stream() << "In SQLGetTypeInfo:" <<
+                       getTypeName(DataType));
 
     mQuery.reset(new TypeInfoMetadataQuery(this, DataType));
     mQuery->prepareResultSet();
@@ -944,8 +946,8 @@ SQLRETURN RetsSTMT::SQLGetData(
 
     EzLoggerPtr log = getLogger();
     log->debug(str_stream() << "In SQLGetData: " << ColumnNumber << " " <<
-               TargetType << " " << TargetValue << " " << BufferLength << " "
-               << StrLenorInd);
+               getTypeName(TargetType) << " " << TargetValue << " " <<
+               BufferLength << " " << StrLenorInd);
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 

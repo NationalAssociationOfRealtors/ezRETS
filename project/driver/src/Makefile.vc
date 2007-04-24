@@ -56,6 +56,7 @@ X_OBJS = \
 	$(DIROBJ)\EzRetsErrorHandler.obj\
 	$(DIROBJ)\GetConnectAttrHelper.obj\
 	$(DIROBJ)\GetInfoHelper.obj\
+	$(DIROBJ)\GetTypeName.obj\
 	$(DIROBJ)\MetadataView.obj\
 	$(DIROBJ)\NotImplemented.obj\
 	$(DIROBJ)\ObjectQuery.obj\
