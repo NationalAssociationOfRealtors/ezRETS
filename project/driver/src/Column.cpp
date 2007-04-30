@@ -300,6 +300,54 @@ SQLULEN RetsColumn::getMaximumLength()
     else
     {
         size = mMetadataTablePtr->GetMaximumLength();
+        // For some reason some MLS vendors think not to fill in
+        // MaximumLength on fields that have a fixed length like Date
+        // and DateTime.
+        //
+        // This assumes nothing should have a max length of zero, I
+        // think that is a pretty safe bet.
+        if (size == 0)
+        {
+            switch (mMetadataTablePtr->GetDataType())
+            {
+                // False is 5 chars long
+                case lr::MetadataTable::BOOLEAN:
+                    size = 5;
+                    break;
+
+                // 640 bytes should be enough for anybody.  :)
+                // Honestly, I can't think of any sane default.
+                case lr::MetadataTable::CHARACTER:
+                    size = 640;
+                    break;
+                    
+                case lr::MetadataTable::DATE:
+                    size = 10;
+                    break;
+
+                case lr::MetadataTable::DATE_TIME:
+                    size = 19;
+                    break;
+
+                case lr::MetadataTable::TIME:
+                    size = 12;
+                    break;
+
+                // I really should probably make it smaller for the
+                // smaller ones, but this is a case that is rarely
+                // visited, I think.
+                case lr::MetadataTable::TINY:
+                case lr::MetadataTable::SMALL:
+                case lr::MetadataTable::INT:
+                case lr::MetadataTable::LONG:
+                case lr::MetadataTable::DECIMAL:
+                    size = 32;
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
     
     return size;
