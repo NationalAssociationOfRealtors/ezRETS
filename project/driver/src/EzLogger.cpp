@@ -20,7 +20,7 @@
 using namespace odbcrets;
 using std::string;
 
-EzLogger::EzLogger() : mLevel(ERROR) { }
+EzLogger::EzLogger() : mLevel(ERRORS) { }
 
 EzLogger::~EzLogger()
 {
