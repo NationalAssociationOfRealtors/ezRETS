@@ -116,6 +116,7 @@ SQLRETURN RetsDBC::SQLConnect(SQLCHAR *DataSource,
     {
         mEnv->setEzLogFile(mDataSource.GetDebugLogFile());
         log = getLogger();
+        log->setLogLevel(EzLogger::DEBUG);
     }
 
     if (UserName != NULL)

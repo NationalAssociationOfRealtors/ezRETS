@@ -31,5 +31,5 @@ EzRetsErrorHandler::~EzRetsErrorHandler()
 
 void EzRetsErrorHandler::HandleUnknownMetadata(string name) const
 {
-    mEzLogger->info("Ignoring unknown metadata type " + name);
+    LOG_INFO(mEzLogger, "Ignoring unknown metadata type " + name);
 }

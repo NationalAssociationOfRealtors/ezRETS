@@ -30,7 +30,8 @@ class EzLogger
         DEBUG,
         INFO,
         WARN,
-        ERRORS
+        ERRORS,
+        NONE
     };
 
     EzLogger();
@@ -41,6 +42,7 @@ class EzLogger
     Level getLogLevel() const;
 
     bool isDebug() const;
+    bool isInfo() const;
 
     virtual void log(Level level, std::string data) = 0;
 
@@ -61,10 +63,12 @@ class NullEzLogger : public EzLogger
     void log(Level level, std::string data);
 
   private:
+    NullEzLogger();
     static EzLoggerPtr sInstance;
 };
 
 #define LOG_DEBUG(log, x) if (log->isDebug()) { log->debug(x); }
+#define LOG_INFO(log, x) if (log->isInfo()) { log->info(x); }
 
 }
 

@@ -20,7 +20,7 @@
 using namespace odbcrets;
 using std::string;
 
-EzLogger::EzLogger() : mLevel(DEBUG) { }
+EzLogger::EzLogger() : mLevel(ERROR) { }
 
 EzLogger::~EzLogger()
 {
@@ -41,6 +41,11 @@ bool EzLogger::isDebug() const
     return mLevel <= DEBUG;
 }
 
+bool EzLogger::isInfo() const
+{
+    return mLevel <= INFO;
+}
+
 void EzLogger::debug(string data)
 {
     log(DEBUG, data);
@@ -59,6 +64,11 @@ void EzLogger::warn(string data)
 void EzLogger::error(string data)
 {
     log(ERRORS, data);
+}
+
+NullEzLogger::NullEzLogger()
+{
+    setLogLevel(NONE);
 }
 
 void NullEzLogger::log(Level level, string data) { }
