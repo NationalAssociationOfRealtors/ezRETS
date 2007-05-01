@@ -80,8 +80,8 @@ SQLRETURN RetsENV::SQLAllocConnect(SQLHDBC *ConnectionHandle)
     }
     catch(std::bad_alloc & e)
     {
-        getLogger()->debug(str_stream() << "RetsEnv::SQLAllocConnect: "
-                           << e.what());
+        LOG_DEBUG(getLogger(), str_stream() << "RetsEnv::SQLAllocConnect: "
+                  << e.what());
         addError("HY013", e.what());
         *ConnectionHandle = SQL_NULL_HDBC;
         result = SQL_ERROR;

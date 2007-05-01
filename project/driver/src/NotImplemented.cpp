@@ -33,7 +33,7 @@ SQLRETURN SQL_API SQLBindParameter(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLBindParameter");
+        LOG_DEBUG(stmt->getLogger(), "In SQLBindParameter");
         stmt->addError("HY000", "SQLBindParameter not implemented.");
     }
 
@@ -47,7 +47,7 @@ SQLRETURN SQL_API SQLBulkOperations(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLBulkOperations");
+        LOG_DEBUG(stmt->getLogger(), "In SQLBulkOperations");
         stmt->addError("HY000", "SQLBulkOperations not implemented.");
     }
 
@@ -60,7 +60,7 @@ SQLRETURN SQL_API SQLCancel(SQLHSTMT StatementHandle)
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLCancel");
+        LOG_DEBUG(stmt->getLogger(), "In SQLCancel");
         stmt->addError("HY000", "SQLCancel not implemented.");
     }
 
@@ -73,7 +73,7 @@ SQLRETURN SQL_API SQLCloseCursor(SQLHSTMT StatementHandle)
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLCloseCursor");
+        LOG_DEBUG(stmt->getLogger(), "In SQLCloseCursor");
         stmt->addError("HY000", "SQLCloseCursor not implemented.");
     }
 
@@ -95,7 +95,7 @@ SQLRETURN SQL_API SQLColumnPrivileges(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLColumnPrivileges");
+        LOG_DEBUG(stmt->getLogger(), "In SQLColumnPrivileges");
         stmt->addError("HY000", "SQLCancel not implemented.");
     }
 
@@ -112,7 +112,7 @@ SQLRETURN SQL_API SQLCopyDesc(SQLHDESC SourceDescHandle,
     if (desc)
     {
         EzLoggerPtr log = desc->getLogger();
-        log->debug("In SQLCopyDesc");
+        LOG_DEBUG(log, "In SQLCopyDesc");
         
         desc->addError("HY000", "SQLCopyDesc not implemented");
     }
@@ -129,7 +129,7 @@ SQLRETURN SQL_API SQLDescribeParam(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLDescribeParam");
+        LOG_DEBUG(stmt->getLogger(), "In SQLDescribeParam");
         stmt->addError("HY000", "SQLDescribeParam not implemented.");
     }
 
@@ -144,7 +144,7 @@ SQLRETURN SQL_API SQLEndTran(SQLSMALLINT HandleType, SQLHANDLE Handle,
 
     if (ah)
     {
-        ah->getLogger()->debug("In SQLEndTran");
+        LOG_DEBUG(ah->getLogger(), ("In SQLEndTran"));
         ah->addError("HY000", "SQLEndTran not implemented.");
     }
 
@@ -164,7 +164,7 @@ SQLRETURN SQL_API SQLForeignKeys(
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLForeignKeys");
+        LOG_DEBUG(stmt->getLogger(), "In SQLForeignKeys");
         stmt->addError("HY000", "SQLForeignKeys not implemented.");
     }
 
@@ -180,7 +180,7 @@ SQLRETURN SQL_API SQLGetCursorName(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLGetCursorName");
+        LOG_DEBUG(stmt->getLogger(), "In SQLGetCursorName");
         stmt->addError("HY000", "SQLGetCursorName not implemented");
     }
 
@@ -197,7 +197,7 @@ SQLRETURN SQL_API SQLNativeSql(SQLHDBC ConnectionHandle,
 
     if (dbc)
     {
-        dbc->getLogger()->debug("In SQLNativeSql");
+        LOG_DEBUG(dbc->getLogger(), "In SQLNativeSql");
         dbc->addError("HY000", "SQLNativeSql not implemented");
     }
 
@@ -210,7 +210,7 @@ SQLRETURN SQL_API SQLParamData(SQLHSTMT StatementHandle, SQLPOINTER *Value)
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLParamData");
+        LOG_DEBUG(stmt->getLogger(), "In SQLParamData");
         stmt->addError("HY000", "SQLParamData not implemented");
     }
 
@@ -227,7 +227,7 @@ SQLRETURN SQL_API SQLProcedureColumns(
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLProcedureColumns");
+        LOG_DEBUG(stmt->getLogger(), "In SQLProcedureColumns");
         stmt->addError("HY000", "SQLProcedureColumns not implemented");
     }
 
@@ -243,7 +243,7 @@ SQLRETURN SQL_API SQLProcedures(
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLProcedures");
+        LOG_DEBUG(stmt->getLogger(), "In SQLProcedures");
         stmt->addError("HY000", "SQLProcedures not implemented");
     }
 
@@ -257,7 +257,7 @@ SQLRETURN SQL_API SQLPutData(SQLHSTMT StatementHandle, SQLPOINTER Data,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLPutData");
+        LOG_DEBUG(stmt->getLogger(), "In SQLPutData");
         stmt->addError("HY000", "SQLPutData not implemented");
     }
 
@@ -272,7 +272,7 @@ SQLRETURN SQL_API SQLSetConnectAttr(
 
     if (dbc)
     {
-        dbc->getLogger()->debug("In SQLSetConnectAttr");
+        LOG_DEBUG(dbc->getLogger(), "In SQLSetConnectAttr");
     }
 
     return SQL_SUCCESS;
@@ -286,7 +286,7 @@ SQLRETURN SQL_API SQLSetConnectOption(SQLHDBC ConnectionHandle,
 
     if (dbc)
     {
-        dbc->getLogger()->debug("In SQLSetConnectOption");
+        LOG_DEBUG(dbc->getLogger(), "In SQLSetConnectOption");
 //        dbc->addError("HY000", "SQLSetConnectOption not implemented");
     }
 
@@ -301,7 +301,7 @@ SQLRETURN SQL_API SQLSetCursorName(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLSetCursorname");
+        LOG_DEBUG(stmt->getLogger(), "In SQLSetCursorname");
         stmt->addError("HY000", "SQLSetCursorname not implemented");
     }
 
@@ -320,7 +320,7 @@ SQLRETURN SQL_API SQLSetDescRec(SQLHDESC DescriptorHandle,
     if (desc)
     {
         EzLoggerPtr log = desc->getLogger();
-        log->debug("In SQLSetDescRec");
+        LOG_DEBUG(log, "In SQLSetDescRec");
 
         desc->addError("HY000", "SQLSetDescRec not implemented");
     }
@@ -341,7 +341,7 @@ SQLRETURN SQL_API SQLSetParam(SQLHSTMT StatementHandle,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLSetParam");
+        LOG_DEBUG(stmt->getLogger(), "In SQLSetParam");
         stmt->addError("HY000", "SQLSetParam not implemented");
     }
 
@@ -355,7 +355,7 @@ SQLRETURN SQL_API SQLSetPos(SQLHSTMT StatementHandle, SQLSETPOSIROW irow,
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLSetPos");
+        LOG_DEBUG(stmt->getLogger(), "In SQLSetPos");
         stmt->addError("HY000", "SQLSetPos not implemented");
     }
 
@@ -370,7 +370,7 @@ SQLRETURN SQL_API SQLSetScrollOptions(
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLSetScrollOption");
+        LOG_DEBUG(stmt->getLogger(), "In SQLSetScrollOption");
         stmt->addError("HY000", "SQLSetScrollOption not implemented");
     }
 
@@ -386,7 +386,7 @@ SQLRETURN SQL_API SQLTablePrivileges(
 
     if (stmt)
     {
-        stmt->getLogger()->debug("In SQLTablePriviledges");
+        LOG_DEBUG(stmt->getLogger(), "In SQLTablePriviledges");
         stmt->addError("HY000", "SQLTablePriviledges not implemented");
     }
 
@@ -401,7 +401,7 @@ SQLRETURN SQL_API SQLTransact(SQLHENV EnvironmentHandle,
 
     if (env)
     {
-        env->getLogger()->debug("In SQLTransact");
+        LOG_DEBUG(env->getLogger(), "In SQLTransact");
         env->addError("HY000", "SQLTransact not implemented");
     }
 

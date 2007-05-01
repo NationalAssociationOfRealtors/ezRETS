@@ -42,8 +42,8 @@ ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     : Query(stmt), mGetObjectQuery(objectQuery)
 {
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug(str_stream() << "ObjectQuery::ObjectQuery: " <<
-               mGetObjectQuery);
+    LOG_DEBUG(log, str_stream() << "ObjectQuery::ObjectQuery: " <<
+              mGetObjectQuery);
 }
 
 ObjectQuery::~ObjectQuery()
@@ -55,7 +55,7 @@ SQLRETURN ObjectQuery::execute()
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In ObjectQuery::execute()");
+    LOG_DEBUG(log, "In ObjectQuery::execute()");
 
     RetsSessionPtr session = mStmt->getRetsSession();
 

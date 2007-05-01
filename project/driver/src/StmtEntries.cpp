@@ -399,7 +399,7 @@ class SQLMoreResults : public StmtOdbcEntry
     SQLRETURN UncaughtOdbcEntry()
     {
         // We don't support multiple result sets, so we kick it out here.
-        mStmt->getLogger()->debug("In SQLMoreResults");
+        LOG_DEBUG(mStmt->getLogger(), "In SQLMoreResults");
         return SQL_NO_DATA;
     }
 };
@@ -549,7 +549,7 @@ class SQLParamOptions : public StmtOdbcEntry
     SQLRETURN UncaughtOdbcEntry()
     {
         SQLRETURN result;
-        mStmt->getLogger()->debug("In SQLParamOptions...");
+        LOG_DEBUG(mStmt->getLogger(), "In SQLParamOptions...");
         result = mStmt->SQLSetStmtAttr(
             SQL_ATTR_PARAMSET_SIZE, (SQLPOINTER) mCrow, 0);
         if (result == SQL_ERROR)

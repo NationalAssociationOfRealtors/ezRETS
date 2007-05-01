@@ -89,9 +89,9 @@ SQLRETURN RetsSTMT::SQLBindCol(SQLUSMALLINT ColumnNumber,
 {
     mErrors.clear();
 
-    getLogger()->debug(str_stream() << "In SQLBindCol " << ColumnNumber
-                       << " " << getTypeName(TargetType) << " " <<
-                       BufferLength);
+    LOG_DEBUG(getLogger(), str_stream() << "In SQLBindCol " << ColumnNumber
+              << " " << getTypeName(TargetType) << " " <<
+              BufferLength);
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
@@ -122,7 +122,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLDescribeCol");
+    LOG_DEBUG(log, "In SQLDescribeCol");
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
@@ -159,7 +159,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     // In rets, anything can be null;  Also, no one can hear you scream.
     *Nullable = SQL_NULLABLE;
 
-    log->debug(str_stream() << "column(" << columnName << ") OdbcType("
+    LOG_DEBUG(log, str_stream() << "column(" << columnName << ") OdbcType("
                << getTypeName(*DataType) << ")");
 
     return SQL_SUCCESS;
@@ -172,13 +172,13 @@ SQLRETURN RetsSTMT::SQLExecDirect(SQLCHAR *StatementText,
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLExecDirect");
+    LOG_DEBUG(log, "In SQLExecDirect");
 
     SQLRETURN result = this->SQLPrepare(StatementText, TextLength);
 
     if (result != SQL_SUCCESS)
     {
-        log->debug("no success on SQLPrepare");
+        LOG_DEBUG(log, "no success on SQLPrepare");
         return result;
     }
     
@@ -189,19 +189,19 @@ SQLRETURN RetsSTMT::SQLFetch()
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLFetch()");
+    LOG_DEBUG(log, "In SQLFetch()");
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
     if (resultSet->isEmpty())
     {
-        log->debug("results.isEmpty()");
+        LOG_DEBUG(log, "results.isEmpty()");
         return SQL_NO_DATA;
     }
 
     if (!resultSet->hasNext())
     {
-        log->debug("no Next Result");
+        LOG_DEBUG(log, "no Next Result");
         return SQL_NO_DATA;
     }
 
@@ -228,7 +228,7 @@ SQLRETURN RetsSTMT::SQLFetch()
             // If we made it this far, we have processed the one row.
             // If we didn't make it this far, it doesn't matter as the
             // value of ROWS_FETCHED is undefined if not SQL_SUCCESS*
-            log->debug("Setting Rows Processed on IRC");
+            LOG_DEBUG(log, "Setting Rows Processed on IRC");
             *ird.mRowsProcessedPtr = 1;
         }
 
@@ -266,8 +266,8 @@ SQLRETURN RetsSTMT::SQLGetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
                                    SQLINTEGER *StringLength)
 {
     mErrors.clear();
-    getLogger()->debug(str_stream() << "In SQLGetStmtAttr.  Attribute: "
-                       << Attribute);
+    LOG_DEBUG(getLogger(), str_stream() << "In SQLGetStmtAttr.  Attribute: "
+              << Attribute);
 
     SQLRETURN result = SQL_SUCCESS;
     
@@ -338,13 +338,13 @@ SQLRETURN RetsSTMT::SQLNumResultCols(SQLSMALLINT *ColumnCount)
     mErrors.clear();
     
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLNumResultCols");
+    LOG_DEBUG(log, "In SQLNumResultCols");
 
     ResultSetPtr resultSet = mQuery->getResultSet();
 
     *ColumnCount = b::numeric_cast<SQLSMALLINT>(resultSet->columnCount());
 
-    log->debug(b::lexical_cast<string>(*ColumnCount));
+    LOG_DEBUG(log, b::lexical_cast<string>(*ColumnCount));
 
     return SQL_SUCCESS;
 
@@ -354,7 +354,7 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLPrepare " << StatementText);
+    LOG_DEBUG(log, str_stream() << "In SQLPrepare " << StatementText);
 
     if (StatementText == NULL)
     {
@@ -392,7 +392,7 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLTables");
+    LOG_DEBUG(log, "In SQLTables");
 
 
     string catalog("");
@@ -426,12 +426,12 @@ SQLRETURN RetsSTMT::SQLTables(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
             new TableMetadataQuery(this, catalog, schema, table, tableType));
         mQuery->prepareResultSet();
 
-        log->debug(str_stream() << mQuery);
+        LOG_DEBUG(log, str_stream() << mQuery);
         result = mQuery->execute();
     }
     catch(std::exception& e)
     {
-        log->debug(str_stream() << "SQLTables exception: " << e.what());
+        LOG_DEBUG(log, str_stream() << "SQLTables exception: " << e.what());
         addError("01000", e.what());
         result = SQL_ERROR;
     }
@@ -450,8 +450,8 @@ SQLRETURN RetsSTMT::SQLExecute()
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = getLogger();
-    log->debug("In RetsSTMT::SQLExecute()");
-    log->debug(str_stream() << "Trying statement: " << mQuery);
+    LOG_DEBUG(log, "In RetsSTMT::SQLExecute()");
+    LOG_DEBUG(log, str_stream() << "Trying statement: " << mQuery);
 
     try
     {
@@ -459,19 +459,19 @@ SQLRETURN RetsSTMT::SQLExecute()
     }
     catch(SqlStateException & e)
     {
-        log->debug(str_stream() << "stmt.execute: " << e.what());
+        LOG_DEBUG(log, str_stream() << "stmt.execute: " << e.what());
         addError(e);
         result = SQL_ERROR;
     }
     catch (RetsException & e)
     {
-        log->debug(str_stream() << "stmt.execute: " << e.what());
+        LOG_DEBUG(log, str_stream() << "stmt.execute: " << e.what());
         addError("42000", e.what());
         result = SQL_ERROR;
     }
     catch (EzRetsException & e)
     {
-        log->debug(str_stream() << "stmt.execute: " << e.what());
+        LOG_DEBUG(log, str_stream() << "stmt.execute: " << e.what());
         addError("42000", e.what());
         result = SQL_ERROR;
     }
@@ -545,13 +545,13 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLColumns");
+    LOG_DEBUG(log, "In SQLColumns");
 
     // Should put in an error return condition for HYC00
     if (CatalogName != NULL && *CatalogName != '\0')
     {
         string catName = SqlCharToString(CatalogName, NameLength1);
-        log->debug(str_stream() << "CatalogName " << catName);
+        LOG_DEBUG(log, str_stream() << "CatalogName " << catName);
         addError("HYC00", "catalogs not supported in this driver");
         return SQL_ERROR;
     }
@@ -574,12 +574,12 @@ SQLRETURN RetsSTMT::SQLColumns(SQLCHAR *CatalogName, SQLSMALLINT NameLength1,
         mQuery.reset(new ColumnMetadataQuery(this, tableName, columnName));
         mQuery->prepareResultSet();
 
-        log->debug(str_stream() << mQuery);
+        LOG_DEBUG(log, str_stream() << mQuery);
         result = mQuery->execute();
     }
     catch(std::exception& e)
     {
-        log->debug(str_stream() << "SQLColumns exception: " << e.what());
+        LOG_DEBUG(log, str_stream() << "SQLColumns exception: " << e.what());
         addError("01000", e.what());
         result = SQL_ERROR;
     }
@@ -595,8 +595,8 @@ void RetsSTMT::unbindColumns()
 SQLRETURN RetsSTMT::SQLGetTypeInfo(SQLSMALLINT DataType)
 {
     mErrors.clear();
-    getLogger()->debug(str_stream() << "In SQLGetTypeInfo:" <<
-                       getTypeName(DataType));
+    LOG_DEBUG(getLogger(), str_stream() << "In SQLGetTypeInfo:" <<
+              getTypeName(DataType));
 
     mQuery.reset(new TypeInfoMetadataQuery(this, DataType));
     mQuery->prepareResultSet();
@@ -610,14 +610,14 @@ SQLRETURN RetsSTMT::SQLSpecialColumns(
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLSpecialColumns " << IdentifierType <<
+    LOG_DEBUG(log, str_stream() << "In SQLSpecialColumns " << IdentifierType <<
                " " << Scope << " " << Nullable);
 
     // Should put in an error return condition for HYC00
     if (CatalogName != NULL && *CatalogName != '\0')
     {
         string catName = SqlCharToString(CatalogName, NameLength1);
-        log->debug(str_stream() << "CatalogName " << catName);
+        LOG_DEBUG(log, str_stream() << "CatalogName " << catName);
         addError("HYC00", "catalogs not supported in this driver");
         return SQL_ERROR;
     }
@@ -634,8 +634,8 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 {
     mErrors.clear();
     
-    getLogger()->debug(str_stream() << "In SQLSetStmtAttr " << Attribute
-                       << " " << Value << " " << StringLength);
+    LOG_DEBUG(getLogger(), str_stream() << "In SQLSetStmtAttr " << Attribute
+              << " " << Value << " " << StringLength);
 
     SQLRETURN result = SQL_SUCCESS;
 
@@ -768,8 +768,8 @@ SQLRETURN RetsSTMT::SQLColAttribute(
 {
     mErrors.clear();
 
-    getLogger()->debug(str_stream() << "In SQLColAttribute " << ColumnNumber
-                       << " " << FieldIdentifier);
+    LOG_DEBUG(getLogger(), str_stream() << "In SQLColAttribute " <<
+              ColumnNumber << " " << FieldIdentifier);
 
     ResultSetPtr resultSet = mQuery->getResultSet();
     
@@ -945,7 +945,7 @@ SQLRETURN RetsSTMT::SQLGetData(
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLGetData: " << ColumnNumber << " " <<
+    LOG_DEBUG(log, str_stream() << "In SQLGetData: " << ColumnNumber << " " <<
                getTypeName(TargetType) << " " << TargetValue << " " <<
                BufferLength << " " << StrLenorInd);
 
@@ -968,7 +968,7 @@ SQLRETURN RetsSTMT::SQLGetData(
         // DataStreamInfo.reset()
         if (mDataStreamInfo.column != ColumnNumber)
         {
-            log->debug("Resetting DataStreamInfo");
+            LOG_DEBUG(log, "Resetting DataStreamInfo");
             mDataStreamInfo.reset();
             mDataStreamInfo.column = ColumnNumber;
         }
@@ -976,7 +976,7 @@ SQLRETURN RetsSTMT::SQLGetData(
         if (mDataStreamInfo.status == DataStreamInfo::NO_MORE_DATA)
         {
             retCode = SQL_NO_DATA;
-            log->debug("Sending SQL_NO_DATA");
+            LOG_DEBUG(log, "Sending SQL_NO_DATA");
         }
         else
         {
@@ -990,7 +990,7 @@ SQLRETURN RetsSTMT::SQLGetData(
             }
         }
 
-        log->debug(str_stream() << "DSI: " << mDataStreamInfo.column
+        LOG_DEBUG(log, str_stream() << "DSI: " << mDataStreamInfo.column
                    << " Status:" << mDataStreamInfo.status << " Offset:"
                    << mDataStreamInfo.offset << " -- Len:" << *StrLenorInd
                    << " retCode:" << retCode);
@@ -1022,13 +1022,13 @@ SQLRETURN RetsSTMT::SQLStatistics(
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLStatistics: " << TableName);
+    LOG_DEBUG(log, str_stream() << "In SQLStatistics: " << TableName);
 
     // Should put in an error return condition for HYC00
     if (CatalogName != NULL)
     {
         string catName = SqlCharToString(CatalogName, NameLength1);
-        log->debug(str_stream() << "CatalogName " << catName);
+        LOG_DEBUG(log, str_stream() << "CatalogName " << catName);
         if (catName.compare("%") != 0 && !catName.empty())
         {
             addError("HYC00", "catalogs not supported in this driver");
@@ -1039,7 +1039,7 @@ SQLRETURN RetsSTMT::SQLStatistics(
     if (SchemaName != NULL)
     {
         string schName = SqlCharToString(SchemaName, NameLength2);
-        log->debug(str_stream() << "SchemaName " << schName);
+        LOG_DEBUG(log, str_stream() << "SchemaName " << schName);
         if (schName.compare("%") != 0 && !schName.empty())
         {
             addError("HYC00", "schemas not supported in this driver");
@@ -1056,7 +1056,7 @@ SQLRETURN RetsSTMT::SQLNumParams(SQLSMALLINT *pcpar)
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLNumParams");
+    LOG_DEBUG(log, "In SQLNumParams");
 
     // We haven't written in support yet for paramenters, so I think
     // this will always be 0.
@@ -1072,13 +1072,13 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLPrimaryKeys: " << TableName);
+    LOG_DEBUG(log, str_stream() << "In SQLPrimaryKeys: " << TableName);
 
     // Should put in an error return condition for HYC00
     if (CatalogName != NULL && *CatalogName != '\0')
     {
         string catName = SqlCharToString(CatalogName, CatalogNameSize);
-        log->debug(str_stream() << "CatalogName " << catName);
+        LOG_DEBUG(log, str_stream() << "CatalogName " << catName);
         addError("HYC00", "catalogs not supported in this driver");
         return SQL_ERROR;
     }
@@ -1086,7 +1086,7 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     if (SchemaName != NULL && *SchemaName != '\0')
     {
         string schName = SqlCharToString(SchemaName, SchemaNameSize);
-        log->debug(str_stream() << "SchemaName " << schName);
+        LOG_DEBUG(log, str_stream() << "SchemaName " << schName);
     }
 
     string table = SqlCharToString(TableName, TableNameSize);
@@ -1100,12 +1100,12 @@ SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug("In SQLRowCount");
+    LOG_DEBUG(log, "In SQLRowCount");
 
     ResultSetPtr resultSet = mQuery->getResultSet();
     
     int myRowCount = resultSet->rowCount();
-    log->debug(b::lexical_cast<string>(myRowCount));
+    LOG_DEBUG(log, b::lexical_cast<string>(myRowCount));
 
     *rowCount = b::numeric_cast<SQLLEN>(myRowCount);
 
@@ -1120,8 +1120,8 @@ SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
     // Right now we're ignoring the offset, we shouldn't do that
     // in the long run.
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLExtendedFetch: " << fFetchType <<
-               " " << irow << " " << pcrow << " " << rgfRowStatus);
+    LOG_DEBUG(log, str_stream() << "In SQLExtendedFetch: " << fFetchType <<
+              " " << irow << " " << pcrow << " " << rgfRowStatus);
 
     SQLRETURN result = SQLFetch();
     *pcrow = (result != SQL_ERROR) ? 1 : 0;
@@ -1137,8 +1137,8 @@ SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
     // Right now we're ignoring the offset, we shouldn't do that
     // in the long run.
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLFetchScroll: " << FetchOrientation <<
-               " " << FetchOffset);
+    LOG_DEBUG(log, str_stream() << "In SQLFetchScroll: " << FetchOrientation <<
+              " " << FetchOffset);
 
     SQLRETURN result;
     if (FetchOrientation != SQL_FETCH_NEXT)

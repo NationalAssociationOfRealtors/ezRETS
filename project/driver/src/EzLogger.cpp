@@ -31,6 +31,16 @@ void EzLogger::setLogLevel(Level level)
     mLevel = level;
 }
 
+EzLogger::Level EzLogger::getLogLevel() const
+{
+    return mLevel;
+}
+
+bool EzLogger::isDebug() const
+{
+    return mLevel <= DEBUG;
+}
+
 void EzLogger::debug(string data)
 {
     log(DEBUG, data);

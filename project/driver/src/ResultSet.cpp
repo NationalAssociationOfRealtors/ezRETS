@@ -106,7 +106,7 @@ void ResultSet::addColumn(std::string name, MetadataTable* table,
 
 void ResultSet::processNextRow()
 {
-    mLogger->debug("In ResultSet::processNextRow()");
+    LOG_DEBUG(mLogger, "In ResultSet::processNextRow()");
 
     if (mGotFirst)
     {
@@ -128,13 +128,13 @@ void ResultSet::processNextRow()
         if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
             type == SQL_VARBINARY)
         {
-            mLogger->debug(str_stream() << count << " " << col->getName() <<
-                           ": [omitting possible binary data]");
+            LOG_DEBUG(mLogger, str_stream() << count << " " <<
+                      col->getName() << ": [omitting possible binary data]");
         }
         else
         {
-            mLogger->debug(str_stream() << count << " " << col->getName() <<
-                           ": " << *i);
+            LOG_DEBUG(mLogger, str_stream() << count << " " <<
+                      col->getName() << ": " << *i);
         }
 
         if (col->isBound())
@@ -169,7 +169,7 @@ void ResultSet::getData(
     SQLUSMALLINT colno, SQLSMALLINT TargetType, SQLPOINTER TargetValue,
     SQLLEN BufferLength, SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
-    mLogger->debug("In ResultSet::getData()");
+    LOG_DEBUG(mLogger, "In ResultSet::getData()");
 
     int rColno = colno - 1;
     ColumnPtr& column = mColumns->at(rColno);
@@ -180,14 +180,14 @@ void ResultSet::getData(
     if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
         type == SQL_VARBINARY)
     {
-        mLogger->debug(str_stream() << column->getName() << " " <<
-                       getTypeName(TargetType) <<
-                       " [omitting possible binary data]");
+        LOG_DEBUG(mLogger, str_stream() << column->getName() << " " <<
+                  getTypeName(TargetType) <<
+                  " [omitting possible binary data]");
     }
     else
     {
-        mLogger->debug(str_stream() << column->getName() << " " <<
-                       getTypeName(TargetType) << " " << resCol);
+        LOG_DEBUG(mLogger, str_stream() << column->getName() << " " <<
+                  getTypeName(TargetType) << " " << resCol);
     }
 
     column->setData(rColno, resCol, TargetType, TargetValue, BufferLength,

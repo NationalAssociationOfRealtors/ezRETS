@@ -43,7 +43,7 @@ DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
     : Query(stmt), mDmqlQuery(dmqlQuery)
 {
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug(str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
+    LOG_DEBUG(log, str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
 
     mSearchFormat = useCompactFormat ?
         SearchRequest::COMPACT : SearchRequest::COMPACT_DECODED;
@@ -54,7 +54,7 @@ SQLRETURN DataQuery::execute()
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In DataQuery::execute()");
+    LOG_DEBUG(log, "In DataQuery::execute()");
 
     if (mDmqlQuery->GetCriterion() != NULL)
     {
@@ -73,7 +73,7 @@ SQLRETURN DataQuery::execute()
 void DataQuery::prepareResultSet()
 {
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug("In prepareDataResultSet");
+    LOG_DEBUG(log, "In prepareDataResultSet");
     
     MetadataViewPtr metadata = mStmt->getMetadataView();
     
@@ -92,13 +92,13 @@ void DataQuery::prepareResultSet()
     if (fields == NULL || fields->empty())
     {
         // SELECT *
-        log->debug("Looks like we're doing a SELECT *");
+        LOG_DEBUG(log, "Looks like we're doing a SELECT *");
         tables = metadata->getTablesForClass(clazz);
     }
     else
     {
         // SELECT foo,bar
-        log->debug("We have specifically selected fields.");
+        LOG_DEBUG(log, "We have specifically selected fields.");
         tables.clear();
         StringVector::iterator si;
         for (si = fields->begin(); si != fields->end(); si++)
@@ -153,8 +153,8 @@ SQLRETURN DataQuery::doRetsQuery()
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug(str_stream() << "Trying RETSQuery: " <<
-               searchRequest->GetQueryString());
+    LOG_DEBUG(log, str_stream() << "Trying RETSQuery: " <<
+              searchRequest->GetQueryString());
 
     SearchResultSetAPtr results = session->Search(searchRequest.get());
 
@@ -179,7 +179,7 @@ SQLRETURN DataQuery::doRetsQuery()
             catch (std::invalid_argument& e)
             {
                 result = "";
-                log->debug(str_stream() << e.what() << " -- ignoring");
+                LOG_DEBUG(log, str_stream() << e.what() << " -- ignoring");
             }
             v->push_back(result);
         }

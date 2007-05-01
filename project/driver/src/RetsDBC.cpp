@@ -47,7 +47,7 @@ RetsDBC::RetsDBC(RetsENV* handle)
     mMetadataViewPtr.reset();
     mRetsLogFile.reset();
     mRetsHttpLogger.reset();
-    mEnv->getLogger()->debug("DBC created");
+    LOG_DEBUG(mEnv->getLogger(), "DBC created");
 }
 
 RetsDBC::~RetsDBC()
@@ -82,7 +82,7 @@ SQLRETURN RetsDBC::SQLAllocStmt(SQLHSTMT *StatementHandlePtr)
     catch(std::bad_alloc & e)
     {
         result = SQL_ERROR;
-        getLogger()->debug(str_stream() << "SQLAllocStmt: " << e.what());
+        LOG_DEBUG(getLogger(), str_stream() << "SQLAllocStmt: " << e.what());
         addError("HY013", e.what());
         *StatementHandlePtr = SQL_NULL_HSTMT;
     }
@@ -97,7 +97,7 @@ SQLRETURN RetsDBC::SQLConnect(SQLCHAR *DataSource,
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
-    log->debug("We are in SQLConnect");
+    LOG_DEBUG(log, "We are in SQLConnect");
 
     if (mRetsSessionPtr != NULL)
     {
@@ -127,10 +127,10 @@ SQLRETURN RetsDBC::SQLConnect(SQLCHAR *DataSource,
         mDataSource.SetPassword(SqlCharToString(Authentication, AuthLength));
     }
 
-    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " (" <<
-               lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
-               << __TIME__);
-    log->debug(str_stream() << mDataSource);
+    LOG_DEBUG(log, str_stream() << "version: " << DRIVER_NAME_SHORT << " (" <<
+              lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
+              << __TIME__);
+    LOG_DEBUG(log, str_stream() << mDataSource);
 
     if (!login())
     {
@@ -146,7 +146,7 @@ SQLRETURN RetsDBC::SQLDisconnect()
     mErrors.clear();
 
     EzLoggerPtr log = getLogger();
-    log->debug("We are in SQLDisconnect");
+    LOG_DEBUG(log, "We are in SQLDisconnect");
 
     if (mRetsSessionPtr == NULL)
     {
@@ -157,7 +157,7 @@ SQLRETURN RetsDBC::SQLDisconnect()
     if (!mStatements.empty())
     {
         addError("HY000", "STMTs still open");
-        log->debug("Darn!  dbc has statments!");
+        LOG_DEBUG(log, "Darn!  dbc has statments!");
         return SQL_ERROR;
     }
 
@@ -180,11 +180,11 @@ SQLRETURN RetsDBC::SQLDriverConnect(
 
     // Take info passed in from InString, fill in DBC.
     string inConString = SqlCharToString(InConnectionString, InStringLength);
-    log->debug("inConString created");
+    LOG_DEBUG(log, "inConString created");
     mDataSource.SetFromOdbcConnectionString(inConString);
 
-    log->debug("Past parseConnectingString");
-    log->debug("About to load from INI");
+    LOG_DEBUG(log, "Past parseConnectingString");
+    LOG_DEBUG(log, "About to load from INI");
 
     // Go into registry and get missing info, assuming with have DSN
     // Fill in defaults
@@ -197,16 +197,16 @@ SQLRETURN RetsDBC::SQLDriverConnect(
         log = getLogger();
     }
 
-    log->debug("post load from INI");
+    LOG_DEBUG(log, "post load from INI");
 
-    log->debug(str_stream() << "version: " << DRIVER_NAME_SHORT << " (" <<
-               lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
-               << __TIME__);
-    log->debug(str_stream() << mDataSource);
+    LOG_DEBUG(log, str_stream() << "version: " << DRIVER_NAME_SHORT << " (" <<
+              lr::RetsSession::DEFAULT_USER_AGENT << ") " << __DATE__ << " "
+              << __TIME__);
+    LOG_DEBUG(log, str_stream() << mDataSource);
 
     // This logging really isn't needed anymore.  Also, this way we won't
     // leak passwords.
-    // log->debug(str_stream() << "In connection: " << inConString);
+    // LOG_DEBUG(log, str_stream() << "In connection: " << inConString);
     
     // ifdefs based on platform? and DriverCompletion
     // NOTE: This is where the dialog box for the password and whatnot
@@ -258,7 +258,7 @@ SQLRETURN RetsDBC::SQLDriverConnect(
 
     // This logging really isn't needed anymore.  Also, this way we won't
     // leak passwords.
-    // log->debug(str_stream() << "Out connection: " << conString);
+    // LOG_DEBUG(log, str_stream() << "Out connection: " << conString);
 
     return retCode;
 }
@@ -271,8 +271,8 @@ SQLRETURN RetsDBC::SQLGetInfo(SQLUSMALLINT InfoType, SQLPOINTER InfoValue,
     GetInfoHelper helper(this, InfoValue, BufferLength, StringLength);
 
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "We are in SQLGetInfo with InfoType: "
-               << InfoType);
+    LOG_DEBUG(log, str_stream() << "We are in SQLGetInfo with InfoType: "
+              << InfoType);
 
     SQLRETURN result;
 
@@ -683,7 +683,7 @@ bool RetsDBC::login()
     }
     catch(std::exception & e)
     {
-        log->debug(str_stream() << "RetsDBC::Login: " << e.what());
+        LOG_DEBUG(log, str_stream() << "RetsDBC::Login: " << e.what());
 
         string message("Unable to connect: ");
         message.append(e.what());
@@ -787,7 +787,8 @@ SQLRETURN RetsDBC::SQLGetConnectAttr(SQLINTEGER Attribute, SQLPOINTER Value,
                                      SQLINTEGER *StringLength)
 {
     mErrors.clear();
-    getLogger()->debug(str_stream() << "In SQLGetConnectAttr " << Attribute);
+    LOG_DEBUG(getLogger(), str_stream() << "In SQLGetConnectAttr " <<
+              Attribute);
 
     SQLRETURN result = SQL_SUCCESS;
     GetConnectAttrHelper helper(this, Value, BufferLength, StringLength);

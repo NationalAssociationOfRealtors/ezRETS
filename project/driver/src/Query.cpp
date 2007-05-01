@@ -51,7 +51,7 @@ QueryPtr Query::createSqlQuery(
     RetsSTMT* stmt, bool useCompactFormat, std::string query)
 {
     EzLoggerPtr log = stmt->getLogger();
-    log->debug(str_stream() << "Query::createQuery: " << query);
+    LOG_DEBUG(log, str_stream() << "Query::createQuery: " << query);
 
     // Prepare most of the query
     MetadataViewPtr metadataView = stmt->getMetadataView();

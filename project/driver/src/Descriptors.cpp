@@ -69,9 +69,9 @@ SQLRETURN BaseDesc::SQLSetDescField(
     SQLINTEGER BufferLength)
 {
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLSetDescField " <<
-               TypeNames[mType] << " " << RecNumber << " " <<
-               FieldIdentifier << " " << Value);
+    LOG_DEBUG(log, str_stream() << "In SQLSetDescField " <<
+              TypeNames[mType] << " " << RecNumber << " " <<
+              FieldIdentifier << " " << Value);
 
     SQLRETURN result = SQL_SUCCESS;
     switch(FieldIdentifier)
@@ -115,9 +115,9 @@ SQLRETURN BaseDesc::SQLGetDescField (
         SQLINTEGER BufferLength, SQLINTEGER* StringLength)
 {
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In SQLGetDescField " <<
-               TypeNames[mType] << " " << RecNumber << " " <<
-               FieldIdentifier << " " << Value);
+    LOG_DEBUG(log, str_stream() << "In SQLGetDescField " <<
+              TypeNames[mType] << " " << RecNumber << " " <<
+              FieldIdentifier << " " << Value);
 
     SQLRETURN result = SQL_SUCCESS;
 //     switch(FieldIdentifier)

@@ -350,7 +350,7 @@ SQLULEN RetsColumn::getMaximumLength()
             }
             
             EzLoggerPtr log = mParent->getLogger();
-            log->debug("Maximum value was 0, assuming value of " + size);
+            LOG_DEBUG(log, "Maximum value was 0, assuming value of " + size);
         }
     }
     

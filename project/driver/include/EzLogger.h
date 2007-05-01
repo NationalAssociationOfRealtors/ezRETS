@@ -38,6 +38,9 @@ class EzLogger
     virtual ~EzLogger();
 
     void setLogLevel(Level level);
+    Level getLogLevel() const;
+
+    bool isDebug() const;
 
     virtual void log(Level level, std::string data) = 0;
 
@@ -60,6 +63,8 @@ class NullEzLogger : public EzLogger
   private:
     static EzLoggerPtr sInstance;
 };
+
+#define LOG_DEBUG(log, x) if (log->isDebug()) { log->debug(x); }
 
 }
 

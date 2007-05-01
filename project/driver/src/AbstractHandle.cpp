@@ -40,7 +40,8 @@ SQLRETURN AbstractHandle::SQLError(SQLCHAR *Sqlstate, SQLINTEGER *NativeError,
                                    SQLSMALLINT MessageBufferLength,
                                    SQLSMALLINT *MessageLength)
 {
-    getLogger()->debug("In SQLError");
+    EzLoggerPtr log = getLogger();
+    LOG_DEBUG(log, "In SQLError");
 
     SQLRETURN result =
         this->SQLGetDiagRec(1, Sqlstate, NativeError, MessageText,
@@ -66,12 +67,12 @@ SQLRETURN AbstractHandle::SQLGetDiagRec(
     int adjRecNo = RecNumber - 1;
 
     EzLoggerPtr log = getLogger();
-    log->debug("In AbstractHandle::SQLGetDiagRec");
+    LOG_DEBUG(log, "In AbstractHandle::SQLGetDiagRec");
 
     int numErrors = mErrors.size();
     if (numErrors == 0 || RecNumber > numErrors)
     {
-        log->debug("Returning no data");
+        LOG_DEBUG(log, "Returning no data");
         return SQL_NO_DATA;
     }
 
@@ -106,7 +107,7 @@ SQLRETURN AbstractHandle::SQLGetDiagRec(
         *NativeError = 42;
     }
 
-    log->debug(str_stream() << "Returning " << retCode << ": "
+    LOG_DEBUG(log, str_stream() << "Returning " << retCode << ": "
                << error->toString());
 
     return retCode;
@@ -115,8 +116,9 @@ SQLRETURN AbstractHandle::SQLGetDiagRec(
 
 void AbstractHandle::addError(std::string sqlstate, string message)
 {
-    getLogger()->debug(str_stream() << "Adding error: " << sqlstate << " : "
-                       << message);
+    EzLoggerPtr log = getLogger();
+    LOG_DEBUG(log, str_stream() << "Adding error: " << sqlstate << " : "
+              << message);
     ErrorPtr error(new Error(sqlstate, message));
     addError(error);
 }
@@ -153,7 +155,7 @@ SQLRETURN AbstractHandle::SQLGetDiagField(
     SQLSMALLINT BufferLength, SQLSMALLINT *StringLengthPtr)
 {
     EzLoggerPtr log = getLogger();
-    log->debug(str_stream() << "In AbstractHandle::SQLGetDiagField: " <<
+    LOG_DEBUG(log, str_stream() << "In AbstractHandle::SQLGetDiagField: " <<
                RecNumber << " " << DiagIdentifier << " " << BufferLength);
 
     if (b::numeric_cast<size_t>(RecNumber) > mErrors.size())
@@ -181,7 +183,7 @@ SQLRETURN AbstractHandle::SQLGetDiagField(
         }
         catch (std::exception&)
         {
-            log->debug("AH::SQLGetDiagField: caught exception from at");
+            LOG_DEBUG(log, "AH::SQLGetDiagField: caught exception from at");
             // Do something here
         }
     }
@@ -255,7 +257,7 @@ SQLRETURN AbstractHandle::SQLGetDiagField(
             break;
 
         case SQL_DIAG_SQLSTATE:
-            log->debug(str_stream()
+            LOG_DEBUG(log, str_stream()
                        << "AH::SQLGetDiagField: copying sqlstate of "
                        << error->getSqlstate());
             error->getSqlstate().copy((char *) DiagInfoPtr, 5);

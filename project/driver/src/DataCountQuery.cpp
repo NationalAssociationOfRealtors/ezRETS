@@ -62,8 +62,8 @@ SQLRETURN DataCountQuery::doRetsQuery()
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 
     EzLoggerPtr log = mStmt->getLogger();
-    log->debug(str_stream() << "Trying RETSQuery: " <<
-               searchRequest->GetQueryString());
+    LOG_DEBUG(log, str_stream() << "Trying RETSQuery: " <<
+              searchRequest->GetQueryString());
 
     SearchResultSetAPtr results = session->Search(searchRequest.get());
 
