@@ -21,6 +21,7 @@
 #include "RetsSTMT.h"
 #include "MetadataView.h"
 #include "DataTranslator.h"
+#include "EzLogger.h"
 
 using namespace odbcrets;
 namespace lr = librets;
@@ -347,6 +348,9 @@ SQLULEN RetsColumn::getMaximumLength()
                 default:
                     break;
             }
+            
+            EzLoggerPtr log = mParent->getLogger();
+            log->debug("Maximum value was 0, assuming value of " + size);
         }
     }
     
