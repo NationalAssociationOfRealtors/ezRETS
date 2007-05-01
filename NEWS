@@ -4,6 +4,7 @@ Changes since 2.0.8
  Enhancements
   * Added default MaximumLengths for cases where the RETS server
     metadata didn't specify one.
+  * When debug logging is turned off things should be slightly less
 
 Changes since 2.0.7
 -------------------
