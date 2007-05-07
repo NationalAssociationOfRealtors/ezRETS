@@ -31,15 +31,31 @@ int main(int argc, char **argv)
 {
     po::options_description desc("Allowed options");
     desc.add_options()
+        ("help,h", "produce help message")
         ("install,i", "install the driver")
         ("remove,r", "remove the driver")
         ("destructive,d", "remove destructively");
 
     po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);    
+    try
+    {
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+    }
+    catch (std::exception& e)
+    {
+        cout << "ERROR: " << e.what() << endl;
+        cout << desc;
+        exit(1);
+    }
+    po::notify(vm);
+        
 
     bool ezInstalled = isEzInstalled();
+
+    if (vm.count("help"))
+    {
+        cout << desc;
+    }
 
     if (vm.count("install"))
     {
