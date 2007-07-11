@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2007 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -112,6 +112,8 @@ class RetsSTMT : public AbstractHandle
     virtual SQLRETURN diagServerName(
         SQLPOINTER DiagInfoPtr, SQLSMALLINT BufferLength,
         SQLSMALLINT *StringLengthPtr);
+
+    SQLRETURN SQLCancel();
 
     AppRowDesc* getArd();
 

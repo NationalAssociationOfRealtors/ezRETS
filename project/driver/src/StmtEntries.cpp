@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2007 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -566,6 +566,23 @@ class SQLParamOptions : public StmtOdbcEntry
     SQLUINTEGER* mPirow;
 };
 
+class SQLCancel : public StmtOdbcEntry
+{
+  public:
+    SQLCancel(SQLHSTMT StatementHandle)
+        : StmtOdbcEntry(StatementHandle) { }
+
+  protected:
+    SQLRETURN UncaughtOdbcEntry()
+    {
+        SQLRETURN result;
+
+        result = mStmt->SQLCancel();
+
+        return result;
+    }
+};
+
 }
 
 namespace o = odbcrets;
@@ -789,4 +806,10 @@ SQLRETURN SQL_API SQLParamOptions(
 {
     o::SQLParamOptions spo(StatementHandle, crow, pirow);
     return spo();
+}
+
+SQLRETURN SQL_API SQLCancel(SQLHSTMT StatementHandle)
+{
+    o::SQLCancel sc(StatementHandle);
+    return sc();
 }

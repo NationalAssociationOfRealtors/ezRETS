@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2007 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -49,19 +49,6 @@ SQLRETURN SQL_API SQLBulkOperations(SQLHSTMT StatementHandle,
     {
         LOG_DEBUG(stmt->getLogger(), "In SQLBulkOperations");
         stmt->addError("HY000", "SQLBulkOperations not implemented.");
-    }
-
-    return SQL_ERROR;
-}
-
-SQLRETURN SQL_API SQLCancel(SQLHSTMT StatementHandle)
-{
-    AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
-
-    if (stmt)
-    {
-        LOG_DEBUG(stmt->getLogger(), "In SQLCancel");
-        stmt->addError("HY000", "SQLCancel not implemented.");
     }
 
     return SQL_ERROR;
