@@ -64,6 +64,9 @@ class MetadataView : public librets::SqlMetadata
     bool IsLookupColumn(librets::MetadataTable* table);
     virtual bool IsLookupColumn(std::string tableName, std::string columnName);
 
+    std::string getLookupTypeLongValue(
+        librets::MetadataTable* table, std::string value);
+
     /**
      * Searches the metadata and takes Resource:Class combinations and
      * turns them into table names of the form "data:Resource:Class".

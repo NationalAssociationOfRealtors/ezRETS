@@ -14,17 +14,20 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-
-#include <boost/algorithm/string/erase.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
 #include "ResultSet.h"
 #include "Column.h"
 #include "RetsSTMT.h"
 #include "MetadataView.h"
 #include "DataTranslator.h"
 #include "EzLogger.h"
+#include "librets/std_forward.h"
+#include "librets/util.h"
 
 using namespace odbcrets;
 namespace lr = librets;
+namespace lu = librets::util;
 namespace b = boost;
 using std::string;
 using std::endl;
@@ -75,7 +78,7 @@ void Column::setData(SQLUSMALLINT colNo, string data)
             mStrLenOrInd, NULL);
 }
 
-void Column::cleanData(string& data)
+void Column::modifyData(string& data)
 {
 }
 
@@ -88,7 +91,7 @@ void Column::setData(SQLUSMALLINT colNo, string data, SQLSMALLINT TargetType,
     DataTranslatorPtr dt = mParent->getDataTranslator();
 
     // In case any child classes need to modify the data in any way.
-    cleanData(data);
+    modifyData(data);
 
     // Adjust to offset.  This is the first time we really use the pointers
     // and we must make the adjustment here.
@@ -164,7 +167,7 @@ SQLULEN Column::columnSizeHelper(SQLSMALLINT type, SQLULEN length)
 
     return rlength;
 }
-    
+
 // FauxColumn
 
 FauxColumn::FauxColumn(ResultSet* parent, string name, SQLSMALLINT DefaultType,
@@ -215,9 +218,9 @@ SQLULEN FauxColumn::getMaximumLength()
 
 RetsColumn::RetsColumn(ResultSet* parent, string name,
                        lr::MetadataTable* table,
-                       lr::SearchRequest::FormatType searchFormat)
+                       bool useCompactFormat)
     : Column(parent, name), mMetadataTablePtr(table),
-      mSearchFormat(searchFormat)
+      mUseCompactFormat(useCompactFormat)
 {
 }
 
@@ -244,8 +247,7 @@ SQLULEN RetsColumn::getColumnSize()
     SQLULEN columnSize;
     
     MetadataViewPtr metadataView = mParent->getMetadataView();
-    if (mSearchFormat == lr::SearchRequest::COMPACT_DECODED &&
-        metadataView->IsLookupColumn(mMetadataTablePtr))
+    if (!mUseCompactFormat && metadataView->IsLookupColumn(mMetadataTablePtr))
     {
         columnSize = lookupSizeHelper();
     }
@@ -293,8 +295,7 @@ SQLULEN RetsColumn::getMaximumLength()
     // This needs to be adjusted for Lookups, like we do for ColumnSize.
     // Good old CompactDecoded!
     MetadataViewPtr metadataView = mParent->getMetadataView();
-    if (mSearchFormat == lr::SearchRequest::COMPACT_DECODED &&
-        metadataView->IsLookupColumn(mMetadataTablePtr))
+    if (!mUseCompactFormat && metadataView->IsLookupColumn(mMetadataTablePtr))
     {
         size = lookupSizeHelper();
     }
@@ -385,15 +386,12 @@ bool RetsColumn::isSearchable()
     return mMetadataTablePtr->IsSearchable();
 }
     
-void RetsColumn::cleanData(string& data)
+void RetsColumn::modifyData(string& data)
 {
-    // if the interpretation is currency, we will strip out commas
-    // Metrolist does this and its definately valid.
-    // Mark reports that interrealty also does this.
-    if (mMetadataTablePtr != NULL &&
-        mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::CURRENCY)
+    MetadataViewPtr metadataView = mParent->getMetadataView();
+    if (!mUseCompactFormat && metadataView->IsLookupColumn(mMetadataTablePtr))
     {
-        b::erase_all(data, ",");
+        data = lookupDecoder(data);
     }
 }
 
@@ -417,4 +415,40 @@ SQLULEN RetsColumn::lookupSizeHelper()
     }
 
     return size;
+}
+
+string RetsColumn::lookupDecoder(string data)
+{
+    MetadataViewPtr metadataView = mParent->getMetadataView();
+    EzLoggerPtr log = mParent->getLogger();
+    LOG_DEBUG(log, "In lookupDecoder with " + data);
+
+    string result;
+    if (mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::LOOKUP)
+    {
+        // Decode single lookup
+        result =
+            metadataView->getLookupTypeLongValue(mMetadataTablePtr, data);
+    }
+    else
+    {
+        // Decode multi-lookup
+        lr::StringVector dataParts;
+        b::split(dataParts, data, b::is_any_of(","));
+
+        lr::StringVector resultParts;
+        lr::StringVector::iterator i;
+        for (i = dataParts.begin(); i != dataParts.end(); i++)
+        {
+            string lvalue =
+                metadataView->getLookupTypeLongValue(mMetadataTablePtr, *i);
+            resultParts.push_back(lvalue);
+        }
+
+        result = lu::join(resultParts, ",");
+    }
+
+    LOG_DEBUG(log, "Decoded to " + result);
+
+    return result;
 }

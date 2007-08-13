@@ -20,6 +20,7 @@
 #include "librets/MetadataResource.h"
 #include "librets/MetadataClass.h"
 #include "librets/MetadataTable.h"
+#include "librets/MetadataLookupType.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -486,4 +487,48 @@ TableMetadataVectorPtr MetadataView::getSQLObjectTableMetadata(string name)
 MetadataResourceList MetadataView::getResources()
 {
     return mMetadataPtr->GetAllResources();
+}
+
+string MetadataView::getLookupTypeLongValue(MetadataTable* table, string value)
+{
+    if (!IsLookupColumn(table))
+    {
+        // We should NEVER be called if the table isn't a lookup, but in
+        // case we do, we'll just return what we were given.
+        return value;
+    }
+        
+    string lookupName = table->GetLookupName();
+    if (lookupName.empty())
+    {
+        // Broken metadata could result in having the lookup name empty.
+        // In that case its better to return the value we were given than
+        // toss an error or return no value;
+        return value;
+    }
+
+    // When we have a table, the level should be Resource:Class.
+    // Since the lookup is off of the Resource we just need to find that.
+    string level = table->GetLevel();
+    StringVector parts;
+    b::split(parts, level, b::is_any_of(":"));
+    string resName = parts.at(1);
+
+    MetadataLookupType* lt =
+        mMetadataPtr->GetLookupType(resName, lookupName, value);
+
+    string result;
+    if (lt != NULL)
+    {
+        result = lt->GetLongValue();
+    }
+    else
+    {
+        // If the LookupType doesn't exit, we'll just return the same
+        // value.  This could be due to a bug in metadata.  Its better
+        // to return what we were given rather than no value.
+        result = value;
+    }
+
+    return result;
 }

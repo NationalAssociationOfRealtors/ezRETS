@@ -57,7 +57,7 @@ SQLRETURN DataCountQuery::doRetsQuery()
     SearchRequestAPtr searchRequest = session->CreateSearchRequest(
         resource, clazz, criterion->ToDmqlString());
     searchRequest->SetCountType(SearchRequest::RECORD_COUNT_ONLY);
-    searchRequest->SetFormatType(mSearchFormat);
+    searchRequest->SetFormatType(SearchRequest::COMPACT);
     
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 

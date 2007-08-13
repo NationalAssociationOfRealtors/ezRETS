@@ -40,13 +40,10 @@ namespace lu = librets::util;
 
 DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
                      DmqlQueryPtr dmqlQuery)
-    : Query(stmt), mDmqlQuery(dmqlQuery)
+    : Query(stmt), mDmqlQuery(dmqlQuery), mUseCompactFormat(useCompactFormat)
 {
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
-
-    mSearchFormat = useCompactFormat ?
-        SearchRequest::COMPACT : SearchRequest::COMPACT_DECODED;
 }
 
 SQLRETURN DataQuery::execute()
@@ -122,7 +119,7 @@ void DataQuery::prepareResultSet()
             table->GetStandardName() : table->GetSystemName();
         if (!name.empty())
         {
-            mResultSet->addColumn(name, table, mSearchFormat);
+            mResultSet->addColumn(name, table, mUseCompactFormat);
         }
     }
 }
@@ -148,7 +145,7 @@ SQLRETURN DataQuery::doRetsQuery()
         SearchRequest::RECORD_COUNT_AND_RESULTS);
     searchRequest->SetLimit(mDmqlQuery->GetLimit());
     searchRequest->SetOffset(mDmqlQuery->GetOffset());
-    searchRequest->SetFormatType(mSearchFormat);
+    searchRequest->SetFormatType(SearchRequest::COMPACT);
     
     searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
 

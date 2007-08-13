@@ -20,7 +20,6 @@
 #include "librets/sql_forward.h"
 #include "ezretsfwd.h"
 #include "Query.h"
-#include "librets/SearchRequest.h"
 
 namespace odbcrets
 {
@@ -40,7 +39,7 @@ class DataQuery : public Query
   protected:
     virtual SQLRETURN doRetsQuery();
 
-    librets::SearchRequest::FormatType mSearchFormat;
+    bool mUseCompactFormat;
     librets::DmqlQueryPtr mDmqlQuery;
 };
 

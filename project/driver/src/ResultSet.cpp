@@ -98,9 +98,9 @@ void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType,
 }
 
 void ResultSet::addColumn(std::string name, MetadataTable* table,
-                          SearchRequest::FormatType searchFormat)
+                          bool useCompactFormat)
 {
-    ColumnPtr col(new RetsColumn(this, name, table, searchFormat));
+    ColumnPtr col(new RetsColumn(this, name, table, useCompactFormat));
     mColumns->push_back(col);
 }
 

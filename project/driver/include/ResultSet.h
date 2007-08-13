@@ -20,7 +20,6 @@
 #include <vector>
 #include "librets/std_forward.h"
 #include "librets/metadata_forward.h"
-#include "librets/SearchRequest.h"
 #include "ezrets.h"
 #include "ezretsfwd.h"
 
@@ -29,7 +28,6 @@ namespace odbcrets
 class ResultSet
 {
   public:
-
     ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
               DataTranslatorPtr translator, AppRowDesc* ard);
     
@@ -60,7 +58,7 @@ class ResultSet
     void addColumn(std::string name, SQLSMALLINT DefaultType,
                    SQLULEN maxLength = 256);
     void addColumn(std::string name, librets::MetadataTable* table,
-                   librets::SearchRequest::FormatType format);
+                   bool useCompactFormat);
     void addRow(librets::StringVectorPtr row);
 
     ColumnPtr getColumn(int col);

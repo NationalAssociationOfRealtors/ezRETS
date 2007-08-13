@@ -296,16 +296,18 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                      validator.SetField(DSV::RETS_VERSION));
     tvs->AddRow("RETS Version:", retsVersion, valueFlags);
 
-    wxArrayString retsFormatChoices;
-    retsFormatChoices.Add(wxT("COMPACT"));
-    retsFormatChoices.Add(wxT("COMPACT-DECODED"));
-    wxChoice * retsFormat =
-        new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                     retsFormatChoices, 0,
-                     validator.SetField(DSV::USE_COMPACT_FORMAT));
-    tvs->AddRow("RETS Format:", retsFormat, valueFlags);
-
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
+
+    wxCheckBox * decodeLookupValues =
+        new wxCheckBox(panel, wxID_ANY, "Decode LOOKUP Values",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::DECODE_LOOKUP_VALUES));
+    decodeLookupValues->SetToolTip("If checked, ezRETS will decode the value "
+                                   "of RETS LOOKUPS to their human-readable "
+                                   "value.  This is similar to the "
+                                   "functionality of COMPACT-DECODED");
+
+    topSizer->Add(decodeLookupValues, wxSizerFlags(0).Border(wxTOP, 10));
 
     wxCheckBox * useBulkMetadata =
         new wxCheckBox(panel, wxID_ANY, "Use Bulk Metadata",

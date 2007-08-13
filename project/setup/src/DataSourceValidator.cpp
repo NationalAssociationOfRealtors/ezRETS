@@ -57,7 +57,7 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
   &CLASS::True},
  {&CLASS::IgnoreMetadataTypeToWindow, &CLASS::IgnoreMetadataTypeFromWindow,
   &CLASS::True},
- {&CLASS::UseCompactFormatToWindow, &CLASS::UseCompactFormatFromWindow,
+ {&CLASS::DecodeLookupValuesToWindow, &CLASS::DecodeLookupValuesFromWindow,
   &CLASS::True},
  {&CLASS::EnableUserAgentAuthToWindow, &CLASS::EnableUserAgentAuthFromWindow,
   &CLASS::True},
@@ -360,25 +360,17 @@ bool CLASS::IgnoreMetadataTypeFromWindow(wxWindow * window)
     return true;
 }
 
-bool CLASS::UseCompactFormatToWindow(wxWindow * window)
+bool CLASS::DecodeLookupValuesToWindow(wxWindow * window)
 {
-    wxChoice * choice = (wxChoice *) window;
-    if (mDataSource->GetUseCompactFormat())
-    {
-        choice->SetStringSelection("COMPACT");
-    }
-    else
-    {
-        choice->SetStringSelection("COMPACT-DECODED");
-    }
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(!mDataSource->GetUseCompactFormat());
     return true;
 }
 
-bool CLASS::UseCompactFormatFromWindow(wxWindow * window)
+bool CLASS::DecodeLookupValuesFromWindow(wxWindow * window)
 {
-    wxChoice * choice = (wxChoice *) window;
-    mDataSource->SetUseCompactFormat(
-        choice->GetStringSelection() == "COMPACT");
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetUseCompactFormat(!checkBox->GetValue());
     return true;
 }
 

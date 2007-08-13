@@ -42,7 +42,7 @@ class DataSourceValidator : public wxValidator
         RETS_VERSION,
         USE_BULK_METADATA,
         IGNORE_METADATA_TYPE,
-        USE_COMPACT_FORMAT,
+        DECODE_LOOKUP_VALUES,
         ENABLE_USER_AGENT_AUTH,
         USER_AGENT_PASSWORD,
         USER_AGENT_AUTH_TYPE,
@@ -129,9 +129,9 @@ class DataSourceValidator : public wxValidator
 
     bool IgnoreMetadataTypeFromWindow(wxWindow * window);
 
-    bool UseCompactFormatToWindow(wxWindow * window);
+    bool DecodeLookupValuesToWindow(wxWindow * window);
 
-    bool UseCompactFormatFromWindow(wxWindow * window);
+    bool DecodeLookupValuesFromWindow(wxWindow * window);
 
     bool UserAgentPasswordToWindow(wxWindow * window);
 
