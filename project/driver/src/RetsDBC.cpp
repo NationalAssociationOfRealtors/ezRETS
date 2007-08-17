@@ -196,6 +196,7 @@ SQLRETURN RetsDBC::SQLDriverConnect(
     {
         mEnv->setEzLogFile(mDataSource.GetDebugLogFile());
         log = getLogger();
+        log->setLogLevel(EzLogger::DEBUG);
     }
 
     LOG_DEBUG(log, "post load from INI");

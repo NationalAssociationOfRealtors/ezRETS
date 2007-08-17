@@ -891,10 +891,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = i386;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					MAC,
 					"EZRETS_VERSION=\"$(VERSION)\"",
