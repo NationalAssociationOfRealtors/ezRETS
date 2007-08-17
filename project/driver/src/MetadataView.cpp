@@ -512,7 +512,7 @@ string MetadataView::getLookupTypeLongValue(MetadataTable* table, string value)
     string level = table->GetLevel();
     StringVector parts;
     b::split(parts, level, b::is_any_of(":"));
-    string resName = parts.at(1);
+    string resName = parts.at(0);
 
     MetadataLookupType* lt =
         mMetadataPtr->GetLookupType(resName, lookupName, value);
