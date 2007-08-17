@@ -24,6 +24,7 @@
 #include "EzLogger.h"
 #include "librets/std_forward.h"
 #include "librets/util.h"
+#include "str_stream.h"
 
 using namespace odbcrets;
 namespace lr = librets;
@@ -421,7 +422,6 @@ string RetsColumn::lookupDecoder(string data)
 {
     MetadataViewPtr metadataView = mParent->getMetadataView();
     EzLoggerPtr log = mParent->getLogger();
-    LOG_DEBUG(log, "In lookupDecoder with " + data);
 
     string result;
     if (mMetadataTablePtr->GetInterpretation() == lr::MetadataTable::LOOKUP)
@@ -448,7 +448,8 @@ string RetsColumn::lookupDecoder(string data)
         result = lu::join(resultParts, ",");
     }
 
-    LOG_DEBUG(log, "Decoded to " + result);
+    LOG_DEBUG(log, str_stream() << "lookupDecoder decoded '" << data
+              << "' to '" << result << "'");
 
     return result;
 }

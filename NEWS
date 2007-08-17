@@ -1,6 +1,6 @@
 Changes since 2.0.8
 -------------------
-  * User-Agent is now "ezRETS/2.1.0 (librets/
+  * User-Agent is now "ezRETS/2.0.90 (librets/1.1.9)"
  
  Enhancements
   * Added default MaximumLengths for cases where the RETS server
@@ -9,7 +9,8 @@ Changes since 2.0.8
     log messages are not generated anyway.
   * SQLCancel is now implemented
   * COMPACT format is always used, ezRETS now does the LOOKUP decoding
-    instead of asking the server to do.
+    instead of asking the server to do.  Thanks to Libor Viktorin for
+    suggesting this.
 
 Changes since 2.0.7
 -------------------
