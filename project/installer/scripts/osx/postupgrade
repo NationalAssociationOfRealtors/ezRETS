@@ -1,0 +1,2 @@
+#!/bin/sh
+/Library/ODBC/ezRETS/register_driver -i
