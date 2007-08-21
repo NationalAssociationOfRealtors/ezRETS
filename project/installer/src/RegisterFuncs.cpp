@@ -55,9 +55,13 @@ bool isEzInstalled()
     char drivers[4096];
     WORD driver_size;
     
+	SQLSetConfigMode(ODBC_BOTH_DSN);
+#ifdef MAC
+    success = SQLGetAvailableDrivers("/Library/ODBC/odbcinst.ini", drivers, 4096,
+								     &driver_size);
+#else
     success = SQLGetInstalledDrivers(drivers, 4096, &driver_size);
-    //success = SQLGetAvailableDrivers("/Users/kgarner/Library/ODBC/odbcinst.ini", drivers, 4096,
-    //                                     &driver_size);
+#endif
     if (success != FALSE)
     {
         StrVector drvs = drivers2vector(drivers);
@@ -86,6 +90,7 @@ void unregister(bool remove_dsn)
         remove = TRUE;
     }
 
+	SQLSetConfigMode(ODBC_SYSTEM_DSN);
     // Unregister the driver with or without removing the DSN
     success = SQLRemoveDriver(DRIVER_NAME, remove, &count);
     if (success == FALSE)
@@ -106,8 +111,8 @@ void registr()
     WORD pathoutsize;
     DWORD count;
 
-#ifdef _MAC_
-#define DRIVER_PATH "/Users/kgarner/src/odbcrets/ezrets/build/xcode/Debug/"
+#ifdef MAC
+#define DRIVER_PATH "/Library/ODBC/ezRETS/"
 #define DYN_EXT "dylib"
 #elif __WIN__
 #define DRIVER_PATH
@@ -120,6 +125,7 @@ void registr()
     LPCSTR driver = DRIVER_NAME "\0Driver=" DRIVER_PATH "ezrets." DYN_EXT "\0Setup=" DRIVER_PATH "ezretss." DYN_EXT "\0\0";
     LPCSTR pathin = NULL;
     char pathout[150];
+	SQLSetConfigMode(ODBC_SYSTEM_DSN);
     success = SQLInstallDriverEx(driver, pathin, pathout, 150,
                                  &pathoutsize, ODBC_INSTALL_COMPLETE, &count);
 
