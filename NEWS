@@ -1,8 +1,9 @@
 Changes since 2.0.8
 -------------------
-  * User-Agent is now "ezRETS/2.0.90 (librets/1.1.9)"
+  * User-Agent is now "ezRETS/2.0.91 (librets/1.1.9)"
  
  Enhancements
+  * OS X is officially supported
   * Added default MaximumLengths for cases where the RETS server
     metadata didn't specify one.
   * When debug logging is turned off things should be slightly faster as
