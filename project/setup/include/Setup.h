@@ -30,13 +30,13 @@ class Setup
   public:
     Setup();
     void ConfigDSN(HWND parent, WORD request, LPCSTR driver,
-                        LPCSTR attributes);
+                   LPCSTR attributes);
 
   private:
     typedef std::map<std::string, std::string> AttributeMap;
     AttributeMap att2map(LPCSTR attributes);
-    void ConfigDsn();
-    void AddDsn();
+    void ConfigDsn(UWORD configMode);
+    void AddDsn(UWORD configMode);
     void RemoveDsn();
     int ShowDialog(DataSourcePtr dataSource);
 

@@ -27,6 +27,7 @@
 #include "str_stream.h"
 #include <vector>
 #include "librets/RetsSession.h"
+#include <iostream>
 
 #ifdef HAVE_IODBC
 #include <iodbcinst.h>
@@ -230,36 +231,40 @@ void DataSource::MergeFromIni()
     }
 }
 
-void DataSource::WriteToIni()
+void DataSource::WriteToIni(UWORD configMode)
 {
     AssertNameNotEmpty("Cannot write to INI");
-    WriteProfileString(INI_LOGIN_URL, mLoginUrl);
-    WriteProfileString(INI_USERNAME, mUsername);
-    WriteProfileString(INI_PASSWORD, mPassword);
-    WriteProfileString(INI_STANDARD_NAMES, mStandardNames);
-    WriteProfileString(INI_USER_AGENT, mCustomUserAgent);
-    WriteProfileString(INI_USE_HTTP_GET, mUseHttpGet);
-    WriteProfileString(INI_USE_HTTP_LOGGING, mUseHttpLogging);
-    WriteProfileString(INI_HTTP_LOG_FILE, mHttpLogFile);
-    WriteProfileString(INI_USE_DEBUG_LOGGING, mUseDebugLogging);
-    WriteProfileString(INI_DEBUG_LOG_FILE, mDebugLogFile);
-    WriteProfileString(INI_RETS_VERSION, mRetsVersionString);
-    WriteProfileString(INI_USE_BULK_METADATA, mUseBulkMetadata);
-    WriteProfileString(INI_IGNORE_METADATA_TYPE, mIgnoreMetadataType);
-    WriteProfileString(INI_USE_COMPACT_FORMAT, mUseCompactFormat);
-    WriteProfileString(INI_DISABLE_GETOBJECT_METADATA,
+    WriteProfileString(configMode, INI_LOGIN_URL, mLoginUrl);
+    WriteProfileString(configMode, INI_USERNAME, mUsername);
+    WriteProfileString(configMode, INI_PASSWORD, mPassword);
+    WriteProfileString(configMode, INI_STANDARD_NAMES, mStandardNames);
+    WriteProfileString(configMode, INI_USER_AGENT, mCustomUserAgent);
+    WriteProfileString(configMode, INI_USE_HTTP_GET, mUseHttpGet);
+    WriteProfileString(configMode, INI_USE_HTTP_LOGGING, mUseHttpLogging);
+    WriteProfileString(configMode, INI_HTTP_LOG_FILE, mHttpLogFile);
+    WriteProfileString(configMode, INI_USE_DEBUG_LOGGING, mUseDebugLogging);
+    WriteProfileString(configMode, INI_DEBUG_LOG_FILE, mDebugLogFile);
+    WriteProfileString(configMode, INI_RETS_VERSION, mRetsVersionString);
+    WriteProfileString(configMode, INI_USE_BULK_METADATA, mUseBulkMetadata);
+    WriteProfileString(configMode, INI_IGNORE_METADATA_TYPE,
+                       mIgnoreMetadataType);
+    WriteProfileString(configMode, INI_USE_COMPACT_FORMAT, mUseCompactFormat);
+    WriteProfileString(configMode, INI_DISABLE_GETOBJECT_METADATA,
                        mDisableGetObjectMetadata);
-    WriteProfileString(INI_ENABLE_USER_AGENT_AUTH, mEnableUserAgentAuth);
-    WriteProfileString(INI_USER_AGENT_PASSWORD, mUserAgentPassword);
-    WriteProfileString(INI_USER_AGENT_AUTH_TYPE, mUserAgentAuthTypeString);
-    WriteProfileString(INI_TREAT_DECIMAL_AS_STRING, mTreatDecimalAsString);
+    WriteProfileString(configMode, INI_ENABLE_USER_AGENT_AUTH,
+                       mEnableUserAgentAuth);
+    WriteProfileString(configMode, INI_USER_AGENT_PASSWORD, mUserAgentPassword);
+    WriteProfileString(configMode, INI_USER_AGENT_AUTH_TYPE,
+                       mUserAgentAuthTypeString);
+    WriteProfileString(configMode, INI_TREAT_DECIMAL_AS_STRING,
+                       mTreatDecimalAsString);
 }
 
-void DataSource::CreateInIni(string driver)
+void DataSource::CreateInIni(string driver, UWORD configMode)
 {
     AssertNameNotEmpty("Cannot create INI");
-    WriteDSNToIni(driver);
-    WriteToIni();
+    WriteDSNToIni(driver, configMode);
+    WriteToIni(configMode);
 }
 
 void DataSource::RemoveFromIni()
@@ -308,8 +313,13 @@ string DataSource::GetSqlInstallerError()
     }
 }
 
-void DataSource::WriteProfileString(string entry, string value)
+void DataSource::WriteProfileString(UWORD configMode, string entry,
+                                    string value)
 {
+#ifdef HAVE_IODBC
+    AssertSqlSuccess(SQLSetConfigMode(configMode), "Couldn't set config mode");
+#endif
+    
     if (value.empty())
     {
         return;
@@ -321,9 +331,9 @@ void DataSource::WriteProfileString(string entry, string value)
         str_stream() << "entry: " << entry << ", value: <" << value << ">");
 }
 
-void DataSource::WriteProfileString(string entry, bool value)
+void DataSource::WriteProfileString(UWORD configMode, string entry, bool value)
 {
-    WriteProfileString(entry, boolToString(value));
+    WriteProfileString(configMode, entry, boolToString(value));
 }
 
 bool DataSource::GetProfileBool(string entry, bool defaultValue)
@@ -332,8 +342,11 @@ bool DataSource::GetProfileBool(string entry, bool defaultValue)
     return stringToBool(value);
 }
 
-void DataSource::WriteDSNToIni(string driver)
+void DataSource::WriteDSNToIni(string driver, UWORD configMode)
 {
+#ifdef HAVE_IODBC
+    AssertSqlSuccess(SQLSetConfigMode(configMode), "Couldn't set config mode");
+#endif
     AssertSqlSuccess(SQLWriteDSNToIni(mName.c_str(), driver.c_str()),
                     str_stream() << "driver: " << driver);
 }

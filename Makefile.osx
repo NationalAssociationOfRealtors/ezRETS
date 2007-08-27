@@ -16,3 +16,6 @@ clean:
 	cd project/build && xcodebuild -target ezrets -configuration Debug clean
 	cd project/build && xcodebuild -target ezretss -configuration Debug clean
 	cd project/build && xcodebuild -target register_driver -configuratin Debug clean
+
+install:
+	cp build/xcode/Debug/ezrets*.dylib /Library/ODBC/ezRETS

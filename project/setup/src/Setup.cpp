@@ -66,8 +66,6 @@ void Setup::ConfigDSN(HWND parent, WORD request, LPCSTR driver,
                                     "No driver name specified");
     }
 
-    //    UWORD confMode = ODBC_USER_DSN;
-    //    SQLGetConfigMode(&confMode);
     mDriver = driver;
     mAttributes = att2map(attributes);
     mParent = parent;
@@ -80,15 +78,19 @@ void Setup::ConfigDSN(HWND parent, WORD request, LPCSTR driver,
         slog.debug(str_stream() << p.first << ":" << p.second);
     }
 #endif /* _DEBUG */
-    
+
+    UWORD configMode = ODBC_USER_DSN;
+    SQLGetConfigMode(&configMode);
+    /** Need to add some error checking */
+
     switch (request)
     {
         case ODBC_CONFIG_DSN:
-            ConfigDsn();
+            ConfigDsn(configMode);
             break;
 
         case ODBC_ADD_DSN:
-            AddDsn();
+            AddDsn(configMode);
             break;
 
         case ODBC_REMOVE_DSN:
@@ -104,7 +106,7 @@ void Setup::ConfigDSN(HWND parent, WORD request, LPCSTR driver,
     }
 }
 
-void Setup::ConfigDsn()
+void Setup::ConfigDsn(UWORD configMode)
 {
     DataSourcePtr dataSource(new DataSource(mAttributes["DSN"]));
     dataSource->MergeFromIni();
@@ -120,10 +122,10 @@ void Setup::ConfigDsn()
     // if the data source name changed, to create a "fresh" registry
     // entry.
     dataSource->RemoveFromIni();
-    newDataSource->CreateInIni(mDriver);
+    newDataSource->CreateInIni(mDriver, configMode);
 }
 
-void Setup::AddDsn()
+void Setup::AddDsn(UWORD configMode)
 {
     DataSourcePtr newDataSource(new DataSource());
     if (ShowDialog(newDataSource) != wxID_OK)
@@ -131,7 +133,7 @@ void Setup::AddDsn()
         return;
     }
     slog.debug(str_stream() << "Adding DataSource: " << newDataSource);
-    newDataSource->CreateInIni(mDriver);
+    newDataSource->CreateInIni(mDriver, configMode);
 }
 
 void Setup::RemoveDsn()

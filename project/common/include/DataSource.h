@@ -40,13 +40,7 @@ class DataSource
 
     void MergeFromIni();
 
-    /**
-     * Writes to the SQL INI file.  This assumes that the DSN has
-     * been previously created.
-     */
-    void WriteToIni();
-
-    void CreateInIni(std::string driver);
+    void CreateInIni(std::string driver, UWORD configMode);
 
     void RemoveFromIni();
 
@@ -197,15 +191,21 @@ class DataSource
 
     std::string GetSqlInstallerError();
 
-    void WriteProfileString(std::string entry, std::string value);
-    void WriteProfileString(std::string entry, bool value);
+    void WriteProfileString(UWORD configMode, std::string entry,
+                            std::string value);
+    void WriteProfileString(UWORD configMode, std::string entry, bool value);
 
     bool GetProfileBool(std::string entry, bool defaultValue = false);
 
     void MergeFromProfileString(std::string & aString, std::string entry);
 
-    void WriteDSNToIni(std::string driver);
+    void WriteDSNToIni(std::string driver, UWORD configMode);
     void RemoveDSNFromIni();
+    /**
+     * Writes to the SQL INI file.  This assumes that the DSN has
+     * been previously created.
+     */
+    void WriteToIni(UWORD configMode);
 
     void AssertNameNotEmpty(std::string message);
     void AssertSqlSuccess(BOOL sqlError, std::string message = "");
