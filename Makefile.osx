@@ -1,7 +1,7 @@
 # On OS X, we use xcode.  This is just a simple makefile to call
 # xcodebuild to build ezRETS
 
-all: ezrets ezretss
+all: ezrets ezretss register_driver
 
 ezrets:
 	cd project/build && xcodebuild -target ezrets -configuration Debug
@@ -9,6 +9,10 @@ ezrets:
 ezretss:
 	cd project/build && xcodebuild -target ezretss -configuration Debug
 
+register_driver:
+	cd project/build && xcodebuild -target register_driver -configuration Debug
+
 clean:
 	cd project/build && xcodebuild -target ezrets -configuration Debug clean
 	cd project/build && xcodebuild -target ezretss -configuration Debug clean
+	cd project/build && xcodebuild -target register_driver -configuratin Debug clean
