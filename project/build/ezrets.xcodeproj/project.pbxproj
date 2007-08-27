@@ -142,12 +142,13 @@
 		DE28A7030A30B86F0056399A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		DE28A7050A30B88E0056399A /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		DE28A7080A30B8B50056399A /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		DE2DA98F0C8354EC00CC36CD /* SQL_Reference.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = SQL_Reference.html; path = ../../doc/SQL_Reference.html; sourceTree = SOURCE_ROOT; };
 		DE34DCA60A6C27C500A9CB0E /* UnixInit.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UnixInit.cpp; path = ../setup/src/UnixInit.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B0F0A2CCC11005FA065 /* NoDsn.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NoDsn.cpp; path = ../examples/cpp/src/NoDsn.cpp; sourceTree = SOURCE_ROOT; };
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE64FB740BDE8DE900C32F19 /* GetTypeName.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GetTypeName.cpp; path = ../driver/src/GetTypeName.cpp; sourceTree = SOURCE_ROOT; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
-		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
 		DEBD42210C7B71C800E20F70 /* RegisterDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterDriver.cpp; path = ../installer/src/RegisterDriver.cpp; sourceTree = SOURCE_ROOT; };
 		DEBD42240C7B720400E20F70 /* RegisterFuncs.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterFuncs.cpp; path = ../installer/src/RegisterFuncs.cpp; sourceTree = SOURCE_ROOT; };
@@ -326,6 +327,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				DE2DA98C0C8354C800CC36CD /* docs */,
 				DEBD42200C7B719B00E20F70 /* installer */,
 				DE614AEE0A2CC4ED005FA065 /* setup */,
 				DE614AEC0A2CC4C9005FA065 /* examples */,
@@ -348,6 +350,14 @@
 				DEBD422A0C7B722400E20F70 /* register_driver */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DE2DA98C0C8354C800CC36CD /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				DE2DA98F0C8354EC00CC36CD /* SQL_Reference.html */,
+			);
+			name = docs;
 			sourceTree = "<group>";
 		};
 		DE614AE90A2CC45C005FA065 /* external libraries */ = {

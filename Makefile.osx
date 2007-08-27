@@ -1,6 +1,9 @@
 # On OS X, we use xcode.  This is just a simple makefile to call
 # xcodebuild to build ezRETS
 
+srcdir = .
+include $(srcdir)/project/build/version.mk
+
 all: ezrets ezretss register_driver
 
 ezrets:
@@ -16,6 +19,15 @@ clean:
 	cd project/build && xcodebuild -target ezrets -configuration Debug clean
 	cd project/build && xcodebuild -target ezretss -configuration Debug clean
 	cd project/build && xcodebuild -target register_driver -configuration Debug clean
+	rm -rf dist
 
 install:
 	cp build/xcode/Debug/ezrets*.dylib /Library/ODBC/ezRETS
+
+dist:
+	mkdir -p dist/osx
+	/Developer/Tools/packagemaker -build -v -proj project/build/OSX_Package.pmproj -p dist/osx/ezRETS-$(VERSION).pkg
+	cp README dist/osx/README.txt
+	cp LICENSE dist/osx/LICENSE.txt
+	cp doc/SQL_Reference.html dist/osx
+	hdiutil create -ov dist/ezRETS-osx-$(VERSION).dmg -volname 'ezRETS $(VERSION)' -uid 99 -gid 99 -srcfolder dist/osx -format UDBZ 
