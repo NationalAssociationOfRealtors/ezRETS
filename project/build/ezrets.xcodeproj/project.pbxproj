@@ -34,10 +34,6 @@
 		DEB8B3890A5C73740040184E /* SetupLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A670A27516800AF92A8 /* SetupLog.cpp */; };
 		DEB8B38A0A5C73740040184E /* SqlInstallerException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A680A27516800AF92A8 /* SqlInstallerException.cpp */; };
 		DEB8B38B0A5C73740040184E /* TextValueSizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A690A27516800AF92A8 /* TextValueSizer.cpp */; };
-		DEBD422D0C7B724200E20F70 /* RegisterFuncs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEBD42240C7B720400E20F70 /* RegisterFuncs.cpp */; };
-		DEBD422E0C7B724300E20F70 /* RegisterDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEBD42210C7B71C800E20F70 /* RegisterDriver.cpp */; };
-		DEBD42370C7B739100E20F70 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A520A27500A00AF92A8 /* libiodbcinst.dylib */; };
-		DEBD423A0C7B740300E20F70 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEBD42390C7B740300E20F70 /* libboost_program_options.a */; };
 		DEBEE9C70A2E3CFD00BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEBEE9C80A2E3D0200BFA1BF /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */; };
 		DEF62EDF0A377896006FB520 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7B0A27562B00AF92A8 /* DBHelper.cpp */; };
@@ -110,6 +106,21 @@
 		DEFB3A820A27562B00AF92A8 /* SimpleSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFB3A7E0A27562B00AF92A8 /* SimpleSearch.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildStyle section */
+		014CEA520018CE5811CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		014CEA530018CE5811CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
 /* Begin PBXContainerItemProxy section */
 		DE614AF60A2CC596005FA065 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -147,12 +158,8 @@
 		DE614B200A2CCC3A005FA065 /* NoDSN */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NoDSN; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE64FB740BDE8DE900C32F19 /* GetTypeName.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GetTypeName.cpp; path = ../driver/src/GetTypeName.cpp; sourceTree = SOURCE_ROOT; };
 		DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
-		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB8B3790A5C71F00040184E /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB8B37B0A5C71F00040184E /* testApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "testApp-Info.plist"; sourceTree = "<group>"; };
-		DEBD42210C7B71C800E20F70 /* RegisterDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterDriver.cpp; path = ../installer/src/RegisterDriver.cpp; sourceTree = SOURCE_ROOT; };
-		DEBD42240C7B720400E20F70 /* RegisterFuncs.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterFuncs.cpp; path = ../installer/src/RegisterFuncs.cpp; sourceTree = SOURCE_ROOT; };
-		DEBD422A0C7B722400E20F70 /* register_driver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = register_driver; sourceTree = BUILT_PRODUCTS_DIR; };
-		DEBD42390C7B740300E20F70 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = "encap/boost-1.33.1/lib/libboost_program_options.a"; sourceTree = BOOST; };
 		DEF62EDA0A377835006FB520 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF62EE30A3778C6006FB520 /* TablesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TablesTest.cpp; path = ../examples/cpp/src/TablesTest.cpp; sourceTree = SOURCE_ROOT; };
 		DEFB399B0A2660E900AF92A8 /* ezrets-common.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "ezrets-common.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,15 +258,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DEBD42280C7B722400E20F70 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DEBD42370C7B739100E20F70 /* libiodbcinst.dylib in Frameworks */,
-				DEBD423A0C7B740300E20F70 /* libboost_program_options.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DEF62ED80A377835006FB520 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -326,7 +324,6 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				DEBD42200C7B719B00E20F70 /* installer */,
 				DE614AEE0A2CC4ED005FA065 /* setup */,
 				DE614AEC0A2CC4C9005FA065 /* examples */,
 				DE614AEB0A2CC4A5005FA065 /* driver */,
@@ -345,7 +342,6 @@
 				DE614B200A2CCC3A005FA065 /* NoDSN */,
 				DEF62EDA0A377835006FB520 /* TablesTest */,
 				DEB8B3790A5C71F00040184E /* testApp.app */,
-				DEBD422A0C7B722400E20F70 /* register_driver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -361,7 +357,6 @@
 				DEFB3A500A274FEF00AF92A8 /* libiodbc.dylib */,
 				DEFB3A4E0A274FCA00AF92A8 /* libantlr.a */,
 				DEFB3A3C0A26675B00AF92A8 /* libboost_filesystem.a */,
-				DEBD42390C7B740300E20F70 /* libboost_program_options.a */,
 				DEFB3A390A26672900AF92A8 /* libexpat.a */,
 				DEFB3A370A26670400AF92A8 /* libcurl.a */,
 			);
@@ -464,15 +459,6 @@
 			name = setup;
 			sourceTree = "<group>";
 		};
-		DEBD42200C7B719B00E20F70 /* installer */ = {
-			isa = PBXGroup;
-			children = (
-				DEBD42240C7B720400E20F70 /* RegisterFuncs.cpp */,
-				DEBD42210C7B71C800E20F70 /* RegisterDriver.cpp */,
-			);
-			name = installer;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -509,6 +495,14 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = SimpleSearch;
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 				DE8216BA0A30B9F5009C55A4 /* PBXTargetDependency */,
 			);
@@ -527,28 +521,49 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INFOPLIST_FILE = "testApp-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = testApp;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 			);
 			name = testApp;
 			productName = testApp;
 			productReference = DEB8B3790A5C71F00040184E /* testApp.app */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.testApp</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
 			productType = "com.apple.product-type.application";
-		};
-		DEBD42290C7B722400E20F70 /* register_driver */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DEBD42310C7B727700E20F70 /* Build configuration list for PBXNativeTarget "register_driver" */;
-			buildPhases = (
-				DEBD42270C7B722400E20F70 /* Sources */,
-				DEBD42280C7B722400E20F70 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = register_driver;
-			productName = register_driver;
-			productReference = DEBD422A0C7B722400E20F70 /* register_driver */;
-			productType = "com.apple.product-type.tool";
 		};
 		DEF62ED90A377835006FB520 /* TablesTest */ = {
 			isa = PBXNativeTarget;
@@ -559,6 +574,14 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = TablesTest;
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 			);
 			name = TablesTest;
@@ -576,6 +599,14 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = "ezrets-common";
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 			);
 			name = "ezrets-common";
@@ -593,6 +624,15 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = ezrets;
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 				DE614AF70A2CC596005FA065 /* PBXTargetDependency */,
 			);
@@ -611,6 +651,22 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Carbon,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = ezretss;
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 			);
 			name = ezretss;
@@ -627,6 +683,14 @@
 			);
 			buildRules = (
 			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = SimpleSearch;
+				ZERO_LINK = YES;
+			};
 			dependencies = (
 				DE8216B80A30B9F2009C55A4 /* PBXTargetDependency */,
 			);
@@ -641,6 +705,12 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB914E08733D8E0010E9CD /* Build configuration list for PBXProject "ezrets" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA520018CE5811CA2923 /* Debug */,
+				014CEA530018CE5811CA2923 /* Release */,
+			);
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* ezrets */;
 			projectDirPath = "";
@@ -652,7 +722,6 @@
 				DE614B150A2CCC3A005FA065 /* NoDSN */,
 				DEF62ED90A377835006FB520 /* TablesTest */,
 				DEB8B3780A5C71F00040184E /* testApp */,
-				DEBD42290C7B722400E20F70 /* register_driver */,
 			);
 		};
 /* End PBXProject section */
@@ -691,15 +760,6 @@
 				DEB8B38A0A5C73740040184E /* SqlInstallerException.cpp in Sources */,
 				DEB8B38B0A5C73740040184E /* TextValueSizer.cpp in Sources */,
 				DE0565B40A5D71CD00E80B17 /* testApp.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DEBD42270C7B722400E20F70 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DEBD422D0C7B724200E20F70 /* RegisterFuncs.cpp in Sources */,
-				DEBD422E0C7B724300E20F70 /* RegisterDriver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,17 +891,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE9631EB0A34B8C600EDD298 /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = i386;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					MAC,
-					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1)",
+					"EZRETS_VERSION=\"$(VERSION)\"",
 					HAVE_IODBC,
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
@@ -860,9 +916,8 @@
 				OTHER_CFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DHAVE_IODBC",
-					"$(OTHER_CFLAGS_QUOTED_1)",
+					"-DEZRETS_VERSION=\"1.99.1\"",
 				);
-				OTHER_CFLAGS_QUOTED_1 = "-DEZRETS_VERSION=\\\"1.99.1\\\"";
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -1001,52 +1056,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = testApp;
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		DEBD42320C7B727700E20F70 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../common/include",
-					"$(BOOST)/include",
-					"$(SRCROOT)/../installer/include",
-					"$(inherited)",
-				);
-				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"/usr/local/encap/boost-1.33.1/lib\"";
-				PREBINDING = NO;
-				PRODUCT_NAME = register_driver;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		DEBD42330C7B727700E20F70 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
-				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"/usr/local/encap/boost-1.33.1/lib\"";
-				PREBINDING = NO;
-				PRODUCT_NAME = register_driver;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1348,15 +1357,6 @@
 			buildConfigurations = (
 				DEB8B37D0A5C71F10040184E /* Debug */,
 				DEB8B37E0A5C71F10040184E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DEBD42310C7B727700E20F70 /* Build configuration list for PBXNativeTarget "register_driver" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DEBD42320C7B727700E20F70 /* Debug */,
-				DEBD42330C7B727700E20F70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

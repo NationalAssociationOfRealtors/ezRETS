@@ -197,6 +197,13 @@ wxPanel * SetupDialog::CreateBasicPanel(wxWindow * parent)
     tvs->AddRow("Password:", mPassword);
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
 
+    mStandardNames = new wxCheckBox(panel, wxID_ANY, "Use Standard Names",
+                                    wxDefaultPosition, wxDefaultSize, 0,
+                                    validator.SetField(DSV::STANDARD_NAMES));
+    mStandardNames->SetToolTip("If checked, will require all field names to "
+                               "be standard names, instead of system names.");
+    topSizer->Add(mStandardNames, wxSizerFlags(0).Border(wxTOP, 10));
+    
     panel->SetSizer(topSizer);
     return panel;
 }
@@ -291,14 +298,16 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
 
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
 
-    wxGridSizer * buttonSizer = new wxGridSizer(2);
+    wxCheckBox * decodeLookupValues =
+        new wxCheckBox(panel, wxID_ANY, "Decode LOOKUP Values",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::DECODE_LOOKUP_VALUES));
+    decodeLookupValues->SetToolTip("If checked, ezRETS will decode the value "
+                                   "of RETS LOOKUPS to their human-readable "
+                                   "value.  This is similar to the "
+                                   "functionality of COMPACT-DECODED");
 
-    mStandardNames = new wxCheckBox(panel, wxID_ANY, "Use Standard Names",
-                                    wxDefaultPosition, wxDefaultSize, 0,
-                                    validator.SetField(DSV::STANDARD_NAMES));
-    mStandardNames->SetToolTip("If checked, will require all field names to "
-                               "be standard names, instead of system names.");
-    buttonSizer->Add(mStandardNames, wxSizerFlags(0).Border(wxTOP, 10));
+    topSizer->Add(decodeLookupValues, wxSizerFlags(0).Border(wxTOP, 10));
 
     wxCheckBox * useBulkMetadata =
         new wxCheckBox(panel, wxID_ANY, "Use Bulk Metadata",
@@ -308,17 +317,8 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                 "incrementally retrieved, instead a bulk "
                                 "download will happen when the connection "
                                 "is established.");
-    buttonSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
-    wxCheckBox * decodeLookupValues =
-        new wxCheckBox(panel, wxID_ANY, "Decode LOOKUP Values",
-                       wxDefaultPosition, wxDefaultSize, 0,
-                       validator.SetField(DSV::DECODE_LOOKUP_VALUES));
-    decodeLookupValues->SetToolTip("If checked, ezRETS will decode the value "
-                                   "of RETS LOOKUPS to their human-readable "
-                                   "value.  This is similar to the "
-                                   "functionality of COMPACT-DECODED");
-    buttonSizer->Add(decodeLookupValues, wxSizerFlags(0).Border(wxTOP, 10));
+    topSizer->Add(useBulkMetadata, wxSizerFlags(0).Border(wxTOP, 10));
 
     wxCheckBox * ignoreMetadataType =
         new wxCheckBox(panel, wxID_ANY, "Ignore Metadata Type",
@@ -328,7 +328,8 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                    " data type listed in the RETS metadata."
                                    "  Everything will appear as a character"
                                    " field.");
-    buttonSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
+
+    topSizer->Add(ignoreMetadataType, wxSizerFlags(0).Border(wxTOP, 10));
 
     wxCheckBox * treatDecimalAsString =
         new wxCheckBox(panel, wxID_ANY, "Treat DECIMAL as VARCHAR",
@@ -338,9 +339,8 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                      " DECIMAL data type as a VARCHAR."
                                      "  All DECIMALs will appear as a"
                                      " character field.");
-    buttonSizer->Add(treatDecimalAsString, wxSizerFlags(0).Border(wxTOP, 10));
 
-    topSizer->Add(buttonSizer, wxSizerFlags(0).Expand());
+    topSizer->Add(treatDecimalAsString, wxSizerFlags(0).Border(wxTOP, 10));
 
     panel->SetSizer(topSizer);
     return panel;

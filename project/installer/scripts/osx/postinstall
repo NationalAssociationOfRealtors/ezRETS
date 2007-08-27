@@ -1,3 +1,0 @@
-#!/bin/sh
-umask 002
-/Library/ODBC/ezRETS/register_driver -i
