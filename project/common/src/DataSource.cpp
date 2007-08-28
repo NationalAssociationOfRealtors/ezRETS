@@ -27,7 +27,6 @@
 #include "str_stream.h"
 #include <vector>
 #include "librets/RetsSession.h"
-#include <iostream>
 
 #ifdef HAVE_IODBC
 #include <iodbcinst.h>
@@ -338,8 +337,31 @@ void DataSource::WriteProfileString(UWORD configMode, string entry, bool value)
 
 bool DataSource::GetProfileBool(string entry, bool defaultValue)
 {
-    string value = GetProfileString(entry, boolToString(defaultValue));
-    return stringToBool(value);
+    string value;
+    bool result;
+#ifdef HAVE_IODBC
+    // For some reason on the Mac/iODBC, when one calls
+    // SQLGetProfileString (which our GetProfileString method does)
+    // with a default value and when going against a System DSN,
+    // its returning the default value back to you, no matter the
+    // saved value.  This seems very wrong.  So, while we HAVE_IODBC,
+    // we'll do this silly work around. Actually, this might work for
+    // doing it all the time on windows as well, but we'll leave like like
+    // this for now.
+    value = GetProfileString(entry);
+    if (value.empty())
+    {
+        result = defaultValue;
+    }
+    else
+    {
+        result = stringToBool(value);
+    }
+#else
+    value = GetProfileString(entry, boolToString(defaultValue));
+    result = stringToBool(value);
+#endif
+    return result;
 }
 
 void DataSource::WriteDSNToIni(string driver, UWORD configMode)
