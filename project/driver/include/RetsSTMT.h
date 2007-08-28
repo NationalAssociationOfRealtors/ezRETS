@@ -36,6 +36,8 @@ class RetsSTMT : public AbstractHandle
     RetsDBC* getDbc();
     MetadataViewPtr getMetadataView();
     bool isUsingStandardNames();
+    bool isUsingCompactFormat();
+
     librets::RetsSessionPtr getRetsSession();
     bool isDisableGetObjectMetadata();
 

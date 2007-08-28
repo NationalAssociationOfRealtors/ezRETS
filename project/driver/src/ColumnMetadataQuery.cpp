@@ -24,6 +24,7 @@
 #include "ResultSet.h"
 #include "RetsSTMT.h"
 #include "DataTranslator.h"
+#include "Column.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -213,6 +214,18 @@ SQLRETURN ColumnMetadataQuery::processColumn(
         colName = rTable->GetSystemName();
     }
 
+    DataTranslatorPtr dataTranslator = mStmt->getDataTranslator();
+
+    // A lot of the logic in this method is duplicated in Column as
+    // the Column often needs to know this information about this.  To
+    // avoid duplicated logic, we'll create a dummy resultset with a
+    // dummy column that is build using the current rTable.
+    // We'll need to come up with a cleaner way to do this.
+    ResultSet dummyResult(mStmt->getLogger(), metadataView, dataTranslator,
+                          mStmt->getArd());
+    dummyResult.addColumn(colName, rTable, mStmt->isUsingCompactFormat());
+    ColumnPtr dummyCol = dummyResult.getColumn(1);
+
     StringVectorPtr results(new StringVector());
     // TABLE_CAT
     results->push_back("");
@@ -223,10 +236,9 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     // COLUMN_NAME
     results->push_back(colName);
 
-    DataTranslatorPtr dataTranslator = mStmt->getDataTranslator();
+
     // DATA_TYPE
-    SQLSMALLINT type =
-        dataTranslator->getPreferedOdbcType(rTable->GetDataType());
+    SQLSMALLINT type = dummyCol->getDataType();
     string typeString = b::lexical_cast<string>(type);
     results->push_back(typeString);
 
@@ -234,7 +246,7 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     results->push_back(dataTranslator->getOdbcTypeName(type));
     
     // COLUMN_SIZE
-    int maxLen = rTable->GetMaximumLength();
+    int maxLen = dummyCol->getMaximumLength();
     string maxLenString = b::lexical_cast<string>(maxLen);
     results->push_back(maxLenString);
 
@@ -250,21 +262,7 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     }
 
     // DECIMAL_DIGITS
-    switch(type)
-    {
-        case SQL_DECIMAL:
-        case SQL_DOUBLE:
-            results->push_back(
-                b::lexical_cast<string>(rTable->GetPrecision()));
-            break;
-
-        case SQL_TYPE_TIMESTAMP:
-            results->push_back("3");
-            break;
-
-        default:
-            results->push_back("");
-    }
+    results->push_back(b::lexical_cast<string>(dummyCol->getPrecision()));
 
     // NUM_PREC_RADIX
     if (type == SQL_DECIMAL || type == SQL_DOUBLE)
@@ -304,7 +302,7 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     if (type == SQL_CHAR)
     {
         results->push_back(
-            b::lexical_cast<string>(rTable->GetMaximumLength()));
+            b::lexical_cast<string>(dummyCol->getMaximumLength()));
     }
     else
     {

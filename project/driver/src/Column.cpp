@@ -374,6 +374,10 @@ SQLULEN RetsColumn::getPrecision()
             result = mMetadataTablePtr->GetPrecision();
             break;
 
+        case SQL_TYPE_TIMESTAMP:
+            result = 3;
+            break;
+
         default:
             result = 0;
             break;

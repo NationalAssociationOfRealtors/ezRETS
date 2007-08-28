@@ -368,7 +368,7 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 
     try
     {
-        mQuery = Query::createSqlQuery(this, mDbc->isUsingCompactFormat(),
+        mQuery = Query::createSqlQuery(this, isUsingCompactFormat(),
                                        statement);
     }
     catch(RetsSqlException& e)
@@ -1185,4 +1185,9 @@ SQLRETURN RetsSTMT::SQLCancel()
 {
     LOG_DEBUG(getLogger(), "In SQLCancel");
     return SQL_SUCCESS;
+}
+
+bool RetsSTMT::isUsingCompactFormat()
+{
+    return mDbc->isUsingCompactFormat();
 }
