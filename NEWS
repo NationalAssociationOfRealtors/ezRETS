@@ -2,8 +2,12 @@ Changes since 2.0.8
 -------------------
   * User-Agent is now "ezRETS/2.0.91 (librets/1.1.9)"
  
+ Bug Fix
+  * Fixed error in column size reporting for Lookups with SQLColumns
+    as reported by Louis Gomez
+
  Enhancements
-  * OS X is officially supported
+  * OS X is officially supported.  Thanks to Chad Curry for the volume icon.
   * Added default MaximumLengths for cases where the RETS server
     metadata didn't specify one.
   * When debug logging is turned off things should be slightly faster as
