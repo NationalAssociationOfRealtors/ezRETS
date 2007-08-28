@@ -30,4 +30,10 @@ dist:
 	cp README dist/osx/README.txt
 	cp LICENSE dist/osx/LICENSE.txt
 	cp doc/SQL_Reference.html dist/osx
-	hdiutil create -ov dist/ezRETS-osx-$(VERSION).dmg -volname 'ezRETS $(VERSION)' -uid 99 -gid 99 -srcfolder dist/osx -format UDBZ 
+	cp project/build/rdrive.icns 'dist/osx/.VolumeIcon.icns'
+	hdiutil create -ov dist/tmp.dmg -fs HFS+ -volname 'ezRETS $(VERSION)' -uid 99 -gid 99 -srcfolder dist/osx -format UDRW
+	hdiutil attach dist/tmp.dmg
+	/Developer/Tools/SetFile -a C /Volumes/ezRETS\ $(VERSION)
+	hdiutil detach /Volumes/ezRETS\ $(VERSION)
+	hdiutil convert dist/tmp.dmg -format UDBZ -o dist/ezRETS-osx-$(VERSION).dmg
+	rm dist/tmp.dmg
