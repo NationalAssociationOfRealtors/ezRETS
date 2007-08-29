@@ -1,9 +1,14 @@
 Changes since 2.0.8
 -------------------
-  * User-Agent is now "ezRETS/2.0.91 (librets/1.1.9)"
+  * User-Agent is now "ezRETS/2.1.0 (librets/1.1.9)"
  
+ Non-backwards compatible change
+  * COMPACT format is always used for queries, ezRETS now does the
+    LOOKUP decoding instead of asking the server to do it.  Thanks to
+    Libor Viktorin for suggesting this.
+
  Bug Fix
-  * Fixed error in column size reporting for Lookups with SQLColumns
+  * Fixed error in column size reporting for Lookups in SQLColumns
     as reported by Louis Gomez
 
  Enhancements
@@ -13,9 +18,6 @@ Changes since 2.0.8
   * When debug logging is turned off things should be slightly faster as
     log messages are not generated anyway.
   * SQLCancel is now implemented
-  * COMPACT format is always used, ezRETS now does the LOOKUP decoding
-    instead of asking the server to do.  Thanks to Libor Viktorin for
-    suggesting this.
 
 Changes since 2.0.7
 -------------------

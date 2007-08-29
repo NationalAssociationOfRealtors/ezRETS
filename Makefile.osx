@@ -1,34 +1,35 @@
 # On OS X, we use xcode.  This is just a simple makefile to call
 # xcodebuild to build ezRETS
-
 srcdir = .
 include $(srcdir)/project/build/version.mk
+
+MODE = Debug
 
 all: ezrets ezretss register_driver
 
 ezrets:
-	cd project/build && xcodebuild -target ezrets -configuration Debug
+	cd project/build && xcodebuild -target ezrets -configuration $(MODE)
 
 ezretss:
-	cd project/build && xcodebuild -target ezretss -configuration Debug
+	cd project/build && xcodebuild -target ezretss -configuration $(MODE)
 
 register_driver:
-	cd project/build && xcodebuild -target register_driver -configuration Debug
+	cd project/build && xcodebuild -target register_driver -configuration $(MODE)
 
 clean:
-	cd project/build && xcodebuild -target ezrets -configuration Debug clean
-	cd project/build && xcodebuild -target ezretss -configuration Debug clean
-	cd project/build && xcodebuild -target register_driver -configuration Debug clean
+	cd project/build && xcodebuild -target ezrets -configuration $(MODE) clean
+	cd project/build && xcodebuild -target ezretss -configuration $(MODE) clean
+	cd project/build && xcodebuild -target register_driver -configuration $(MODE) clean
 	rm -rf dist
 
 install:
-	cp build/xcode/Debug/ezrets*.dylib /Library/ODBC/ezRETS
+	cp build/xcode/$(MODE)/ezrets*.dylib /Library/ODBC/ezRETS
 
 dist:
 	mkdir -p dist/osx
-	/Developer/Tools/packagemaker -build -v -proj project/build/OSX_Package.pmproj -p dist/osx/ezRETS-$(VERSION).pkg
 	cp README dist/osx/README.txt
 	cp LICENSE dist/osx/LICENSE.txt
+	/Developer/Tools/packagemaker -build -v -proj project/build/OSX_Package.pmproj -p dist/osx/ezRETS-$(VERSION).pkg
 	cp doc/SQL_Reference.html dist/osx
 	cp project/build/rdrive.icns 'dist/osx/.VolumeIcon.icns'
 	hdiutil create -ov dist/tmp.dmg -fs HFS+ -volname 'ezRETS $(VERSION)' -uid 99 -gid 99 -srcfolder dist/osx -format UDRW
