@@ -40,7 +40,7 @@ namespace lu = librets::util;
 
 DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
                      DmqlQueryPtr dmqlQuery)
-    : Query(stmt), mDmqlQuery(dmqlQuery), mUseCompactFormat(useCompactFormat)
+    : Query(stmt), mUseCompactFormat(useCompactFormat), mDmqlQuery(dmqlQuery)
 {
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
