@@ -293,7 +293,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
 
     wxGridSizer * buttonSizer = new wxGridSizer(2);
 
-    mStandardNames = new wxCheckBox(panel, wxID_ANY, "Use Standard Names",
+    mStandardNames = new wxCheckBox(panel, wxID_ANY, "Use StandardNames",
                                     wxDefaultPosition, wxDefaultSize, 0,
                                     validator.SetField(DSV::STANDARD_NAMES));
     mStandardNames->SetToolTip("If checked, will require all field names to "
