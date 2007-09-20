@@ -9,6 +9,8 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
 dnl AC_PROG_LIBTOOL
+AC_CHECK_SIZEOF(long)
+AC_CHECK_TYPES(long long)
 AC_CHECK_PROG(my_have_perl, perl, yes, no)
 dnl AC_CHECK_PROG(my_have_doxygen, doxygen, yes, no)
 VERSION=`perl -ane 'print $1 if /VERSION\s+\=\s+(\S+)/' ${ac_top_builddir}project/build/version.mk`
@@ -32,8 +34,6 @@ MY_TEST_IODBC
 if test "$HAVE_IODBC" != "1"; then
    MY_TEST_UNIXODBC
 fi
-
-MY_TEST_LONG_LONG
 
 MY_TEST_DEPENDS
 
