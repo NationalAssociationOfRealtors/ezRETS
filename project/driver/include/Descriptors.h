@@ -42,8 +42,7 @@
 namespace odbcrets
 {
 
-SQLPOINTER adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr);
-SQLINTEGER* adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr);
+SQLPOINTER adjustDescPointer(SQLPOINTER offset, SQLPOINTER ptr);
 
 class BaseDesc : public AbstractHandle
 {
@@ -60,7 +59,7 @@ class BaseDesc : public AbstractHandle
         SQLSMALLINT RecNumber, SQLSMALLINT FieldIdentifier, SQLPOINTER Value,
         SQLINTEGER BufferLength, SQLINTEGER* StringLength);
 
-    virtual SQLUINTEGER getDataPtr(SQLSMALLINT RecNumber);
+    virtual SQLPOINTER getDataPtr(SQLSMALLINT RecNumber);
     
   protected:
     enum DescriptorType { APD, IPD, ARD, IRD };
@@ -71,7 +70,7 @@ class BaseDesc : public AbstractHandle
     RetsSTMT* mParent;
     DescriptorType mType;
 
-    std::map<int, SQLUINTEGER> mDescDataPtrs;
+    std::map<int, SQLPOINTER> mDescDataPtrs;
 };
 
 class AppParamDesc : public BaseDesc // aka apd

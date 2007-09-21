@@ -113,11 +113,11 @@ void Column::setData(SQLUSMALLINT colNo, string data, SQLSMALLINT TargetType,
     }
     
     // See SQLSetDescField for info on this.
-    SQLUINTEGER dataPtrOffset = ard->getDataPtr(colNo);
+    SQLPOINTER dataPtrOffset = ard->getDataPtr(colNo);
     if (dataPtrOffset)
     {
-        adjTargetValue = adjustDescPointer(&dataPtrOffset, adjTargetValue);
-        adjStrLen = (SQLLEN*) adjustDescPointer(&dataPtrOffset, adjStrLen);
+        adjTargetValue = adjustDescPointer(dataPtrOffset, adjTargetValue);
+        adjStrLen = (SQLLEN*) adjustDescPointer(dataPtrOffset, adjStrLen);
     }
 
     dt->translate(data, type, adjTargetValue, BufferLength, adjStrLen,

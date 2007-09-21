@@ -18,28 +18,19 @@
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
+#include "ptr_madness.h"
 
 using namespace odbcrets;
 using std::string;
 
 char* BaseDesc::TypeNames[] = { "APD", "IPD", "ARD", "IRD" };
 
-SQLPOINTER odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLPOINTER ptr)
+SQLPOINTER odbcrets::adjustDescPointer(SQLPOINTER offset, SQLPOINTER ptr)
 {
     SQLPOINTER result = ptr;
     if (offset)
     {
-        result = (SQLPOINTER) ((char*) ptr + *offset);
-    }
-    return result;
-}
-
-SQLINTEGER* odbcrets::adjustDescPointer(SQLUINTEGER* offset, SQLINTEGER* ptr)
-{
-    SQLINTEGER* result = ptr;
-    if (offset)
-    {
-        result = (SQLINTEGER*) ((char*) ptr + *offset);
+        result = (SQLPOINTER) ((char*) ptr + (dbt::ptruint_t) offset);
     }
     return result;
 }
@@ -91,7 +82,7 @@ SQLRETURN BaseDesc::SQLSetDescField(
             break;
 
         case SQL_DESC_DATA_PTR:
-            mDescDataPtrs[RecNumber - 1] = (SQLUINTEGER) Value;
+            mDescDataPtrs[RecNumber - 1] = Value;
             break;
 
         default:
@@ -132,10 +123,10 @@ SQLRETURN BaseDesc::SQLGetDescField (
     return result;
 }
 
-SQLUINTEGER BaseDesc::getDataPtr(SQLSMALLINT RecNumber)
+SQLPOINTER BaseDesc::getDataPtr(SQLSMALLINT RecNumber)
 {
-    SQLUINTEGER value = 0;
-    std::map<int, SQLUINTEGER>::iterator i = mDescDataPtrs.find(RecNumber);
+    SQLPOINTER value = 0;
+    std::map<int, SQLPOINTER>::iterator i = mDescDataPtrs.find(RecNumber);
     if (i != mDescDataPtrs.end())
     {
         value = i->second;
