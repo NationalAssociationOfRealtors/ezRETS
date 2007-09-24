@@ -9,6 +9,7 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
 dnl AC_PROG_LIBTOOL
+AC_CHECK_SIZEOF(void*)
 AC_CHECK_SIZEOF(long)
 AC_CHECK_TYPES(long long)
 AC_CHECK_PROG(my_have_perl, perl, yes, no)

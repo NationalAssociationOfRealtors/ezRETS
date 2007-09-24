@@ -23,3 +23,7 @@
 
 /* It also helps us with unixODBC if we know if know the size of a long */
 #undef SIZEOF_LONG
+
+/* The size of a pointer to void*.  This should tell us if we're 32-bit
+   or 64-bit */
+#undef SIZEOF_VOIDP
