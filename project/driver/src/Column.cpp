@@ -14,6 +14,10 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include "ResultSet.h"
