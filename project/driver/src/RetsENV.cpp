@@ -22,9 +22,15 @@
 #include "StreamEzLogger.h"
 #include "str_stream.h"
 
+/* Double casts such as:
+ *  foo = (SQLINTEGER) (SQLLEN) Value
+ * is a pattern I found in the iodbc source for circumstances like
+ * we have in this file (and the others.)
+ */
+
 using namespace odbcrets;
 
-RetsENV::RetsENV() : AbstractHandle(), odbcVersion(3)
+RetsENV::RetsENV() : AbstractHandle(), mOdbcVersion(3)
 {
     mLogger.reset();
     mLogFile.reset();
@@ -104,7 +110,7 @@ SQLRETURN RetsENV::SQLGetEnvAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_ODBC_VERSION:
-            *(SQLINTEGER*)Value = odbcVersion;
+            *(SQLINTEGER*)Value = mOdbcVersion;
             break;
 
         case SQL_ATTR_OUTPUT_NTS:
@@ -127,11 +133,11 @@ SQLRETURN RetsENV::SQLSetEnvAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     switch (Attribute)
     {
         case SQL_ATTR_ODBC_VERSION:
-            odbcVersion = (SQLINTEGER) Value;
+            mOdbcVersion = (SQLINTEGER) (SQLLEN) Value;
             break;
 
         case SQL_ATTR_OUTPUT_NTS:
-            if ((SQLINTEGER) Value == SQL_TRUE)
+            if ((SQLINTEGER) (SQLLEN) Value == SQL_TRUE)
             {
                 break;
             }
