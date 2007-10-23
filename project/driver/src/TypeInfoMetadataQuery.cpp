@@ -136,9 +136,9 @@ SQLRETURN TypeInfoMetadataQuery::execute()
 
     if (mResultSet->isEmpty())
     {
-        mStmt->addError("HY004",
-                        "Invalid SQL data type. ezRETS does not support it.");
-        return SQL_ERROR;
+        mStmt->addError("01000",
+                        "ezRETS does not support this SQL data type.");
+        return SQL_SUCCESS_WITH_INFO;
     }
 
     return SQL_SUCCESS;
