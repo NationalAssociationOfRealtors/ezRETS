@@ -14,6 +14,21 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
 
+AC_ARG_ENABLE(debug,
+              AC_HELP_STRING([--enable-debug],
+                             [enable debugging support (default: disabled)]),
+               test "X$enableval" != "Xno" && my_enable_debug=yes,
+               my_enable_debug=no)
+
+my_compile_type="Normal"
+if test -n "$GCC"; then
+  if test "$my_enable_debug" = "yes"; then
+    CFLAGS="-g -O0"
+    LDFLAGS="-g -O0"
+    my_compile_type="Debug"
+  fi
+fi
+
 dnl AC_PROG_LIBTOOL
 AC_CHECK_SIZEOF(void*)
 AC_CHECK_SIZEOF(long)
@@ -39,27 +54,16 @@ if test "$HAVE_IODBC" == "1"; then
    CFLAGS="$CFLAGS $IODBC_CFLAGS"
 else
    MY_TEST_UNIXODBC
+   if test "$target_cpu" == "x86_64" -a "$ac_cv_sizeof_voidp" == "8"; then
+      AC_MSG_NOTICE([Building with BUILD_REAL_64_BIT_MODE])
+      CFLAGS="$CFLAGS -DBUILD_REAL_64_BIT_MODE"
+   fi
    ODBC_LIBS="-lodbc -lodbcinst"
 fi
 
 AC_SUBST(ODBC_LIBS)
 
 MY_TEST_DEPENDS
-
-AC_ARG_ENABLE(debug,
-              AC_HELP_STRING([--enable-debug],
-                             [enable debugging support (default: disabled)]),
-               test "X$enableval" != "Xno" && my_enable_debug=yes,
-               my_enable_debug=no)
-
-my_compile_type="Normal"
-if test -n "$GCC"; then
-  if test "$my_enable_debug" = "yes"; then
-    CFLAGS="-g -O0"
-    LDFLAGS="-g -O0"
-    my_compile_type="Debug"
-  fi
-fi
 
 case $target in
      *-linux*)

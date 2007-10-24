@@ -177,7 +177,7 @@ string DBHelper::describeColumn(int num)
 #ifdef MAC
     long unsigned int columnSize;
 #else
-    SQLUINTEGER columnSize;
+    SQLULEN columnSize;
 #endif
 
     SQLSMALLINT decDig;
