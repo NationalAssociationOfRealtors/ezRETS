@@ -33,6 +33,8 @@ BOOST_CFLAGS=@BOOST_CFLAGS@
 TARGET=unix
 TARGET_CFLAGS=-DTARGET_UNIX
 
+ODBC_LDFLAGS=@ODBC_LIBS@
+
 # Put targets here so that zsh can complete on them, as zsh won't
 # follow the include directives.
 all: _all

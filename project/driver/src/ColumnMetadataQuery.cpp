@@ -14,6 +14,9 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>

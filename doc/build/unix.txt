@@ -21,7 +21,7 @@ program options libraries.
 
 librets
 --------
-  Version 1.1.8 or higher
+  Version 1.1.10 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
 libRETS must be compiled with the SQL Compiler (aka SQL to DMQL
@@ -48,3 +48,13 @@ Run the following commands:
   % make
 
 Currently, there is no make install.  See the INSTALL document for help.
+
+
+IMPORTANT NOTE FOR Linux x86_64
+===============================
+
+Building on x86_64 Linux is experimental, but it should work.  You
+need to have libRETS compiled with the following flags: --enable-PIC
+and --enable-shared_dependencies.  Also, if you are building antlr for
+libRETS, you must make sure you have CFLAGS="-fPIC" and
+CXXFLAGS="-fPIC" when you compile antlr.

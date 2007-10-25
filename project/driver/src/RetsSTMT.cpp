@@ -14,6 +14,9 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 #include <boost/cast.hpp>
 #include <boost/lexical_cast.hpp>
@@ -39,6 +42,12 @@
 #include "ResultSet.h"
 #include "DataTranslator.h"
 #include "Column.h"
+
+/* Double casts such as:
+ *  foo = (SQLINTEGER) (SQLLEN) Value
+ * is a pattern I found in the iodbc source for circumstances like
+ * we have in this file (and the others.)
+ */
 
 using namespace odbcrets;
 using namespace librets;
@@ -642,7 +651,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     switch (Attribute)
     {
         case SQL_ATTR_QUERY_TIMEOUT:
-            if ((SQLINTEGER) Value != 0)
+            if ((SQLINTEGER) (SQLLEN) Value != 0)
             {
                 addError("01S02", "Option Value Changed");
                 result = SQL_SUCCESS_WITH_INFO;
@@ -658,7 +667,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
 
         case SQL_ATTR_ROW_ARRAY_SIZE:
         case SQL_ROWSET_SIZE:
-            if ((SQLUINTEGER) Value != ard.mArraySize)
+            if ((SQLUINTEGER) (SQLULEN) Value != ard.mArraySize)
             {
                 addError("01S02", "Option Value Changed");
                 result = SQL_SUCCESS_WITH_INFO;
@@ -666,11 +675,11 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_ROW_BIND_TYPE:
-            ard.mBindType = (SQLUINTEGER) Value;
+            ard.mBindType = (SQLUINTEGER) (SQLULEN) Value;
             break;
 
         case SQL_ATTR_PARAMSET_SIZE:
-            ard.mArraySize = (SQLUINTEGER) Value;
+            ard.mArraySize = (SQLUINTEGER) (SQLULEN) Value;
             break;
             
         case SQL_ATTR_PARAMS_PROCESSED_PTR:
@@ -678,7 +687,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_MAX_LENGTH:
-            if ((SQLUINTEGER) Value != 0)
+            if ((SQLUINTEGER) (SQLULEN) Value != 0)
             {
                 addError("01S02", "Option Value Changed");
                 result = SQL_SUCCESS_WITH_INFO;
@@ -686,7 +695,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_PARAM_BIND_TYPE:
-            apd.mBindType = (SQLUINTEGER) Value;
+            apd.mBindType = (SQLUINTEGER) (SQLULEN) Value;
             break;
 
         case SQL_ATTR_ROW_BIND_OFFSET_PTR:
@@ -699,7 +708,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_CURSOR_TYPE:
-            if((SQLUINTEGER) Value != SQL_CURSOR_FORWARD_ONLY)
+            if((SQLUINTEGER) (SQLULEN) Value != SQL_CURSOR_FORWARD_ONLY)
             {
                 addError("01S02", "Option Value Changed");
                 result = SQL_SUCCESS_WITH_INFO;
@@ -707,7 +716,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_RETRIEVE_DATA:
-            if ((SQLUINTEGER) Value != SQL_RD_ON)
+            if ((SQLUINTEGER) (SQLULEN) Value != SQL_RD_ON)
             {
                 addError("01S02", "Option Value Changed");
                 result = SQL_SUCCESS_WITH_INFO;
@@ -719,7 +728,7 @@ SQLRETURN RetsSTMT::SQLSetStmtAttr(SQLINTEGER Attribute, SQLPOINTER Value,
             break;
 
         case SQL_ATTR_CONCURRENCY:
-            if ((SQLUINTEGER) Value != SQL_CONCUR_READ_ONLY)
+            if ((SQLUINTEGER) (SQLLEN) Value != SQL_CONCUR_READ_ONLY)
             {
                 addError("01S02", "Option Value Changed");
                 result = SQL_SUCCESS_WITH_INFO;

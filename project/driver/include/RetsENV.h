@@ -45,7 +45,7 @@ class RetsENV : public AbstractHandle
     bool canBeFreed();
     
   private:
-    SQLINTEGER odbcVersion;
+    SQLINTEGER mOdbcVersion;
     std::list<RetsDBC*> mDatabaseConnections;
     EzLoggerPtr mLogger;
     boost::shared_ptr<std::ostream> mLogFile;
