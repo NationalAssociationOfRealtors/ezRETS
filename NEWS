@@ -1,8 +1,14 @@
-Changes since 2.1.0
+ Changes since 2.1.0
 -------------------
 
+ Non-backwards compatible change
+  * LOOOKUPs are now returned as VARCHAR(129|2561) instead of
+    CHAR(129|2561).  Issue reported by Lou
+  * Put in fix for dates reported as 0000-00-00, we'll assume those
+    are NULL values.  Issue reported by Lou
+
  Bug Fix
-  * Autoconf changed to allows versions to compile on 64 bit Linux
+  * Autoconf changed to allow compile on 64 bit Linux
 
 Changes since 2.0.8
 -------------------

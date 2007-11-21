@@ -115,6 +115,15 @@ void DateTranslationWorker::translate(string data, SQLPOINTER target,
             << data << "\" to Date");
     }
 
+    // Do a sanity check.  One RETS server would occationally send
+    // 0000-00-00 as a date.  That doesn't seem to make sense.  We'll
+    // assume this is a null data response.
+    if (date->year == 0 && date->month == 0 && date->day == 0)
+    {
+        setResultSize(resultSize, SQL_NULL_DATA);
+        return;
+    }   
+
     setResultSize(resultSize, SQL_DATE_LEN);
 }
 
