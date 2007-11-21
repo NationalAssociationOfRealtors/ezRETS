@@ -236,7 +236,7 @@ SQLSMALLINT RetsColumn::getDataType()
     MetadataViewPtr metadataView = mParent->getMetadataView();
     if (metadataView->IsLookupColumn(mMetadataTablePtr))
     {
-        result = SQL_CHAR;
+        result = SQL_VARCHAR;
     }
     else
     {
