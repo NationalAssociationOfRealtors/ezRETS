@@ -19,7 +19,7 @@ if PLATFORM =~ /darwin/
   # iodbc actually takes the path to the driver, not the name as
   # registered in odbcinst.ini.  Right now, of our platforms, OS X
   # is the only one that uses iODBC by default.
-  drv.attrs["DRIVER"] = '/usr/local/lib/ezrets.dylib'
+  drv.attrs["DRIVER"] = '/Library/ODBC/ezRETS/ezrets.dylib'
 else
   drv.attrs["DRIVER"] = DRIVER
 end

@@ -102,17 +102,35 @@ void DateTranslationWorker::translate(string data, SQLPOINTER target,
 
     DATE_STRUCT* date = (DATE_STRUCT*) target;
 
+    SQLSMALLINT year = 0;
+    SQLSMALLINT month = 0;
+    SQLSMALLINT day = 0;
     try
     {
-        date->year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
-        date->month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
-        date->day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
+        year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
+        month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
+        day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
     }
     catch(b::bad_lexical_cast&)
     {
         throw DateTimeFormatException(
             str_stream() << "bad_lexical_cast: could not convert \""
             << data << "\" to Date");
+    }
+
+    // Do a sanity check.  One RETS server would occationally send
+    // 0000-00-00 as a date.  That doesn't seem to make sense.  We'll
+    // assume this is a null data response.
+    if (year == 0 && month == 0 && day == 0)
+    {
+        setResultSize(resultSize, SQL_NULL_DATA);
+        return;
+    }
+    else
+    {
+        date->year = year;
+        date->month = month;
+        date->day = day;
     }
 
     setResultSize(resultSize, SQL_DATE_LEN);
