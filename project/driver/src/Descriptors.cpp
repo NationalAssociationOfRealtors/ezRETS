@@ -30,7 +30,8 @@ SQLPOINTER odbcrets::adjustDescPointer(SQLPOINTER offset, SQLPOINTER ptr)
     SQLPOINTER result = ptr;
     if (offset)
     {
-        result = (SQLPOINTER) ((char*) ptr + (dbt::ptruint_t) offset);
+        PTRINT pvalue = *((PTRINT*) offset);
+        result = (SQLPOINTER) ((char*) ptr + pvalue);
     }
     return result;
 }
