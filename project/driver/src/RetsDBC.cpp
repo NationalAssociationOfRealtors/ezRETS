@@ -673,8 +673,6 @@ bool RetsDBC::login()
         if (success)
         {
             mRetsSessionPtr = session;
-            mRetsSessionPtr->SetIncrementalMetadata(
-                !mDataSource.GetUseBulkMetadata());
             EzRetsErrorHandler* handler = new EzRetsErrorHandler(log);
             mRetsErrorHandler.reset(handler);
             mRetsSessionPtr->SetErrorHandler(handler);

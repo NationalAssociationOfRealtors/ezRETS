@@ -859,6 +859,7 @@ lr::RetsSessionPtr CLASS::CreateRetsSession() const
     session->UseHttpGet(mUseHttpGet);
     session->SetUserAgent(GetUserAgent());
     session->SetRetsVersion(GetRetsVersion());
+    session->SetIncrementalMetadata(!GetUseBulkMetadata());
 
     if (mEnableUserAgentAuth)
     {
