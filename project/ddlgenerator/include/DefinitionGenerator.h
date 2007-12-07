@@ -19,6 +19,7 @@
 
 #include "MetadataView.h"
 #include "DataTranslator.h"
+#include "librets/metadata_forward.h"
 
 namespace ezhelper
 {
@@ -26,15 +27,16 @@ namespace ezhelper
 class DefinitionGenerator
 {
   public:
-    DefinitionGenerator(odbcrets::MetadataView* metadataView);
+    DefinitionGenerator(bool standardNames, librets::RetsMetadata* metadata);
 
     std::string createHTML();
 
   private:
     std::string doTables(librets::MetadataClass* clazz);
     std::string doLookup(librets::MetadataTable* table);
-    
-    odbcrets::MetadataView* mMetadataView;
+
+    librets::RetsMetadata* mMetadata;
+    std::auto_ptr<odbcrets::MetadataView> mMetadataView;
     std::auto_ptr<odbcrets::DataTranslator> mDataTranslator;
 };
 

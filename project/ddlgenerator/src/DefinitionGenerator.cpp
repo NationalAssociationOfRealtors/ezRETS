@@ -24,8 +24,11 @@ using namespace librets;
 namespace b = boost;
 using std::string;
 
-DefinitionGenerator::DefinitionGenerator(MetadataView* metadataView)
-    : mMetadataView(metadataView), mDataTranslator(new NativeDataTranslator())
+DefinitionGenerator::DefinitionGenerator(bool standardNames,
+                                         RetsMetadata* metadata)
+    : mMetadata(metadata),
+      mMetadataView(new MetadataView(standardNames, metadata)),
+      mDataTranslator(new NativeDataTranslator())
 {
 }
 

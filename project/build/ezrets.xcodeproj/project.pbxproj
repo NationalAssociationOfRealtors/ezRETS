@@ -100,6 +100,14 @@
 		DEBC9E400D07380D0078B301 /* DefinitionGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE5416760D070F6D00615353 /* DefinitionGenerator.cpp */; };
 		DEBC9E410D07380D0078B301 /* GUIMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE5416B80D0714CA00615353 /* GUIMain.cpp */; };
 		DEBC9E5F0D073AD90078B301 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972BC0C85C91F004DEF1F /* ezrets-common.a */; };
+		DEBC9ED90D09C6960078B301 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972610C85C8E8004DEF1F /* libz.dylib */; };
+		DEBC9EDA0D09C6960078B301 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972600C85C8E8004DEF1F /* libssl.dylib */; };
+		DEBC9EDB0D09C6960078B301 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */; };
+		DEBC9EDD0D09C69D0078B301 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972610C85C8E8004DEF1F /* libz.dylib */; };
+		DEBC9EDE0D09C69D0078B301 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972600C85C8E8004DEF1F /* libssl.dylib */; };
+		DEBC9EDF0D09C69D0078B301 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */; };
+		DEBC9EE30D09C6E80078B301 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
+		DEBC9EE40D09C6F30078B301 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +245,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE5416850D0710CF00615353 /* ezrets-common.a in Frameworks */,
+				DEBC9ED90D09C6960078B301 /* libz.dylib in Frameworks */,
+				DEBC9EDA0D09C6960078B301 /* libssl.dylib in Frameworks */,
+				DEBC9EDB0D09C6960078B301 /* libcrypto.dylib in Frameworks */,
+				DEBC9EE30D09C6E80078B301 /* libiodbcinst.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +296,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEBC9E5F0D073AD90078B301 /* ezrets-common.a in Frameworks */,
+				DEBC9EDD0D09C69D0078B301 /* libz.dylib in Frameworks */,
+				DEBC9EDE0D09C69D0078B301 /* libssl.dylib in Frameworks */,
+				DEBC9EDF0D09C69D0078B301 /* libcrypto.dylib in Frameworks */,
+				DEBC9EE40D09C6F30078B301 /* libiodbcinst.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

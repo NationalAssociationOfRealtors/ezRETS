@@ -17,6 +17,9 @@ ezretss:
 register_driver:
 	cd project/build && xcodebuild -target register_driver -configuration $(MODE)
 
+ddl:
+	cd project/build && xcodebuild -target generatedef -configuration $(MODE)
+
 clean:
 	cd project/build && xcodebuild -target ezrets -configuration $(MODE) clean
 	cd project/build && xcodebuild -target ezretss -configuration $(MODE) clean

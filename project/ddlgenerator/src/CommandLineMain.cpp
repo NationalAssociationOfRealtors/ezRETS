@@ -15,10 +15,38 @@
  * appear in supporting documentation.
  */
 
+#include <iostream>
 #include "DefinitionGenerator.h"
+#include "DataSource.h"
+#include "librets/RetsSession.h"
 
-int main()
+using std::cout;
+using std::endl;
+using odbcrets::DataSource;
+
+int main(int argc, const char* argv[])
 {
-    ezhelper::DefinitionGenerator foo(NULL);
-    foo.createHTML();
+    if (argc < 2)
+    {
+        cout << "Dammit!" << endl;
+        exit(1);
+    }
+    
+    DataSource ds(argv[1]);
+    ds.MergeFromIni();
+
+    cout << ds << endl;
+
+    librets::RetsSessionPtr session = ds.CreateRetsSession();
+
+    if (!ds.RetsLogin(session))
+    {
+        cout << "Couldn't log in!" << endl;
+    }
+
+    librets::RetsMetadata* metadata = session->GetMetadata();
+    
+    ezhelper::DefinitionGenerator foo(ds.GetStandardNames(), metadata);
+
+    string result = foo.createHTML();
 }
