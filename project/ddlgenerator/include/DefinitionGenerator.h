@@ -32,10 +32,11 @@ class DefinitionGenerator
     std::string createHTML();
 
   private:
-    std::string doTables(librets::MetadataClass* clazz);
+    std::string doTables(odbcrets::ResourceClassPairPtr rcPair);
     std::string doLookup(librets::MetadataTable* table);
 
     librets::RetsMetadata* mMetadata;
+    bool mStandardNames;
     std::auto_ptr<odbcrets::MetadataView> mMetadataView;
     std::auto_ptr<odbcrets::DataTranslator> mDataTranslator;
 };

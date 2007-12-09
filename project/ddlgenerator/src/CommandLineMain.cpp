@@ -21,27 +21,27 @@
 #include "librets/RetsSession.h"
 
 using std::cout;
+using std::cerr;
 using std::endl;
+using std::string;
 using odbcrets::DataSource;
 
 int main(int argc, const char* argv[])
 {
     if (argc < 2)
     {
-        cout << "Dammit!" << endl;
+        cerr << "Dammit!" << endl;
         exit(1);
     }
     
     DataSource ds(argv[1]);
     ds.MergeFromIni();
 
-    cout << ds << endl;
-
     librets::RetsSessionPtr session = ds.CreateRetsSession();
 
     if (!ds.RetsLogin(session))
     {
-        cout << "Couldn't log in!" << endl;
+        cerr << "Couldn't log in!" << endl;
     }
 
     librets::RetsMetadata* metadata = session->GetMetadata();
@@ -49,4 +49,6 @@ int main(int argc, const char* argv[])
     ezhelper::DefinitionGenerator foo(ds.GetStandardNames(), metadata);
 
     string result = foo.createHTML();
+
+    cout << result << endl;
 }

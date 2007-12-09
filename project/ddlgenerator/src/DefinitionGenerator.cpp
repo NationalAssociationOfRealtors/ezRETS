@@ -15,8 +15,14 @@
  * appear in supporting documentation.
  */
 
-#include "DefinitionGenerator.h"
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>            
+#include <boost/algorithm/string/trim.hpp>
+#include "DefinitionGenerator.h"
+#include "librets/MetadataResource.h"
+#include "librets/MetadataLookupType.h"
+#include "librets/MetadataSearchHelp.h"
 
 using namespace ezhelper;
 using namespace odbcrets;
@@ -26,7 +32,7 @@ using std::string;
 
 DefinitionGenerator::DefinitionGenerator(bool standardNames,
                                          RetsMetadata* metadata)
-    : mMetadata(metadata),
+    : mMetadata(metadata), mStandardNames(standardNames),
       mMetadataView(new MetadataView(standardNames, metadata)),
       mDataTranslator(new NativeDataTranslator())
 {
@@ -34,7 +40,7 @@ DefinitionGenerator::DefinitionGenerator(bool standardNames,
 
 string DefinitionGenerator::createHTML()
 {
-    string outHTML("");
+    string outHTML("<html>\n<head><title>Stuff</title></head>\n<body>\n");
     
     TableMetadataVectorPtr sqlTables =
         mMetadataView->getSQLDataTableMetadata();
@@ -43,19 +49,30 @@ string DefinitionGenerator::createHTML()
     {
         TableMetadataPair tablePair = *i;
         // PrintSQLTableDescription(tablePair->second);
+
+        outHTML.append("<p>\n  <b>Table:</b> ").append(tablePair.first);
+        outHTML.append("</br>\n  <b>Description:</b> ");
+        outHTML.append(tablePair.second).append("\n</p>\n");
+        
         ResourceClassPairPtr rcPair =
             mMetadataView->getResourceClassPairBySQLTable(tablePair.first);
-        outHTML.append(doTables(rcPair->second));
+        outHTML.append(doTables(rcPair));
     }
+
+    outHTML.append("</body>\n</html>\n");
 
     return outHTML;
 }
 
-string DefinitionGenerator::doTables(MetadataClass* clazz)
+string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
 {
-    string outHTML("");
-    MetadataTableList tables = mMetadataView->getTablesForClass(clazz);
+    MetadataTableList tables =
+        mMetadataView->getTablesForClass(rcPair->second);
 
+    string outHTML("<table>\n  <tr><th>Name</th><th>Type</th>"
+                   "<th>Description</th><th>Possible Values (if lookup)</th>"
+                   "</tr>\n");
+    
     MetadataTableList::iterator i;
     for (i = tables.begin(); i != tables.end(); i++)
     {
@@ -63,6 +80,16 @@ string DefinitionGenerator::doTables(MetadataClass* clazz)
         // If its a lookup, print its possible values
 
         MetadataTable* table = *i;
+
+        outHTML.append("  <tr><td>");
+        if (mStandardNames)
+        {
+            outHTML.append(table->GetStandardName());
+        }
+        else
+        {
+            outHTML.append(table->GetSystemName());
+        }
         
         SQLSMALLINT type =
             mDataTranslator->getPreferedOdbcType(table->GetDataType());
@@ -75,33 +102,63 @@ string DefinitionGenerator::doTables(MetadataClass* clazz)
                 b::lexical_cast<string>(table->GetMaximumLength()));
             type_name.append(")");
         }
+        
+        outHTML.append("</td><td>").append(type_name).append("</td><td>");
 
-        // Dump name and description
+        // We need to look up the search help and print that out
+        string searchHelpIDName = table->GetSearchHelpId();
+        if (!(searchHelpIDName.empty() ||
+              b::trim_copy(searchHelpIDName).empty()))
+        {
+            MetadataSearchHelp* help =
+                mMetadata->GetSearchHelp(rcPair->first->GetResourceID(),
+                                         searchHelpIDName);
+            outHTML.append(help->GetValue());
+        }
+        
+        //outHTML.append(table->GetDescription());
+        outHTML.append("</td><td>");
 
         if (mMetadataView->IsLookupColumn(table))
         {
-            
             // Dump the possible values
+            doLookup(table);
         }
+        outHTML.append("</td>\n");
     }
+
+    outHTML.append("</table>");
     
     return outHTML;
 }
 
 string DefinitionGenerator::doLookup(MetadataTable* table)
 {
-    string outHTML("");
+    string outHTML("<table>\n  <tr><th>Value</th><th>LongValue</th>"
+                   "<th>ShortValue</th></tr>\n");
     string lookupName = table->GetLookupName();
 
     // When we have a table, the level should be Resource:Class.
     // Since the lookup is off of the Resource we just need to find that.
     string level = table->GetLevel();
     StringVector parts;
-    //    b::split(parts, level, b::is_any_of(":"));
-    //    string resName = parts.at(0);
+    boost::split(parts, level, boost::is_any_of(":"));
+    string resName = parts.at(0);
 
-//     MetadataLookupTypeList ltl =
-//         mMetadataPtr->GetAllLookupTypes(resName, lookupName);
+    MetadataLookupTypeList ltl =
+        mMetadata->GetAllLookupTypes(resName, lookupName);
+
+    MetadataLookupTypeList::iterator i;
+    for (i = ltl.begin(); i != ltl.end(); i++)
+    {
+        MetadataLookupType* lkp = *i;
+        outHTML.append("  <tr><td>").append(lkp->GetValue()).append("</td>");
+        outHTML.append("<td>").append(lkp->GetLongValue()).append("</td>");
+        outHTML.append("<td>").append(lkp->GetShortValue());
+        outHTML.append("</td></tr>\n");
+    }
+
+    outHTML.append("</table>\n");
 
     return outHTML;
 }
