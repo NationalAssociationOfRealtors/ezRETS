@@ -69,7 +69,7 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
     MetadataTableList tables =
         mMetadataView->getTablesForClass(rcPair->second);
 
-    string outHTML("<table>\n  <tr><th>Name</th><th>Type</th>"
+    string outHTML("<table border=\"1\">\n  <tr><th>Name</th><th>Type</th>"
                    "<th>Description</th><th>Possible Values (if lookup)</th>"
                    "</tr>\n");
     
@@ -134,7 +134,7 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
 
 string DefinitionGenerator::doLookup(MetadataTable* table)
 {
-    string outHTML("<table>\n  <tr><th>Value</th><th>LongValue</th>"
+    string outHTML("<table border=\"1\">\n  <tr><th>Value</th><th>LongValue</th>"
                    "<th>ShortValue</th></tr>\n");
     string lookupName = table->GetLookupName();
 
