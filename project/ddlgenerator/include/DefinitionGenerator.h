@@ -33,7 +33,7 @@ class DefinitionGenerator
 
   private:
     std::string doTables(odbcrets::ResourceClassPairPtr rcPair);
-    std::string doLookup(librets::MetadataTable* table);
+    std::string doLookup(std::string resID, librets::MetadataTable* table);
 
     librets::RetsMetadata* mMetadata;
     bool mStandardNames;

@@ -98,12 +98,25 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
         if (type == SQL_CHAR || type == SQL_VARCHAR)
         {
             type_name.append("(");
-            type_name.append(
-                b::lexical_cast<string>(table->GetMaximumLength()));
+            switch(table->GetInterpretation())
+            {
+                case MetadataTable::LOOKUP:
+                    type_name.append("129");
+                    break;
+                case MetadataTable::LOOKUP_MULTI:
+                    type_name.append("2561");
+                    break;
+                default:
+                    type_name.append(
+                        b::lexical_cast<string>(table->GetMaximumLength()));
+                    break;
+            }
             type_name.append(")");
         }
         
         outHTML.append("</td><td>").append(type_name).append("</td><td>");
+
+        std::string resID = rcPair->first->GetResourceID();
 
         // We need to look up the search help and print that out
         string searchHelpIDName = table->GetSearchHelpId();
@@ -111,18 +124,15 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
               b::trim_copy(searchHelpIDName).empty()))
         {
             MetadataSearchHelp* help =
-                mMetadata->GetSearchHelp(rcPair->first->GetResourceID(),
-                                         searchHelpIDName);
+                mMetadata->GetSearchHelp(resID, searchHelpIDName);
             outHTML.append(help->GetValue());
         }
         
-        //outHTML.append(table->GetDescription());
         outHTML.append("</td><td>");
 
         if (mMetadataView->IsLookupColumn(table))
         {
-            // Dump the possible values
-            doLookup(table);
+            doLookup(resID, table);
         }
         outHTML.append("</td>\n");
     }
@@ -132,21 +142,14 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
     return outHTML;
 }
 
-string DefinitionGenerator::doLookup(MetadataTable* table)
+string DefinitionGenerator::doLookup(string resID, MetadataTable* table)
 {
-    string outHTML("<table border=\"1\">\n  <tr><th>Value</th><th>LongValue</th>"
-                   "<th>ShortValue</th></tr>\n");
+    string outHTML("<table border=\"1\">\n  <tr><th>Value</th>"
+                   "<th>LongValue</th><th>ShortValue</th></tr>\n");
     string lookupName = table->GetLookupName();
 
-    // When we have a table, the level should be Resource:Class.
-    // Since the lookup is off of the Resource we just need to find that.
-    string level = table->GetLevel();
-    StringVector parts;
-    boost::split(parts, level, boost::is_any_of(":"));
-    string resName = parts.at(0);
-
     MetadataLookupTypeList ltl =
-        mMetadata->GetAllLookupTypes(resName, lookupName);
+        mMetadata->GetAllLookupTypes(resID, lookupName);
 
     MetadataLookupTypeList::iterator i;
     for (i = ltl.begin(); i != ltl.end(); i++)
