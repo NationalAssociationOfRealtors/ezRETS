@@ -8,6 +8,9 @@ wxWidgets
   Version: 2.6.3 or higher
   URL: http://www.wxwidgets.org/
 
+  The binary release uses the following configure call:
+  ./configure --enable-universal_binary --enable-static=yes --disable-shared --enable-monolithic
+
 Boost
 -----
   Version: 1.33.0 or higher.

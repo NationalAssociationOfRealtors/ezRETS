@@ -129,14 +129,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F /* ezrets-common */;
+			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F;
 			remoteInfo = "ezrets-common";
 		};
 		DEBC9EA60D085BAA0078B301 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F /* ezrets-common */;
+			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F;
 			remoteInfo = "ezrets-common";
 		};
 /* End PBXContainerItemProxy section */
@@ -870,7 +870,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -889,7 +892,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1048,7 +1054,7 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-2.6",
+					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
 					"-D__WXMAC__",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
@@ -1057,7 +1063,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
-					"-L/usr/local/encap/wxWidgets-2.6.3/lib",
+					"-L/usr/local/lib",
 					"-framework",
 					QuickTime,
 					"-framework",
@@ -1068,13 +1074,13 @@
 					Cocoa,
 					"-framework",
 					System,
-					"/usr/local/encap/wxWidgets-2.6.3/lib/libwx_mac-2.6.a",
+					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.6",
-					"-lwxtiff-2.6",
-					"-lwxjpeg-2.6",
-					"-lwxpng-2.6",
+					"-lwxexpat-$(WX_VER_MAJOR)",
+					"-lwxtiff-$(WX_VER_MAJOR)",
+					"-lwxjpeg-$(WX_VER_MAJOR)",
+					"-lwxpng-$(WX_VER_MAJOR)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1087,7 +1093,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-static-2.6 /usr/local/encap/wxWidgets-2.6.3/include/wx-2.6 $(USER_HEADER_SEARCH_PATHS)";
+				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -1116,7 +1122,7 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-2.6",
+					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
 					"-D__WXMAC__",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
@@ -1125,7 +1131,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
-					"-L/usr/local/encap/wxWidgets-2.6.3/lib",
+					"-L/usr/local/lib",
 					"-framework",
 					QuickTime,
 					"-framework",
@@ -1136,13 +1142,13 @@
 					Cocoa,
 					"-framework",
 					System,
-					"/usr/local/encap/wxWidgets-2.6.3/lib/libwx_mac-2.6.a",
+					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.6",
-					"-lwxtiff-2.6",
-					"-lwxjpeg-2.6",
-					"-lwxpng-2.6",
+					"-lwxexpat-$(WX_VER_MAJOR)",
+					"-lwxtiff-$(WX_VER_MAJOR)",
+					"-lwxjpeg-$(WX_VER_MAJOR)",
+					"-lwxpng-$(WX_VER_MAJOR)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1155,7 +1161,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
-				USER_HEADER_SEARCH_PATHS = "/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-static-2.6 /usr/local/encap/wxWidgets-2.6.3/include/wx-2.6 $(USER_HEADER_SEARCH_PATHS)";
+				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1232,8 +1238,8 @@
 					"$(SRCROOT)/../driver/include",
 					"$(SRCROOT)/../common/include",
 					"$(HEADER_SEARCH_PATHS)",
-					"/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-static-2.6",
-					"/usr/local/encap/wxWidgets-2.6.3/include/wx-2.6",
+					"$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR)",
+					"$(WXWIDGETS)/include/wx-$(WX_VER_MAJOR)",
 				);
 				INFOPLIST_FILE = "gendefgui-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1241,7 +1247,7 @@
 				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-2.6",
+					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
 					"-D__WXMAC__",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
@@ -1250,7 +1256,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
-					"-L/usr/local/encap/wxWidgets-2.6.3/lib",
+					"-L$(WXWIDGETS)/lib",
 					"-framework",
 					QuickTime,
 					"-framework",
@@ -1261,13 +1267,13 @@
 					Cocoa,
 					"-framework",
 					System,
-					"/usr/local/encap/wxWidgets-2.6.3/lib/libwx_mac-2.6.a",
+					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.6",
-					"-lwxtiff-2.6",
-					"-lwxjpeg-2.6",
-					"-lwxpng-2.6",
+					"-lwxexpat-$(WX_VER_MAJOR)",
+					"-lwxtiff-$(WX_VER_MAJOR)",
+					"-lwxjpeg-$(WX_VER_MAJOR)",
+					"-lwxpng-$(WX_VER_MAJOR)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1304,8 +1310,8 @@
 					"$(SRCROOT)/../driver/include",
 					"$(SRCROOT)/../common/include",
 					"$(HEADER_SEARCH_PATHS)",
-					"/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-static-2.6",
-					"/usr/local/encap/wxWidgets-2.6.3/include/wx-2.6",
+					"$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR)",
+					"$(WXWIDGETS)/include/wx-$(WX_VER_MAJOR)",
 				);
 				INFOPLIST_FILE = "gendefgui-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -1313,7 +1319,7 @@
 				LINKER_DISPLAYS_MANGLED_NAMES = NO;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I/usr/local/encap/wxWidgets-2.6.3/lib/wx/include/mac-ansi-release-2.6",
+					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
 					"-D__WXMAC__",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
@@ -1322,7 +1328,7 @@
 				OTHER_LDFLAGS = (
 					"-framework",
 					Carbon,
-					"-L/usr/local/encap/wxWidgets-2.6.3/lib",
+					"-L$(WXWIDGETS)/lib",
 					"-framework",
 					QuickTime,
 					"-framework",
@@ -1333,13 +1339,13 @@
 					Cocoa,
 					"-framework",
 					System,
-					"/usr/local/encap/wxWidgets-2.6.3/lib/libwx_mac-2.6.a",
+					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
-					"-lwxexpat-2.6",
-					"-lwxtiff-2.6",
-					"-lwxjpeg-2.6",
-					"-lwxpng-2.6",
+					"-lwxexpat-$(WX_VER_MAJOR)",
+					"-lwxtiff-$(WX_VER_MAJOR)",
+					"-lwxjpeg-$(WX_VER_MAJOR)",
+					"-lwxpng-$(WX_VER_MAJOR)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
