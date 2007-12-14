@@ -19,6 +19,7 @@
 #define EZRETS_SETUP_DIALOG_H
 
 #include <wx/wx.h>
+#include <wx/notebook.h>
 #include <string>
 #include "commonfwd.h"
 
