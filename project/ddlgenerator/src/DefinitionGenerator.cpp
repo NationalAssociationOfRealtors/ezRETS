@@ -15,9 +15,7 @@
  * appear in supporting documentation.
  */
 
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>            
+#include <iostream>
 #include <boost/algorithm/string/trim.hpp>
 #include "DefinitionGenerator.h"
 #include "librets/MetadataResource.h"
@@ -29,6 +27,8 @@ using namespace odbcrets;
 using namespace librets;
 namespace b = boost;
 using std::string;
+using std::ostream;
+using std::endl;
 
 DefinitionGenerator::DefinitionGenerator(bool standardNames,
                                          RetsMetadata* metadata)
@@ -38,9 +38,10 @@ DefinitionGenerator::DefinitionGenerator(bool standardNames,
 {
 }
 
-string DefinitionGenerator::createHTML()
+ostream& DefinitionGenerator::createHTML(ostream& out)
 {
-    string outHTML("<html>\n<head><title>Stuff</title></head>\n<body>\n");
+    out <<"<html>" << endl << "<head><title>Stuff</title></head>" << endl
+        << "<body>" << endl;
     
     TableMetadataVectorPtr sqlTables =
         mMetadataView->getSQLDataTableMetadata();
@@ -50,28 +51,29 @@ string DefinitionGenerator::createHTML()
         TableMetadataPair tablePair = *i;
         // PrintSQLTableDescription(tablePair->second);
 
-        outHTML.append("<p>\n  <b>Table:</b> ").append(tablePair.first);
-        outHTML.append("</br>\n  <b>Description:</b> ");
-        outHTML.append(tablePair.second).append("\n</p>\n");
+        out << "<p>" << endl << "  <b>Table:</b> " << tablePair.first
+            << "</br>" << endl << "  <b>Description:</b> "<< tablePair.second
+            << endl << "</p>" << endl;
         
         ResourceClassPairPtr rcPair =
             mMetadataView->getResourceClassPairBySQLTable(tablePair.first);
-        outHTML.append(doTables(rcPair));
+        doTables(out, rcPair);
     }
 
-    outHTML.append("</body>\n</html>\n");
+    out << "</body>" << endl << "</html>" << endl;
 
-    return outHTML;
+    return out;
 }
 
-string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
+ostream& DefinitionGenerator::doTables(ostream& out,
+                                       ResourceClassPairPtr rcPair)
 {
     MetadataTableList tables =
         mMetadataView->getTablesForClass(rcPair->second);
 
-    string outHTML("<table border=\"1\">\n  <tr><th>Name</th><th>Type</th>"
-                   "<th>Description</th><th>Possible Values (if lookup)</th>"
-                   "</tr>\n");
+    out << "<table border=\"1\">" << endl << "  <tr><th>Name</th><th>Type</th>"
+        "<th>Possible Values (if lookup)</th><th>Description</th>"
+        "</tr>" << endl;
     
     MetadataTableList::iterator i;
     for (i = tables.begin(); i != tables.end(); i++)
@@ -81,42 +83,43 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
 
         MetadataTable* table = *i;
 
-        outHTML.append("  <tr><td>");
-        if (mStandardNames)
-        {
-            outHTML.append(table->GetStandardName());
-        }
-        else
-        {
-            outHTML.append(table->GetSystemName());
-        }
+        out << "  <tr><td>" <<
+            (mStandardNames ?
+             table->GetStandardName() : table->GetSystemName())
+            <<"</td><td>";
         
         SQLSMALLINT type =
             mDataTranslator->getPreferedOdbcType(table->GetDataType());
-        string type_name = mDataTranslator->getOdbcTypeName(type);
+        out << mDataTranslator->getOdbcTypeName(type);
 
         if (type == SQL_CHAR || type == SQL_VARCHAR)
         {
-            type_name.append("(");
+            out << "(";
             switch(table->GetInterpretation())
             {
                 case MetadataTable::LOOKUP:
-                    type_name.append("129");
+                    out << "129";
                     break;
                 case MetadataTable::LOOKUP_MULTI:
-                    type_name.append("2561");
+                    out << "2561";
                     break;
                 default:
-                    type_name.append(
-                        b::lexical_cast<string>(table->GetMaximumLength()));
+                    out << table->GetMaximumLength();
                     break;
             }
-            type_name.append(")");
+            out << ")";
         }
-        
-        outHTML.append("</td><td>").append(type_name).append("</td><td>");
 
-        std::string resID = rcPair->first->GetResourceID();
+        out << "</td><td>";
+        
+        string resID = rcPair->first->GetResourceID();
+
+        if (mMetadataView->IsLookupColumn(table))
+        {
+            doLookup(out, resID, table);
+        }
+
+        out << "</td><td>";
 
         // We need to look up the search help and print that out
         string searchHelpIDName = table->GetSearchHelpId();
@@ -125,27 +128,22 @@ string DefinitionGenerator::doTables(ResourceClassPairPtr rcPair)
         {
             MetadataSearchHelp* help =
                 mMetadata->GetSearchHelp(resID, searchHelpIDName);
-            outHTML.append(help->GetValue());
+            out << help->GetValue();
         }
         
-        outHTML.append("</td><td>");
-
-        if (mMetadataView->IsLookupColumn(table))
-        {
-            doLookup(resID, table);
-        }
-        outHTML.append("</td>\n");
+        out << "</td>" << endl;
     }
 
-    outHTML.append("</table>");
+    out << "</table>";
     
-    return outHTML;
+    return out;
 }
 
-string DefinitionGenerator::doLookup(string resID, MetadataTable* table)
+ostream& DefinitionGenerator::doLookup(ostream& out, string resID,
+                                       MetadataTable* table)
 {
-    string outHTML("<table border=\"1\">\n  <tr><th>Value</th>"
-                   "<th>LongValue</th><th>ShortValue</th></tr>\n");
+    out << "<table border=\"1\">" << endl << "  <tr><th>Value</th>"
+        "<th>ShortValue</th><th>LongValue</th></tr>" << endl;
     string lookupName = table->GetLookupName();
 
     MetadataLookupTypeList ltl =
@@ -155,13 +153,12 @@ string DefinitionGenerator::doLookup(string resID, MetadataTable* table)
     for (i = ltl.begin(); i != ltl.end(); i++)
     {
         MetadataLookupType* lkp = *i;
-        outHTML.append("  <tr><td>").append(lkp->GetValue()).append("</td>");
-        outHTML.append("<td>").append(lkp->GetLongValue()).append("</td>");
-        outHTML.append("<td>").append(lkp->GetShortValue());
-        outHTML.append("</td></tr>\n");
+        out << "  <tr><td>" << lkp->GetValue() << "</td>"
+            << "<td>" << lkp->GetShortValue() << "</td>"
+            << "<td>" << lkp->GetLongValue() << "</td></tr>" << endl;
     }
 
-    outHTML.append("</table>\n");
+    out << "</table>" << endl;
 
-    return outHTML;
+    return out;
 }

@@ -23,7 +23,6 @@
 using std::cout;
 using std::cerr;
 using std::endl;
-using std::string;
 using odbcrets::DataSource;
 
 int main(int argc, const char* argv[])
@@ -48,7 +47,5 @@ int main(int argc, const char* argv[])
     
     ezhelper::DefinitionGenerator foo(ds.GetStandardNames(), metadata);
 
-    string result = foo.createHTML();
-
-    cout << result << endl;
+    foo.createHTML(std::cout);
 }

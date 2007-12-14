@@ -17,6 +17,7 @@
 #ifndef DEFINITIONGENERATOR_H
 #define DEFINITIONGENERATOR_H
 
+#include <iosfwd>
 #include "MetadataView.h"
 #include "DataTranslator.h"
 #include "librets/metadata_forward.h"
@@ -29,11 +30,13 @@ class DefinitionGenerator
   public:
     DefinitionGenerator(bool standardNames, librets::RetsMetadata* metadata);
 
-    std::string createHTML();
+    std::ostream& createHTML(std::ostream& out);
 
   private:
-    std::string doTables(odbcrets::ResourceClassPairPtr rcPair);
-    std::string doLookup(std::string resID, librets::MetadataTable* table);
+    std::ostream& doTables(std::ostream& out,
+                           odbcrets::ResourceClassPairPtr rcPair);
+    std::ostream& doLookup(std::ostream& out, std::string resID,
+                           librets::MetadataTable* table);
 
     librets::RetsMetadata* mMetadata;
     bool mStandardNames;
