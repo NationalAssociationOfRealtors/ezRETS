@@ -18,7 +18,6 @@
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
-#include "ptr_madness.h"
 
 using namespace odbcrets;
 using std::string;
@@ -30,7 +29,7 @@ SQLPOINTER odbcrets::adjustDescPointer(SQLPOINTER offset, SQLPOINTER ptr)
     SQLPOINTER result = ptr;
     if (offset)
     {
-        PTRINT pvalue = *((PTRINT*) offset);
+        uintptr_t pvalue = *((uintptr_t*) offset);
         result = (SQLPOINTER) ((char*) ptr + pvalue);
     }
     return result;
