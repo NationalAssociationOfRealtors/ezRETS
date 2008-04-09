@@ -65,9 +65,9 @@ SQLRETURN TableMetadataQuery::execute()
     //
     // I really need to do a boolean logic reduction here
     if ((!mCatalog.compare(SQL_ALL_CATALOGS) && !mSchema.compare("") &&
-         !mTableName.compare("")) ||
+         !mTable.compare("")) ||
         (!mCatalog.compare("") && !mSchema.compare(SQL_ALL_SCHEMAS) &&
-         !mTableName.compare("")))
+         !mTable.compare("")))
     {
         StringVectorPtr results(new StringVector());
         results->push_back("");
@@ -88,7 +88,7 @@ SQLRETURN TableMetadataQuery::execute()
     // 
     // In this case we return just TABLE
     if (!mCatalog.compare("") && !mSchema.compare("") &&
-        !mTableName.compare("") && !mTableType.compare(SQL_ALL_TABLE_TYPES))
+        !mTable.compare("") && !mTableType.compare(SQL_ALL_TABLE_TYPES))
     {
         StringVectorPtr results(new StringVector());
         results->push_back("");
