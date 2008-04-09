@@ -64,9 +64,15 @@ const char * CLASS::INI_ENABLE_USER_AGENT_AUTH = "EnableUserAgentAuth";
 const char * CLASS::INI_USER_AGENT_PASSWORD = "UserAgentPassword";
 const char * CLASS::INI_USER_AGENT_AUTH_TYPE = "UserAgentAuthType";
 const char * CLASS::INI_TREAT_DECIMAL_AS_STRING = "TreatDecimalAsString";
+const char * CLASS::INI_ENCODING_TYPE = "EncodingType";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
+
+const char * odbcrets::RETS_XML_DEFAULT_ENCODING_STRING =
+    "Default (US-ASCII) Encoding";
+const char * odbcrets::RETS_XML_ISO_ENCODING_STRING =
+    "Extended (iso-8859-1) Encoding";
 
 const char * odbcrets::USER_AGENT_AUTH_RETS_1_7_STRING = "RETS 1.7";
 const char * odbcrets::USER_AGENT_AUTH_INTEREALTY_STRING =
@@ -122,6 +128,40 @@ lr::RetsVersion odbcrets::StringToRetsVersion(string versionString,
     else
     {
         return defaultVersion;
+    }
+}
+
+string odbcrets::EncodingTypeToString(lr::EncodingType encodingType)
+{
+    if (encodingType == lr::RETS_XML_DEFAULT_ENCODING)
+    {
+        return RETS_XML_DEFAULT_ENCODING_STRING;
+    }
+    else if (encodingType == lr::RETS_XML_ISO_ENCODING)
+    {
+        return RETS_XML_ISO_ENCODING_STRING;
+    }
+    else
+    {
+        throw EzRetsException(str_stream() << "Invalid Encoding Type: "
+                              << encodingType);
+    }
+}
+
+lr::EncodingType odbcrets::StringToEncodingType(string encodingString,
+                                                lr::EncodingType defaultEncoding)
+{
+    if (encodingString == RETS_XML_DEFAULT_ENCODING_STRING)
+    {
+        return lr::RETS_XML_DEFAULT_ENCODING;
+    }
+    else if (encodingString == RETS_XML_ISO_ENCODING_STRING)
+    {
+        return lr::RETS_XML_ISO_ENCODING;
+    }
+    else
+    {
+        return defaultEncoding;
     }
 }
 
@@ -227,6 +267,8 @@ void DataSource::MergeFromIni()
         MergeFromProfileString(mUserAgentAuthTypeString, INI_USER_AGENT_AUTH_TYPE);
         mTreatDecimalAsString =
             GetProfileBool(INI_TREAT_DECIMAL_AS_STRING, false);
+
+        MergeFromProfileString(mEncodingTypeString, INI_ENCODING_TYPE);
     }
 }
 
@@ -257,6 +299,7 @@ void DataSource::WriteToIni(UWORD configMode)
                        mUserAgentAuthTypeString);
     WriteProfileString(configMode, INI_TREAT_DECIMAL_AS_STRING,
                        mTreatDecimalAsString);
+    WriteProfileString(configMode, INI_ENCODING_TYPE, mEncodingTypeString);
 }
 
 void DataSource::CreateInIni(string driver, UWORD configMode)
@@ -590,6 +633,17 @@ void DataSource::SetTreatDecimalAsString(bool enable)
 {
     mTreatDecimalAsString = enable;
 }
+
+lr::EncodingType DataSource::GetEncodingType() const
+{
+    return StringToEncodingType(mEncodingTypeString,
+                                lr::RETS_XML_DEFAULT_ENCODING);
+}
+
+void DataSource::SetEncodingType(lr::EncodingType encodingType)
+{
+    mEncodingTypeString = EncodingTypeToString(encodingType);
+}
  
 bool DataSource::IsComplete() const
 {
@@ -669,6 +723,9 @@ string DataSource::GetConnectionString() const
         AppendToConnectionString(connectionString, INI_TREAT_DECIMAL_AS_STRING,
                                  mTreatDecimalAsString);
     }
+
+    AppendToConnectionString(connectionString, INI_ENCODING_TYPE,
+                             mEncodingTypeString);
     
     return connectionString;
 }
@@ -850,6 +907,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         {
             mTreatDecimalAsString = stringToBool(value);
         }
+        else if (key == INI_ENCODING_TYPE)
+        {
+            mEncodingTypeString = value;
+        }
     }
 }
 
@@ -860,6 +921,7 @@ lr::RetsSessionPtr CLASS::CreateRetsSession() const
     session->SetUserAgent(GetUserAgent());
     session->SetRetsVersion(GetRetsVersion());
     session->SetIncrementalMetadata(!GetUseBulkMetadata());
+    session->SetDefaultEncoding(GetEncodingType());
 
     if (mEnableUserAgentAuth)
     {

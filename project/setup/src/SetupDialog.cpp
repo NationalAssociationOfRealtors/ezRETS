@@ -269,6 +269,8 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
     
     DataSourceValidator validator = DataSourceValidator(mDataSource);
 
+//    wxGridSizer * dropDownSizer = new wxGridSizer(2);
+
     wxArrayString httpMethodChoices;
     httpMethodChoices.Add(wxT("GET"));
     httpMethodChoices.Add(wxT("POST"));
@@ -289,7 +291,17 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                      validator.SetField(DSV::RETS_VERSION));
     tvs->AddRow("RETS Version:", retsVersion, valueFlags);
 
+    wxArrayString encodingTypeChoices;
+    encodingTypeChoices.Add(RETS_XML_DEFAULT_ENCODING_STRING);
+    encodingTypeChoices.Add(RETS_XML_ISO_ENCODING_STRING);
+    wxChoice * encoding =
+        new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                     encodingTypeChoices, 0,
+                     validator.SetField(DSV::ENCODING_TYPE));
+    tvs->AddRow("XML Encoding:", encoding, valueFlags);
+
     topSizer->Add(tvs, wxSizerFlags(0).Expand());
+    
 
     wxGridSizer * buttonSizer = new wxGridSizer(2);
 

@@ -108,7 +108,8 @@ void ObjectQuery::handleResponse(GetObjectResponse* response)
             row->push_back("");
 
             string obj;
-            lu::readIntoString(*(objDesc->GetDataStream()), obj);
+//             lu::readIntoString(*(objDesc->GetDataStream()), obj);
+            lu::readIntoString(objDesc->GetDataStream(), obj);
             row->push_back(obj);
         }
 

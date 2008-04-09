@@ -67,6 +67,7 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
   &CLASS::True},
  {&CLASS::TreatDecimalAsStringToWindow, &CLASS::TreatDecimalAsStringFromWindow,
   &CLASS::True},
+ {&CLASS::EncodingToWindow, &CLASS::EncodingFromWindow, &CLASS::True}
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -75,7 +76,8 @@ const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
     "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
     "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
     "Ignore Metadata Type", "Use Compact Format", "Enable User-Agent Auth",
-    "User-Agent Password", "User-Agent Auth Type", "Treat Decimal As String"
+    "User-Agent Password", "User-Agent Auth Type", "Treat Decimal As String",
+    "Encoding"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -431,5 +433,24 @@ bool CLASS::TreatDecimalAsStringFromWindow(wxWindow * window)
 {
     wxCheckBox * checkBox = (wxCheckBox *) window;
     mDataSource->SetTreatDecimalAsString(checkBox->GetValue());
+    return true;
+}
+
+bool CLASS::EncodingToWindow(wxWindow * window)
+{
+    wxChoice * choice = (wxChoice *) window;
+    string encodingString =
+        EncodingTypeToString(mDataSource->GetEncodingType());
+    choice ->SetStringSelection(encodingString.c_str());
+    return true;
+}
+
+bool CLASS::EncodingFromWindow(wxWindow * window)
+{
+    // This probably needs to be changed
+    wxChoice * choice = (wxChoice *) window;
+    mDataSource->SetEncodingType(
+        StringToEncodingType(choice->GetStringSelection().c_str(),
+                             librets::RETS_XML_DEFAULT_ENCODING));
     return true;
 }

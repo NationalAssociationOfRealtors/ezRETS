@@ -264,6 +264,7 @@ SQLRETURN RetsSTMT::SQLFetch()
 
     if (ird.mArrayStatusPtr)
     {
+        LOG_DEBUG(log, "Setting Rows Status on IRC");
         *ird.mArrayStatusPtr = rowResult;
     }
 

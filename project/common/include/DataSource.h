@@ -23,6 +23,7 @@
 #include "ezrets.h"
 #include "commonfwd.h"
 #include "librets/RetsVersion.h"
+#include "librets/EncodingType.h"
 #include "librets/UserAgentAuthType.h"
 #include "librets/protocol_forward.h"
 
@@ -130,6 +131,10 @@ class DataSource
 
     void SetTreatDecimalAsString(bool enable);
 
+    librets::EncodingType GetEncodingType() const;
+
+    void SetEncodingType(librets::EncodingType encoding);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -179,6 +184,7 @@ class DataSource
     static const char * INI_USER_AGENT_PASSWORD;
     static const char * INI_USER_AGENT_AUTH_TYPE;
     static const char * INI_TREAT_DECIMAL_AS_STRING;
+    static const char * INI_ENCODING_TYPE;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -241,10 +247,14 @@ class DataSource
     std::string mUserAgentPassword;
     std::string mUserAgentAuthTypeString;
     bool mTreatDecimalAsString;
+    std::string mEncodingTypeString;
 };
 
 extern const char * RETS_1_0_STRING;
 extern const char * RETS_1_5_STRING;
+
+extern const char * RETS_XML_DEFAULT_ENCODING_STRING;
+extern const char * RETS_XML_ISO_ENCODING_STRING;
 
 extern const char * USER_AGENT_AUTH_RETS_1_7_STRING;
 extern const char * USER_AGENT_AUTH_INTEREALTY_STRING;
@@ -253,6 +263,10 @@ std::string RetsVersionToString(librets::RetsVersion retsVersion);
 
 librets::RetsVersion StringToRetsVersion(std::string versionString,
                                          librets::RetsVersion defaultVersion);
+
+std::string EncodingTypeToString(librets::EncodingType encodingType);
+librets::EncodingType StringToEncodingType(std::string encodingString,
+                                           librets::EncodingType defaultEncoding);
 
 std::string UserAgentAuthTypeToString(librets::UserAgentAuthType authType);
 librets::UserAgentAuthType StringToUserAgentAuthType(

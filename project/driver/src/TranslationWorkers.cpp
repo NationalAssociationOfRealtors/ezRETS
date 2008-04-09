@@ -209,7 +209,8 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
             tm->minute = lexical_cast<SQLSMALLINT>(data.substr(13 + o, 2));
             tm->second = lexical_cast<SQLSMALLINT>(data.substr(16 + o, 2));
             // TODO: support fractions of a second, but really, are you going
-            // to run into that in real estate data?
+            // to run into that in real estate data?  (Found out that FBS
+            // does seem to send it.  Should we care?)
             tm->fraction=0;
         }
     }
