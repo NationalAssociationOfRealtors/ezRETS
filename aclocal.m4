@@ -105,8 +105,8 @@ AC_DEFUN([MY_TEST_LIBRETS], [
     ]
   )
 
-  check="1.1.10"
-  check_hex="010110"
+  check="1.2.0"
+  check_hex="010200"
   AC_MSG_CHECKING([libRETS version >= $check])
   ver=`$my_librets_config --version`
   hex_ver=`$my_librets_config --vernum`
