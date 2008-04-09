@@ -34,16 +34,6 @@ TableMetadataQuery::TableMetadataQuery(
     : Query(stmt), mCatalog(catalog), mSchema(schema), mTable(table),
       mTableType(tableType)
 {
-    if (mCatalog.compare("%") == 0)
-    {
-        mTable.clear();
-    }
-
-    if (mSchema.compare("%") == 0)
-    {
-        mSchema.clear();
-    }
-    
     // This asks for all tables, so its the same as an empty string
     // for us.
     if (mTable.compare("%") == 0)
@@ -63,10 +53,42 @@ void TableMetadataQuery::prepareResultSet()
 
 SQLRETURN TableMetadataQuery::execute()
 {
-    // If TableType == SQL_ALL_TABLE_TYPES
-    //    return table types we support.  In this case we return just
-    //    TABLE
-    if (!(mTableType.compare(SQL_ALL_TABLE_TYPES)))
+    // # If CatalogName is SQL_ALL_CATALOGS and SchemaName and
+    // TableName are empty strings, the result set contains a list
+    // of valid catalogs for the data source. (All columns except
+    // the TABLE_CAT column contain NULLs.)
+    //
+    // # If SchemaName is SQL_ALL_SCHEMAS and CatalogName and
+    // TableName are empty strings, the result set contains a list of
+    // valid schemas for the data source. (All columns except the
+    // TABLE_SCHEM column contain NULLs.)
+    //
+    // I really need to do a boolean logic reduction here
+    if ((!mCatalog.compare(SQL_ALL_CATALOGS) && !mSchema.compare("") &&
+         !mTableName.compare("")) ||
+        (!mCatalog.compare("") && !mSchema.compare(SQL_ALL_SCHEMAS) &&
+         !mTableName.compare("")))
+    {
+        StringVectorPtr results(new StringVector());
+        results->push_back("");
+        results->push_back("");
+        results->push_back("");
+        results->push_back("");
+        results->push_back("");
+
+        mResultSet->addRow(results);
+
+        return SQL_SUCCESS;
+    }
+
+    // If TableType is SQL_ALL_TABLE_TYPES and CatalogName,
+    // SchemaName, and TableName are empty strings, the result set
+    // contains a list of valid table types for the data source. (All
+    // columns except the TABLE_TYPE column contain NULLs.)
+    // 
+    // In this case we return just TABLE
+    if (!mCatalog.compare("") && !mSchema.compare("") &&
+        !mTableName.compare("") && !mTableType.compare(SQL_ALL_TABLE_TYPES))
     {
         StringVectorPtr results(new StringVector());
         results->push_back("");
