@@ -67,6 +67,9 @@ class MetadataView : public librets::SqlMetadata
     std::string getLookupTypeLongValue(
         librets::MetadataTable* table, std::string value);
 
+    librets::MetadataLookupTypeList getLookupTypes(
+        std::string resName, std::string lookup);
+
     /**
      * Searches the metadata and takes Resource:Class combinations and
      * turns them into table names of the form "data:Resource:Class".

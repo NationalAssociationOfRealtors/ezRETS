@@ -31,6 +31,9 @@
 #include "librets/GetObjectQuery.h"
 #include "librets/DmqlQuery.h"
 #include "librets/util.h"
+#include "EzLookupQuery.h"
+#include "EzLookupColumnsQuery.h"
+#include "SqlStateException.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -63,31 +66,60 @@ QueryPtr Query::createSqlQuery(
     // Now hand off the query to the proper query type and return a
     // pointer to that.
     QueryPtr ezQuery;
-    if (queryType == SqlToDmqlCompiler::DMQL_QUERY)
+    switch (queryType)
     {
-        DmqlQueryPtr dmqlQuery = compiler.GetDmqlQuery();
+        case SqlToDmqlCompiler::DMQL_QUERY:
+        {
+            DmqlQueryPtr dmqlQuery = compiler.GetDmqlQuery();
 
-        if (dmqlQuery->GetCountType() == SearchRequest::RECORD_COUNT_ONLY)
-        {
-            ezQuery.reset(
-                new DataCountQuery(stmt, useCompactFormat, dmqlQuery));
+            if (dmqlQuery->GetCountType() == SearchRequest::RECORD_COUNT_ONLY)
+            {
+                ezQuery.reset(
+                    new DataCountQuery(stmt, useCompactFormat, dmqlQuery));
+            }
+            else
+            {
+                ezQuery.reset(
+                    new DataQuery(stmt, useCompactFormat, dmqlQuery));
+            }
         }
-        else
+        break;
+
+        case SqlToDmqlCompiler::GET_OBJECT_QUERY:
         {
-            ezQuery.reset(new DataQuery(stmt, useCompactFormat, dmqlQuery));
+            GetObjectQueryPtr objectQuery = compiler.GetGetObjectQuery();
+            if (objectQuery->GetUseLocation())
+            {
+                ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+            }
+            else
+            {
+                ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
+            }
         }
-    }
-    else
-    {
-        GetObjectQueryPtr objectQuery = compiler.GetGetObjectQuery();
-        if (objectQuery->GetUseLocation())
+        break;
+
+        case SqlToDmqlCompiler::LOOKUP_QUERY:
         {
-            ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+            LookupQueryPtr lookupQuery = compiler.GetLookupQuery();
+            ezQuery.reset(new EzLookupQuery(stmt, lookupQuery));
         }
-        else
-        {
-            ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
-        }
+        break;
+
+        case SqlToDmqlCompiler::LOOKUP_COLUMNS_QUERY:
+            {
+                LookupColumnsQueryPtr lookupColumnsQuery =
+                    compiler.GetLookupColumnsQuery();
+                ezQuery.reset(
+                    new EzLookupColumnsQuery(stmt, lookupColumnsQuery));
+            }
+            break;
+        
+        default:
+            throw SqlStateException("42S02", "Miscellaneous Search Error: "
+                                    "Invalid Query Type For RETS "
+                                    "Translation.");
+            break;
     }
 
     ezQuery->prepareResultSet();
