@@ -8,9 +8,7 @@ $VERBOSE = 1
 require 'odbc'
 require 'optparse'
 
-#DRIVER = "ezRETS ODBC Driver"
-DRIVER = '/Users/kgarner/src/odbcrets/ezrets.x/project/build/build/Debug/ezrets.dylib'
-#DRIVER = 'ezRETS ODBC Driver'
+DRIVER = 'ezRETS ODBC Driver'
 drv = ODBC::Driver.new
 drv.name = DRIVER
 drv.attrs["DRIVER"] = DRIVER
@@ -18,6 +16,14 @@ drv.attrs["LoginUrl"] = "http://demo.crt.realtors.org:6103/rets/login"
 drv.attrs["UID"] = "Joe"
 drv.attrs["PWD"] = "Schmoe"
 drv.attrs["StandardNames"] = "false"
+if PLATFORM =~ /darwin/
+  # iodbc actually takes the path to the driver, not the name as
+  # registered in odbcinst.ini.  Right now, of our platforms, OS X
+  # is the only one that uses iODBC by default.
+  drv.attrs["DRIVER"] = '/Library/ODBC/ezRETS/ezrets.dylib'
+else
+  drv.attrs["DRIVER"] = DRIVER
+end
 
 usage = OptionParser.new do |opts|
   opts.banner = "Usage: GenericSearch.rb [options] <sql query>"
