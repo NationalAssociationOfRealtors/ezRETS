@@ -53,6 +53,8 @@ X_OBJS = \
 	$(DIROBJ)\EnvEntries.obj\
 	$(DIROBJ)\Error.obj\
 	$(DIROBJ)\EzLogger.obj\
+	$(DIROBJ)\EzLookupQuery.obj\
+	$(DIROBJ)\EzLookupColumnsQuery.obj\
 	$(DIROBJ)\EzRetsErrorHandler.obj\
 	$(DIROBJ)\GetConnectAttrHelper.obj\
 	$(DIROBJ)\GetInfoHelper.obj\
