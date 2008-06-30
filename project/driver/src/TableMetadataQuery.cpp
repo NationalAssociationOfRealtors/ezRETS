@@ -21,6 +21,7 @@
 #include "MetadataView.h"
 #include "TableMetadataQuery.h"
 #include "ResultSet.h"
+#include "librets/RetsSession.h"
 
 using namespace odbcrets;
 namespace ba = boost::algorithm;
@@ -109,7 +110,8 @@ SQLRETURN TableMetadataQuery::execute()
         return SQL_SUCCESS;
     }
 
-    if (!mCatalog.empty())
+    string loginURL = mStmt->getRetsSession()->GetLoginUrl();
+    if (!mCatalog.empty() && mCatalog != loginURL)
     {
         return SQL_SUCCESS;
     }
