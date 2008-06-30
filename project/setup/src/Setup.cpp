@@ -50,10 +50,14 @@ Setup::Setup()
 void Setup::ConfigDSN(HWND parent, WORD request, LPCSTR driver,
                       LPCSTR attributes)
 {
+
+    // This appears to be broken on Leopard and wxWidgets 2.8.8
+#ifndef __WXMAC__
     if (wxGetKeyState(WXK_CONTROL))
     {
         slog.enableDebug();
     }
+#endif
     slog.debug("We are in ConfigDSN");
     slog.debug(str_stream() << "ezrets " << EZRETS_VERSION);
     slog.debug(str_stream() << librets::RetsSession::DEFAULT_USER_AGENT);

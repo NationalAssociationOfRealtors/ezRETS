@@ -252,6 +252,7 @@ class DataSource
 
 extern const char * RETS_1_0_STRING;
 extern const char * RETS_1_5_STRING;
+extern const char * RETS_1_7_STRING;
 
 extern const char * RETS_XML_DEFAULT_ENCODING_STRING;
 extern const char * RETS_XML_ISO_ENCODING_STRING;

@@ -68,6 +68,7 @@ const char * CLASS::INI_ENCODING_TYPE = "EncodingType";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
+const char * odbcrets::RETS_1_7_STRING = "1.7";
 
 const char * odbcrets::RETS_XML_DEFAULT_ENCODING_STRING =
     "Default (US-ASCII) Encoding";
@@ -99,18 +100,17 @@ string DataSource::boolToString(bool aBool)
 
 string odbcrets::RetsVersionToString(lr::RetsVersion retsVersion)
 {
-    if (retsVersion == lr::RETS_1_0)
+    switch(retsVersion)
     {
-        return RETS_1_0_STRING;
-    }
-    else if (retsVersion == lr::RETS_1_5)
-    {
-        return RETS_1_5_STRING;
-    }
-    else
-    {
-        throw EzRetsException(str_stream() << "Invalid RetsVersion: "
-                              << retsVersion);
+        case lr::RETS_1_0:
+            return RETS_1_0_STRING;
+        case lr::RETS_1_5:
+            return RETS_1_5_STRING;
+        case lr::RETS_1_7:
+            return RETS_1_7_STRING;
+        default:
+            throw EzRetsException(str_stream() << "Invalid RetsVersion: "
+                                  << retsVersion);
     }
 }
 

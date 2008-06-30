@@ -92,11 +92,13 @@ SetupDialog::SetupDialog(DataSourcePtr dataSource, wxWindow * parent,
     : wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxDefaultSize,
                wxDEFAULT_DIALOG_STYLE)
 {
+#ifndef __WXMAC__
     if (wxGetKeyState(WXK_F2))
     {
         mDebug = true;
     }
     else
+#endif
     {
         mDebug = false;
     }
@@ -283,6 +285,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
     tvs->AddRow("HTTP Method:", httpMethod, valueFlags);
 
     wxArrayString retsVersionChoices;
+    retsVersionChoices.Add(RETS_1_7_STRING);
     retsVersionChoices.Add(RETS_1_5_STRING);
     retsVersionChoices.Add(RETS_1_0_STRING);
     wxChoice * retsVersion =
