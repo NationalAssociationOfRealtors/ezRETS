@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!&#68;DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>SQL Support in ezRETS</title>
@@ -12,7 +12,23 @@
       following is a quick reference on the grammar supported
     </p>
       
-    <h2>Synopsis</h2>
+    <h1>Table of Contents</h1>
+    <ol>
+      <li><a href="#synopsis">Synopsis</a></li>
+      <li><a href="#description">Description</a>
+        <ol>
+	  <li><a href="#column_names">column names</a></li>
+  	  <li><a href="#where_clause">WHERE clause</a></li>
+  	  <li><a href="#table_names">table names</a></li>
+        </ol>
+      </li>
+      <li><a href="#datatype">Data Type formatting</a></li>
+      <li><a href="#getobject">GetObject support</a></li>
+      <li><a href="#lookups">Getting RETS Lookup Information</a></li>
+      <li><a href="#limitations">Limitations</a></li>
+    </ol>
+
+    <h2 id="synopsis">Synopsis</h2>
     <p>
       <code>
         SELECT<br/>
@@ -24,15 +40,15 @@
       </code>
     </p>
 
-    <h2>Description</h2>
+    <h2 id="description">Description</h2>
 
-    <h3>column names</h3>
+    <h3 id="column_names">column names</h3>
     <p>
       The <i>column</i> name is taken from the RETS Table names or are
       defined below for <i>object:*</i> tables.
     </p>
 
-    <h3>WHERE clause</h3>
+    <h3 id="where_clause">WHERE clause</h3>
     <p>
       We support the following operators in where conditions:
       <code>=</code>, <code>&lt;</code>, <code>&lt;=</code>,
@@ -49,30 +65,63 @@
       Also, the values used in for RETS Lookups is the Lookup Type
       Value, not the Lookup Type LongValue or Lookup Type ShortValue.
       Support for being able to use either is being considered for
-      future versions.
+      future versions.  In the meantime, to be able to find out the
+      Lookup Type Values, see the <a href="#lookups">Getting RETS
+      Lookup Information</a> section.
     </p>
 
-    <h3>table names</h3>
-    <p>
-      <b>Data Tables:</b>  Table names are constructed from the RETS
-      metadata by combining with colons the word <i>data</i>, the
-      Resource name, and Class name.  For example, for the RETS
-      Resource of <i>Property</i> and the Class of
-      <i>ResidentialProperty</i>, the table name is
-      <i>data:Property:ResidentialProperty</i>.
-    </p>
-    <p>
-      <b>GetObject tables:</b> Object tables are named like this
-      <i>object:location:&lt;Resource&gt;</i> or
-      <i>object:binary:&lt;Resource&gt;</i>.  The big difference is
-      that <i>object:location:*</i> tables will attempt to use the
-      <code>Location=1</code> directive of RETS GetObject, and return
-      a URL to the object requested.  If that cannot be accomplished,
-      it returns the data as a blob.  <i>object:binary:*</i> tables
-      will always get the data as a blob.
-    </p>
+    <h3 id="table_names">table names</h3>
+    <ul>
+      <li>
+        <p>
+          <b>Data Tables:</b> Table names are constructed from the
+          RETS metadata by combining with colons the word
+          <i>data</i>, the Resource name, and Class name, or
+          <i>data:&lt;Resource&gt;:&lt;Class&gt;</i>.  For example,
+          for the RETS Resource of <i>Property</i> and the Class of
+          <i>ResidentialProperty</i>, the table name is
+          <i>data:Property:ResidentialProperty</i>.
+        </p>
+      </li>
+      <li>
+        <p>
+          <b>GetObject tables:</b> Object tables are constructed from
+          the RETS metadata by using the Resource name as in
+          <i>object:location:&lt;Resource&gt;</i> or
+          <i>object:binary:&lt;Resource&gt;</i>.  The big difference
+          is that <i>object:location:*</i> tables will attempt to use
+          the <code>Location=1</code> directive of RETS GetObject, and
+          return a URL to the object requested.  If that cannot be
+          accomplished, it returns the data as a blob.
+          <i>object:binary:*</i> tables will always get the data as a
+          blob.
+        </p>
+      </li>
+      <li>
+        <p>
+          <b>LookupColumn tables:</b> LookupColumn tables are
+          constructed in the exact same mannor as the Data Tables,
+          except the prefix "lookupcolumns:" is used, as in
+          <i>lookupcolumns:&lt;Resource&gt;:&lt;Class&gt;</i>.
+        </p>
+      </li>
 
-    <h3>GetObject support</h3>
+      <li>
+        <p>
+          <b>Lookup tables:</b> Lookup tables are constructed from the
+          RETS Metadata combining the RETS Resource name as the RETS
+          Lookup name, as in <i>lookup:&lt;Resource&gt;:&lt;Lookup&gt;</i>.
+        </p>
+      </li>
+    </ul>
+
+    <h2 id="datatype">Data Type formatting</h2>
+    <ul>
+      <li>Dates should be single quoted as follows: 'YYYY-MM-DD'</li>
+      <li>TimeStamps should be single quoted as follows: 'YYYY-MM-DDThh:mm:ss.ssss'</li>
+    </ul>
+
+    <h2 id="getobject">GetObject support</h2>
     <p>
       There are a fixed number of fields returned for each table, and
       you cannot select only certain fields (for now.)  This means
@@ -131,11 +180,99 @@
       </table>
     </p>
 
-    <h2>Data Type formatting</h2>
-    <ul>
-      <li>Dates should be single quoted as follows: 'YYYY-MM-DD'</li>
-      <li>TimeStamps should be single quoted as follows: 'YYYY-MM-DDThh:mm:ss.ssss'</li>
-    </ul>
+    <h2 id="lookups">Getting RETS Lookup Information</h2>
+    <p>
+      In your normal data query you must use the RETS Lookup Type
+      Value, as opposed to the Lookup Type Short Value or Lookup Type
+      Long Value.  If ezRETS is running in "Decode LOOKUP Values" mode
+      (the default) a query will return the Lookup Type Long Value,
+      which can make it difficult to create new queries.  To aid in
+      that, two special queries have been added to make it easier to
+      be able to find the values needed to query.
+    </p>
+    <p>
+      Similar to the <code>object:*</code> tables, there are a fixed
+      number of fields returned for each table, and you cannot select
+      only certain fields (for now.)  This means that you can only
+      effectively do a <code>SELECT *</code>.  <code>count(*)</code>
+      is also not supported for the lookup related tables.
+    </p>
+    <p>
+      Unlike <code>object:*</code> tables, there are no required
+      conditions.  Any WHERE clause will be ignored.
+    </p>
+
+    <h3>LookupColumns tables/query</h3>
+    <p>
+      The LookupColumns tables are faux tables created to identify
+      which columns in a <code>data:*</code> column are RETS Lookups
+      and to return the Lookup's name.
+    </p>
+    <p>
+      The fields returned by this query are the column named followed
+      by the lookup type as in:
+      <table border="1">
+        <tr><th>Column Name</th><th>Type</th></tr>
+        <tr><td>column</td><td>VARCHAR</td></tr>
+        <tr><td>lookup</td><td>VARCHAR</td></tr>
+      </table>
+    </p>
+
+    <h3>Lookup tables/query</h3>
+    <p>
+      The Lookup tables are faux tables created to enumerate the
+      possible values of a Lookup.  These values can be used to create
+      a query for <code>data:*</code> tables.
+    </p>
+    <p>
+      The fields returned by this query are three columns reflective
+      of the RETS metadata: Value, Short Value, and Long Value.  The
+      resultant table looks like this:
+      <table border="1">
+        <tr><th>Column Name</th><th>Type</th></tr>
+        <tr><td>value</td><td>VARCHAR</td></tr>
+        <tr><td>short_value</td><td>VARCHAR</td></tr>
+        <tr><td>long_value</td><td>VARCHAR</td></tr>
+       </table>
+    </p>
+
+    <h3>Putting it all together</h3>
+    <p>
+      Assume that there is a RETS Server that has a table
+      <code>data:Property:ResidentialProperty</code>.  We can get the
+      names of the columns for that table from the usual ODBC
+      interface.  However, we want to find out what columns are
+      Lookups so we issue the query "<code>SELECT * FROM
+      lookupcolumns:Property:ResidentialProperty</code>".
+      It returns the following table:
+    </p>
+    <table border="1">
+      <tr><th>column</th><th>lookup</th></tr>
+      <tr><td>Status</td><td>STAT</td></tr>
+      <tr><td>Neighborhood</td><td>AREA</td></tr>
+    </table>
+
+    <p>
+      Assume further that only active listings are desired.  To
+      determine which value to use for the query, we ask for all
+      possible values for the <code>STAT</code> lookup.  The query
+      "<code>SELECT * FROM lookup:Property:STAT</code>" is issued and
+      returns the following table:
+    </p>
+    <table border="1">
+      <tr><th>value</th><th>short_value</th><th>long_value</th></tr>
+      <tr><td>00001</td><td>ACT</td><td>Active</td></tr>
+      <tr><td>00010</td><td>PEND</td><td>Pending</td></tr>
+      <tr><td>00011</td><td>CLO</td><td>Closed</td></tr>
+      <tr><td>00100</td><td>DEL</td><td>Delisted</td></tr>
+    </table>
+
+    <p>
+      Now there is enough knowedlge to query for active listings only
+      so we issue the query "<code>SELECT * from
+      data:Property:ResidentialProperty WHERE Status='00001'</code>"
+    </p>
+
 
     <h2>Limitations</h2>
     <p>
@@ -144,61 +281,77 @@
       process.
     </p>
 
-    <h3>WHERE clause required</h3>
-    <p>
-      RETS does not have the concept of a query without some
-      conditional attributes.  If you want meaningful data to be
-      returned, you must have a WHERE clause in your SQL.
-    </p>
-    <p>
-      Some applications will attempt to do a search without a WHERE in
-      some situations.  To satisfy those applications an empty result
-      set of the proper column width is returned by ezRETS.
-    </p>
+    <ul>
+      <li>
+        <h3>WHERE clause required</h3>
+        <p>
+          RETS does not have the concept of a query without some
+          conditional attributes.  If you want meaningful data to be
+          returned, you must have a WHERE clause in your SQL.
+        </p>
+        <p>
+          Some applications will attempt to do a search without a WHERE in
+          some situations.  To satisfy those applications an empty result
+          set of the proper column width is returned by ezRETS.
+        </p>
+      </li>
 
-    <h3>No JOINs</h3>
-    <p>
-      As displayed in the synopsis above, there are no JOINs supported
-      by ezRETS.  RETS does not have the concept of a join, therefor,
-      ezRETS does not attempt to support one.
-    </p>
+      <li>
+        <h3>No JOINs</h3>
+        <p>
+          As displayed in the synopsis above, there are no JOINs supported
+          by ezRETS.  RETS does not have the concept of a join, therefr,
+          ezRETS does not attempt to support one.
+        </p>
+      </li>
 
-    <h3>No ORDER BY</h3>
-    <p>
-      RETS does not have the concept of an ORDER BY, therefor, ezRETS
-      does not attempt to support it.  If you supply an ORDER BY, it
-      is silently ignored.
-    </p>
+      <li>
+        <h3>No ORDER BY</h3>
+        <p>
+          RETS does not have the concept of an ORDER BY, therefor, ezRETS
+          does not attempt to support it.  If you supply an ORDER BY, it
+          is silently ignored.
+        </p>
+      </li>
 
-    <h3><code>IS NULL</code> or <code>IS NOT NULL</code> not supported</h3>
-    <p>
-      RETS does not have the concept of querying on <code>IS
-      NULL</code> or <code>IS NOT NULL</code>, so the driver does not
-      support queries using those elements.
-    </p>
+      <li>
+        <h3><code>IS NULL</code> or <code>IS NOT NULL</code> not supported</h3>
+        <p>
+          RETS does not have the concept of querying on <code>IS
+          NULL</code> or <code>IS NOT NULL</code>, so the driver does not
+          support queries using those elements.
+        </p>
+      </li>
 
-    <h3>
-      Not all servers support <code>LIMIT</code>, <code>OFFSET</code>,
-      and GetObject
-    </h3>
-    <p>
-      Not all RETS servers support these functions, however, there is
-      not a good way for the driver to test if they are supported or
-      not.  If a query does not do what you think it should do and
-      you're using LIMIT, OFFSET, or a trying to get data from an
-      <i>object:*</i> table, check with the ezRETS-users mailing list
-      or your MLS to see if the equivalent RETS functionality is
-      supported.
-    </p>
+      <li>
+        <h3>
+          Not all servers support <code>LIMIT</code>, <code>OFFSET</code>,
+          and GetObject
+        </h3>
+        <p>
+          Not all RETS servers support these functions, however, there
+          is not a good way for the driver to test if they are
+          supported or not.  If a query does not do what you think it
+          should do and you're using LIMIT, OFFSET, or a trying to get
+          data from an <i>object:*</i> table, check with the
+          ezRETS-users mailing list or your MLS to see if the
+          equivalent RETS functionality is supported.
+        </p>
+      </li>
 
-    <h3>GetObject tables do not show up in ODBC metadata</h3>
-    <p>
-      GetObject tables and columns do not show yet up in ODBC metadata
-      queries.  You will need to know the table names and what columns
-      are returned to use those tables.  Wizards and the like will not
-      display these as options as a result.  This is planned to be
-      fixed in a future release.
-    </p>
-      
+      <li>
+        <h3>
+          GetObject, LookupColumns, or Lookup, tables do not show up
+          in ODBC metadata
+        </h3>
+        <p>
+          GetObject tables and columns do not show yet up in ODBC
+          metadata queries.  You will need to know the table names and
+          what columns are returned to use those tables.  Wizards and
+          the like will not display these as options as a result.
+          This is planned to be fixed in a future release.
+        </p>
+      </li>
+    </ul>
   </body>
 </html>
