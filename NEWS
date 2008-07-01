@@ -1,5 +1,6 @@
  Changes since 2.1.0
 -------------------
+  * User-Agent is now "ezRETS/2.1.1 (librets/1.2.1)"
 
  Non-backwards compatible change
   * LOOOKUPs are now returned as VARCHAR(129|2561) instead of
@@ -7,8 +8,20 @@
   * Put in fix for dates reported as 0000-00-00, we'll assume those
     are NULL values.  Issue reported by Lou
 
+ Enhancements
+  * Added support for doing a ISO character set to allow for wider
+    characters.  (This feature is experimental.)
+  * You can now query RETS Lookups via special forms of a SELECT call
+  * RETS 1.7 is now supported (thanks to libRETS 1.2.1)
+
  Bug Fix
   * Autoconf changed to allow compile on 64 bit Linux
+  * Bug fix for SQLTables that should make Excel 2007 happy.
+
+ Developer Notes
+  * libRETS 2.1.1 is now required.  Also, if you're buiulding ezRETS
+    and libRETS on x86_64 linux, please see the documentation in
+    doc/build/unix.txt for required flags
 
 Changes since 2.0.8
 -------------------
