@@ -39,6 +39,8 @@ dist:
 	hdiutil create -ov dist/tmp.dmg -fs HFS+ -volname 'ezRETS $(VERSION)' -uid 99 -gid 99 -srcfolder dist/osx -format UDRW
 	hdiutil attach dist/tmp.dmg
 	/Developer/usr/bin/SetFile -a C /Volumes/ezRETS\ $(VERSION)
+	sync
+	sleep 1
 	hdiutil detach /Volumes/ezRETS\ $(VERSION)
 	hdiutil convert dist/tmp.dmg -format UDBZ -o dist/ezRETS-osx-$(VERSION).dmg
 	rm dist/tmp.dmg
