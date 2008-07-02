@@ -540,3 +540,10 @@ MetadataLookupTypeList MetadataView::getLookupTypes(
 
     return mMetadataPtr->GetAllLookupTypes(res->GetResourceID(), lookup);
 }
+
+MetadataLookup* MetadataView::getLookup(string resName, string lookup)
+{
+    MetadataResource* res = getResource(resName);
+
+    return mMetadataPtr->GetLookup(res->GetResourceID(), lookup);
+}

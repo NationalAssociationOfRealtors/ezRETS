@@ -24,6 +24,7 @@
 #include "librets/RetsMetadata.h"
 #include "librets/MetadataLookupType.h"
 #include "librets/LookupQuery.h"
+#include "SqlStateException.h"
 
 using namespace odbcrets;
 namespace lr = librets;
@@ -68,6 +69,18 @@ SQLRETURN EzLookupQuery::execute()
 
 void EzLookupQuery::prepareResultSet()
 {
+    MetadataViewPtr metadata = mStmt->getMetadataView();
+
+    lr::MetadataLookup* lookup =
+        metadata->getLookup(mLookupQuery->GetResource(),
+                            mLookupQuery->GetLookup());
+
+    if (lookup == NULL)
+    {
+        throw SqlStateException("42S02", "Miscellaneous Search Error: "
+                                "Invalid Resource or Lookup name");
+    }
+
     mResultSet->addColumn("value", SQL_VARCHAR);
     mResultSet->addColumn("short_value", SQL_VARCHAR);
     mResultSet->addColumn("long_value", SQL_VARCHAR);

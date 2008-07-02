@@ -23,6 +23,7 @@
 #include "librets/MetadataTable.h"
 #include "librets/LookupColumnsQuery.h"
 #include "ResultSet.h"
+#include "SqlStateException.h"
 
 using namespace odbcrets;
 namespace lr = librets;
@@ -49,6 +50,7 @@ SQLRETURN CLASS::execute()
 
     lr::MetadataClass* clazz = metadata->getClass(
         mLookupColumnsQuery->GetResource(), mLookupColumnsQuery->GetClass());
+
     lr::MetadataTableList tableList = metadata->getTablesForClass(clazz);
 
     lr::MetadataTableList::iterator i;
@@ -73,6 +75,17 @@ SQLRETURN CLASS::execute()
 
 void CLASS::prepareResultSet()
 {
+    MetadataViewPtr metadata = mStmt->getMetadataView();
+
+    lr::MetadataClass* clazz = metadata->getClass(
+        mLookupColumnsQuery->GetResource(), mLookupColumnsQuery->GetClass());
+
+    if (clazz == NULL)
+    {
+        throw SqlStateException("42S02", "Miscellaneous Search Error: "
+                                "Invalid Resource or Class name");
+    }
+    
     // column is really a RETS table, but we'll return column to the
     // ezRETS users as they'll understand that more.
     mResultSet->addColumn("column", SQL_VARCHAR);
