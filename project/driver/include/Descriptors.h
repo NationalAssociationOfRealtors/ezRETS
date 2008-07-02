@@ -63,7 +63,7 @@ class BaseDesc : public AbstractHandle
     
   protected:
     enum DescriptorType { APD, IPD, ARD, IRD };
-    static char* TypeNames[];
+    static const char* TypeNames[];
 
     BaseDesc(DescriptorType type);
     

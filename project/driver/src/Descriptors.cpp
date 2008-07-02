@@ -22,7 +22,7 @@
 using namespace odbcrets;
 using std::string;
 
-char* BaseDesc::TypeNames[] = { "APD", "IPD", "ARD", "IRD" };
+const char* BaseDesc::TypeNames[] = { "APD", "IPD", "ARD", "IRD" };
 
 SQLPOINTER odbcrets::adjustDescPointer(SQLPOINTER offset, SQLPOINTER ptr)
 {
