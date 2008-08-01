@@ -89,11 +89,8 @@
 		DE6973790C85D096004DEF1F /* RegisterFuncs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69726E0C85C8EF004DEF1F /* RegisterFuncs.cpp */; };
 		DE69737A0C85D096004DEF1F /* RegisterDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69726F0C85C8EF004DEF1F /* RegisterDriver.cpp */; };
 		DE69737B0C85D09C004DEF1F /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
-		DE69737C0C85D09C004DEF1F /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972670C85C8E8004DEF1F /* libboost_filesystem.a */; };
 		DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */; };
 		DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */; };
-		DE8F8C020E16688B0061E427 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEA54D60E15590A002896F2 /* libboost_system.a */; };
-		DE8F8C0A0E1668E80061E427 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE8F8C090E1668E80061E427 /* libboost_program_options.a */; };
 		DEBC9E390D07380D0078B301 /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
 		DEBC9E3A0D07380D0078B301 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B40C85C8EF004DEF1F /* utils.cpp */; };
 		DEBC9E3B0D07380D0078B301 /* DateTimeFormatException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728F0C85C8EF004DEF1F /* DateTimeFormatException.cpp */; };
@@ -112,8 +109,6 @@
 		DEBC9EDF0D09C69D0078B301 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */; };
 		DEBC9EE30D09C6E80078B301 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
 		DEBC9EE40D09C6F30078B301 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
-		DEEA54D70E15590A002896F2 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEA54D60E15590A002896F2 /* libboost_system.a */; };
-		DEEA54D80E15590A002896F2 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEA54D60E15590A002896F2 /* libboost_system.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,7 +272,6 @@
 				DE69730D0C85CAA6004DEF1F /* libz.dylib in Frameworks */,
 				DE69730E0C85CAA9004DEF1F /* libssl.dylib in Frameworks */,
 				DE69730F0C85CAAE004DEF1F /* libcrypto.dylib in Frameworks */,
-				DEEA54D70E15590A002896F2 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +283,6 @@
 				DE6973570C85CEF6004DEF1F /* libcrypto.dylib in Frameworks */,
 				DE6973580C85CEF6004DEF1F /* libssl.dylib in Frameworks */,
 				DE6973590C85CEF6004DEF1F /* libiodbcinst.dylib in Frameworks */,
-				DEEA54D80E15590A002896F2 /* libboost_system.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,10 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE8F8C020E16688B0061E427 /* libboost_system.a in Frameworks */,
 				DE69737B0C85D09C004DEF1F /* libiodbcinst.dylib in Frameworks */,
-				DE69737C0C85D09C004DEF1F /* libboost_filesystem.a in Frameworks */,
-				DE8F8C0A0E1668E80061E427 /* libboost_program_options.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,6 +991,7 @@
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_system.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
@@ -1036,6 +1027,7 @@
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_system.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
@@ -1107,6 +1099,7 @@
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_system.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
@@ -1177,6 +1170,7 @@
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_system.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
@@ -1209,6 +1203,11 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"/usr/local/encap/boost-1.33.1/lib\"";
+				OTHER_LDFLAGS = (
+					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_system.a",
+					"$(BOOST)/lib/libboost_program_options.a",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = register_driver;
 				ZERO_LINK = YES;
@@ -1234,6 +1233,11 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"/usr/local/encap/boost-1.33.1/lib\"";
+				OTHER_LDFLAGS = (
+					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_system.a",
+					"$(BOOST)/lib/libboost_program_options.a",
+				);
 				PREBINDING = NO;
 				PRODUCT_NAME = register_driver;
 				ZERO_LINK = NO;
