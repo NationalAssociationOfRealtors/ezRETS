@@ -233,8 +233,7 @@ wxPanel * SetupDialog::CreateUserAgentPanel(wxWindow * parent)
 
     TextValueSizer * userAgenttvs = new TextValueSizer(panel);
     wxArrayString userAgentAuthTypeChoices;
-    // Uncomment the following line when we actually support RETS 1.7
-//     userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_RETS_1_7_STRING);
+    userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_RETS_1_7_STRING);
     userAgentAuthTypeChoices.Add(USER_AGENT_AUTH_INTEREALTY_STRING);
     wxChoice * userAgentAuthType =
         new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
