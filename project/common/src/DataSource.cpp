@@ -125,6 +125,10 @@ lr::RetsVersion odbcrets::StringToRetsVersion(string versionString,
     {
         return lr::RETS_1_5;
     }
+    else if (versionString == RETS_1_7_STRING)
+    {
+        return lr::RETS_1_7;
+    }
     else
     {
         return defaultVersion;
