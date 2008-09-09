@@ -23,6 +23,10 @@ fields are optional:
  * UserAgentPassword
  * UseCompactFormat
  * TreatDecimcalAsString
+ * EncodingType
+ * UseProxy
+ * ProxyUrl
+ * ProxyPassword
 
 Definitions of attributes:
  * LoginURL - RETS Server's LoginURL
@@ -50,3 +54,12 @@ Definitions of attributes:
  * TreatDecimalAsString - If true, causes DECIMAL fields to be treated as
                           CHAR fields. This is a temporary work around for
                           failures with VBScript and SQLServer DTS.
+ * EncodingType - Select which character set to use when parsing RETS
+                  messages.  Typically used for a work around for
+		  servers sending extended characters.  Possible
+		  values are "Default (US-ASCII) Encoding" and
+		  "Extended (iso-8859-1) Encoding"
+ * UseProxy - Use an HTTP Proxy.  true or false
+ * ProxyUrl - URL of HTTP Proxy.  Can include username.
+              ex: http://user@host:port/
+ * ProxyPassword - Password for HTTP Proxy, if needed.

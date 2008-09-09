@@ -46,40 +46,6 @@ EnableUserAgentAuth = true
 UserAgentAuthType = NON-STANDARD INTEREALTY
 UserAgentPassword = SomePassword
 
-It should be not noted that in an odbc.ini declaration, the following
-fields are optional:
- * UserAgent
- * UseHttpGet
- * UseHttpLogging
- * HttpLogFile
- * UseDebugLogging
- * DebugLogFile
- * RetsVersion
- * UseBulkMetadata
- * IgnoreMetadataType
- * UseCompactFormat
- * EnableUserAgentAuth
- * UserAgentAuthType
- * UserAgentPassword
-
-
-Definitions of attributes:
- * LoginURL - RETS Server's LoginURL
- * UID - username
- * PWD - password
- * StandardNames - use RETS Standard Names when talking to the server
- * UserAgent - Used if you need to override the default user agent passed
-               to the RETS server.
- * UseHttpGet - Use HTTP GET instead of HTTP POST when doing a search
- * UseHttpLogging - Use the HTTP logging facility
- * HttpLogFile - The file to log the HTTP transactions to
- * UseDebugLogging - Use ezRETS debug logging facility
- * DebugLogFile - The file to log the ezRETS debugging to
- * RetsVersion - Which RETS version to attempt to speak to the server
-                 1.0 and 1.5 are the only accepted values
- * UseBulkMetadata - Grab all the metadata at once instead of incrementally
- * IgnoreMetadataType - Don't trust the server's metadata on what it reports
-                        as the native data type, just return everything as
-                        Character data.
- * EnableUserAgentAuth - Turns on User-Agent Authentication
- * UserAgentAuthType - Currently only "NON-STANDARD INTEREALTY" is supported.
+For the fields and their descriptsions, see
+DSNless_ConnectionString.txt as they are the same field names and
+value definitions.

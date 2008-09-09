@@ -18,10 +18,9 @@ Boost has it's own build system, bjam.  Read it's instructions for
 installation.  You need to compile and install the filesystem and
 program options libraries.
 
-
 librets
 --------
-  Version 1.1.10 or higher
+  Version 1.2.2 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
 libRETS must be compiled with the SQL Compiler (aka SQL to DMQL

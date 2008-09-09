@@ -22,7 +22,7 @@ program options libraries.
 
 librets
 --------
-  Version 1.1.8 or higher
+  Version 1.2.2 or higher
   URL: http://www.crt.realtors.org/projects/rets/librets
 
 libRETS must be compiled with the SQL Compiler (aka SQL to DMQL
