@@ -7,16 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DE5416770D070F6D00615353 /* DefinitionGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE5416760D070F6D00615353 /* DefinitionGenerator.cpp */; };
-		DE5416790D070FD700615353 /* MetadataView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972980C85C8EF004DEF1F /* MetadataView.cpp */; };
-		DE54167B0D070FFA00615353 /* DataTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728E0C85C8EF004DEF1F /* DataTranslator.cpp */; };
-		DE5416830D0710B500615353 /* TranslationWorkers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B20C85C8EF004DEF1F /* TranslationWorkers.cpp */; };
-		DE5416850D0710CF00615353 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972BC0C85C91F004DEF1F /* ezrets-common.a */; };
-		DE5416A00D07121C00615353 /* CommandLineMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE54169F0D07121C00615353 /* CommandLineMain.cpp */; };
-		DE5416A20D07125500615353 /* DataTranslationException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728D0C85C8EF004DEF1F /* DataTranslationException.cpp */; };
-		DE5416A40D07128000615353 /* DateTimeFormatException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728F0C85C8EF004DEF1F /* DateTimeFormatException.cpp */; };
-		DE5416A80D0712B200615353 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B40C85C8EF004DEF1F /* utils.cpp */; };
-		DE5416AD0D07133200615353 /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
 		DE6972C10C85C933004DEF1F /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B70C85C8EF004DEF1F /* DataSource.cpp */; };
 		DE6972C20C85C933004DEF1F /* EzRetsException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B60C85C8EF004DEF1F /* EzRetsException.cpp */; };
 		DE6972D30C85CA4A004DEF1F /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
@@ -91,24 +81,6 @@
 		DE69737B0C85D09C004DEF1F /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
 		DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */; };
 		DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */; };
-		DEBC9E390D07380D0078B301 /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
-		DEBC9E3A0D07380D0078B301 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B40C85C8EF004DEF1F /* utils.cpp */; };
-		DEBC9E3B0D07380D0078B301 /* DateTimeFormatException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728F0C85C8EF004DEF1F /* DateTimeFormatException.cpp */; };
-		DEBC9E3C0D07380D0078B301 /* DataTranslationException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728D0C85C8EF004DEF1F /* DataTranslationException.cpp */; };
-		DEBC9E3D0D07380D0078B301 /* TranslationWorkers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B20C85C8EF004DEF1F /* TranslationWorkers.cpp */; };
-		DEBC9E3E0D07380D0078B301 /* DataTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728E0C85C8EF004DEF1F /* DataTranslator.cpp */; };
-		DEBC9E3F0D07380D0078B301 /* MetadataView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972980C85C8EF004DEF1F /* MetadataView.cpp */; };
-		DEBC9E400D07380D0078B301 /* DefinitionGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE5416760D070F6D00615353 /* DefinitionGenerator.cpp */; };
-		DEBC9E410D07380D0078B301 /* GUIMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE5416B80D0714CA00615353 /* GUIMain.cpp */; };
-		DEBC9E5F0D073AD90078B301 /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972BC0C85C91F004DEF1F /* ezrets-common.a */; };
-		DEBC9ED90D09C6960078B301 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972610C85C8E8004DEF1F /* libz.dylib */; };
-		DEBC9EDA0D09C6960078B301 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972600C85C8E8004DEF1F /* libssl.dylib */; };
-		DEBC9EDB0D09C6960078B301 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */; };
-		DEBC9EDD0D09C69D0078B301 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972610C85C8E8004DEF1F /* libz.dylib */; };
-		DEBC9EDE0D09C69D0078B301 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972600C85C8E8004DEF1F /* libssl.dylib */; };
-		DEBC9EDF0D09C69D0078B301 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */; };
-		DEBC9EE30D09C6E80078B301 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
-		DEBC9EE40D09C6F30078B301 /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,27 +98,9 @@
 			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F;
 			remoteInfo = "ezrets-common";
 		};
-		DEBC9E610D073AE40078B301 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F;
-			remoteInfo = "ezrets-common";
-		};
-		DEBC9EA60D085BAA0078B301 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DE6972BB0C85C91F004DEF1F;
-			remoteInfo = "ezrets-common";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DE5416700D070F0B00615353 /* generatedef */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = generatedef; sourceTree = BUILT_PRODUCTS_DIR; };
-		DE5416760D070F6D00615353 /* DefinitionGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DefinitionGenerator.cpp; sourceTree = "<group>"; };
-		DE54169F0D07121C00615353 /* CommandLineMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CommandLineMain.cpp; sourceTree = "<group>"; };
-		DE5416B80D0714CA00615353 /* GUIMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GUIMain.cpp; sourceTree = "<group>"; };
 		DE5416C00D07160800615353 /* gendefgui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gendefgui-Info.plist"; sourceTree = "<group>"; };
 		DE6972540C85C8C0004DEF1F /* ezrets32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ezrets32x32.png; path = ../setup/src/ezrets32x32.png; sourceTree = SOURCE_ROOT; };
 		DE69725D0C85C8E1004DEF1F /* ezretss.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = ezretss.ico; path = ../setup/src/ezretss.ico; sourceTree = SOURCE_ROOT; };
@@ -239,23 +193,10 @@
 		DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupColumnsQuery.cpp; path = ../driver/src/EzLookupColumnsQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupQuery.cpp; path = ../driver/src/EzLookupQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE8F8C090E1668E80061E427 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
-		DEBC9E330D0737E20078B301 /* gendefgui.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gendefgui.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEA54D60E15590A002896F2 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/libboost_system.a; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DE54166E0D070F0B00615353 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DE5416850D0710CF00615353 /* ezrets-common.a in Frameworks */,
-				DEBC9ED90D09C6960078B301 /* libz.dylib in Frameworks */,
-				DEBC9EDA0D09C6960078B301 /* libssl.dylib in Frameworks */,
-				DEBC9EDB0D09C6960078B301 /* libcrypto.dylib in Frameworks */,
-				DEBC9EE30D09C6E80078B301 /* libiodbcinst.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DE6972BA0C85C91F004DEF1F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,32 +235,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DEBC9E310D0737E20078B301 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DEBC9E5F0D073AD90078B301 /* ezrets-common.a in Frameworks */,
-				DEBC9EDD0D09C69D0078B301 /* libz.dylib in Frameworks */,
-				DEBC9EDE0D09C69D0078B301 /* libssl.dylib in Frameworks */,
-				DEBC9EDF0D09C69D0078B301 /* libcrypto.dylib in Frameworks */,
-				DEBC9EE40D09C6F30078B301 /* libiodbcinst.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DE5416750D070F6D00615353 /* ddlgenerator */ = {
-			isa = PBXGroup;
-			children = (
-				DE54169F0D07121C00615353 /* CommandLineMain.cpp */,
-				DE5416B80D0714CA00615353 /* GUIMain.cpp */,
-				DE5416760D070F6D00615353 /* DefinitionGenerator.cpp */,
-			);
-			name = ddlgenerator;
-			path = ../ddlgenerator/src;
-			sourceTree = SOURCE_ROOT;
-		};
 		DE6972390C85C73C004DEF1F = {
 			isa = PBXGroup;
 			children = (
@@ -361,7 +279,6 @@
 				DE6972700C85C8EF004DEF1F /* setup */,
 				DE69726D0C85C8EF004DEF1F /* installer */,
 				DE69726B0C85C8EF004DEF1F /* docs */,
-				DE5416750D070F6D00615353 /* ddlgenerator */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -488,8 +405,6 @@
 				DE6972CB0C85C97B004DEF1F /* ezrets.dylib */,
 				DE69734C0C85CE9E004DEF1F /* ezretss.dylib */,
 				DE6973770C85D082004DEF1F /* register_driver */,
-				DE5416700D070F0B00615353 /* generatedef */,
-				DEBC9E330D0737E20078B301 /* gendefgui.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -521,23 +436,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		DE54166F0D070F0B00615353 /* generatedef */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DE5416740D070F2A00615353 /* Build configuration list for PBXNativeTarget "generatedef" */;
-			buildPhases = (
-				DE54166D0D070F0B00615353 /* Sources */,
-				DE54166E0D070F0B00615353 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DEBC9EA70D085BAA0078B301 /* PBXTargetDependency */,
-			);
-			name = generatedef;
-			productName = generatedef;
-			productReference = DE5416700D070F0B00615353 /* generatedef */;
-			productType = "com.apple.product-type.tool";
-		};
 		DE6972BB0C85C91F004DEF1F /* ezrets-common */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DE6972BE0C85C91F004DEF1F /* Build configuration list for PBXNativeTarget "ezrets-common" */;
@@ -607,24 +505,6 @@
 			productReference = DE6973770C85D082004DEF1F /* register_driver */;
 			productType = "com.apple.product-type.tool";
 		};
-		DEBC9E320D0737E20078B301 /* gendefgui */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DEBC9E380D0737E20078B301 /* Build configuration list for PBXNativeTarget "gendefgui" */;
-			buildPhases = (
-				DEBC9E2F0D0737E20078B301 /* Resources */,
-				DEBC9E300D0737E20078B301 /* Sources */,
-				DEBC9E310D0737E20078B301 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DEBC9E620D073AE40078B301 /* PBXTargetDependency */,
-			);
-			name = gendefgui;
-			productName = foopoop;
-			productReference = DEBC9E330D0737E20078B301 /* gendefgui.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -642,39 +522,11 @@
 				DE6972CA0C85C97B004DEF1F /* ezrets */,
 				DE69734B0C85CE9E004DEF1F /* ezretss */,
 				DE6973760C85D082004DEF1F /* register_driver */,
-				DE54166F0D070F0B00615353 /* generatedef */,
-				DEBC9E320D0737E20078B301 /* gendefgui */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		DEBC9E2F0D0737E20078B301 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		DE54166D0D070F0B00615353 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DE5416AD0D07133200615353 /* GetTypeName.cpp in Sources */,
-				DE5416A80D0712B200615353 /* utils.cpp in Sources */,
-				DE5416A40D07128000615353 /* DateTimeFormatException.cpp in Sources */,
-				DE5416A20D07125500615353 /* DataTranslationException.cpp in Sources */,
-				DE5416830D0710B500615353 /* TranslationWorkers.cpp in Sources */,
-				DE54167B0D070FFA00615353 /* DataTranslator.cpp in Sources */,
-				DE5416790D070FD700615353 /* MetadataView.cpp in Sources */,
-				DE5416770D070F6D00615353 /* DefinitionGenerator.cpp in Sources */,
-				DE5416A00D07121C00615353 /* CommandLineMain.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DE6972B90C85C91F004DEF1F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -767,22 +619,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DEBC9E300D0737E20078B301 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DEBC9E390D07380D0078B301 /* GetTypeName.cpp in Sources */,
-				DEBC9E3A0D07380D0078B301 /* utils.cpp in Sources */,
-				DEBC9E3B0D07380D0078B301 /* DateTimeFormatException.cpp in Sources */,
-				DEBC9E3C0D07380D0078B301 /* DataTranslationException.cpp in Sources */,
-				DEBC9E3D0D07380D0078B301 /* TranslationWorkers.cpp in Sources */,
-				DEBC9E3E0D07380D0078B301 /* DataTranslator.cpp in Sources */,
-				DEBC9E3F0D07380D0078B301 /* MetadataView.cpp in Sources */,
-				DEBC9E400D07380D0078B301 /* DefinitionGenerator.cpp in Sources */,
-				DEBC9E410D07380D0078B301 /* GUIMain.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -796,84 +632,9 @@
 			target = DE6972BB0C85C91F004DEF1F /* ezrets-common */;
 			targetProxy = DE69735B0C85CEFC004DEF1F /* PBXContainerItemProxy */;
 		};
-		DEBC9E620D073AE40078B301 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DE6972BB0C85C91F004DEF1F /* ezrets-common */;
-			targetProxy = DEBC9E610D073AE40078B301 /* PBXContainerItemProxy */;
-		};
-		DEBC9EA70D085BAA0078B301 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DE6972BB0C85C91F004DEF1F /* ezrets-common */;
-			targetProxy = DEBC9EA60D085BAA0078B301 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		DE5416720D070F0B00615353 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(BOOST)/include",
-					"$(LIBRETS)/project/librets/include",
-					"$(SRCROOT)/../ddlgenerator/include",
-					"$(SRCROOT)/../driver/include",
-					"$(SRCROOT)/../common/include",
-					"$(HEADER_SEARCH_PATHS)",
-				);
-				INSTALL_PATH = /usr/local/bin;
-				OTHER_LDFLAGS = (
-					"$(EXPAT)/lib/libexpat.a",
-					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libantlr.a",
-					"$(LIBRETS)/build/xcode/Development/librets.a",
-					"$(OTHER_LDFLAGS)",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = generatedef;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		DE5416730D070F0B00615353 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(BOOST)/include",
-					"$(LIBRETS)/project/librets/include",
-					"$(SRCROOT)/../ddlgenerator/include",
-					"$(SRCROOT)/../driver/include",
-					"$(SRCROOT)/../common/include",
-					"$(HEADER_SEARCH_PATHS)",
-				);
-				INSTALL_PATH = /usr/local/bin;
-				OTHER_LDFLAGS = (
-					"$(EXPAT)/lib/libexpat.a",
-					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libantlr.a",
-					"$(LIBRETS)/build/xcode/Development/librets.a",
-					"$(OTHER_LDFLAGS)",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = generatedef;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		DE69723D0C85C73C004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
@@ -1244,163 +1005,9 @@
 			};
 			name = Release;
 		};
-		DEBC9E360D0737E20078B301 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_SHADOW = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(BOOST)/include",
-					"$(LIBRETS)/project/librets/include",
-					"$(SRCROOT)/../ddlgenerator/include",
-					"$(SRCROOT)/../driver/include",
-					"$(SRCROOT)/../common/include",
-					"$(HEADER_SEARCH_PATHS)",
-					"$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR)",
-					"$(WXWIDGETS)/include/wx-$(WX_VER_MAJOR)",
-				);
-				INFOPLIST_FILE = "gendefgui-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				KEEP_PRIVATE_EXTERNS = NO;
-				LINKER_DISPLAYS_MANGLED_NAMES = NO;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
-					"-D__WXMAC__",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-L$(WXWIDGETS)/lib",
-					"-framework",
-					QuickTime,
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					System,
-					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
-					"-framework",
-					WebKit,
-					"-lwxexpat-$(WX_VER_MAJOR)",
-					"-lwxtiff-$(WX_VER_MAJOR)",
-					"-lwxjpeg-$(WX_VER_MAJOR)",
-					"-lwxpng-$(WX_VER_MAJOR)",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"$(EXPAT)/lib/libexpat.a",
-					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libantlr.a",
-					"$(LIBRETS)/build/xcode/Development/librets.a",
-					"$(OTHER_LDFLAGS)",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = gendefgui;
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		DEBC9E370D0737E20078B301 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_SHADOW = NO;
-				HEADER_SEARCH_PATHS = (
-					"$(BOOST)/include",
-					"$(LIBRETS)/project/librets/include",
-					"$(SRCROOT)/../ddlgenerator/include",
-					"$(SRCROOT)/../driver/include",
-					"$(SRCROOT)/../common/include",
-					"$(HEADER_SEARCH_PATHS)",
-					"$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR)",
-					"$(WXWIDGETS)/include/wx-$(WX_VER_MAJOR)",
-				);
-				INFOPLIST_FILE = "gendefgui-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				KEEP_PRIVATE_EXTERNS = NO;
-				LINKER_DISPLAYS_MANGLED_NAMES = NO;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
-					"-D__WXMAC__",
-					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-DNO_GCC_PRAGMA",
-				);
-				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
-					"-L$(WXWIDGETS)/lib",
-					"-framework",
-					QuickTime,
-					"-framework",
-					IOKit,
-					"-framework",
-					Carbon,
-					"-framework",
-					Cocoa,
-					"-framework",
-					System,
-					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
-					"-framework",
-					WebKit,
-					"-lwxexpat-$(WX_VER_MAJOR)",
-					"-lwxtiff-$(WX_VER_MAJOR)",
-					"-lwxjpeg-$(WX_VER_MAJOR)",
-					"-lwxpng-$(WX_VER_MAJOR)",
-					"-lz",
-					"-lpthread",
-					"-liconv",
-					"$(EXPAT)/lib/libexpat.a",
-					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libantlr.a",
-					"$(LIBRETS)/build/xcode/Development/librets.a",
-					"$(OTHER_LDFLAGS)",
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = gendefgui;
-				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DE5416740D070F2A00615353 /* Build configuration list for PBXNativeTarget "generatedef" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DE5416720D070F0B00615353 /* Debug */,
-				DE5416730D070F0B00615353 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		DE69723C0C85C73C004DEF1F /* Build configuration list for PBXProject "ezrets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1442,15 +1049,6 @@
 			buildConfigurations = (
 				DE6973860C85D0FF004DEF1F /* Debug */,
 				DE6973870C85D0FF004DEF1F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DEBC9E380D0737E20078B301 /* Build configuration list for PBXNativeTarget "gendefgui" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DEBC9E360D0737E20078B301 /* Debug */,
-				DEBC9E370D0737E20078B301 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
