@@ -67,7 +67,10 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
   &CLASS::True},
  {&CLASS::TreatDecimalAsStringToWindow, &CLASS::TreatDecimalAsStringFromWindow,
   &CLASS::True},
- {&CLASS::EncodingToWindow, &CLASS::EncodingFromWindow, &CLASS::True}
+ {&CLASS::EncodingToWindow, &CLASS::EncodingFromWindow, &CLASS::True},
+ {&CLASS::UseProxyToWindow, &CLASS::UseProxyFromWindow, &CLASS::True},
+ {&CLASS::ProxyUrlToWindow, &CLASS::ProxyUrlFromWindow, &CLASS::True},
+ {&CLASS::ProxyPasswordToWindow, &CLASS::ProxyPasswordFromWindow, &CLASS::True}
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -77,7 +80,7 @@ const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
     "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
     "Ignore Metadata Type", "Use Compact Format", "Enable User-Agent Auth",
     "User-Agent Password", "User-Agent Auth Type", "Treat Decimal As String",
-    "Encoding"
+    "Encoding", "Use HTTP Proxy", "HTTP Proxy Url", "HTTP Proxy Password"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -441,7 +444,7 @@ bool CLASS::EncodingToWindow(wxWindow * window)
     wxChoice * choice = (wxChoice *) window;
     string encodingString =
         EncodingTypeToString(mDataSource->GetEncodingType());
-    choice ->SetStringSelection(encodingString.c_str());
+    choice->SetStringSelection(encodingString.c_str());
     return true;
 }
 
@@ -452,5 +455,47 @@ bool CLASS::EncodingFromWindow(wxWindow * window)
     mDataSource->SetEncodingType(
         StringToEncodingType(choice->GetStringSelection().c_str(),
                              librets::RETS_XML_DEFAULT_ENCODING));
+    return true;
+}
+
+bool CLASS::UseProxyToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetUseProxy());
+    return true;
+}
+
+bool CLASS::UseProxyFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetUseProxy(checkBox->GetValue());
+    return true;
+}
+
+bool CLASS::ProxyUrlToWindow(wxWindow * window)
+{
+    wxTextCtrl * textCtrl = (wxTextCtrl *) window;
+    textCtrl->SetValue(mDataSource->GetProxyUrl().c_str());
+    return true;
+}
+
+bool CLASS::ProxyUrlFromWindow(wxWindow * window)
+{
+    wxTextCtrl * textCtrl = (wxTextCtrl *) window;
+    mDataSource->SetProxyUrl(textCtrl->GetValue().c_str());
+    return true;
+}
+
+bool CLASS::ProxyPasswordToWindow(wxWindow * window)
+{
+    wxTextCtrl * textCtrl = (wxTextCtrl *) window;
+    textCtrl->SetValue(mDataSource->GetProxyPassword().c_str());
+    return true;
+}
+
+bool CLASS::ProxyPasswordFromWindow(wxWindow * window)
+{
+    wxTextCtrl * textCtrl = (wxTextCtrl *) window;
+    mDataSource->SetProxyPassword(textCtrl->GetValue().c_str());
     return true;
 }

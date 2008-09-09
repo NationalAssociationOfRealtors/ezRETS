@@ -46,6 +46,7 @@ const long SetupDialog::ID_HTTP_LOGGING = wxNewId();
 const long SetupDialog::ID_HTTP_BROWSE = wxNewId();
 const long SetupDialog::ID_DEBUG_LOGGING = wxNewId();
 const long SetupDialog::ID_DEBUG_BROWSE = wxNewId();
+const long SetupDialog::ID_USE_PROXY = wxNewId();
 
 BEGIN_EVENT_TABLE(SetupDialog, wxDialog)
     EVT_BUTTON(ID_TEST, SetupDialog::OnTest)
@@ -141,6 +142,13 @@ SetupDialog::SetupDialog(DataSourcePtr dataSource, wxWindow * parent,
     pagePanel->SetSizer(pageSizer);
     mNotebook->AddPage(pagePanel, "Logging");
 
+    pagePanel = new wxPanel(mNotebook);
+    pageSizer = new wxBoxSizer(wxVERTICAL);
+    pageSizer->Add(CreateProxyPanel(pagePanel),
+                   wxSizerFlags(1).Border(wxALL, 10).Expand());
+    pagePanel->SetSizer(pageSizer);
+    mNotebook->AddPage(pagePanel, "Proxy");
+
     if (mDebug)
     {
         pagePanel = new wxPanel(mNotebook, wxID_ANY);
@@ -197,7 +205,12 @@ wxPanel * SetupDialog::CreateBasicPanel(wxWindow * parent)
                                validator.SetField(DSV::PASSWORD));
     mPassword->SetToolTip("Your RETS password.");
     tvs->AddRow("Password:", mPassword);
-    topSizer->Add(tvs, wxSizerFlags(0).Expand());
+
+    wxSizerFlags sizerFlags = wxSizerFlags(0).Expand();
+#ifdef __WXMAC__
+    sizerFlags = sizerFlags.Border(wxTOP | wxRIGHT, 3);
+#endif
+    topSizer->Add(tvs, sizerFlags);
 
     panel->SetSizer(topSizer);
     return panel;
@@ -218,7 +231,11 @@ wxPanel * SetupDialog::CreateUserAgentPanel(wxWindow * parent)
                        validator.SetField(DSV::CUSTOM_USER_AGENT));
     tvs->AddRow("Custom User-Agent:", userAgent);
 
-    topSizer->Add(tvs, wxSizerFlags(0).Expand());
+    wxSizerFlags sizerFlags = wxSizerFlags(0).Expand();
+#ifdef __WXMAC__
+    sizerFlags = sizerFlags.Border(wxTOP | wxRIGHT, 3);
+#endif
+    topSizer->Add(tvs, sizerFlags);
     
     wxBoxSizer * userAgentBox = new wxBoxSizer(wxVERTICAL);
     mEnableUserAgentPassword =
@@ -270,8 +287,6 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
     
     DataSourceValidator validator = DataSourceValidator(mDataSource);
 
-//    wxGridSizer * dropDownSizer = new wxGridSizer(2);
-
     wxArrayString httpMethodChoices;
     httpMethodChoices.Add(wxT("GET"));
     httpMethodChoices.Add(wxT("POST"));
@@ -281,7 +296,11 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                      validator.SetField(DSV::USE_HTTP_GET));
     wxSizerFlags valueFlags(1);
     valueFlags.Align(wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT);
+#ifdef __WXMAC__
+    tvs->AddRow("HTTP Method:", httpMethod, valueFlags.Border(wxTOP, 3));
+#else
     tvs->AddRow("HTTP Method:", httpMethod, valueFlags);
+#endif
 
     wxArrayString retsVersionChoices;
     retsVersionChoices.Add(RETS_1_7_STRING);
@@ -428,7 +447,7 @@ bool SetupDialog::Validate()
 {
     // Most validation happens in the validators, but certain
     // cross-control validation needs to be done here.  The log file
-    // can be empty if it is not enabled, for example.
+    // cannot be empty if it is not enabled, for example.
     if (mEnableHttpLogging->GetValue() && mHttpLogFile->GetValue().empty())
     {
         wxMessageBox("The HTTP log file must not be empty.\n",
@@ -448,6 +467,14 @@ bool SetupDialog::Validate()
     {
         wxMessageBox("The User-Agent Password must not be empty.\n",
                      "Invalid User-Agenet Password", wxICON_ERROR);
+        return false;
+    }
+
+    if (mUseProxy->GetValue() && mProxyUrl->GetValue().empty())
+    {
+        wxMessageBox("If HTTP Proxy is turned on, the Proxy URL must not"
+                     " be empty.\n", "Invalid HTTP Proxy", wxICON_ERROR);
+
         return false;
     }
 
@@ -479,6 +506,52 @@ void SetupDialog::OnHttpBrowse(wxCommandEvent & event)
         mHttpLogFile->SetValue(dialog.GetPath());
     }
 }
+
+wxPanel * SetupDialog::CreateProxyPanel(wxWindow * parent)
+{
+    wxSize textSize(-1, -1);
+
+    wxPanel * panel = new wxPanel(parent);
+    wxBoxSizer * topSizer = new wxBoxSizer(wxVERTICAL);
+
+    DataSourceValidator validator = DataSourceValidator(mDataSource);
+
+    mUseProxy =
+        new wxCheckBox(panel, ID_USE_PROXY, "Use HTTP Proxy",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::USE_PROXY));
+    topSizer->Add(mUseProxy, wxSizerFlags(0).Expand());
+
+    wxBoxSizer * proxyInfoBox = new wxBoxSizer(wxHORIZONTAL);
+    proxyInfoBox->AddSpacer(10);
+
+    TextValueSizer * tvs = new TextValueSizer(panel);
+    mProxyUrl = new wxTextCtrl(panel, wxID_ANY, "",
+                               wxDefaultPosition, textSize, 0,
+                               validator.SetField(DSV::PROXY_URL));
+    mProxyUrl->SetToolTip("URL used to access HTTP proxy.  "
+                          "May include username.  http://user@host:port/");
+    tvs->AddRow("Proxy URL:", mProxyUrl);
+
+    mProxyPassword = new wxTextCtrl(panel, wxID_ANY, "",
+                                    wxDefaultPosition, textSize, 0,
+                                    validator.SetField(DSV::PROXY_PASSWORD));
+    mProxyPassword->SetToolTip("Optional password used to access HTTP proxy.");
+    tvs->AddRow("Proxy Password:", mProxyPassword);
+
+    wxSizerFlags sizerFlags = wxSizerFlags(1).Expand();
+#ifdef __WXMAC__
+    sizerFlags = sizerFlags.Border(wxRIGHT, 3);
+#endif
+    proxyInfoBox->Add(tvs, sizerFlags);
+
+    topSizer->Add(proxyInfoBox, wxSizerFlags(0).Expand().Border(wxTOP, 10));
+
+    panel->SetSizer(topSizer);
+
+    return panel;
+}
+    
 
 void SetupDialog::OnDebugBrowse(wxCommandEvent & event)
 {

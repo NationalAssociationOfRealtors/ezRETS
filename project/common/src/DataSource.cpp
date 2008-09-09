@@ -65,6 +65,9 @@ const char * CLASS::INI_USER_AGENT_PASSWORD = "UserAgentPassword";
 const char * CLASS::INI_USER_AGENT_AUTH_TYPE = "UserAgentAuthType";
 const char * CLASS::INI_TREAT_DECIMAL_AS_STRING = "TreatDecimalAsString";
 const char * CLASS::INI_ENCODING_TYPE = "EncodingType";
+const char * CLASS::INI_USE_PROXY = "UseProxy";
+const char * CLASS::INI_PROXY_URL = "ProxyUrl";
+const char * CLASS::INI_PROXY_PASSWORD = "ProxyPassword";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -215,6 +218,7 @@ void DataSource::init()
     mDisableGetObjectMetadata = true;
     mEnableUserAgentAuth = false;
     mTreatDecimalAsString = false;
+    mUseProxy = false;
 }
 
 DataSource::DataSource()
@@ -268,9 +272,14 @@ void DataSource::MergeFromIni()
         mEnableUserAgentAuth =
             GetProfileBool(INI_ENABLE_USER_AGENT_AUTH, false);
         MergeFromProfileString(mUserAgentPassword, INI_USER_AGENT_PASSWORD);
-        MergeFromProfileString(mUserAgentAuthTypeString, INI_USER_AGENT_AUTH_TYPE);
+        MergeFromProfileString(mUserAgentAuthTypeString,
+                               INI_USER_AGENT_AUTH_TYPE);
         mTreatDecimalAsString =
             GetProfileBool(INI_TREAT_DECIMAL_AS_STRING, false);
+
+        mUseProxy = GetProfileBool(INI_USE_PROXY, false);
+        MergeFromProfileString(mProxyUrl, INI_PROXY_URL);
+        MergeFromProfileString(mProxyPassword, INI_PROXY_PASSWORD);
 
         MergeFromProfileString(mEncodingTypeString, INI_ENCODING_TYPE);
     }
@@ -304,6 +313,9 @@ void DataSource::WriteToIni(UWORD configMode)
     WriteProfileString(configMode, INI_TREAT_DECIMAL_AS_STRING,
                        mTreatDecimalAsString);
     WriteProfileString(configMode, INI_ENCODING_TYPE, mEncodingTypeString);
+    WriteProfileString(configMode, INI_USE_PROXY, mUseProxy);
+    WriteProfileString(configMode, INI_PROXY_URL, mProxyUrl);
+    WriteProfileString(configMode, INI_PROXY_PASSWORD, mProxyPassword);
 }
 
 void DataSource::CreateInIni(string driver, UWORD configMode)
@@ -648,6 +660,36 @@ void DataSource::SetEncodingType(lr::EncodingType encodingType)
 {
     mEncodingTypeString = EncodingTypeToString(encodingType);
 }
+
+void DataSource::SetUseProxy(bool enable)
+{
+    mUseProxy = enable;
+}
+
+bool DataSource::GetUseProxy() const
+{
+    return mUseProxy;
+}
+
+std::string DataSource::GetProxyUrl() const
+{
+    return mProxyUrl;
+}
+
+void DataSource::SetProxyUrl(std::string url)
+{
+    mProxyUrl = url;
+}
+
+std::string DataSource::GetProxyPassword() const
+{
+    return mProxyPassword;
+}
+
+void DataSource::SetProxyPassword(std::string password)
+{
+    mProxyPassword = password;
+}
  
 bool DataSource::IsComplete() const
 {
@@ -730,6 +772,14 @@ string DataSource::GetConnectionString() const
 
     AppendToConnectionString(connectionString, INI_ENCODING_TYPE,
                              mEncodingTypeString);
+
+    if (mUseProxy)
+    {
+        AppendToConnectionString(connectionString, INI_USE_PROXY, mUseProxy);
+        AppendToConnectionString(connectionString, INI_PROXY_URL, mProxyUrl);
+        AppendToConnectionString(connectionString, INI_PROXY_PASSWORD,
+                                 mProxyPassword);
+    }
     
     return connectionString;
 }
@@ -810,6 +860,11 @@ ostream & DataSource::Print(ostream & out) const
     if (mTreatDecimalAsString)
     {
         out << ", Treat Decimal As String: " << mTreatDecimalAsString;
+    }
+
+    if (mUseProxy)
+    {
+        out <<", Proxy URL: " << mProxyUrl;
     }
 
     return out;
@@ -915,6 +970,18 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         {
             mEncodingTypeString = value;
         }
+        else if (key == INI_USE_PROXY)
+        {
+            mUseProxy = stringToBool(value);
+        }
+        else if (key == INI_PROXY_URL)
+        {
+            mProxyUrl = value;
+        }
+        else if (key == INI_PROXY_PASSWORD)
+        {
+            mProxyPassword = value;
+        }
     }
 }
 
@@ -931,6 +998,11 @@ lr::RetsSessionPtr CLASS::CreateRetsSession() const
     {
         session->SetUserAgentAuthType(GetUserAgentAuthType());
         session->SetUserAgentPassword(mUserAgentPassword);
+    }
+
+    if (mUseProxy)
+    {
+        session->SetProxy(mProxyUrl, mProxyPassword);
     }
 
     return session;

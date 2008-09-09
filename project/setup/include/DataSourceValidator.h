@@ -48,6 +48,9 @@ class DataSourceValidator : public wxValidator
         USER_AGENT_AUTH_TYPE,
         TREAT_DECIMAL_AS_STRING,
         ENCODING_TYPE,
+        USE_PROXY,
+        PROXY_URL,
+        PROXY_PASSWORD,
         NUM_FIELDS
     };
     
@@ -151,7 +154,20 @@ class DataSourceValidator : public wxValidator
     bool TreatDecimalAsStringFromWindow(wxWindow * window);
 
     bool EncodingToWindow(wxWindow * window);
+
     bool EncodingFromWindow(wxWindow * window);
+
+    bool UseProxyToWindow(wxWindow * window);
+
+    bool UseProxyFromWindow(wxWindow * window);
+
+    bool ProxyUrlToWindow(wxWindow * window);
+
+    bool ProxyUrlFromWindow(wxWindow * window);
+
+    bool ProxyPasswordToWindow(wxWindow * window);
+
+    bool ProxyPasswordFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);

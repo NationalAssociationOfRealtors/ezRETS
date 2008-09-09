@@ -135,6 +135,18 @@ class DataSource
 
     void SetEncodingType(librets::EncodingType encoding);
 
+    void SetUseProxy(bool enable);
+
+    bool GetUseProxy() const;
+
+    std::string GetProxyUrl() const;
+
+    void SetProxyUrl(std::string url);
+
+    std::string GetProxyPassword() const;
+
+    void SetProxyPassword(std::string password);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -185,6 +197,9 @@ class DataSource
     static const char * INI_USER_AGENT_AUTH_TYPE;
     static const char * INI_TREAT_DECIMAL_AS_STRING;
     static const char * INI_ENCODING_TYPE;
+    static const char * INI_USE_PROXY;
+    static const char * INI_PROXY_URL;
+    static const char * INI_PROXY_PASSWORD;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -248,6 +263,9 @@ class DataSource
     std::string mUserAgentAuthTypeString;
     bool mTreatDecimalAsString;
     std::string mEncodingTypeString;
+    bool mUseProxy;
+    std::string mProxyUrl;
+    std::string mProxyPassword;
 };
 
 extern const char * RETS_1_0_STRING;

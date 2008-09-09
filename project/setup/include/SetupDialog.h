@@ -47,6 +47,7 @@ class SetupDialog : public wxDialog
     wxPanel * CreateUserAgentPanel(wxWindow * parent);
     wxPanel * CreateAdvancedPanel(wxWindow * parent);
     wxPanel * CreateLoggingPanel(wxWindow * parent);
+    wxPanel * CreateProxyPanel(wxWindow * parent);
     void UpdateLoggingState();
     
     static const long ID_TEST;
@@ -56,6 +57,7 @@ class SetupDialog : public wxDialog
     static const long ID_HTTP_BROWSE;
     static const long ID_DEBUG_LOGGING;
     static const long ID_DEBUG_BROWSE;
+    static const long ID_USE_PROXY;
 
     std::string mHost;
     std::string mPort;
@@ -79,6 +81,10 @@ class SetupDialog : public wxDialog
     wxCheckBox * mEnableDebugLogging;
     wxTextCtrl * mDebugLogFile;
     wxButton * mDebugBrowse;
+
+    wxCheckBox * mUseProxy;
+    wxTextCtrl * mProxyUrl;
+    wxTextCtrl * mProxyPassword;
     
     DECLARE_EVENT_TABLE();
 };
