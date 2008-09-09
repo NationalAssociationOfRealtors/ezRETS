@@ -9,6 +9,9 @@ Changes since 2.1.1
  Bug Fix
   * Fix bug where when RETS 1.7 was selected RETS 1.5 will still be used.
 
+ Developer Notes
+  * libRETS 2.1.2 is now required.
+
 Changes since 2.1.0
 -------------------
   * User-Agent is now "ezRETS/2.1.1 (librets/1.2.1)"
@@ -30,7 +33,7 @@ Changes since 2.1.0
   * Bug fix for SQLTables that should make Excel 2007 happy.
 
  Developer Notes
-  * libRETS 2.1.1 is now required.  Also, if you're buiulding ezRETS
+  * libRETS 2.1.1 is now required.  Also, if you're building ezRETS
     and libRETS on x86_64 linux, please see the documentation in
     doc/build/unix.txt for required flags
 
