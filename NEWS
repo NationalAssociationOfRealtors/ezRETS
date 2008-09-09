@@ -1,4 +1,15 @@
- Changes since 2.1.0
+Changes since 2.1.1
+-------------------
+  * User-Agent is now "ezRETS/2.1.2 (librets/1.2.3)"
+
+ Enhancements
+  * Support for HTTP proxies added.  Be warned, depending on how much
+    scrubbing your HTTP proxy does, RETS may not work through the proxy.
+
+ Bug Fix
+  * Fix bug where when RETS 1.7 was selected RETS 1.5 will still be used.
+
+Changes since 2.1.0
 -------------------
   * User-Agent is now "ezRETS/2.1.1 (librets/1.2.1)"
 
