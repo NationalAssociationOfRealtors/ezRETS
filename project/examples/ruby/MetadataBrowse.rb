@@ -25,6 +25,18 @@ else
   drv.attrs["DRIVER"] = DRIVER
 end
 
+LookupColStruct = Struct.new(:column, :lookup)
+
+def getLookupsForTable(dbc, table)
+  returns = Array.new
+  lookupColTable = 'lookupcolumns:' + table.split(':', 2)[1]
+  dbc.run("select * from #{lookupColTable}") do |stmt|
+    # pull it out of table and stick in some objects to return
+    stmt.each { |row| returns << LookupColStruct.new(row[0], row[1]) }
+  end
+  return returns
+end
+
 usage = OptionParser.new do |opts|
   opts.banner = "Usage: GenericSearch.rb [options] <sql query>"
   opts.on('-b', '--bulk_metadata', 'Grab the metadata all at once') do |a|
@@ -73,6 +85,7 @@ end
 
 tables.each do |table|
   puts table
+  lookupCols = getLookupsForTable(dbc, table)
   dbc.columns(table) do |stmt|
     stmt.each_hash do |row|
       printf("    %-25s  %-25s\n", row["COLUMN_NAME"], row["TYPE_NAME"])
