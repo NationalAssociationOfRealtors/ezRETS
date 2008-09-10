@@ -90,7 +90,7 @@ void unregister(bool remove_dsn)
         remove = TRUE;
     }
 
-    SQLSetConfigMode(ODBC_SYSTEM_DSN);
+    SQLSetConfigMode(ODBC_BOTH_DSN);
     // Unregister the driver with or without removing the DSN
     success = SQLRemoveDriver(DRIVER_NAME, remove, &count);
     if (success == FALSE)

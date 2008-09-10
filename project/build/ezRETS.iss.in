@@ -63,7 +63,7 @@ Name: {app}\ExcelTutorial
 Name: {app}\InstallTutorial
 
 [Run]
-Filename: {app}\RegisterDriver.exe; Parameters: -i; StatusMsg: Registering ezRETS Driver
+Filename: {app}\RegisterDriver.exe; Parameters: -i; StatusMsg: Registering ezRETS Driver; Flags: runhidden
 
 [UninstallRun]
-Filename: {app}\RegisterDriver.exe; Parameters: -d
+Filename: {app}\RegisterDriver.exe; Parameters: -r -d; Flags: runhidden

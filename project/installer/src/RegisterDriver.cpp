@@ -61,12 +61,10 @@ int main(int argc, char **argv)
     {
         if (ezInstalled)
         {
-            cout << "ezRETS already installed" << endl;
+            unregister(false);
         }
-        else
-        {
-            registr();
-        }
+        
+        registr();
     }
 
     if (vm.count("remove"))
