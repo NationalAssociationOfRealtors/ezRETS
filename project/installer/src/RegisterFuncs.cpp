@@ -55,10 +55,10 @@ bool isEzInstalled()
     char drivers[4096];
     WORD driver_size;
     
-	SQLSetConfigMode(ODBC_BOTH_DSN);
+    SQLSetConfigMode(ODBC_BOTH_DSN);
 #ifdef MAC
-    success = SQLGetAvailableDrivers("/Library/ODBC/odbcinst.ini", drivers, 4096,
-								     &driver_size);
+    success = SQLGetAvailableDrivers("/Library/ODBC/odbcinst.ini", drivers,
+                                     4096, &driver_size);
 #else
     success = SQLGetInstalledDrivers(drivers, 4096, &driver_size);
 #endif
@@ -90,7 +90,7 @@ void unregister(bool remove_dsn)
         remove = TRUE;
     }
 
-	SQLSetConfigMode(ODBC_SYSTEM_DSN);
+    SQLSetConfigMode(ODBC_SYSTEM_DSN);
     // Unregister the driver with or without removing the DSN
     success = SQLRemoveDriver(DRIVER_NAME, remove, &count);
     if (success == FALSE)
@@ -124,9 +124,9 @@ void registr()
     
     LPCSTR driver = DRIVER_NAME "\0Driver=" DRIVER_PATH "ezrets." DYN_EXT "\0Setup=" DRIVER_PATH "ezretss." DYN_EXT "\0\0";
     LPCSTR pathin = NULL;
-    char pathout[150];
-	SQLSetConfigMode(ODBC_SYSTEM_DSN);
-    success = SQLInstallDriverEx(driver, pathin, pathout, 150,
+    char pathout[256];
+    SQLSetConfigMode(ODBC_SYSTEM_DSN);
+    success = SQLInstallDriverEx(driver, pathin, pathout, 256,
                                  &pathoutsize, ODBC_INSTALL_COMPLETE, &count);
 
     if (success == FALSE)

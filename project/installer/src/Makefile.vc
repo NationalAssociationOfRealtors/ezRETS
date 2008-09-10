@@ -11,8 +11,10 @@ LDFLAGS_STD = /nologo
 SYSLIBS = user32.lib winmm.lib odbccp32.lib libboost_program_options-vc71-mt.lib
 DIROBJ = release
 TARGET = $(DIROBJ)\RegisterDriver.exe
-CC  = $(CCDEBUG)
-CXX     = $(CCDEBUG)
+#CC  = $(CCDEBUG)
+#CXX     = $(CCDEBUG)
+CC  = $(CCNODBG)
+CXX     = $(CCNODBG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
 LDFLAGS = $(LDFLAGS_STD) $(BOOST_LDFLAGS)
 LINK    = link.exe $(LDFLAGS)
@@ -20,16 +22,12 @@ LINK    = link.exe $(LDFLAGS)
 REGISTERFUNCS_OBJS = $(DIROBJ)\RegisterFuncs.obj
 REGISTERDRIVER_OBJS = $(REGISTERFUNCS_OBJS) $(DIROBJ)\RegisterDriver.obj
 
-all: $(TARGET) $(DIROBJ)\RegisterFuncs.dll
+all: $(TARGET)
 
 $(TARGET): $(DIROBJ)
 
 $(DIROBJ)\RegisterDriver.exe: $(REGISTERDRIVER_OBJS)
-	$(LINK) /NODEFAULTLIB:msvcrt /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
-
-$(DIROBJ)\RegisterFuncs.dll: $(REGISTERFUNCS_OBJS)
-	$(LINKDLL) $(LDFLAGS) $(SYSLIBS) /VERSION:0.0.1 \
-	/out:$(DIROBJ)\RegisterFuncs.dll $(REGISTERFUNCS_OBJS)
+	$(LINK) /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)

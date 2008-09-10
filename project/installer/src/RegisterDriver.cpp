@@ -32,9 +32,9 @@ int main(int argc, char **argv)
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "produce help message")
-        ("install,i", "install the driver")
-        ("remove,r", "remove the driver")
-        ("destructive,d", "remove destructively");
+        ("install,i", "install the ezRETS driver")
+        ("remove,r", "remove the ezRETS driver")
+        ("destructive,d", "remove ezRETS destructively");
 
     po::variables_map vm;
     try

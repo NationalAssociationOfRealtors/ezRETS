@@ -47,6 +47,7 @@ Source: doc\ExcelTutorial\refresh.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\saveto.png; DestDir: {app}\ExcelTutorial
 Source: doc\ExcelTutorial\selectedcolumns.png; DestDir: {app}\ExcelTutorial
 Source: doc\SQL_Reference.html; DestDir: {app}
+Source: project\installer\src\release\RegisterDriver.exe; DestDir: {app}; Flags: replacesameversion
 
 [Icons]
 Name: {commonprograms}\ezRETS\Readme; Filename: {app}\README.txt
@@ -57,16 +58,12 @@ Name: {commonprograms}\ezRETS\Excel Tutorial; Filename: {app}\ExcelTutorial\Exce
 Name: {commonprograms}\ezRETS\Install Tutorial; Filename: {app}\InstallTutorial\ezRETSSetup.html
 Name: {commonprograms}\ezRETS\SQL Reference; Filename: {app}\SQL_Reference.html
 
-[Registry]
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; Flags: uninsdeletekey
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; ValueType: dword; ValueName: UsageCount; ValueData: $00000001
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; ValueType: string; ValueName: ConnectFunctions; ValueData: YYN
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; ValueType: string; ValueName: ; ValueData: 
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; ValueType: string; ValueName: CPTimeout; ValueData: <not pooled>
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; ValueType: string; ValueName: Driver; ValueData: {sys}\ezrets.dll
-Root: HKLM; SubKey: SOFTWARE\ODBC\ODBCINST.INI\ezRETS ODBC Driver; ValueType: string; ValueName: Setup; ValueData: {sys}\ezretss.dll
-Root: HKLM; Subkey: SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers; ValueType: string; ValueName: ezRETS ODBC Driver; ValueData: Installed; Flags: createvalueifdoesntexist uninsdeletevalue
-
 [Dirs]
 Name: {app}\ExcelTutorial
 Name: {app}\InstallTutorial
+
+[Run]
+Filename: {app}\RegisterDriver.exe; Parameters: -i; StatusMsg: Registering ezRETS Driver
+
+[UninstallRun]
+Filename: {app}\RegisterDriver.exe; Parameters: -d

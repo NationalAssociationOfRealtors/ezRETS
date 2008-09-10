@@ -7,6 +7,8 @@ all:
 	nmake /nologo /f Makefile.vc
 	cd ..\..\setup\src
 	nmake /nologo /f Makefile.vc
+	cd ..\..\installer\src
+	nmake /nologo /f Makefile.vc
 	cd ..\..\examples\cpp\src
 	nmake /nologo /f Makefile.vc
 	cd ..\..\..
@@ -18,6 +20,8 @@ clean:
 	nmake /nologo /f Makefile.vc clean
 	cd ..\..\setup\src
 	nmake /nologo /f Makefile.vc clean
+	cd ..\..\installer\src
+	nmake /nologo /f Makefile.vc clean
 	cd ..\..\examples\cpp\src
 	nmake /nologo /f Makefile.vc clean
 	cd ..\..\..
@@ -28,6 +32,8 @@ install:
 	cd ..\..\..\setup\src\release
 	copy ezretss.dll c:\windows\system32
 	cd ..\..\..\..
+	project\installer\src\release\RegisterDriver -r
+	project\installer\src\release\RegisterDriver -i
 
 debug-install: install
 	copy project\driver\src\release\ezrets.pdb c:\windows\system32
