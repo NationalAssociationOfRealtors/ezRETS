@@ -68,6 +68,7 @@ const char * CLASS::INI_ENCODING_TYPE = "EncodingType";
 const char * CLASS::INI_USE_PROXY = "UseProxy";
 const char * CLASS::INI_PROXY_URL = "ProxyUrl";
 const char * CLASS::INI_PROXY_PASSWORD = "ProxyPassword";
+const char * CLASS::INI_SUPPORTS_QUERYSTAR = "SupportsQueryStar";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -219,6 +220,7 @@ void DataSource::init()
     mEnableUserAgentAuth = false;
     mTreatDecimalAsString = false;
     mUseProxy = false;
+    mSupportsQueryStar = false;
 }
 
 DataSource::DataSource()
@@ -282,6 +284,8 @@ void DataSource::MergeFromIni()
         MergeFromProfileString(mProxyPassword, INI_PROXY_PASSWORD);
 
         MergeFromProfileString(mEncodingTypeString, INI_ENCODING_TYPE);
+
+        mSupportsQueryStar = GetProfileBool(INI_SUPPORTS_QUERYSTAR, false);
     }
 }
 
@@ -307,7 +311,8 @@ void DataSource::WriteToIni(UWORD configMode)
                        mDisableGetObjectMetadata);
     WriteProfileString(configMode, INI_ENABLE_USER_AGENT_AUTH,
                        mEnableUserAgentAuth);
-    WriteProfileString(configMode, INI_USER_AGENT_PASSWORD, mUserAgentPassword);
+    WriteProfileString(configMode, INI_USER_AGENT_PASSWORD,
+                       mUserAgentPassword);
     WriteProfileString(configMode, INI_USER_AGENT_AUTH_TYPE,
                        mUserAgentAuthTypeString);
     WriteProfileString(configMode, INI_TREAT_DECIMAL_AS_STRING,
@@ -316,6 +321,8 @@ void DataSource::WriteToIni(UWORD configMode)
     WriteProfileString(configMode, INI_USE_PROXY, mUseProxy);
     WriteProfileString(configMode, INI_PROXY_URL, mProxyUrl);
     WriteProfileString(configMode, INI_PROXY_PASSWORD, mProxyPassword);
+    WriteProfileString(configMode, INI_SUPPORTS_QUERYSTAR,
+        mSupportsQueryStar);
 }
 
 void DataSource::CreateInIni(string driver, UWORD configMode)
@@ -690,6 +697,16 @@ void DataSource::SetProxyPassword(std::string password)
 {
     mProxyPassword = password;
 }
+
+bool DataSource::GetSupportsQueryStar() const
+{
+    return mSupportsQueryStar;
+}
+
+void DataSource::SetSupportsQueryStar(bool supports)
+{
+    mSupportsQueryStar = supports;
+}
  
 bool DataSource::IsComplete() const
 {
@@ -780,6 +797,12 @@ string DataSource::GetConnectionString() const
         AppendToConnectionString(connectionString, INI_PROXY_PASSWORD,
                                  mProxyPassword);
     }
+
+    if (mSupportsQueryStar)
+    {
+        AppendToConnectionString(connectionString, INI_SUPPORTS_QUERYSTAR,
+                                 mSupportsQueryStar);
+    }
     
     return connectionString;
 }
@@ -865,6 +888,11 @@ ostream & DataSource::Print(ostream & out) const
     if (mUseProxy)
     {
         out <<", Proxy URL: " << mProxyUrl;
+    }
+
+    if (mSupportsQueryStar)
+    {
+        out <<", SupportsQueryStar: " << mSupportsQueryStar;
     }
 
     return out;
@@ -981,6 +1009,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_PROXY_PASSWORD)
         {
             mProxyPassword = value;
+        }
+        else if (key == INI_SUPPORTS_QUERYSTAR)
+        {
+            mSupportsQueryStar = stringToBool(value);
         }
     }
 }

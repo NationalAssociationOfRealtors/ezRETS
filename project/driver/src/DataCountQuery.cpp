@@ -49,13 +49,23 @@ SQLRETURN DataCountQuery::doRetsQuery()
     // Get the info to build the query
     string resource = mDmqlQuery->GetResource();
     string clazz = mDmqlQuery->GetClass();
+
     DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
+    string dmqlQuery;
+    if (criterion == NULL || mStmt->isSupportsQueryStar())
+    {
+        dmqlQuery = "*";
+    }
+    else
+    {
+        dmqlQuery = criterion->ToDmqlString();
+    }
 
     // Get the session, create the request, and do the search
     RetsSessionPtr session = mStmt->getRetsSession();
     
     SearchRequestAPtr searchRequest = session->CreateSearchRequest(
-        resource, clazz, criterion->ToDmqlString());
+        resource, clazz, dmqlQuery);
     searchRequest->SetCountType(SearchRequest::RECORD_COUNT_ONLY);
     searchRequest->SetFormatType(SearchRequest::COMPACT);
     

@@ -63,10 +63,11 @@ class RetsDBC : public AbstractHandle
     librets::RetsSessionPtr getRetsSession();
     MetadataViewPtr getMetadataView();
 
-    bool isUsingStandardNames();
-    bool isUsingCompactFormat();
-    bool isDisableGetObjectMetadata();
-    bool isTreatDecimalAsString();
+    bool isUsingStandardNames() const;
+    bool isUsingCompactFormat() const;
+    bool isDisableGetObjectMetadata() const;
+    bool isTreatDecimalAsString() const;
+    bool isSupportsQueryStar() const;
     bool canBeFreed();
 
     virtual SQLRETURN diagConnectionName(

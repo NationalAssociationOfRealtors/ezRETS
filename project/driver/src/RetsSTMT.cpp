@@ -1169,12 +1169,12 @@ MetadataViewPtr RetsSTMT::getMetadataView()
     return mDbc->getMetadataView();
 }
 
-bool RetsSTMT::isUsingStandardNames()
+bool RetsSTMT::isUsingStandardNames() const
 {
     return mDbc->isUsingStandardNames();
 }
 
-bool RetsSTMT::isDisableGetObjectMetadata()
+bool RetsSTMT::isDisableGetObjectMetadata() const
 {
     return mDbc->isDisableGetObjectMetadata();
 }
@@ -1197,7 +1197,12 @@ SQLRETURN RetsSTMT::SQLCancel()
     return SQL_SUCCESS;
 }
 
-bool RetsSTMT::isUsingCompactFormat()
+bool RetsSTMT::isUsingCompactFormat() const
 {
     return mDbc->isUsingCompactFormat();
+}
+
+bool RetsSTMT::isSupportsQueryStar() const
+{
+    return mDbc->isSupportsQueryStar();
 }

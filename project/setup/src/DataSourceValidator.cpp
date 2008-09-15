@@ -70,7 +70,10 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&CLASS::EncodingToWindow, &CLASS::EncodingFromWindow, &CLASS::True},
  {&CLASS::UseProxyToWindow, &CLASS::UseProxyFromWindow, &CLASS::True},
  {&CLASS::ProxyUrlToWindow, &CLASS::ProxyUrlFromWindow, &CLASS::True},
- {&CLASS::ProxyPasswordToWindow, &CLASS::ProxyPasswordFromWindow, &CLASS::True}
+ {&CLASS::ProxyPasswordToWindow, &CLASS::ProxyPasswordFromWindow,
+  &CLASS::True},
+ {&CLASS::SupportsQueryStarToWindow, &CLASS::SupportsQueryStarFromWindow,
+  &CLASS::True}
 };
 
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
@@ -497,5 +500,19 @@ bool CLASS::ProxyPasswordFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
     mDataSource->SetProxyPassword(textCtrl->GetValue().c_str());
+    return true;
+}
+
+bool CLASS::SupportsQueryStarToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetSupportsQueryStar());
+    return true;
+}
+
+bool CLASS::SupportsQueryStarFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetSupportsQueryStar(checkBox->GetValue());
     return true;
 }

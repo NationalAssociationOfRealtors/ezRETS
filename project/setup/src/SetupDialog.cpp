@@ -373,6 +373,15 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
                                      " character field.");
     buttonSizer->Add(treatDecimalAsString, wxSizerFlags(0).Border(wxTOP, 10));
 
+    wxCheckBox * supportsQueryStar =
+        new wxCheckBox(panel, wxID_ANY, "Server supports Query=*",
+                       wxDefaultPosition, wxDefaultSize, 0,
+                       validator.SetField(DSV::SUPPORTS_QUERYSTAR));
+    supportsQueryStar->SetToolTip("If checked, ezRETS will allow queries"
+                                  " without any WHERE clause.  FBS RETS"
+                                  " server is the only known implementer.");
+    buttonSizer->Add(supportsQueryStar, wxSizerFlags(0).Border(wxTOP, 10));
+
     topSizer->Add(buttonSizer, wxSizerFlags(0).Expand());
 
     panel->SetSizer(topSizer);

@@ -697,24 +697,29 @@ bool RetsDBC::login()
     return success;
 }
 
-bool RetsDBC::isUsingStandardNames()
+bool RetsDBC::isUsingStandardNames() const
 {
     return mDataSource.GetStandardNames();
 }
 
-bool RetsDBC::isDisableGetObjectMetadata()
+bool RetsDBC::isDisableGetObjectMetadata() const
 {
     return mDataSource.GetDisableGetObjectMetadata();
 }
 
-bool RetsDBC::isUsingCompactFormat()
+bool RetsDBC::isUsingCompactFormat() const
 {
     return mDataSource.GetUseCompactFormat();
 }
 
-bool RetsDBC::isTreatDecimalAsString()
+bool RetsDBC::isTreatDecimalAsString() const
 {
     return mDataSource.GetTreatDecimalAsString();
+}
+
+bool RetsDBC::isSupportsQueryStar() const
+{
+    return mDataSource.GetSupportsQueryStar();
 }
 
 lr::RetsSessionPtr RetsDBC::getRetsSession()

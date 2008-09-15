@@ -147,6 +147,10 @@ class DataSource
 
     void SetProxyPassword(std::string password);
 
+    bool GetSupportsQueryStar() const;
+
+    void SetSupportsQueryStar(bool supports);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -200,6 +204,7 @@ class DataSource
     static const char * INI_USE_PROXY;
     static const char * INI_PROXY_URL;
     static const char * INI_PROXY_PASSWORD;
+    static const char * INI_SUPPORTS_QUERYSTAR;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -266,6 +271,7 @@ class DataSource
     bool mUseProxy;
     std::string mProxyUrl;
     std::string mProxyPassword;
+    bool mSupportsQueryStar;
 };
 
 extern const char * RETS_1_0_STRING;

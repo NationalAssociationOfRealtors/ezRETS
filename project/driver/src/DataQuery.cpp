@@ -53,7 +53,10 @@ SQLRETURN DataQuery::execute()
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In DataQuery::execute()");
 
-    if (mDmqlQuery->GetCriterion() != NULL)
+    // FBS supports "Query=*" which is in effect an empty list
+    // of Criterion for a RETS search.  If its supported we still want
+    // to do the query.
+    if (mDmqlQuery->GetCriterion() != NULL || mStmt->isSupportsQueryStar())
     {
         result = doRetsQuery();
     }
@@ -132,14 +135,25 @@ SQLRETURN DataQuery::doRetsQuery()
     string resource = mDmqlQuery->GetResource();
     string clazz = mDmqlQuery->GetClass();
     StringVectorPtr fields = mDmqlQuery->GetFields();
-    DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
     string select = lu::join(*fields, ",");
 
+
+    // Switch for if the server supports Query=*
+    DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
+    string dmqlQuery;
+    if (criterion == NULL || mStmt->isSupportsQueryStar())
+    {
+        dmqlQuery = "*";
+    }
+    else
+    {
+        dmqlQuery = criterion->ToDmqlString();
+    }
+
     // Get the session, create the request, and do the search
-    RetsSessionPtr session = mStmt->getRetsSession();
-    
-    SearchRequestAPtr searchRequest = session->CreateSearchRequest(
-        resource, clazz, criterion->ToDmqlString());
+    RetsSessionPtr session = mStmt->getRetsSession();    
+    SearchRequestAPtr searchRequest =
+        session->CreateSearchRequest(resource, clazz, dmqlQuery);
     searchRequest->SetSelect(select);
     searchRequest->SetCountType(
         SearchRequest::RECORD_COUNT_AND_RESULTS);

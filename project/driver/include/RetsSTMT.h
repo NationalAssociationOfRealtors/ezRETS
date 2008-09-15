@@ -35,11 +35,12 @@ class RetsSTMT : public AbstractHandle
 
     RetsDBC* getDbc();
     MetadataViewPtr getMetadataView();
-    bool isUsingStandardNames();
-    bool isUsingCompactFormat();
+    bool isUsingStandardNames() const;
+    bool isUsingCompactFormat() const;
+    bool isSupportsQueryStar() const;
 
     librets::RetsSessionPtr getRetsSession();
-    bool isDisableGetObjectMetadata();
+    bool isDisableGetObjectMetadata() const;
 
     DataTranslatorPtr getDataTranslator();
 

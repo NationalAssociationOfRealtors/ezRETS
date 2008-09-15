@@ -51,6 +51,7 @@ class DataSourceValidator : public wxValidator
         USE_PROXY,
         PROXY_URL,
         PROXY_PASSWORD,
+        SUPPORTS_QUERYSTAR,
         NUM_FIELDS
     };
     
@@ -168,6 +169,10 @@ class DataSourceValidator : public wxValidator
     bool ProxyPasswordToWindow(wxWindow * window);
 
     bool ProxyPasswordFromWindow(wxWindow * window);
+
+    bool SupportsQueryStarToWindow(wxWindow * window);
+
+    bool SupportsQueryStarFromWindow(wxWindow * window);
 
     typedef bool (DataSourceValidator::*ValidatingMethod)
         (wxWindow * window);
