@@ -57,6 +57,7 @@ NativeDataTranslator::NativeDataTranslator(int translationQuirks)
 
     tmp.reset(new TinyTranslationWorker());
     mOdbc2Trans[tmp->getOdbcType()] = tmp;
+    mOdbc2Trans[SQL_C_STINYINT] = tmp;
     mRets2Odbc[MetadataTable::TINY] = tmp->getOdbcType();
 
     tmp.reset(new SmallIntTranslationWorker());
