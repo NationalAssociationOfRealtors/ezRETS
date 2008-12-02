@@ -78,6 +78,8 @@ const char * odbcrets::RETS_XML_DEFAULT_ENCODING_STRING =
     "Default (US-ASCII) Encoding";
 const char * odbcrets::RETS_XML_ISO_ENCODING_STRING =
     "Extended (iso-8859-1) Encoding";
+const char * odbcrets::RETS_XML_UTF8_ENCODING_STRING =
+    "UTF-8 Encoding";
 
 const char * odbcrets::USER_AGENT_AUTH_RETS_1_7_STRING = "RETS 1.7";
 const char * odbcrets::USER_AGENT_AUTH_INTEREALTY_STRING =
@@ -149,6 +151,10 @@ string odbcrets::EncodingTypeToString(lr::EncodingType encodingType)
     {
         return RETS_XML_ISO_ENCODING_STRING;
     }
+    else if (encodingType == lr::RETS_XML_UTF8_ENCODING)
+    {
+        return RETS_XML_UTF8_ENCODING_STRING;
+    }
     else
     {
         throw EzRetsException(str_stream() << "Invalid Encoding Type: "
@@ -166,6 +172,10 @@ lr::EncodingType odbcrets::StringToEncodingType(string encodingString,
     else if (encodingString == RETS_XML_ISO_ENCODING_STRING)
     {
         return lr::RETS_XML_ISO_ENCODING;
+    }
+    else if (encodingString == RETS_XML_UTF8_ENCODING_STRING)
+    {
+        return lr::RETS_XML_UTF8_ENCODING;
     }
     else
     {

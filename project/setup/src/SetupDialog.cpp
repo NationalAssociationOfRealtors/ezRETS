@@ -315,6 +315,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
     wxArrayString encodingTypeChoices;
     encodingTypeChoices.Add(RETS_XML_DEFAULT_ENCODING_STRING);
     encodingTypeChoices.Add(RETS_XML_ISO_ENCODING_STRING);
+    encodingTypeChoices.Add(RETS_XML_UTF8_ENCODING_STRING);
     wxChoice * encoding =
         new wxChoice(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                      encodingTypeChoices, 0,

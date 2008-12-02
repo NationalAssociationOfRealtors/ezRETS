@@ -280,6 +280,7 @@ extern const char * RETS_1_7_STRING;
 
 extern const char * RETS_XML_DEFAULT_ENCODING_STRING;
 extern const char * RETS_XML_ISO_ENCODING_STRING;
+extern const char * RETS_XML_UTF8_ENCODING_STRING;
 
 extern const char * USER_AGENT_AUTH_RETS_1_7_STRING;
 extern const char * USER_AGENT_AUTH_INTEREALTY_STRING;

@@ -1,10 +1,17 @@
 Changes since 2.1.2
 -------------------
-  * User-Agent is now "ezRETS/2.1.3 (librets/1.2.3)"
+  * User-Agent is now "ezRETS/2.1.3 (librets/1.2.4)"
 
  Enhancements
-   * Added the ability to do queries without criteria for servers that support
-     "Query=*"
+  * Added the ability to do queries without criteria for servers that support
+    "Query=*" such as FBS
+  * Windows install is saner now.  Should fix the mystery 32bit
+    systems where ezRETS failed to install
+  * Added missing SQL_C_STINYINT translator
+  * Added support for libRETS UTF-8 support
+
+ Developer Notes
+  * libRETS 2.1.4 is now required
 
 Changes since 2.1.1
 -------------------
