@@ -56,6 +56,9 @@ usage = OptionParser.new do |opts|
   opts.on('-s', '--standard_names', 'Use standard names') do
     drv.attrs["StandardNames"] = "true"
   end
+  opts.on('-i', '--ignore_metadata', 'Ignore the metadata type') do
+    drv.attrs["IgnoreMetadataType"] = "true"
+  end
   opts.on('-uARG', '--user ARG') { |a| drv.attrs["UID"] = a }
   opts.on('-UARG', '--user_agent ARG') { |a| drv.attrs["UserAgent"] = a }
   opts.on('-vARG', '--version ARG') { |a| drv.attrs["RetsVersion"] = a }

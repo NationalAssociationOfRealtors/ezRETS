@@ -7,9 +7,9 @@
 require 'odbc'
 
 ODBC::connect("retstest", "Joe", "Schmoe") do |dbc|
-  statement = "SELECT ListingID,ListDate" +
+  statement = "SELECT LN,LD" +
     "  FROM data:Property:ResidentialProperty" +
-    " WHERE ListPrice > 0"
+    " WHERE LP > 0"
 
   dbc.run(statement) do |stmt|
     puts "Search result has #{stmt.ncols} columns"
