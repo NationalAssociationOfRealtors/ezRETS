@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2007 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -55,7 +55,7 @@ using std::string;
 using std::make_pair;
 namespace b = boost;
 
-RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
+RetsSTMT::RetsSTMT(RetsDBC* handle)
     : AbstractHandle(), mDbc(handle)
 {
     apd.setParent(this);
@@ -63,23 +63,6 @@ RetsSTMT::RetsSTMT(RetsDBC* handle, bool ignoreMetadata)
     ard.setParent(this);
     ird.setParent(this);
     
-    if (ignoreMetadata)
-    {
-        mDataTranslator.reset(new CharOnlyDataTranslator());
-    }
-    else
-    {
-        if (mDbc->isTreatDecimalAsString())
-        {
-            mDataTranslator.reset(
-                new NativeDataTranslator(
-                    NativeDataTranslator::DECIMAL_AS_STRING));
-        }
-        else
-        {
-            mDataTranslator.reset(new NativeDataTranslator());
-        }
-    }
     mQuery.reset(new NullQuery(this));
 }
 
@@ -378,7 +361,8 @@ SQLRETURN RetsSTMT::SQLPrepare(SQLCHAR *StatementText, SQLINTEGER TextLength)
 
     try
     {
-        mQuery = Query::createSqlQuery(this, isUsingCompactFormat(),
+        mQuery = Query::createSqlQuery(this,
+                                       mDbc->mDataSource.GetUseCompactFormat(),
                                        statement);
     }
     catch(RetsSqlException& e)
@@ -487,11 +471,6 @@ SQLRETURN RetsSTMT::SQLExecute()
     }
 
     return result;
-}
-
-DataTranslatorPtr RetsSTMT::getDataTranslator()
-{
-    return mDataTranslator;
 }
 
 SQLRETURN RetsSTMT::diagCursorRowCount(SQLPOINTER DiagInfoPtr)
@@ -798,6 +777,23 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     ColumnPtr column = resultSet->getColumn(ColumnNumber);
     SQLSMALLINT type = column->getDataType();
 
+    // We're creating a DataTranslator to answer some length questions
+    // and the like.  Right now there are just three cases of
+    // FieldIdentifier where we need it and in two of those cases,
+    // only if the data is of a certain type.  Documented below.
+    //
+    // SQL_DESC_LENGTH
+    //   SQL_VARCHAR SQL_CHAR SQL_LONGVARBINARY
+    //
+    // SQL_DESC_OCTET_LENGTH
+    //   SQL_TYPE_DATE SQL_TYPE_TIME SQL_TIMESTAMP_LEN
+    //
+    // SQL_DESC_TYPE_NAME    
+    //
+    // If creating a data translator becomes a bottleneck, this could
+    // be a point for future optimization.  However, in the interest
+    // of simplicity, we'll just create one here.
+    DataTranslatorAPtr dataTranslator(DataTranslator::factory(this));
     ColAttributeHelper colAttHelper(this, CharacterAttribute, BufferLength,
                                     StringLength, NumericAttribute);
     SQLRETURN result = SQL_SUCCESS;
@@ -851,7 +847,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             else
             {
-                colAttHelper.setInt(mDataTranslator->getOdbcTypeLength(type));
+                colAttHelper.setInt(dataTranslator->getOdbcTypeLength(type));
             }
             break;
 
@@ -875,7 +871,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             if (type == SQL_TYPE_DATE || type == SQL_TYPE_TIME ||
                 type == SQL_TIMESTAMP_LEN)
             {
-                colAttHelper.setInt(mDataTranslator->getOdbcTypeLength(type));
+                colAttHelper.setInt(dataTranslator->getOdbcTypeLength(type));
             }
             else
             {
@@ -923,7 +919,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
 
         case SQL_DESC_TYPE_NAME:
-            colAttHelper.setString(mDataTranslator->getOdbcTypeName(type));
+            colAttHelper.setString(dataTranslator->getOdbcTypeName(type));
             break;
 
         // We always have a column name
@@ -1169,16 +1165,6 @@ MetadataViewPtr RetsSTMT::getMetadataView()
     return mDbc->getMetadataView();
 }
 
-bool RetsSTMT::isUsingStandardNames() const
-{
-    return mDbc->isUsingStandardNames();
-}
-
-bool RetsSTMT::isDisableGetObjectMetadata() const
-{
-    return mDbc->isDisableGetObjectMetadata();
-}
-
 RetsSessionPtr RetsSTMT::getRetsSession()
 {
     return mDbc->getRetsSession();
@@ -1195,14 +1181,4 @@ SQLRETURN RetsSTMT::SQLCancel()
 {
     LOG_DEBUG(getLogger(), "In SQLCancel");
     return SQL_SUCCESS;
-}
-
-bool RetsSTMT::isUsingCompactFormat() const
-{
-    return mDbc->isUsingCompactFormat();
-}
-
-bool RetsSTMT::isSupportsQueryStar() const
-{
-    return mDbc->isSupportsQueryStar();
 }

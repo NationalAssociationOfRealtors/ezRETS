@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -43,7 +43,8 @@ class SqlStateException;
 class DataStreamInfo;
 
 class DataTranslator;
-typedef boost::shared_ptr<DataTranslator> DataTranslatorPtr;
+typedef boost::shared_ptr<DataTranslator> DataTranslatorSPtr;
+typedef std::auto_ptr<DataTranslator> DataTranslatorAPtr;
 
 class AppRowDesc;
 class AppParamDesc;
@@ -55,6 +56,11 @@ typedef boost::shared_ptr<ColumnVector> ColumnVectorPtr;
 
 class Error;
 typedef boost::shared_ptr<Error> ErrorPtr;
+
+class ColumnMetadataQuery;
+class DataCountQuery;
+class DataQuery;
+class PrimaryKeysMetadataQuery;
 }
 
 #endif

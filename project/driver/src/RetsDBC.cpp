@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -75,7 +75,7 @@ SQLRETURN RetsDBC::SQLAllocStmt(SQLHSTMT *StatementHandlePtr)
 
     try
     {
-        STMT* stmt = new STMT(this, mDataSource.GetIgnoreMetadataType());
+        STMT* stmt = new STMT(this);
         mStatements.insert(mStatements.end(), stmt);
         *StatementHandlePtr = stmt;
     }
@@ -695,31 +695,6 @@ bool RetsDBC::login()
     }
 
     return success;
-}
-
-bool RetsDBC::isUsingStandardNames() const
-{
-    return mDataSource.GetStandardNames();
-}
-
-bool RetsDBC::isDisableGetObjectMetadata() const
-{
-    return mDataSource.GetDisableGetObjectMetadata();
-}
-
-bool RetsDBC::isUsingCompactFormat() const
-{
-    return mDataSource.GetUseCompactFormat();
-}
-
-bool RetsDBC::isTreatDecimalAsString() const
-{
-    return mDataSource.GetTreatDecimalAsString();
-}
-
-bool RetsDBC::isSupportsQueryStar() const
-{
-    return mDataSource.GetSupportsQueryStar();
 }
 
 lr::RetsSessionPtr RetsDBC::getRetsSession()

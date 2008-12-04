@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -93,7 +93,7 @@ void Column::setData(SQLUSMALLINT colNo, string data, SQLSMALLINT TargetType,
 {
     SQLSMALLINT type = getBestSqlType(TargetType);
 
-    DataTranslatorPtr dt = mParent->getDataTranslator();
+    DataTranslatorSPtr dt = mParent->getDataTranslator();
 
     // In case any child classes need to modify the data in any way.
     modifyData(data);
@@ -185,7 +185,7 @@ SQLSMALLINT FauxColumn::getBestSqlType(SQLSMALLINT TargetType)
 {
     SQLSMALLINT type;
 
-    DataTranslatorPtr dt = mParent->getDataTranslator();
+    DataTranslatorSPtr dt = mParent->getDataTranslator();
 
     if (TargetType == -1 || TargetType == SQL_C_DEFAULT)
     {
@@ -240,7 +240,7 @@ SQLSMALLINT RetsColumn::getDataType()
     }
     else
     {
-        DataTranslatorPtr dt = mParent->getDataTranslator();
+        DataTranslatorSPtr dt = mParent->getDataTranslator();
         result = dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
     }
 
@@ -258,7 +258,7 @@ SQLULEN RetsColumn::getColumnSize()
     }
     else
     {
-        DataTranslatorPtr dt = mParent->getDataTranslator();
+        DataTranslatorSPtr dt = mParent->getDataTranslator();
 
         // Translate DataType
         SQLSMALLINT dataType =
@@ -280,7 +280,7 @@ SQLSMALLINT RetsColumn::getBestSqlType(SQLSMALLINT TargetType)
 {
     SQLSMALLINT type;
 
-    DataTranslatorPtr dt = mParent->getDataTranslator();
+    DataTranslatorSPtr dt = mParent->getDataTranslator();
 
     if (TargetType == -1 || TargetType == SQL_C_DEFAULT)
     {
@@ -365,7 +365,7 @@ SQLULEN RetsColumn::getMaximumLength()
 
 SQLULEN RetsColumn::getPrecision()
 {
-    DataTranslatorPtr dt = mParent->getDataTranslator();
+    DataTranslatorSPtr dt = mParent->getDataTranslator();
     SQLSMALLINT dataType =
         dt->getPreferedOdbcType(mMetadataTablePtr->GetDataType());
 

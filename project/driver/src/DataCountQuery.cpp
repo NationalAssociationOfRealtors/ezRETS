@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -17,6 +17,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "Query.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -29,6 +30,7 @@
 #include "librets/DmqlCriterion.h"
 #include "librets/RetsSession.h"
 #include "librets/SearchResultSet.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -52,7 +54,7 @@ SQLRETURN DataCountQuery::doRetsQuery()
 
     DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
     string dmqlQuery;
-    if (criterion == NULL || mStmt->isSupportsQueryStar())
+    if (criterion == NULL || mStmt->mDbc->mDataSource.GetSupportsQueryStar())
     {
         dmqlQuery = "*";
     }
@@ -69,7 +71,8 @@ SQLRETURN DataCountQuery::doRetsQuery()
     searchRequest->SetCountType(SearchRequest::RECORD_COUNT_ONLY);
     searchRequest->SetFormatType(SearchRequest::COMPACT);
     
-    searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
+    searchRequest->SetStandardNames(
+        mStmt->mDbc->mDataSource.GetStandardNames());
 
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, str_stream() << "Trying RETSQuery: " <<
@@ -101,6 +104,11 @@ void DataCountQuery::prepareResultSet()
         throw SqlStateException("42S02", "Miscellaneous Search Error: "
                                 "Invalid Resource or Class name");
     }
+
+    // The result set should only ever be interpreted as int, so we don't
+    // want to be effected by ignore type
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory());
+    mResultSet = newResultSet(dataTranslator);
 
     mResultSet->addColumn("count(*)", SQL_INTEGER);
 }

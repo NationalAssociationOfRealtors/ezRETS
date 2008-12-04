@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -639,7 +639,8 @@ void NumericTranslationWorker::translate(string data, SQLPOINTER target,
         // We are ignoring anything over 8 bytes because they are the
         // most significant bytes and should be 0 because intvalue is
         // only 8 bytes
-        std::copy(&chararray[0], &chararray[7], (char*) &numeric->val[0]);
+        std::copy(&chararray[0], &chararray[7],
+                  (unsigned char*) &numeric->val[0]);
 //        file << "copy/choppy" << std::endl;
 
         // Here lies total debugging code.  I want to see what our

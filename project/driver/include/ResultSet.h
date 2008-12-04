@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -29,7 +29,7 @@ class ResultSet
 {
   public:
     ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
-              DataTranslatorPtr translator, AppRowDesc* ard);
+              DataTranslatorSPtr translator, AppRowDesc* ard);
     
     int rowCount();
     int columnCount();
@@ -46,11 +46,11 @@ class ResultSet
 
     void processNextRow();
 
-    DataTranslatorPtr getDataTranslator();
+    DataTranslatorSPtr getDataTranslator();
 
     EzLoggerPtr getLogger();
     void setLogger(EzLoggerPtr logger);
-    void setTranslator(DataTranslatorPtr translator);
+    void setTranslator(DataTranslatorSPtr translator);
     void setAPD(AppParamDesc* apd);
     AppRowDesc* getARD();
     MetadataViewPtr getMetadataView();
@@ -74,7 +74,7 @@ class ResultSet
 
     EzLoggerPtr mLogger;
     MetadataViewPtr mMetadataView;
-    DataTranslatorPtr mTranslator;
+    DataTranslatorSPtr mTranslator;
     AppRowDesc* mArdPtr;
     bool mGotFirst;
     ColumnVectorPtr mColumns;

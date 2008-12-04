@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2006-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -37,6 +37,9 @@ TypeInfoMetadataQuery::TypeInfoMetadataQuery(
 
 void TypeInfoMetadataQuery::prepareResultSet()
 {
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
+
     mResultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
     mResultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
     mResultSet->addColumn("COLUMN_SIZE", SQL_INTEGER);
@@ -154,7 +157,10 @@ lr::StringVectorPtr TypeInfoMetadataQuery::getSQLGetTypeInfoRow(
     SQLSMALLINT dtype, string perc_radix, string unsigned_att,
     string litprefix, string litsuffix)
 {
-    DataTranslatorPtr dataTranslator = mStmt->getDataTranslator();
+    // Because this call is about the database, and not the dataset,
+    // we probably always want to use pay attention to metadata type
+    // and treat decimal as decimal
+    DataTranslatorAPtr dataTranslator(DataTranslator::factory());
 
     lr::StringVectorPtr resultRow(new lr::StringVector());
     // Name

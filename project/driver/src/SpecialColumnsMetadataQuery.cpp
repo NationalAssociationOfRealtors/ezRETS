@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2006-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -26,6 +26,7 @@
 #include "MetadataView.h"
 #include "ResultSet.h"
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "DataTranslator.h"
 
 using namespace odbcrets;
@@ -44,6 +45,9 @@ CLASS::CLASS(RetsSTMT* stmt, SQLUSMALLINT IdentifierType, string table,
 
 void CLASS::prepareResultSet()
 {
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
+    
     mResultSet->addColumn("SCOPE", SQL_SMALLINT);
     mResultSet->addColumn("COLUMN_NAME", SQL_VARCHAR);
     mResultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
@@ -106,7 +110,7 @@ SQLRETURN CLASS::execute()
     results->push_back(b::lexical_cast<string>(SQL_SCOPE_CURROW));
 
     // COLUMN_NAME
-    if (mStmt->isUsingStandardNames())
+    if (mStmt->mDbc->mDataSource.GetStandardNames())
     {
         results->push_back(rTable->GetStandardName());
     }
@@ -115,8 +119,7 @@ SQLRETURN CLASS::execute()
         results->push_back(rTable->GetSystemName());
     }
 
-
-    DataTranslatorPtr dataTranslator = mStmt->getDataTranslator();
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
     
     // DATA_TYPE
     SQLSMALLINT type =

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2006-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -17,6 +17,7 @@
 
 #include "StatisticsMetadataQuery.h"
 #include "ResultSet.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 
@@ -32,6 +33,9 @@ SQLRETURN StatisticsMetadataQuery::execute()
 
 void StatisticsMetadataQuery::prepareResultSet()
 {
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
+    
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_NAME", SQL_VARCHAR);

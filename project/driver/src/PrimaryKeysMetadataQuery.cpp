@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2006-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,13 +14,15 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#include <iostream>
 #include "PrimaryKeysMetadataQuery.h"
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "ResultSet.h"
 #include "MetadataView.h"
 #include "librets/MetadataTable.h"
 #include "librets/MetadataResource.h"
-#include <iostream>
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -35,6 +37,9 @@ CLASS::CLASS(RetsSTMT* stmt, string table)
 
 void CLASS::prepareResultSet()
 {
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
+    
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -76,7 +81,7 @@ SQLRETURN CLASS::execute()
     // TABLE_NAME
     results->push_back(mTable);
     // COLUMN_NAME
-    if (mStmt->isUsingStandardNames())
+    if (mStmt->mDbc->mDataSource.GetStandardNames())
     {
         results->push_back(rTable->GetStandardName());
     }

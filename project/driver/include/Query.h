@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -39,7 +39,7 @@ class Query
     virtual void prepareResultSet() = 0;
 
   protected:
-    ResultSetPtr newResultSet();
+    ResultSetPtr newResultSet(DataTranslatorSPtr dataTranslator);
 
     RetsSTMT* mStmt;
     ResultSetPtr mResultSet;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2006-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -26,6 +26,7 @@
 #include "librets/MetadataTable.h"
 #include "ResultSet.h"
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "DataTranslator.h"
 #include "Column.h"
 
@@ -81,6 +82,9 @@ ColumnMetadataQuery::ColumnMetadataQuery(RetsSTMT* stmt, string table,
 
 void ColumnMetadataQuery::prepareResultSet()
 {
+    DataTranslatorSPtr dt(DataTranslator::factory(mStmt));
+    mResultSet = newResultSet(dt);
+    
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_NAME", SQL_VARCHAR); // NOT NULL
@@ -155,8 +159,8 @@ SQLRETURN ColumnMetadataQuery::execute()
         {
             MetadataTableList tables =
                 metadataViewPtr->getTablesForClass(clazz);
-            std::sort(tables.begin(), tables.end(),
-                      TableNameSorter(mStmt->isUsingStandardNames()));
+            std::sort(tables.begin(), tables.end(), TableNameSorter(
+                          mStmt->mDbc->mDataSource.GetStandardNames()));
             for (MetadataTableList::iterator j = tables.begin();
                  j != tables.end(); j++)
             {
@@ -204,7 +208,7 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     }
 
     string colName;
-    if (mStmt->isUsingStandardNames())
+    if (mStmt->mDbc->mDataSource.GetStandardNames())
     {
         colName = rTable->GetStandardName();
         if (colName.empty())
@@ -217,8 +221,8 @@ SQLRETURN ColumnMetadataQuery::processColumn(
         colName = rTable->GetSystemName();
     }
 
-    DataTranslatorPtr dataTranslator = mStmt->getDataTranslator();
-
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
+                               
     // A lot of the logic in this method is duplicated in Column as
     // the Column often needs to know this information about this.  To
     // avoid duplicated logic, we'll create a dummy resultset with a
@@ -226,7 +230,8 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     // We'll need to come up with a cleaner way to do this.
     ResultSet dummyResult(mStmt->getLogger(), metadataView, dataTranslator,
                           mStmt->getArd());
-    dummyResult.addColumn(colName, rTable, mStmt->isUsingCompactFormat());
+    dummyResult.addColumn(colName, rTable,
+                          mStmt->mDbc->mDataSource.GetUseCompactFormat());
     ColumnPtr dummyCol = dummyResult.getColumn(1);
 
     StringVectorPtr results(new StringVector());

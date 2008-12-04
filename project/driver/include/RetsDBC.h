@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -63,11 +63,6 @@ class RetsDBC : public AbstractHandle
     librets::RetsSessionPtr getRetsSession();
     MetadataViewPtr getMetadataView();
 
-    bool isUsingStandardNames() const;
-    bool isUsingCompactFormat() const;
-    bool isDisableGetObjectMetadata() const;
-    bool isTreatDecimalAsString() const;
-    bool isSupportsQueryStar() const;
     bool canBeFreed();
 
     virtual SQLRETURN diagConnectionName(
@@ -76,7 +71,10 @@ class RetsDBC : public AbstractHandle
     virtual SQLRETURN diagServerName(
         SQLPOINTER DiagInfoPtr, SQLSMALLINT BufferLength,
         SQLSMALLINT *StringLengthPtr);
-    
+
+    // Rather than friending a ton of crap, let's just make the
+    // DataSource public.  Until we find a reason this breaks.
+    DataSource mDataSource;
   private:
     bool login();
     bool login(std::string user, std::string passwd);
@@ -85,7 +83,7 @@ class RetsDBC : public AbstractHandle
     MetadataViewPtr mMetadataViewPtr;
     librets::RetsSessionPtr mRetsSessionPtr;
     std::list<RetsSTMT*> mStatements;
-    DataSource mDataSource;
+
     boost::shared_ptr<std::ostream> mRetsLogFile;
     boost::shared_ptr<librets::StreamHttpLogger> mRetsHttpLogger;
     boost::shared_ptr<librets::RetsErrorHandler> mRetsErrorHandler;

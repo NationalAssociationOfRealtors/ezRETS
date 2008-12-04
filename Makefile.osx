@@ -29,7 +29,7 @@ clean:
 install:
 	cp build/xcode/$(MODE)/ezrets*.dylib /Library/ODBC/ezRETS
 
-dist:
+dist: all
 	mkdir -p dist/osx
 	cp README dist/osx/README.txt
 	cp LICENSE dist/osx/LICENSE.txt

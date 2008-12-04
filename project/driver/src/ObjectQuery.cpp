@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -30,6 +30,7 @@
 #include "librets/GetObjectRequest.h"
 #include "librets/GetObjectQuery.h"
 #include "librets/ObjectDescriptor.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -125,6 +126,11 @@ ostream & ObjectQuery::print(std::ostream & out) const
 
 void ObjectQuery::prepareResultSet()
 {
+    // We don't need to base this translator on current settings, so
+    // the default translator will be what we want.
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    newResultSet(dt);
+
     mResultSet->addColumn("object_key", SQL_VARCHAR);
     mResultSet->addColumn("object_id", SQL_INTEGER);
     mResultSet->addColumn("mime_type", SQL_VARCHAR);

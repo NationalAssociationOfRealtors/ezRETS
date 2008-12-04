@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006 National Association of REALTORS(R)
+ * Copyright (C) 2006-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -18,10 +18,12 @@
 #include <boost/algorithm/string.hpp>
 #include "librets/std_forward.h"
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "MetadataView.h"
 #include "TableMetadataQuery.h"
 #include "ResultSet.h"
 #include "librets/RetsSession.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 namespace ba = boost::algorithm;
@@ -45,6 +47,9 @@ TableMetadataQuery::TableMetadataQuery(
 
 void TableMetadataQuery::prepareResultSet()
 {
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
+    
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_NAME", SQL_VARCHAR);
@@ -134,7 +139,7 @@ SQLRETURN TableMetadataQuery::execute()
     if(mTable.empty())
     {
         myTables = metadata->getSQLDataTableMetadata();
-        if (!mStmt->isDisableGetObjectMetadata())
+        if (!mStmt->mDbc->mDataSource.GetDisableGetObjectMetadata())
         {
             TableMetadataVectorPtr moreTables =
                 metadata->getSQLObjectTableMetadata();

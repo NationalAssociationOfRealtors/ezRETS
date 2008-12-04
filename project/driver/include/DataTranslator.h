@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -39,6 +39,13 @@ class DataTranslator
 
     virtual std::string getOdbcTypeName(SQLSMALLINT type) = 0;
     virtual int getOdbcTypeLength(SQLSMALLINT type) = 0;
+
+    /**
+     * Without a RetsSTMT, this factory returns a NativeTranslator,
+     * otherwise returns the correct type of translator based on settings
+     * from STMT.
+     */
+    static DataTranslator* factory(RetsSTMT* stmt = NULL);
 
   protected:
     typedef std::map<SQLSMALLINT, TranslationWorkerPtr> SQLTypeMap;

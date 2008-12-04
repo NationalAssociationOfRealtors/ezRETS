@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -25,6 +25,7 @@
 #include "librets/ObjectDescriptor.h"
 #include "SqlStateException.h"
 #include "ResultSet.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -45,6 +46,11 @@ BinaryObjectQuery::~BinaryObjectQuery()
 
 void BinaryObjectQuery::prepareResultSet()
 {
+    // We should never use anything but a translator that pays
+    // attention to types
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory());
+    mResultSet = newResultSet(dataTranslator);
+    
     mResultSet->addColumn("object_key", SQL_VARCHAR);
     mResultSet->addColumn("object_id", SQL_INTEGER);
     mResultSet->addColumn("mime_type", SQL_VARCHAR);

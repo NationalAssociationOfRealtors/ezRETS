@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -34,6 +34,7 @@
 #include "EzLookupQuery.h"
 #include "EzLookupColumnsQuery.h"
 #include "SqlStateException.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -43,7 +44,6 @@ namespace lu = librets::util;
 
 Query::Query(RetsSTMT* stmt) : mStmt(stmt)
 {
-    mResultSet = newResultSet();
 }
 
 Query::~Query()
@@ -138,11 +138,12 @@ ostream& Query::print(std::ostream& out) const
     return out;
 }
 
-ResultSetPtr Query::newResultSet()
+ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator)
 {
     ResultSetPtr resultSet(
         new ResultSet(mStmt->getLogger(), mStmt->getMetadataView(),
-                      mStmt->getDataTranslator(), mStmt->getArd()));
+                      dataTranslator, mStmt->getArd()));
+
     return resultSet;
 }
 
@@ -150,7 +151,10 @@ NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
 {
 }
 
-void NullQuery::prepareResultSet() { }
+void NullQuery::prepareResultSet() {
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
+}
 
 SQLRETURN NullQuery::execute()
 {

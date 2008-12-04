@@ -25,6 +25,7 @@
 #include "librets/MetadataLookupType.h"
 #include "librets/LookupQuery.h"
 #include "SqlStateException.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 namespace lr = librets;
@@ -80,6 +81,10 @@ void EzLookupQuery::prepareResultSet()
         throw SqlStateException("42S02", "Miscellaneous Search Error: "
                                 "Invalid Resource or Lookup name");
     }
+
+    // The default translator will work for us here.
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
 
     mResultSet->addColumn("value", SQL_VARCHAR);
     mResultSet->addColumn("short_value", SQL_VARCHAR);

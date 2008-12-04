@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -19,6 +19,7 @@
 #include "Query.h"
 #include "DataQuery.h"
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "SqlStateException.h"
@@ -31,6 +32,7 @@
 #include "librets/DmqlQuery.h"
 #include "librets/DmqlCriterion.h"
 #include "librets/MetadataTable.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -56,7 +58,8 @@ SQLRETURN DataQuery::execute()
     // FBS supports "Query=*" which is in effect an empty list
     // of Criterion for a RETS search.  If its supported we still want
     // to do the query.
-    if (mDmqlQuery->GetCriterion() != NULL || mStmt->isSupportsQueryStar())
+    if (mDmqlQuery->GetCriterion() != NULL ||
+        mStmt->mDbc->mDataSource.GetSupportsQueryStar())
     {
         result = doRetsQuery();
     }
@@ -72,6 +75,9 @@ SQLRETURN DataQuery::execute()
 
 void DataQuery::prepareResultSet()
 {
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
+    mResultSet = newResultSet(dataTranslator);
+
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In prepareDataResultSet");
     
@@ -118,7 +124,7 @@ void DataQuery::prepareResultSet()
     {
         MetadataTable* table = *i;
         string name;
-        name = mStmt->isUsingStandardNames() ?
+        name = mStmt->mDbc->mDataSource.GetStandardNames() ?
             table->GetStandardName() : table->GetSystemName();
         if (!name.empty())
         {
@@ -141,7 +147,7 @@ SQLRETURN DataQuery::doRetsQuery()
     // Switch for if the server supports Query=*
     DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
     string dmqlQuery;
-    if (criterion == NULL || mStmt->isSupportsQueryStar())
+    if (criterion == NULL && mStmt->mDbc->mDataSource.GetSupportsQueryStar())
     {
         dmqlQuery = "*";
     }
@@ -161,7 +167,8 @@ SQLRETURN DataQuery::doRetsQuery()
     searchRequest->SetOffset(mDmqlQuery->GetOffset());
     searchRequest->SetFormatType(SearchRequest::COMPACT);
     
-    searchRequest->SetStandardNames(mStmt->isUsingStandardNames());
+    searchRequest->SetStandardNames(
+        mStmt->mDbc->mDataSource.GetStandardNames());
 
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, str_stream() << "Trying RETSQuery: " <<

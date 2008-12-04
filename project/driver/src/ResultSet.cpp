@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -26,7 +26,7 @@ using std::string;
 using std::endl;
 
 ResultSet::ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
-                     DataTranslatorPtr translator, AppRowDesc* ard)
+                     DataTranslatorSPtr translator, AppRowDesc* ard)
     : mLogger(logger), mMetadataView(metadataView), mTranslator(translator),
       mArdPtr(ard), mGotFirst(false), mColumns(new ColumnVector())
 {
@@ -144,7 +144,7 @@ void ResultSet::processNextRow()
     }
 }
 
-DataTranslatorPtr ResultSet::getDataTranslator()
+DataTranslatorSPtr ResultSet::getDataTranslator()
 {
     return mTranslator;
 }

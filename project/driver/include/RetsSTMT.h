@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2007 National Association of REALTORS(R)
+ * Copyright (C) 2005-2008 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -28,21 +28,14 @@ namespace odbcrets
 class RetsSTMT : public AbstractHandle
 {
   public:
-    RetsSTMT(RetsDBC* handle, bool ignoreMetadata = false);
+    RetsSTMT(RetsDBC* handle);
     ~RetsSTMT();
 
     EzLoggerPtr getLogger();
 
     RetsDBC* getDbc();
     MetadataViewPtr getMetadataView();
-    bool isUsingStandardNames() const;
-    bool isUsingCompactFormat() const;
-    bool isSupportsQueryStar() const;
-
     librets::RetsSessionPtr getRetsSession();
-    bool isDisableGetObjectMetadata() const;
-
-    DataTranslatorPtr getDataTranslator();
 
     void unbindColumns();
 
@@ -120,6 +113,9 @@ class RetsSTMT : public AbstractHandle
 
     AppRowDesc* getArd();
 
+    // Rather than friend a bunch of stuff, let's just make this public.
+    RetsDBC* mDbc;
+
   private:
     // Automatically defined descriptors (needed at first to make MS
     // ODBC DM work without crashing,) just return the pointers,
@@ -130,9 +126,7 @@ class RetsSTMT : public AbstractHandle
     AppRowDesc ard;
     ImpRowDesc ird;
 
-    RetsDBC* mDbc;
     QueryPtr mQuery;
-    DataTranslatorPtr mDataTranslator;
     DataStreamInfo mDataStreamInfo;
 };
 

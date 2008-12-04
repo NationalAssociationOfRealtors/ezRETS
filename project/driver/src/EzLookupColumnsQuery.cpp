@@ -17,6 +17,7 @@
 
 #include "EzLookupColumnsQuery.h"
 #include "RetsSTMT.h"
+#include "RetsDBC.h"
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "MetadataView.h"
@@ -24,6 +25,7 @@
 #include "librets/LookupColumnsQuery.h"
 #include "ResultSet.h"
 #include "SqlStateException.h"
+#include "DataTranslator.h"
 
 using namespace odbcrets;
 namespace lr = librets;
@@ -60,7 +62,8 @@ SQLRETURN CLASS::execute()
         if (metadata->IsLookupColumn(table))
         {
             lr::StringVectorPtr v(new lr::StringVector());
-            std::string tableName = mStmt->isUsingStandardNames() ?
+            std::string tableName =
+                mStmt->mDbc->mDataSource.GetStandardNames() ?
                 table->GetStandardName() : table->GetSystemName();
             v->push_back(tableName);
 
@@ -85,6 +88,11 @@ void CLASS::prepareResultSet()
         throw SqlStateException("42S02", "Miscellaneous Search Error: "
                                 "Invalid Resource or Class name");
     }
+
+    // We'll always be using a metadata aware translator, but it doesn't
+    // matter much here
+    DataTranslatorSPtr dt(DataTranslator::factory());
+    mResultSet = newResultSet(dt);
     
     // column is really a RETS table, but we'll return column to the
     // ezRETS users as they'll understand that more.

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */; };
 		DE6972C10C85C933004DEF1F /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B70C85C8EF004DEF1F /* DataSource.cpp */; };
 		DE6972C20C85C933004DEF1F /* EzRetsException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B60C85C8EF004DEF1F /* EzRetsException.cpp */; };
 		DE6972D30C85CA4A004DEF1F /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
@@ -101,6 +102,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslatorFactory.cpp; path = ../driver/src/DataTranslatorFactory.cpp; sourceTree = SOURCE_ROOT; };
 		DE5416C00D07160800615353 /* gendefgui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gendefgui-Info.plist"; sourceTree = "<group>"; };
 		DE6972540C85C8C0004DEF1F /* ezrets32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ezrets32x32.png; path = ../setup/src/ezrets32x32.png; sourceTree = SOURCE_ROOT; };
 		DE69725D0C85C8E1004DEF1F /* ezretss.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = ezretss.ico; path = ../setup/src/ezretss.ico; sourceTree = SOURCE_ROOT; };
@@ -333,6 +335,7 @@
 		DE6972820C85C8EF004DEF1F /* driver */ = {
 			isa = PBXGroup;
 			children = (
+				DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */,
 				DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */,
 				DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */,
 				DE6972840C85C8EF004DEF1F /* AbstractHandle.cpp */,
@@ -592,6 +595,7 @@
 				DE6973040C85CA4A004DEF1F /* utils.cpp in Sources */,
 				DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */,
 				DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */,
+				DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
