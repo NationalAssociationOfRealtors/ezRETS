@@ -138,11 +138,13 @@ ostream& Query::print(std::ostream& out) const
     return out;
 }
 
+// TODO: This method should probably go or be rewritten to create the
+// right tupe of result set per query type....
 ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator)
 {
     ResultSetPtr resultSet(
-        new ResultSet(mStmt->getLogger(), mStmt->getMetadataView(),
-                      dataTranslator, mStmt->getArd()));
+        new BulkResultSet(mStmt->getLogger(), mStmt->getMetadataView(),
+                          dataTranslator, mStmt->getArd()));
 
     return resultSet;
 }

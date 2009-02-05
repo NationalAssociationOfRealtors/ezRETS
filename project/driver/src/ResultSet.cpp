@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2005-2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -28,24 +28,13 @@ using std::endl;
 ResultSet::ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
                      DataTranslatorSPtr translator, AppRowDesc* ard)
     : mLogger(logger), mMetadataView(metadataView), mTranslator(translator),
-      mArdPtr(ard), mGotFirst(false), mColumns(new ColumnVector())
+      mArdPtr(ard), mColumns(new ColumnVector())
 {
-    mResultIterator = mResults.begin();
-}
-
-int ResultSet::rowCount()
-{
-    return mResults.size();
 }
 
 int ResultSet::columnCount()
 {
     return mColumns->size();
-}
-
-bool ResultSet::isEmpty()
-{
-    return mResults.empty();
 }
 
 string ResultSet::getColumnName(int col)
@@ -78,18 +67,6 @@ void ResultSet::unbindColumns()
     }
 }
 
-bool ResultSet::hasNext()
-{
-    if (mGotFirst)
-    {
-        return !((mResultIterator + 1) == mResults.end());
-    }
-    else
-    {
-        return !(mResultIterator == mResults.end());
-    }
-}
-
 void ResultSet::addColumn(std::string name, SQLSMALLINT DefaultType,
                           SQLULEN maxLength)
 {
@@ -104,9 +81,70 @@ void ResultSet::addColumn(std::string name, MetadataTable* table,
     mColumns->push_back(col);
 }
 
-void ResultSet::processNextRow()
+ColumnVectorPtr ResultSet::getColumns()
 {
-    LOG_DEBUG(mLogger, "In ResultSet::processNextRow()");
+    return mColumns;
+}
+
+DataTranslatorSPtr ResultSet::getDataTranslator()
+{
+    return mTranslator;
+}
+
+EzLoggerPtr ResultSet::getLogger()
+{
+    return mLogger;
+}
+
+AppRowDesc* ResultSet::getARD()
+{
+    return mArdPtr;
+}
+
+MetadataViewPtr ResultSet::getMetadataView()
+{
+    return mMetadataView;
+}
+
+// TODO: This method is a noop that should be removed in the future
+void ResultSet::addRow(StringVectorPtr row)
+{
+}
+
+
+// Start of fullout impl
+BulkResultSet::BulkResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
+                             DataTranslatorSPtr translator, AppRowDesc* ard)
+    : ResultSet(logger, metadataView, translator, ard), mGotFirst(false)
+{
+    mResultIterator = mResults.begin();
+}
+
+int BulkResultSet::rowCount()
+{
+    return mResults.size();
+}
+
+bool BulkResultSet::isEmpty()
+{
+    return mResults.empty();
+}
+
+bool BulkResultSet::hasNext()
+{
+    if (mGotFirst)
+    {
+        return !((mResultIterator + 1) == mResults.end());
+    }
+    else
+    {
+        return !(mResultIterator == mResults.end());
+    }
+}
+
+void BulkResultSet::processNextRow()
+{
+    LOG_DEBUG(mLogger, "In BulkResultSet::processNextRow()");
 
     if (mGotFirst)
     {
@@ -144,32 +182,17 @@ void ResultSet::processNextRow()
     }
 }
 
-DataTranslatorSPtr ResultSet::getDataTranslator()
-{
-    return mTranslator;
-}
-
-EzLoggerPtr ResultSet::getLogger()
-{
-    return mLogger;
-}
-
-void ResultSet::addRow(StringVectorPtr row)
+void BulkResultSet::addRow(StringVectorPtr row)
 {
     mResults.push_back(row);
     mResultIterator = mResults.begin();
 }
 
-ColumnVectorPtr ResultSet::getColumns()
-{
-    return mColumns;
-}
-
-void ResultSet::getData(
+void BulkResultSet::getData(
     SQLUSMALLINT colno, SQLSMALLINT TargetType, SQLPOINTER TargetValue,
     SQLLEN BufferLength, SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
-    LOG_DEBUG(mLogger, "In ResultSet::getData()");
+    LOG_DEBUG(mLogger, "In BulkResultSet::getData()");
 
     int rColno = colno - 1;
     ColumnPtr& column = mColumns->at(rColno);
@@ -194,12 +217,34 @@ void ResultSet::getData(
                      StrLenorInd, streamInfo);
 }
 
-AppRowDesc* ResultSet::getARD()
+DummyResultSet::DummyResultSet(EzLoggerPtr logger,
+                               MetadataViewPtr metadataView,
+                               DataTranslatorSPtr translator, AppRowDesc* ard)
+    : ResultSet(logger, metadataView, translator, ard)
 {
-    return mArdPtr;
 }
 
-MetadataViewPtr ResultSet::getMetadataView()
+int DummyResultSet::rowCount()
 {
-    return mMetadataView;
+    return 0;
+}
+
+bool DummyResultSet::isEmpty()
+{
+    return true;
+}
+
+bool DummyResultSet::hasNext()
+{
+    return false;
+}
+
+void DummyResultSet::processNextRow()
+{
+}
+
+void DummyResultSet::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
+                 SQLPOINTER TargetValue, SQLLEN BufferLength,
+                 SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
+{
 }

@@ -228,8 +228,8 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     // avoid duplicated logic, we'll create a dummy resultset with a
     // dummy column that is build using the current rTable.
     // We'll need to come up with a cleaner way to do this.
-    ResultSet dummyResult(mStmt->getLogger(), metadataView, dataTranslator,
-                          mStmt->getArd());
+    DummyResultSet dummyResult(mStmt->getLogger(), metadataView,
+                               dataTranslator, mStmt->getArd());
     dummyResult.addColumn(colName, rTable,
                           mStmt->mDbc->mDataSource.GetUseCompactFormat());
     ColumnPtr dummyCol = dummyResult.getColumn(1);

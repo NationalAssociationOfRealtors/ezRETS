@@ -473,6 +473,9 @@ SQLRETURN RetsSTMT::SQLExecute()
     return result;
 }
 
+// TODO: Investigate what to do if we don't know (or can't know) the
+// count?  I seem to remember the docs talking about this case, in our
+// non-streaming world, it didn't matter.
 SQLRETURN RetsSTMT::diagCursorRowCount(SQLPOINTER DiagInfoPtr)
 {
     ResultSetPtr resultSet = mQuery->getResultSet();
@@ -1102,6 +1105,9 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     return mQuery->execute();
 }
 
+// TODO: Investigate what to do if we don't know (or can't know) the
+// row count?  I seem to remember the docs talking about this case,
+// but in our non-streaming world, it didn't matter.
 SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
 {
     mErrors.clear();
