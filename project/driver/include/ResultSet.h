@@ -70,7 +70,7 @@ class ResultSet
     // However, I need to have it declared here during the refactoring.
     // TODO: Remove his from the base class, it should NOT be needed in
     // the future.
-    void addRow(librets::StringVectorPtr row);
+    virtual void addRow(librets::StringVectorPtr row);
 
   protected:
     typedef std::vector<librets::StringVectorPtr> StringVectorVector;

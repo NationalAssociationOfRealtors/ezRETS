@@ -109,6 +109,7 @@ MetadataViewPtr ResultSet::getMetadataView()
 // TODO: This method is a noop that should be removed in the future
 void ResultSet::addRow(StringVectorPtr row)
 {
+    LOG_ERROR(mLogger, "In ResultSet::addRow, we should never be here.");
 }
 
 
