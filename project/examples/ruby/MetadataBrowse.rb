@@ -38,7 +38,7 @@ def getLookupsForTable(dbc, table)
 end
 
 usage = OptionParser.new do |opts|
-  opts.banner = "Usage: GenericSearch.rb [options] <sql query>"
+  opts.banner = "Usage: MetadataBrowse.rb [options]"
   opts.on('-b', '--bulk_metadata', 'Grab the metadata all at once') do |a|
     drv.attrs["UseBulkMetadata"] = "true"
   end
