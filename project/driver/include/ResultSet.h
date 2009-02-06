@@ -30,6 +30,7 @@ class ResultSet
   public:
     ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
               DataTranslatorSPtr translator, AppRowDesc* ard);
+    virtual ~ResultSet();
 
     // Column related methods are the same no matter the type of
     // result set.
@@ -71,6 +72,8 @@ class ResultSet
     // TODO: Remove his from the base class, it should NOT be needed in
     // the future.
     virtual void addRow(librets::StringVectorPtr row);
+
+    enum ResultSetType { DUMMY, BULK, ONDEMAND };
 
   protected:
     typedef std::vector<librets::StringVectorPtr> StringVectorVector;
@@ -127,6 +130,25 @@ class BulkResultSet : public ResultSet
     bool mGotFirst;
     StringVectorVector mResults;
     StringVectorVector::iterator mResultIterator;
+};
+
+class OnDemandResultSet : public ResultSet
+{
+  public:
+    OnDemandResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
+                      DataTranslatorSPtr translator, AppRowDesc* ard);
+    
+    // These methods have to deal with processing data, these will
+    // be different per resultset
+    int rowCount();
+    bool isEmpty();
+    bool hasNext();
+
+    void processNextRow();
+
+    void getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
+                 SQLPOINTER TargetValue, SQLLEN BufferLength,
+                 SQLLEN *StrLenorInd, DataStreamInfo *streamInfo);
 };
 
 }

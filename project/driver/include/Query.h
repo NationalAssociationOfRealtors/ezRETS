@@ -19,6 +19,7 @@
 
 #include "ezrets.h"
 #include "ezretsfwd.h"
+#include "ResultSet.h"
 
 namespace odbcrets
 {
@@ -39,7 +40,9 @@ class Query
     virtual void prepareResultSet() = 0;
 
   protected:
-    ResultSetPtr newResultSet(DataTranslatorSPtr dataTranslator);
+    virtual ResultSetPtr newResultSet(
+        DataTranslatorSPtr dataTranslator,
+        ResultSet::ResultSetType type = ResultSet::BULK);
 
     RetsSTMT* mStmt;
     ResultSetPtr mResultSet;

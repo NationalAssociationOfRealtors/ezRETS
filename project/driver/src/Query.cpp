@@ -140,12 +140,34 @@ ostream& Query::print(std::ostream& out) const
 
 // TODO: This method should probably go or be rewritten to create the
 // right tupe of result set per query type....
-ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator)
+ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator,
+                                 ResultSet::ResultSetType type)
 {
-    ResultSetPtr resultSet(
-        new BulkResultSet(mStmt->getLogger(), mStmt->getMetadataView(),
-                          dataTranslator, mStmt->getArd()));
+    ResultSet* rs;
+    
+    switch (type)
+    {
+        case ResultSet::DUMMY:
+            rs = new DummyResultSet(mStmt->getLogger(),
+                                    mStmt->getMetadataView(),
+                                    dataTranslator, mStmt->getArd());
+            break;
 
+        case ResultSet::ONDEMAND:
+            rs = new OnDemandResultSet(mStmt->getLogger(),
+                                       mStmt->getMetadataView(),
+                                       dataTranslator, mStmt->getArd());
+            break;
+            
+        case ResultSet::BULK:
+        default:
+            rs = new BulkResultSet(mStmt->getLogger(),mStmt->getMetadataView(),
+                                   dataTranslator, mStmt->getArd());
+            break;
+    }
+
+    ResultSetPtr resultSet(rs);
+    
     return resultSet;
 }
 

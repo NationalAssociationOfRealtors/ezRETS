@@ -32,6 +32,10 @@ ResultSet::ResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
 {
 }
 
+ResultSet::~ResultSet()
+{
+}
+
 int ResultSet::columnCount()
 {
     return mColumns->size();
@@ -247,5 +251,37 @@ void DummyResultSet::processNextRow()
 void DummyResultSet::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                  SQLPOINTER TargetValue, SQLLEN BufferLength,
                  SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
+{
+}
+
+#define CLASS OnDemandResultSet
+CLASS::CLASS(EzLoggerPtr logger, MetadataViewPtr metadataView,
+             DataTranslatorSPtr translator, AppRowDesc* ard)
+    : ResultSet(logger, metadataView, translator, ard)
+{
+}
+
+int CLASS::rowCount()
+{
+    return -1;
+}
+
+bool CLASS::isEmpty()
+{
+    return true;
+}
+
+bool CLASS::hasNext()
+{
+    return false;
+}
+
+void CLASS::processNextRow()
+{
+}
+
+void CLASS::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
+                    SQLPOINTER TargetValue, SQLLEN BufferLength,
+                    SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
 }
