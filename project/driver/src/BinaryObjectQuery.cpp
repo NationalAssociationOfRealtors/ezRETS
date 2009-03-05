@@ -49,7 +49,7 @@ void BinaryObjectQuery::prepareResultSet()
     // We should never use anything but a translator that pays
     // attention to types
     DataTranslatorSPtr dataTranslator(DataTranslator::factory());
-    mResultSet = newResultSet(dataTranslator);
+    mResultSet.reset(newResultSet(dataTranslator));
     
     mResultSet->addColumn("object_key", SQL_VARCHAR);
     mResultSet->addColumn("object_id", SQL_INTEGER);
@@ -63,6 +63,11 @@ void BinaryObjectQuery::prepareResultSet()
 
 void BinaryObjectQuery::handleResponse(GetObjectResponse* response)
 {
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+    
     ObjectDescriptor* objDesc;
     while ((objDesc = response->NextObject()) != NULL)
     {
@@ -77,6 +82,6 @@ void BinaryObjectQuery::handleResponse(GetObjectResponse* response)
         lu::readIntoString(objDesc->GetDataStream(), obj);
         row->push_back(obj);
 
-        mResultSet->addRow(row);
+        rs->addRow(row);
     }
 }

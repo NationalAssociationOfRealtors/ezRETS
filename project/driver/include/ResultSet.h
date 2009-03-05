@@ -67,12 +67,6 @@ class ResultSet
                          SQLPOINTER TargetValue, SQLLEN BufferLength,
                          SQLLEN *StrLenorInd, DataStreamInfo *streamInfo) = 0;
 
-    // This method is SHOULD be unique to the BulkResultSet...
-    // However, I need to have it declared here during the refactoring.
-    // TODO: Remove his from the base class, it should NOT be needed in
-    // the future.
-    virtual void addRow(librets::StringVectorPtr row);
-
     enum ResultSetType { DUMMY, BULK, ONDEMAND };
 
   protected:
@@ -152,7 +146,6 @@ class OnDemandResultSet : public ResultSet
 };
 
 }
-
 
 #endif /* RETSSTMTRESULTS_H */
 

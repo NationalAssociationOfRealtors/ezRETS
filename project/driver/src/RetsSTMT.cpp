@@ -85,7 +85,7 @@ SQLRETURN RetsSTMT::SQLBindCol(SQLUSMALLINT ColumnNumber,
               << " " << getTypeName(TargetType) << " " <<
               BufferLength);
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
@@ -116,7 +116,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLDescribeCol");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
@@ -183,7 +183,7 @@ SQLRETURN RetsSTMT::SQLFetch()
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLFetch()");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (resultSet->isEmpty())
     {
@@ -333,7 +333,7 @@ SQLRETURN RetsSTMT::SQLNumResultCols(SQLSMALLINT *ColumnCount)
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLNumResultCols");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     *ColumnCount = b::numeric_cast<SQLSMALLINT>(resultSet->columnCount());
 
@@ -478,7 +478,7 @@ SQLRETURN RetsSTMT::SQLExecute()
 // non-streaming world, it didn't matter.
 SQLRETURN RetsSTMT::diagCursorRowCount(SQLPOINTER DiagInfoPtr)
 {
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
     *(SQLINTEGER*) DiagInfoPtr = resultSet->rowCount();
 
     return SQL_SUCCESS;
@@ -763,7 +763,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     LOG_DEBUG(getLogger(), str_stream() << "In SQLColAttribute " <<
               ColumnNumber << " " << FieldIdentifier);
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
     
     if (resultSet == NULL)
     {
@@ -958,7 +958,7 @@ SQLRETURN RetsSTMT::SQLGetData(
                getTypeName(TargetType) << " " << TargetValue << " " <<
                BufferLength << " " << StrLenorInd);
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
@@ -1114,7 +1114,7 @@ SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLRowCount");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
     
     int myRowCount = resultSet->rowCount();
     LOG_DEBUG(log, b::lexical_cast<string>(myRowCount));

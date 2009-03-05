@@ -43,6 +43,11 @@ CLASS::CLASS(RetsSTMT* stmt, lr::LookupColumnsQueryPtr lcQuery)
 
 SQLRETURN CLASS::execute()
 {
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
@@ -69,7 +74,7 @@ SQLRETURN CLASS::execute()
 
             v->push_back(table->GetLookupName());
 
-            mResultSet->addRow(v);
+            rs->addRow(v);
         }
     }
 
@@ -92,7 +97,7 @@ void CLASS::prepareResultSet()
     // We'll always be using a metadata aware translator, but it doesn't
     // matter much here
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
     
     // column is really a RETS table, but we'll return column to the
     // ezRETS users as they'll understand that more.

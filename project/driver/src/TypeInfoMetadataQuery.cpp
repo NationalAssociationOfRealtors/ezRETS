@@ -38,7 +38,7 @@ TypeInfoMetadataQuery::TypeInfoMetadataQuery(
 void TypeInfoMetadataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
 
     mResultSet->addColumn("TYPE_NAME", SQL_VARCHAR);
     mResultSet->addColumn("DATA_TYPE", SQL_SMALLINT);
@@ -63,6 +63,11 @@ void TypeInfoMetadataQuery::prepareResultSet()
 
 SQLRETURN TypeInfoMetadataQuery::execute()
 {
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+
     lr::StringVectorPtr resultRow;
 
     bool allTypes = mDataType == SQL_ALL_TYPES;
@@ -72,72 +77,72 @@ SQLRETURN TypeInfoMetadataQuery::execute()
     if (allTypes || mDataType == SQL_BIT)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_BIT, "2");
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_TINYINT)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_TINYINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_BIGINT)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_BIGINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_CHAR)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_CHAR, "10", "", "'", "'");
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_DECIMAL)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_DECIMAL, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_INTEGER)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_INTEGER, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_SMALLINT)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_SMALLINT, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_DOUBLE)
     {
         resultRow = getSQLGetTypeInfoRow(
             SQL_DOUBLE, "2", b::lexical_cast<string>(SQL_FALSE));
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_VARCHAR)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_VARCHAR, "10", "", "'", "'");
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     // These need to be special cased.
     if (allTypes || mDataType == SQL_TYPE_DATE)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_TYPE_DATE, "2");
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_TYPE_TIME)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_TYPE_TIME, "2");
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
     if (allTypes || mDataType == SQL_TYPE_TIMESTAMP)
     {
         resultRow = getSQLGetTypeInfoRow(SQL_TYPE_TIMESTAMP, "2");
-        mResultSet->addRow(resultRow);
+        rs->addRow(resultRow);
     }
 
-    if (mResultSet->isEmpty())
+    if (rs->isEmpty())
     {
         mStmt->addError("01000",
                         "ezRETS does not support this SQL data type.");

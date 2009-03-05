@@ -76,7 +76,7 @@ SQLRETURN DataQuery::execute()
 void DataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
-    mResultSet = newResultSet(dataTranslator);
+    mResultSet.reset(newResultSet(dataTranslator));
 
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In prepareDataResultSet");
@@ -176,6 +176,11 @@ SQLRETURN DataQuery::doRetsQuery()
 
     SearchResultSetAPtr results = session->Search(searchRequest.get());
 
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+
     // Process the results: while we still have results, walk our already
     // set up columns and filling them in.
     ColumnVectorPtr colvec = mResultSet->getColumns();
@@ -201,7 +206,7 @@ SQLRETURN DataQuery::doRetsQuery()
             }
             v->push_back(result);
         }
-        mResultSet->addRow(v);
+        rs->addRow(v);
         rowCount++;
     }
 

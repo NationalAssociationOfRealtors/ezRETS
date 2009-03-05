@@ -38,7 +38,7 @@ CLASS::CLASS(RetsSTMT* stmt, string table)
 void CLASS::prepareResultSet()
 {
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
     
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -99,7 +99,11 @@ SQLRETURN CLASS::execute()
     // Our primary keys don't have names
     results->push_back("");
 
-    mResultSet->addRow(results);
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+    rs->addRow(results);
     
     return SQL_SUCCESS;
 }

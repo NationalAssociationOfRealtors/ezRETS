@@ -110,12 +110,6 @@ MetadataViewPtr ResultSet::getMetadataView()
     return mMetadataView;
 }
 
-// TODO: This method is a noop that should be removed in the future
-void ResultSet::addRow(StringVectorPtr row)
-{
-    LOG_ERROR(mLogger, "In ResultSet::addRow, we should never be here.");
-}
-
 
 // Start of fullout impl
 BulkResultSet::BulkResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,

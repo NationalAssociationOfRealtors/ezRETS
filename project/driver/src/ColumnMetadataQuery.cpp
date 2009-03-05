@@ -83,7 +83,7 @@ ColumnMetadataQuery::ColumnMetadataQuery(RetsSTMT* stmt, string table,
 void ColumnMetadataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dt(DataTranslator::factory(mStmt));
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
     
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -323,7 +323,11 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     // IS_NULLABLE
     results->push_back("YES");
 
-    mResultSet->addRow(results);
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+    rs->addRow(results);
 
     return SQL_SUCCESS;
 }

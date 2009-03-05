@@ -127,9 +127,9 @@ QueryPtr Query::createSqlQuery(
     return ezQuery;
 }
 
-ResultSetPtr Query::getResultSet()
+ResultSet* Query::getResultSet()
 {
-    return mResultSet;
+    return mResultSet.get();
 }
 
 ostream& Query::print(std::ostream& out) const
@@ -140,7 +140,7 @@ ostream& Query::print(std::ostream& out) const
 
 // TODO: This method should probably go or be rewritten to create the
 // right tupe of result set per query type....
-ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator,
+ResultSet* Query::newResultSet(DataTranslatorSPtr dataTranslator,
                                  ResultSet::ResultSetType type)
 {
     ResultSet* rs;
@@ -166,9 +166,7 @@ ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator,
             break;
     }
 
-    ResultSetPtr resultSet(rs);
-    
-    return resultSet;
+    return rs;
 }
 
 NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
@@ -177,7 +175,7 @@ NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
 
 void NullQuery::prepareResultSet() {
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
 }
 
 SQLRETURN NullQuery::execute()
