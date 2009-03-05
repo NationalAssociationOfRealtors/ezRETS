@@ -141,7 +141,7 @@ ostream& Query::print(std::ostream& out) const
 // TODO: This method should probably go or be rewritten to create the
 // right tupe of result set per query type....
 ResultSet* Query::newResultSet(DataTranslatorSPtr dataTranslator,
-                                 ResultSet::ResultSetType type)
+                               ResultSet::ResultSetType type)
 {
     ResultSet* rs;
     

@@ -220,7 +220,7 @@ SQLRETURN DataQuery::doRetsQuery()
     return sqlreturn;
 }
 
-ostream & DataQuery::print(std::ostream & out) const
+ostream & DataQuery::print(ostream & out) const
 {
     out << mDmqlQuery;
     return out;
