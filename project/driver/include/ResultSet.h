@@ -20,6 +20,8 @@
 #include <vector>
 #include "librets/std_forward.h"
 #include "librets/metadata_forward.h"
+#include "librets/protocol_forward.h"
+
 #include "ezrets.h"
 #include "ezretsfwd.h"
 
@@ -131,6 +133,8 @@ class OnDemandResultSet : public ResultSet
   public:
     OnDemandResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
                       DataTranslatorSPtr translator, AppRowDesc* ard);
+
+    void setSearchResults(librets::SearchResultSet* results);
     
     // These methods have to deal with processing data, these will
     // be different per resultset
@@ -143,6 +147,9 @@ class OnDemandResultSet : public ResultSet
     void getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                  SQLPOINTER TargetValue, SQLLEN BufferLength,
                  SQLLEN *StrLenorInd, DataStreamInfo *streamInfo);
+
+  private:
+    librets::SearchResultSet* mResults;
 };
 
 }

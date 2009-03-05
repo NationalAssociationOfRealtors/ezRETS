@@ -279,3 +279,8 @@ void CLASS::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                     SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
 }
+
+void CLASS::setSearchResults(SearchResultSet* results)
+{
+    mResults = results;
+}
