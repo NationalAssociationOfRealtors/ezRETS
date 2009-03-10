@@ -114,8 +114,6 @@ void OnDemandDataQuery::prepareResultSet()
 
 SQLRETURN OnDemandDataQuery::doRetsQuery()
 {
-    SQLRETURN sqlreturn = SQL_SUCCESS;
-
     // Get the info to build the query
     string resource = mDmqlQuery->GetResource();
     string clazz = mDmqlQuery->GetClass();
@@ -162,7 +160,7 @@ SQLRETURN OnDemandDataQuery::doRetsQuery()
 
     rs->setSearchResults(mSearchResults.get());
 
-#warning "You left off coding here!"
+    return SQL_SUCCESS;
 }
     
 ostream & OnDemandDataQuery::print(ostream & out) const

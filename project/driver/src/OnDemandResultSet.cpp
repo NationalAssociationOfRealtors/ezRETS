@@ -33,16 +33,27 @@ CLASS::CLASS(EzLoggerPtr logger, MetadataViewPtr metadataView,
 {
 }
 
+// Its not clear what value this should really have.  Since we use
+// this to represtend the cached value as well as the runtime value.
+// In SQLRowCount its defined as "do not count on this number as it
+// can't be accurate until the data is received."  Until some testing
+// is done, we will set this as 1.  If this ends up causing us a
+// problem, we'll adjust it.  -1 also appears to be valid in some
+// circumstances.
 int CLASS::rowCount()
 {
-#warning Not filled in
-    return -1;
+    return 1;
 }
 
+// We don't have any good way to check this in the OnDemand version of
+// this class as this is a holdover from the vector based versions.
+// As a result, we will also send false.  If there is truely no data,
+// the hasNext() call will return false.  In the only case where this
+// would matter hasNext() is called immedately after isEmpty() (in
+// RetsSTMT::SQLFetch())
 bool CLASS::isEmpty()
 {
-#warning Not filled in
-    return true;
+    return false;
 }
 
 bool CLASS::hasNext()
