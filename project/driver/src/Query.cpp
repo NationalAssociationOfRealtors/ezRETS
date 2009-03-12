@@ -19,6 +19,7 @@
 #include "ezretsfwd.h"
 #include "Query.h"
 #include "DataQuery.h"
+#include "OnDemandDataQuery.h"
 #include "DataCountQuery.h"
 #include "ObjectQuery.h"
 #include "BinaryObjectQuery.h"
@@ -80,7 +81,8 @@ QueryPtr Query::createSqlQuery(
             else
             {
                 ezQuery.reset(
-                    new DataQuery(stmt, useCompactFormat, dmqlQuery));
+//                    new DataQuery(stmt, useCompactFormat, dmqlQuery));
+                    new OnDemandDataQuery(stmt, useCompactFormat, dmqlQuery));
             }
         }
         break;

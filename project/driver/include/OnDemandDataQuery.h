@@ -26,6 +26,7 @@ namespace odbcrets
 {
 class OnDemandDataQuery : public Query
 {
+  public:
     OnDemandDataQuery(RetsSTMT* stmt, bool useCompactFormat,
                       librets::DmqlQueryPtr dmqlQuery);
 
