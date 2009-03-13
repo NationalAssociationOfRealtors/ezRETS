@@ -151,6 +151,12 @@ class DataSource
 
     void SetSupportsQueryStar(bool supports);
 
+    // The following two methods are temporarily and only for use until
+    // the new OnDemandQuery is shaken out.
+    bool GetUseOldBulkQuery() const;
+
+    void SetUseOldBulkQuery(bool usebulk);
+
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -205,6 +211,7 @@ class DataSource
     static const char * INI_PROXY_URL;
     static const char * INI_PROXY_PASSWORD;
     static const char * INI_SUPPORTS_QUERYSTAR;
+    static const char * INI_USE_BULK_QUERY;
 
     static const std::string DEFAULT_USER_AGENT;
     static const librets::RetsVersion DEFAULT_RETS_VERSION;
@@ -272,6 +279,7 @@ class DataSource
     std::string mProxyUrl;
     std::string mProxyPassword;
     bool mSupportsQueryStar;
+    bool mUseOldBulkQuery;
 };
 
 extern const char * RETS_1_0_STRING;

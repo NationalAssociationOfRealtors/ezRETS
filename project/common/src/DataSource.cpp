@@ -69,6 +69,7 @@ const char * CLASS::INI_USE_PROXY = "UseProxy";
 const char * CLASS::INI_PROXY_URL = "ProxyUrl";
 const char * CLASS::INI_PROXY_PASSWORD = "ProxyPassword";
 const char * CLASS::INI_SUPPORTS_QUERYSTAR = "SupportsQueryStar";
+const char * CLASS::INI_USE_BULK_QUERY = "UseOldBulkQuery";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -231,6 +232,7 @@ void DataSource::init()
     mTreatDecimalAsString = false;
     mUseProxy = false;
     mSupportsQueryStar = false;
+    mUseOldBulkQuery = false;
 }
 
 DataSource::DataSource()
@@ -717,6 +719,16 @@ void DataSource::SetSupportsQueryStar(bool supports)
 {
     mSupportsQueryStar = supports;
 }
+
+bool DataSource::GetUseOldBulkQuery() const
+{
+    return mUseOldBulkQuery;
+}
+
+void DataSource::SetUseOldBulkQuery(bool usebulk)
+{
+    mUseOldBulkQuery = usebulk;
+}
  
 bool DataSource::IsComplete() const
 {
@@ -813,6 +825,12 @@ string DataSource::GetConnectionString() const
         AppendToConnectionString(connectionString, INI_SUPPORTS_QUERYSTAR,
                                  mSupportsQueryStar);
     }
+
+    if (mUseOldBulkQuery)
+    {
+        AppendToConnectionString(connectionString, INI_USE_BULK_QUERY,
+                                 mUseOldBulkQuery);
+    }
     
     return connectionString;
 }
@@ -903,6 +921,11 @@ ostream & DataSource::Print(ostream & out) const
     if (mSupportsQueryStar)
     {
         out <<", SupportsQueryStar: " << mSupportsQueryStar;
+    }
+
+    if (mUseOldBulkQuery)
+    {
+        out <<", UseOldBulkQuery: " << mUseOldBulkQuery;
     }
 
     return out;
@@ -1023,6 +1046,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_SUPPORTS_QUERYSTAR)
         {
             mSupportsQueryStar = stringToBool(value);
+        }
+        else if (key == INI_USE_BULK_QUERY)
+        {
+            mUseOldBulkQuery = stringToBool(value);
         }
     }
 }

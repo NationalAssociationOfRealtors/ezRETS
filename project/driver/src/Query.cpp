@@ -37,6 +37,8 @@
 #include "EzLookupColumnsQuery.h"
 #include "SqlStateException.h"
 #include "DataTranslator.h"
+#include "RetsDBC.h"
+
 
 using namespace odbcrets;
 using namespace librets;
@@ -81,9 +83,17 @@ QueryPtr Query::createSqlQuery(
             }
             else
             {
-                ezQuery.reset(
-//                    new DataQuery(stmt, useCompactFormat, dmqlQuery));
-                    new OnDemandDataQuery(stmt, useCompactFormat, dmqlQuery));
+                if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
+                {
+                    ezQuery.reset(
+                        new DataQuery(stmt, useCompactFormat, dmqlQuery));
+                }
+                else
+                {
+                    ezQuery.reset(new OnDemandDataQuery(stmt, useCompactFormat,
+                                                        dmqlQuery));
+                }
+                    
             }
         }
         break;
