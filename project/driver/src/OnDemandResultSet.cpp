@@ -16,7 +16,7 @@
  */
 #include <stdexcept>
 #include "EzLogger.h"
-#include "ResultSet.h"
+#include "OnDemandResultSet.h"
 #include "Column.h"
 #include "str_stream.h"
 #include "librets/SearchResultSet.h"

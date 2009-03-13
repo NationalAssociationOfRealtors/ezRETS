@@ -28,6 +28,7 @@
 #include "librets/DmqlQuery.h"
 #include "librets/DmqlCriterion.h"
 #include "DataTranslator.h"
+#include "OnDemandResultSet.h"
 
 using namespace odbcrets;
 using namespace librets;
