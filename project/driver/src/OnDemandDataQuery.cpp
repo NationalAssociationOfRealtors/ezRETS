@@ -48,7 +48,27 @@ OnDemandDataQuery::OnDemandDataQuery(RetsSTMT* stmt, bool useCompactFormat,
 
 SQLRETURN OnDemandDataQuery::execute()
 {
-    return SQL_SUCCESS;
+    SQLRETURN result = SQL_SUCCESS;
+
+    EzLoggerPtr log = mStmt->getLogger();
+    LOG_DEBUG(log, "In OnDemandDataQuery::execute()");
+
+    // FBS supports "Query=*" which is in effect an empty list
+    // of Criterion for a RETS search.  If its supported we still want
+    // to do the query.
+    if (mDmqlQuery->GetCriterion() != NULL ||
+        mStmt->mDbc->mDataSource.GetSupportsQueryStar())
+    {
+        result = doRetsQuery();
+    }
+    else
+    {
+        mStmt->addError("01000", "RETS queries require a WHERE clause.  "
+                        "Returning empty result set.");
+        result = SQL_SUCCESS_WITH_INFO;
+    }
+
+    return result;
 }
 
 void OnDemandDataQuery::prepareResultSet()
@@ -120,7 +140,6 @@ SQLRETURN OnDemandDataQuery::doRetsQuery()
     string clazz = mDmqlQuery->GetClass();
     StringVectorPtr fields = mDmqlQuery->GetFields();
     string select = lu::join(*fields, ",");
-
 
     // Switch for if the server supports Query=*
     DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();

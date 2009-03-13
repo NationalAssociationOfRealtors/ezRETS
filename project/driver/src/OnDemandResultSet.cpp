@@ -92,7 +92,7 @@ void CLASS::processNextRow()
         else
         {
             LOG_DEBUG(mLogger, str_stream() << count << " " <<
-                      column->getName() << ": " << *i);
+                      column->getName() << ": " << result);
         }
 
         if (column->isBound())
