@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2005-2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -85,7 +85,7 @@ SQLRETURN RetsSTMT::SQLBindCol(SQLUSMALLINT ColumnNumber,
               << " " << getTypeName(TargetType) << " " <<
               BufferLength);
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
@@ -116,7 +116,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLDescribeCol");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
@@ -183,7 +183,7 @@ SQLRETURN RetsSTMT::SQLFetch()
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLFetch()");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (resultSet->isEmpty())
     {
@@ -333,7 +333,7 @@ SQLRETURN RetsSTMT::SQLNumResultCols(SQLSMALLINT *ColumnCount)
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLNumResultCols");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     *ColumnCount = b::numeric_cast<SQLSMALLINT>(resultSet->columnCount());
 
@@ -473,9 +473,12 @@ SQLRETURN RetsSTMT::SQLExecute()
     return result;
 }
 
+// TODO: Investigate what to do if we don't know (or can't know) the
+// count?  I seem to remember the docs talking about this case, in our
+// non-streaming world, it didn't matter.
 SQLRETURN RetsSTMT::diagCursorRowCount(SQLPOINTER DiagInfoPtr)
 {
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
     *(SQLINTEGER*) DiagInfoPtr = resultSet->rowCount();
 
     return SQL_SUCCESS;
@@ -760,7 +763,7 @@ SQLRETURN RetsSTMT::SQLColAttribute(
     LOG_DEBUG(getLogger(), str_stream() << "In SQLColAttribute " <<
               ColumnNumber << " " << FieldIdentifier);
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
     
     if (resultSet == NULL)
     {
@@ -955,7 +958,7 @@ SQLRETURN RetsSTMT::SQLGetData(
                getTypeName(TargetType) << " " << TargetValue << " " <<
                BufferLength << " " << StrLenorInd);
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
 
     if (ColumnNumber < 1 && ColumnNumber > resultSet->columnCount())
     {
@@ -1102,13 +1105,16 @@ SQLRETURN RetsSTMT::SQLPrimaryKeys(
     return mQuery->execute();
 }
 
+// TODO: Investigate what to do if we don't know (or can't know) the
+// row count?  I seem to remember the docs talking about this case,
+// but in our non-streaming world, it didn't matter.
 SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
 {
     mErrors.clear();
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In SQLRowCount");
 
-    ResultSetPtr resultSet = mQuery->getResultSet();
+    ResultSet* resultSet = mQuery->getResultSet();
     
     int myRowCount = resultSet->rowCount();
     LOG_DEBUG(log, b::lexical_cast<string>(myRowCount));

@@ -46,6 +46,7 @@ X_OBJS = \
 	$(DIROBJ)\DataStreamInfo.obj\
 	$(DIROBJ)\DataTranslationException.obj\
 	$(DIROBJ)\DataTranslator.obj\
+	$(DIROBJ)\DataTranslatorFactory.obj\
 	$(DIROBJ)\DateTimeFormatException.obj\
 	$(DIROBJ)\DbcEntries.obj\
 	$(DIROBJ)\DescEntries.obj\
@@ -64,6 +65,8 @@ X_OBJS = \
 	$(DIROBJ)\ObjectQuery.obj\
 	$(DIROBJ)\OdbcEntry.obj\
 	$(DIROBJ)\OdbcSqlException.obj\
+	$(DIROBJ)\OnDemandDataQuery.obj\
+	$(DIROBJ)\OnDemandResultSet.obj\
 	$(DIROBJ)\PrimaryKeysMetadataQuery.obj\
 	$(DIROBJ)\Query.obj\
 	$(DIROBJ)\ResultSet.obj\

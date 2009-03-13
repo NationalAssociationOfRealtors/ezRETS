@@ -46,6 +46,11 @@ bool EzLogger::isInfo() const
     return mLevel <= INFO;
 }
 
+bool EzLogger::isError() const
+{
+    return mLevel <= ERRORS;
+}
+
 void EzLogger::debug(string data)
 {
     log(DEBUG, data);

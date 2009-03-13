@@ -89,6 +89,11 @@ SQLRETURN ObjectQuery::execute()
 
 void ObjectQuery::handleResponse(GetObjectResponse* response)
 {
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+
     ObjectDescriptor* objDesc;
     while ((objDesc = response->NextObject()) != NULL)
     {
@@ -114,7 +119,7 @@ void ObjectQuery::handleResponse(GetObjectResponse* response)
             row->push_back(obj);
         }
 
-        mResultSet->addRow(row);
+        rs->addRow(row);
     }
 }
 

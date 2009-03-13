@@ -48,7 +48,7 @@ TableMetadataQuery::TableMetadataQuery(
 void TableMetadataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
     
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -59,6 +59,11 @@ void TableMetadataQuery::prepareResultSet()
 
 SQLRETURN TableMetadataQuery::execute()
 {
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+
     // # If CatalogName is SQL_ALL_CATALOGS and SchemaName and
     // TableName are empty strings, the result set contains a list
     // of valid catalogs for the data source. (All columns except
@@ -82,7 +87,7 @@ SQLRETURN TableMetadataQuery::execute()
         results->push_back("");
         results->push_back("");
 
-        mResultSet->addRow(results);
+        rs->addRow(results);
 
         return SQL_SUCCESS;
     }
@@ -103,7 +108,7 @@ SQLRETURN TableMetadataQuery::execute()
         results->push_back("TABLE");
         results->push_back("");
 
-        mResultSet->addRow(results);
+        rs->addRow(results);
 
         return SQL_SUCCESS;
     }
@@ -171,7 +176,7 @@ SQLRETURN TableMetadataQuery::execute()
         results->push_back("TABLE");
         results->push_back(i->second);
 
-        mResultSet->addRow(results);
+        rs->addRow(results);
     }
 
     return SQL_SUCCESS;

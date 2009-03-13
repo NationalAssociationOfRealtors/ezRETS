@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2005-2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -19,6 +19,7 @@
 #include "ezretsfwd.h"
 #include "Query.h"
 #include "DataQuery.h"
+#include "OnDemandDataQuery.h"
 #include "DataCountQuery.h"
 #include "ObjectQuery.h"
 #include "BinaryObjectQuery.h"
@@ -26,6 +27,7 @@
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "ResultSet.h"
+#include "OnDemandResultSet.h"
 #include "MetadataView.h"
 #include "librets/SqlToDmqlCompiler.h"
 #include "librets/GetObjectQuery.h"
@@ -35,6 +37,8 @@
 #include "EzLookupColumnsQuery.h"
 #include "SqlStateException.h"
 #include "DataTranslator.h"
+#include "RetsDBC.h"
+
 
 using namespace odbcrets;
 using namespace librets;
@@ -79,8 +83,17 @@ QueryPtr Query::createSqlQuery(
             }
             else
             {
-                ezQuery.reset(
-                    new DataQuery(stmt, useCompactFormat, dmqlQuery));
+                if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
+                {
+                    ezQuery.reset(
+                        new DataQuery(stmt, useCompactFormat, dmqlQuery));
+                }
+                else
+                {
+                    ezQuery.reset(new OnDemandDataQuery(stmt, useCompactFormat,
+                                                        dmqlQuery));
+                }
+                    
             }
         }
         break;
@@ -127,9 +140,9 @@ QueryPtr Query::createSqlQuery(
     return ezQuery;
 }
 
-ResultSetPtr Query::getResultSet()
+ResultSet* Query::getResultSet()
 {
-    return mResultSet;
+    return mResultSet.get();
 }
 
 ostream& Query::print(std::ostream& out) const
@@ -138,13 +151,35 @@ ostream& Query::print(std::ostream& out) const
     return out;
 }
 
-ResultSetPtr Query::newResultSet(DataTranslatorSPtr dataTranslator)
+// TODO: This method should probably go or be rewritten to create the
+// right tupe of result set per query type....
+ResultSet* Query::newResultSet(DataTranslatorSPtr dataTranslator,
+                               ResultSet::ResultSetType type)
 {
-    ResultSetPtr resultSet(
-        new ResultSet(mStmt->getLogger(), mStmt->getMetadataView(),
-                      dataTranslator, mStmt->getArd()));
+    ResultSet* rs;
+    
+    switch (type)
+    {
+        case ResultSet::DUMMY:
+            rs = new DummyResultSet(mStmt->getLogger(),
+                                    mStmt->getMetadataView(),
+                                    dataTranslator, mStmt->getArd());
+            break;
 
-    return resultSet;
+        case ResultSet::ONDEMAND:
+            rs = new OnDemandResultSet(mStmt->getLogger(),
+                                       mStmt->getMetadataView(),
+                                       dataTranslator, mStmt->getArd());
+            break;
+            
+        case ResultSet::BULK:
+        default:
+            rs = new BulkResultSet(mStmt->getLogger(),mStmt->getMetadataView(),
+                                   dataTranslator, mStmt->getArd());
+            break;
+    }
+
+    return rs;
 }
 
 NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
@@ -153,7 +188,7 @@ NullQuery::NullQuery(RetsSTMT* stmt) : Query(stmt)
 
 void NullQuery::prepareResultSet() {
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
 }
 
 SQLRETURN NullQuery::execute()

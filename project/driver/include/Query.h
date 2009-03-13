@@ -19,6 +19,7 @@
 
 #include "ezrets.h"
 #include "ezretsfwd.h"
+#include "ResultSet.h"
 
 namespace odbcrets
 {
@@ -32,17 +33,19 @@ class Query
         RetsSTMT* stmt, bool uesCompactFormat, std::string query);
 
     virtual SQLRETURN execute() = 0;
-    ResultSetPtr getResultSet();
+    ResultSet* getResultSet();
 
     virtual std::ostream & print(std::ostream & out) const;
 
     virtual void prepareResultSet() = 0;
 
   protected:
-    ResultSetPtr newResultSet(DataTranslatorSPtr dataTranslator);
+     virtual ResultSet* newResultSet(
+         DataTranslatorSPtr dataTranslator,
+         ResultSet::ResultSetType type = ResultSet::BULK);
 
     RetsSTMT* mStmt;
-    ResultSetPtr mResultSet;
+    std::auto_ptr<ResultSet> mResultSet;
 };
 
 class NullQuery : public Query

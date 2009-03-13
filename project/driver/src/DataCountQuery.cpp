@@ -86,7 +86,12 @@ SQLRETURN DataCountQuery::doRetsQuery()
 
     StringVectorPtr v(new StringVector());
     v->push_back(rcString);
-    mResultSet->addRow(v);
+
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+    rs->addRow(v);
 
     return sqlreturn;
 }
@@ -108,7 +113,7 @@ void DataCountQuery::prepareResultSet()
     // The result set should only ever be interpreted as int, so we don't
     // want to be effected by ignore type
     DataTranslatorSPtr dataTranslator(DataTranslator::factory());
-    mResultSet = newResultSet(dataTranslator);
+    mResultSet.reset(newResultSet(dataTranslator));
 
     mResultSet->addColumn("count(*)", SQL_INTEGER);
 }

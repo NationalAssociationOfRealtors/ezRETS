@@ -41,6 +41,11 @@ EzLookupQuery::EzLookupQuery(RetsSTMT* stmt, lr::LookupQueryPtr lookupQuery)
 
 SQLRETURN EzLookupQuery::execute()
 {
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
@@ -62,7 +67,7 @@ SQLRETURN EzLookupQuery::execute()
         v->push_back(lt->GetShortValue());
         v->push_back(lt->GetLongValue());
 
-        mResultSet->addRow(v);
+        rs->addRow(v);
     }
 
     return result;
@@ -84,7 +89,7 @@ void EzLookupQuery::prepareResultSet()
 
     // The default translator will work for us here.
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
 
     mResultSet->addColumn("value", SQL_VARCHAR);
     mResultSet->addColumn("short_value", SQL_VARCHAR);

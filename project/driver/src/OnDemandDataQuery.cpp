@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -15,24 +15,20 @@
  * appear in supporting documentation.
  */
 
-#include <boost/algorithm/string.hpp>
-#include "Query.h"
-#include "DataQuery.h"
+#include "OnDemandDataQuery.h"
+#include "EzLogger.h"
 #include "RetsSTMT.h"
 #include "RetsDBC.h"
-#include "EzLogger.h"
 #include "str_stream.h"
 #include "SqlStateException.h"
-#include "ResultSet.h"
 #include "MetadataView.h"
-#include "Column.h"
 #include "librets/util.h"
 #include "librets/RetsSession.h"
 #include "librets/SearchResultSet.h"
 #include "librets/DmqlQuery.h"
 #include "librets/DmqlCriterion.h"
-#include "librets/MetadataTable.h"
 #include "DataTranslator.h"
+#include "OnDemandResultSet.h"
 
 using namespace odbcrets;
 using namespace librets;
@@ -40,20 +36,22 @@ using std::string;
 using std::ostream;
 namespace lu = librets::util;
 
-DataQuery::DataQuery(RetsSTMT* stmt, bool useCompactFormat,
-                     DmqlQueryPtr dmqlQuery)
+OnDemandDataQuery::OnDemandDataQuery(RetsSTMT* stmt, bool useCompactFormat,
+                                     librets::DmqlQueryPtr dmqlQuery)
     : Query(stmt), mUseCompactFormat(useCompactFormat), mDmqlQuery(dmqlQuery)
 {
     EzLoggerPtr log = mStmt->getLogger();
-    LOG_DEBUG(log, str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
+    LOG_DEBUG(log, str_stream() << "OnDemandDataQuery::OnDemandDataQuery: "
+              << mDmqlQuery);
+
 }
 
-SQLRETURN DataQuery::execute()
+SQLRETURN OnDemandDataQuery::execute()
 {
     SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
-    LOG_DEBUG(log, "In DataQuery::execute()");
+    LOG_DEBUG(log, "In OnDemandDataQuery::execute()");
 
     // FBS supports "Query=*" which is in effect an empty list
     // of Criterion for a RETS search.  If its supported we still want
@@ -73,14 +71,15 @@ SQLRETURN DataQuery::execute()
     return result;
 }
 
-void DataQuery::prepareResultSet()
+void OnDemandDataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
-    mResultSet.reset(newResultSet(dataTranslator));
+
+    mResultSet.reset(newResultSet(dataTranslator, ResultSet::ONDEMAND));
 
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In prepareDataResultSet");
-    
+
     MetadataViewPtr metadata = mStmt->getMetadataView();
     
     MetadataClass* clazz =
@@ -133,16 +132,14 @@ void DataQuery::prepareResultSet()
     }
 }
 
-SQLRETURN DataQuery::doRetsQuery()
+
+SQLRETURN OnDemandDataQuery::doRetsQuery()
 {
-    SQLRETURN sqlreturn = SQL_SUCCESS;
-    
     // Get the info to build the query
     string resource = mDmqlQuery->GetResource();
     string clazz = mDmqlQuery->GetClass();
     StringVectorPtr fields = mDmqlQuery->GetFields();
     string select = lu::join(*fields, ",");
-
 
     // Switch for if the server supports Query=*
     DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
@@ -158,69 +155,35 @@ SQLRETURN DataQuery::doRetsQuery()
 
     // Get the session, create the request, and do the search
     RetsSessionPtr session = mStmt->getRetsSession();    
-    SearchRequestAPtr searchRequest =
+    mSearchRequest =
         session->CreateSearchRequest(resource, clazz, dmqlQuery);
-    searchRequest->SetSelect(select);
-    searchRequest->SetCountType(
+    mSearchRequest->SetSelect(select);
+    mSearchRequest->SetCountType(
         SearchRequest::RECORD_COUNT_AND_RESULTS);
-    searchRequest->SetLimit(mDmqlQuery->GetLimit());
-    searchRequest->SetOffset(mDmqlQuery->GetOffset());
-    searchRequest->SetFormatType(SearchRequest::COMPACT);
+    mSearchRequest->SetLimit(mDmqlQuery->GetLimit());
+    mSearchRequest->SetOffset(mDmqlQuery->GetOffset());
+    mSearchRequest->SetFormatType(SearchRequest::COMPACT);
     
-    searchRequest->SetStandardNames(
+    mSearchRequest->SetStandardNames(
         mStmt->mDbc->mDataSource.GetStandardNames());
 
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, str_stream() << "Trying RETSQuery: " <<
-              searchRequest->GetQueryString());
+              mSearchRequest->GetQueryString());
 
-    SearchResultSetAPtr results = session->Search(searchRequest.get());
+    mSearchResults = session->Search(mSearchRequest.get());
 
-    // Upcast the generic result set to the BulkResultSet we should
-    // use here.  Needed to be done so we can get access to the addRow
-    // method.
-    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+    // Upcast the generic search result set to the OnDemandResultSet
+    // we should use here.  Needed to be done so we can get access to the
+    // setSearchResults method.
+    OnDemandResultSet* rs = dynamic_cast<OnDemandResultSet*>(mResultSet.get());
 
-    // Process the results: while we still have results, walk our already
-    // set up columns and filling them in.
-    ColumnVectorPtr colvec = mResultSet->getColumns();
-    int rowCount = 0;
-    while (results->HasNext())
-    {
-        StringVectorPtr v(new StringVector());
+    rs->setSearchResults(mSearchResults.get());
 
-        ColumnVector::iterator j;
-        for (j = colvec->begin(); j != colvec->end(); j++)
-        {
-            ColumnPtr column = *j;
-            string columnName = column->getName();
-            string result;
-            try
-            {
-                result = results->GetString(columnName);
-            }
-            catch (std::invalid_argument& e)
-            {
-                result = "";
-                LOG_DEBUG(log, str_stream() << e.what() << " -- ignoring");
-            }
-            v->push_back(result);
-        }
-        rs->addRow(v);
-        rowCount++;
-    }
-
-    if (results->GetCount() > rowCount)
-    {
-        mStmt->addError("01000", "ReportedCount is larger then rows "
-                        "processed, server may have limit.");
-        sqlreturn = SQL_SUCCESS_WITH_INFO;
-    }
-
-    return sqlreturn;
+    return SQL_SUCCESS;
 }
-
-ostream & DataQuery::print(ostream & out) const
+    
+ostream & OnDemandDataQuery::print(ostream & out) const
 {
     out << mDmqlQuery;
     return out;

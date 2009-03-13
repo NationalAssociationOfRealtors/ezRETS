@@ -34,7 +34,7 @@ SQLRETURN StatisticsMetadataQuery::execute()
 void StatisticsMetadataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dt(DataTranslator::factory());
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
     
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);

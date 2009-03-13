@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2008 National Association of REALTORS(R)
+ * Copyright (C) 2006-2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -83,7 +83,7 @@ ColumnMetadataQuery::ColumnMetadataQuery(RetsSTMT* stmt, string table,
 void ColumnMetadataQuery::prepareResultSet()
 {
     DataTranslatorSPtr dt(DataTranslator::factory(mStmt));
-    mResultSet = newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
     
     mResultSet->addColumn("TABLE_CAT", SQL_VARCHAR);
     mResultSet->addColumn("TABLE_SCHEM", SQL_VARCHAR);
@@ -228,8 +228,8 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     // avoid duplicated logic, we'll create a dummy resultset with a
     // dummy column that is build using the current rTable.
     // We'll need to come up with a cleaner way to do this.
-    ResultSet dummyResult(mStmt->getLogger(), metadataView, dataTranslator,
-                          mStmt->getArd());
+    DummyResultSet dummyResult(mStmt->getLogger(), metadataView,
+                               dataTranslator, mStmt->getArd());
     dummyResult.addColumn(colName, rTable,
                           mStmt->mDbc->mDataSource.GetUseCompactFormat());
     ColumnPtr dummyCol = dummyResult.getColumn(1);
@@ -323,7 +323,11 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     // IS_NULLABLE
     results->push_back("YES");
 
-    mResultSet->addRow(results);
+    // Upcast the generic result set to the BulkResultSet we should
+    // use here.  Needed to be done so we can get access to the addRow
+    // method.
+    BulkResultSet* rs = dynamic_cast<BulkResultSet*>(mResultSet.get());
+    rs->addRow(results);
 
     return SQL_SUCCESS;
 }

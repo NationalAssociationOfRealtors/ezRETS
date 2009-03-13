@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */; };
+		DE4C9D8D0F5F3DB70083E560 /* OnDemandDataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */; };
 		DE6972C10C85C933004DEF1F /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B70C85C8EF004DEF1F /* DataSource.cpp */; };
 		DE6972C20C85C933004DEF1F /* EzRetsException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B60C85C8EF004DEF1F /* EzRetsException.cpp */; };
 		DE6972D30C85CA4A004DEF1F /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
@@ -80,6 +81,7 @@
 		DE6973790C85D096004DEF1F /* RegisterFuncs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69726E0C85C8EF004DEF1F /* RegisterFuncs.cpp */; };
 		DE69737A0C85D096004DEF1F /* RegisterDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69726F0C85C8EF004DEF1F /* RegisterDriver.cpp */; };
 		DE69737B0C85D09C004DEF1F /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
+		DE6CC87C0F61E616002D1FB8 /* OnDemandResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */; };
 		DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */; };
 		DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */; };
 /* End PBXBuildFile section */
@@ -103,6 +105,7 @@
 
 /* Begin PBXFileReference section */
 		DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslatorFactory.cpp; path = ../driver/src/DataTranslatorFactory.cpp; sourceTree = SOURCE_ROOT; };
+		DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandDataQuery.cpp; path = ../driver/src/OnDemandDataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE5416C00D07160800615353 /* gendefgui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gendefgui-Info.plist"; sourceTree = "<group>"; };
 		DE6972540C85C8C0004DEF1F /* ezrets32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ezrets32x32.png; path = ../setup/src/ezrets32x32.png; sourceTree = SOURCE_ROOT; };
 		DE69725D0C85C8E1004DEF1F /* ezretss.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = ezretss.ico; path = ../setup/src/ezretss.ico; sourceTree = SOURCE_ROOT; };
@@ -192,6 +195,7 @@
 		DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = ezrets.xcconfig; sourceTree = "<group>"; };
 		DE69734C0C85CE9E004DEF1F /* ezretss.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = ezretss.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE6973770C85D082004DEF1F /* register_driver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = register_driver; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandResultSet.cpp; path = ../driver/src/OnDemandResultSet.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupColumnsQuery.cpp; path = ../driver/src/EzLookupColumnsQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupQuery.cpp; path = ../driver/src/EzLookupQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE8F8C090E1668E80061E427 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
@@ -335,6 +339,8 @@
 		DE6972820C85C8EF004DEF1F /* driver */ = {
 			isa = PBXGroup;
 			children = (
+				DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */,
+				DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */,
 				DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */,
 				DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */,
 				DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */,
@@ -596,6 +602,8 @@
 				DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */,
 				DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */,
 				DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */,
+				DE4C9D8D0F5F3DB70083E560 /* OnDemandDataQuery.cpp in Sources */,
+				DE6CC87C0F61E616002D1FB8 /* OnDemandResultSet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
