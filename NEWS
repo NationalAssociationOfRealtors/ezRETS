@@ -1,15 +1,20 @@
-Changes since <last version>
-----------------------------
-
-
 Changes since 2.1.3
 -------------------
+  * User-Agent is now "ezRETS/2.4.90 (librets/1.3.1)"
+
+ Enhancements
+  * For data queries, we now process the RETS data as it is
+    downloaded.  This should reduce memory footprint and give
+    interactive client users some perceived performance gains.
 
  Bug fix
   * If "Query=*" was on, ALL queries ended up being Query=*, fixed for
-    desired behaviour
+    desired behaviour.
   * count(*) queries and other non-rets-data queries now behave properly when
     Ignore Metadata Type is on.
+
+ Developer Notes
+  * libRETS 1.3.1 is now required
 
 Changes since 2.1.2
 -------------------
