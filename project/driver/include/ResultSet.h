@@ -78,7 +78,6 @@ class ResultSet
     MetadataViewPtr mMetadataView;
     DataTranslatorSPtr mTranslator;
     AppRowDesc* mArdPtr;
-    bool mGotFirst;
     ColumnVectorPtr mColumns;
 };
 
