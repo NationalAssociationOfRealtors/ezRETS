@@ -3,8 +3,8 @@
 srcdir = .
 include $(srcdir)/project/build/version.mk
 
-MODE = Debug
-#MODE = Release
+#MODE = Debug
+MODE = Release
 
 all: ezrets ezretss register_driver
 
@@ -35,7 +35,7 @@ dist: all
 	mkdir -p dist/osx
 	cp README dist/osx/README.txt
 	cp LICENSE dist/osx/LICENSE.txt
-	/Developer/usr/bin/packagemaker -v -d project/build/new_OSX_Package.pmdoc -o dist/osx/ezRETS-$(VERSION).pkg
+	/Developer/usr/bin/packagemaker -v -n $(VERSION) -i org.realtors.crt.ezrets -d project/build/new_OSX_Package.pmdoc -o dist/osx/ezRETS-$(VERSION).pkg
 	cp doc/SQL_Reference.html dist/osx
 	cp project/build/rdrive.icns 'dist/osx/.VolumeIcon.icns'
 	hdiutil create -ov dist/tmp.dmg -fs HFS+ -volname 'ezRETS $(VERSION)' -uid 99 -gid 99 -srcfolder dist/osx -format UDRW
