@@ -1,21 +1,15 @@
 
 !include <../../build/Makefile.vc>
 
-CCNODBG    = cl.exe /MD /O2 /DNDEBUG
-CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ
-CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc /I../../common/include
-LINKDLL    = link.exe /DLL
-LINKLIB    = link.exe /lib
-LDFLAGS_STD = /nologo
+INSTALLER_CFLAGS = /I. /I../include /I../../common/include
+INSTALLER_LDFLAGS = /RELEASE
 
 SYSLIBS = user32.lib winmm.lib odbccp32.lib libboost_program_options-vc71-mt.lib
 DIROBJ = release
 TARGET = $(DIROBJ)\RegisterDriver.exe
-#CC  = $(CCDEBUG)
-#CXX     = $(CCDEBUG)
 CC  = $(CCNODBG)
 CXX     = $(CCNODBG)
-CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
+CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) $(INSTALLER_CFLAGS)
 LDFLAGS = $(LDFLAGS_STD) $(BOOST_LDFLAGS)
 LINK    = link.exe $(LDFLAGS)
 
@@ -27,7 +21,7 @@ all: $(TARGET)
 $(TARGET): $(DIROBJ)
 
 $(DIROBJ)\RegisterDriver.exe: $(REGISTERDRIVER_OBJS)
-	$(LINK) /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
+	$(LINK) /SUBSYSTEM:CONSOLE /FORCE:MULTIPLE /VERSION:$(VERSION) /NODEFAULTLIB:MSVCRT /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
