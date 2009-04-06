@@ -21,6 +21,7 @@
 #include "librets/protocol_forward.h"
 #include "ezretsfwd.h"
 #include "Query.h"
+#include "librets/SearchResultSet.h"
 
 namespace odbcrets
 {
