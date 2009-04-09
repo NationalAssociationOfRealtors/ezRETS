@@ -172,7 +172,8 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
         throw DateTimeFormatException("Value not a timestamp: " + data);
     }
 
-    // we're a time, return sqlerror;
+    // I should rewrite this to use regular expressions...
+    
     TIMESTAMP_STRUCT* tm = (TIMESTAMP_STRUCT*) target;
 
     try
@@ -208,10 +209,20 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
             tm->hour = lexical_cast<SQLSMALLINT>(data.substr(10 + o, 2));
             tm->minute = lexical_cast<SQLSMALLINT>(data.substr(13 + o, 2));
             tm->second = lexical_cast<SQLSMALLINT>(data.substr(16 + o, 2));
-            // TODO: support fractions of a second, but really, are you going
-            // to run into that in real estate data?  (Found out that FBS
-            // does seem to send it.  Should we care?)
-            tm->fraction=0;
+
+            // If the dataSize > 18, we must have data after the
+            // second, which means we're into fraction of a second
+            // land.  If not, we'll set the fraction to 0 since its
+            // optional.
+            if (dataSize > (18 + o))
+            {
+                tm->fraction =
+                    lexical_cast<SQLSMALLINT>(data.substr(19 + o, 3));
+            }
+            else
+            {
+                tm->fraction=0;
+            }
         }
     }
     catch(b::bad_lexical_cast&)
