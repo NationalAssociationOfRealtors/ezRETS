@@ -992,7 +992,9 @@ SQLRETURN RetsSTMT::SQLGetData(
             resultSet->getData(ColumnNumber, TargetType, TargetValue,
                                BufferLength, StrLenorInd, &mDataStreamInfo);
 
-            if (mDataStreamInfo.status == DataStreamInfo::HAS_MORE_DATA)
+            if (mDataStreamInfo.status == DataStreamInfo::HAS_MORE_DATA ||
+                (mDataStreamInfo.status == DataStreamInfo::NO_MORE_DATA &&
+                 BufferLength == 0))
             {
                 retCode = SQL_SUCCESS_WITH_INFO;
                 addError("01004", "Data truncated");
