@@ -134,7 +134,7 @@ void ObjectQuery::prepareResultSet()
     // We don't need to base this translator on current settings, so
     // the default translator will be what we want.
     DataTranslatorSPtr dt(DataTranslator::factory());
-    newResultSet(dt);
+    mResultSet.reset(newResultSet(dt));
 
     mResultSet->addColumn("object_key", SQL_VARCHAR);
     mResultSet->addColumn("object_id", SQL_INTEGER);
