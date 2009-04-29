@@ -27,6 +27,7 @@ else
 end
 
 show_extra = false
+location = false
 
 usage = OptionParser.new do |opts|
   opts.banner = "Usage: GenericSearch.rb [options] <resource> <type> " +
@@ -44,6 +45,7 @@ usage = OptionParser.new do |opts|
   opts.on('-lARG', '--loginUrl ARG', 'Login URL') do |a|
     drv.attrs["LoginUrl"] = a
   end
+  opts.on('-L', '--location', 'Do a location query.') { location = true }
   opts.on('-pARG', '--password ARG') { |a| drv.attrs["PWD"] = a }
   opts.on('-rARG', '--rets_version ARG') { |a| drv.attrs["RetsVersion"] = a }
   opts.on('-uARG', '--user ARG') { |a| drv.attrs["UID"] = a }
@@ -75,11 +77,13 @@ extentions = {
   'image/gif' => 'gif'
 }
 
-sql = "select * from object:binary:#{resource} where type='#{type}' and " +
+qtype = location ? "location" : "binary"
+sql = "select * from object:#{qtype}:#{resource} where type='#{type}' and " +
       "object_key='#{object_key}'"
 
 dbc = ODBC::Database.new
 dbc.drvconnect(drv)
+puts "Executing #{sql}"
 dbc.run(sql) do |stmt|
   print "Search result has #{stmt.nrows} rows\n\n"
   if show_extra
@@ -88,10 +92,16 @@ dbc.run(sql) do |stmt|
     end
     puts
   end
-  stmt.each_hash do |row|
-    filename = row["object_key"] + '.' + row["object_id"].to_s + '.' +
-               extentions[row["mime_type"]]
-    File.open(filename, 'w') { |f| f << row["raw_data"] }
+  if location
+    stmt.each_hash do |row|
+      puts row["location_url"]
+    end
+  else
+    stmt.each_hash do |row|
+      filename = row["object_key"] + '.' + row["object_id"].to_s + '.' +
+        extentions[row["mime_type"]]
+      File.open(filename, 'w') { |f| f << row["raw_data"] }
+    end
   end
 end
 dbc.disconnect
