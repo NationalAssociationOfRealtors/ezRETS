@@ -133,7 +133,8 @@ void OnDemandDataQuery::prepareResultSet()
             // force a load.  Should help with FNIS who seemed to not
             // like us doing a data retreval and a metadataa lookup at
             // the same time.
-            if (metadata->IsLookupColumn(table))
+            if (!mStmt->mDbc->mDataSource.GetUseCompactFormat() &&
+                metadata->IsLookupColumn(table))
             {
                 MetadataLookupTypeList foo =
                     metadata->getLookupTypes(mDmqlQuery->GetResource(),
