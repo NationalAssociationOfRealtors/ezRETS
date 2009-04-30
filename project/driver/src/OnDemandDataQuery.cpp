@@ -128,6 +128,17 @@ void OnDemandDataQuery::prepareResultSet()
         if (!name.empty())
         {
             mResultSet->addColumn(name, table, mUseCompactFormat);
+
+            // If the table is a lookup, we'll get the lookup types to
+            // force a load.  Should help with FNIS who seemed to not
+            // like us doing a data retreval and a metadataa lookup at
+            // the same time.
+            if (metadata->IsLookupColumn(table))
+            {
+                MetadataLookupTypeList foo =
+                    metadata->getLookupTypes(mDmqlQuery->GetResource(),
+                                             table->GetLookupName());
+            }
         }
     }
 }
