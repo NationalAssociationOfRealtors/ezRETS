@@ -1,3 +1,12 @@
+Changes since 2.5.1
+-------------------
+ * User-Agent is now "ezRETS/2.5.2 (librets/1.3.1)"
+
+ Bug fixes
+  * Fix to pre-load the lookups before a query, should fix problems
+    seen with FNIS
+  * Fix crashes when doing object:location queries
+
 Changes since 2.5.0
 -------------------
   * User-Agent is now "ezRETS/2.5.1 (librets/1.3.1)"
