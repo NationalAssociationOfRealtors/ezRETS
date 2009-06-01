@@ -70,6 +70,7 @@ const char * CLASS::INI_PROXY_URL = "ProxyUrl";
 const char * CLASS::INI_PROXY_PASSWORD = "ProxyPassword";
 const char * CLASS::INI_SUPPORTS_QUERYSTAR = "SupportsQueryStar";
 const char * CLASS::INI_USE_BULK_QUERY = "UseOldBulkQuery";
+const char * CLASS::INI_HTTP_LOG_EVERYTHING = "HttpLogEverything";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
@@ -233,6 +234,7 @@ void DataSource::init()
     mUseProxy = false;
     mSupportsQueryStar = false;
     mUseOldBulkQuery = false;
+    mHttpLogEverything = false;
 }
 
 DataSource::DataSource()
@@ -298,6 +300,7 @@ void DataSource::MergeFromIni()
         MergeFromProfileString(mEncodingTypeString, INI_ENCODING_TYPE);
 
         mSupportsQueryStar = GetProfileBool(INI_SUPPORTS_QUERYSTAR, false);
+        mHttpLogEverything = GetProfileBool(INI_HTTP_LOG_EVERYTHING, false);
     }
 }
 
@@ -335,6 +338,8 @@ void DataSource::WriteToIni(UWORD configMode)
     WriteProfileString(configMode, INI_PROXY_PASSWORD, mProxyPassword);
     WriteProfileString(configMode, INI_SUPPORTS_QUERYSTAR,
         mSupportsQueryStar);
+    WriteProfileString(configMode, INI_HTTP_LOG_EVERYTHING,
+                       mHttpLogEverything);
 }
 
 void DataSource::CreateInIni(string driver, UWORD configMode)
@@ -720,6 +725,16 @@ void DataSource::SetSupportsQueryStar(bool supports)
     mSupportsQueryStar = supports;
 }
 
+bool DataSource::GetHttpLogEverything() const
+{
+    return mHttpLogEverything;
+}
+
+void DataSource::SetHttpLogEverything(bool log)
+{
+    mHttpLogEverything = log;
+}
+
 bool DataSource::GetUseOldBulkQuery() const
 {
     return mUseOldBulkQuery;
@@ -826,6 +841,12 @@ string DataSource::GetConnectionString() const
                                  mSupportsQueryStar);
     }
 
+    if (mHttpLogEverything)
+    {
+        AppendToConnectionString(connectionString, INI_HTTP_LOG_EVERYTHING,
+                                 mHttpLogEverything);
+    }
+
     if (mUseOldBulkQuery)
     {
         AppendToConnectionString(connectionString, INI_USE_BULK_QUERY,
@@ -921,6 +942,11 @@ ostream & DataSource::Print(ostream & out) const
     if (mSupportsQueryStar)
     {
         out <<", SupportsQueryStar: " << mSupportsQueryStar;
+    }
+
+    if (mHttpLogEverything)
+    {
+        out <<", HttpLogEverything: " << mHttpLogEverything;
     }
 
     if (mUseOldBulkQuery)
@@ -1047,6 +1073,10 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         {
             mSupportsQueryStar = stringToBool(value);
         }
+        else if (key == INI_HTTP_LOG_EVERYTHING)
+        {
+            mHttpLogEverything = stringToBool(value);
+        }
         else if (key == INI_USE_BULK_QUERY)
         {
             mUseOldBulkQuery = stringToBool(value);
@@ -1062,6 +1092,7 @@ lr::RetsSessionPtr CLASS::CreateRetsSession() const
     session->SetRetsVersion(GetRetsVersion());
     session->SetIncrementalMetadata(!GetUseBulkMetadata());
     session->SetDefaultEncoding(GetEncodingType());
+    session->SetLogEverything(GetHttpLogEverything());
 
     if (mEnableUserAgentAuth)
     {
