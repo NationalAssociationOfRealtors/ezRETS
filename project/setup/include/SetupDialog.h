@@ -53,6 +53,7 @@ class SetupDialog : public wxDialog
     static const long ID_TEST;
     static const long ID_OK;
     static const long ID_CANCEL;
+    static const long ID_HTTP_LOG_EVERYTHING;
     static const long ID_HTTP_LOGGING;
     static const long ID_HTTP_BROWSE;
     static const long ID_DEBUG_LOGGING;
@@ -76,6 +77,7 @@ class SetupDialog : public wxDialog
     wxTextCtrl * mUserAgentPassword;
 
     wxCheckBox * mEnableHttpLogging;
+    wxCheckBox * mHttpLogEverything;
     wxTextCtrl * mHttpLogFile;
     wxButton * mHttpBrowse;
     wxCheckBox * mEnableDebugLogging;

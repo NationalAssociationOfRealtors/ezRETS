@@ -36,6 +36,7 @@ class DataSourceValidator : public wxValidator
         CUSTOM_USER_AGENT,
         USE_HTTP_GET,
         USE_HTTP_LOGGING,
+        HTTP_LOG_EVERYTHING,
         HTTP_LOG_FILE,
         USE_DEBUG_LOGGING,
         DEBUG_LOG_FILE,
@@ -109,6 +110,10 @@ class DataSourceValidator : public wxValidator
     bool UseHttpLoggingToWindow(wxWindow * window);
 
     bool UseHttpLoggingFromWindow(wxWindow * window);
+
+    bool HttpLogEverythingFromWindow(wxWindow * window);
+
+    bool HttpLogEverythingToWindow(wxWindow * window);
 
     bool HttpLogFileToWindow(wxWindow * window);
 

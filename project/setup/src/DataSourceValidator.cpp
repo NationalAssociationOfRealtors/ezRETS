@@ -48,6 +48,8 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
  {&CLASS::UseHttpGetToWindow, &CLASS::UseHttpGetFromWindow, &CLASS::True},
  {&CLASS::UseHttpLoggingToWindow, &CLASS::UseHttpLoggingFromWindow,
   &CLASS::True},
+ {&CLASS::HttpLogEverythingToWindow, &CLASS::HttpLogEverythingFromWindow,
+  &CLASS::True},
  {&CLASS::HttpLogFileToWindow, &CLASS::HttpLogFileFromWindow, &CLASS::True},
  {&CLASS::UseDebugLoggingToWindow, &CLASS::UseDebugLoggingFromWindow,
   &CLASS::True},
@@ -79,11 +81,12 @@ CLASS::ValidatingMethod CLASS::methods[NUM_FIELDS][3] =
 const char * CLASS::FIELD_NAMES[NUM_FIELDS] =
 {
     "Name", "Login URL", "Username", "Password", "Standard Names",
-    "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging", "HTTP Log File",
-    "Use Debug Logging", "Debug Log File", "Use Bulk Metadata",
-    "Ignore Metadata Type", "Use Compact Format", "Enable User-Agent Auth",
-    "User-Agent Password", "User-Agent Auth Type", "Treat Decimal As String",
-    "Encoding", "Use HTTP Proxy", "HTTP Proxy Url", "HTTP Proxy Password"
+    "Custom User-Agent", "Use HTTP GET", "Use HTTP Logging",
+    "HTTP Log Everything", "HTTP Log File", "Use Debug Logging",
+    "Debug Log File", "Use Bulk Metadata", "Ignore Metadata Type",
+    "Use Compact Format", "Enable User-Agent Auth", "User-Agent Password",
+    "User-Agent Auth Type", "Treat Decimal As String", "Encoding",
+    "Use HTTP Proxy", "HTTP Proxy Url", "HTTP Proxy Password"
 };
 
 CLASS::DataSourceValidator(DataSourcePtr dataSource, Field field)
@@ -280,6 +283,20 @@ bool CLASS::UseHttpLoggingFromWindow(wxWindow * window)
 {
     wxCheckBox * checkBox = (wxCheckBox *) window;
     mDataSource->SetUseHttpLogging(checkBox->GetValue());
+    return true;
+}
+
+bool CLASS::HttpLogEverythingToWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    checkBox->SetValue(mDataSource->GetHttpLogEverything());
+    return true;
+}
+
+bool CLASS::HttpLogEverythingFromWindow(wxWindow * window)
+{
+    wxCheckBox * checkBox = (wxCheckBox *) window;
+    mDataSource->SetHttpLogEverything(checkBox->GetValue());
     return true;
 }
 

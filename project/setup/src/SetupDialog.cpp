@@ -42,6 +42,7 @@ typedef DataSourceValidator DSV;
 const long SetupDialog::ID_TEST = wxNewId();
 const long SetupDialog::ID_OK = wxID_OK;
 const long SetupDialog::ID_CANCEL = wxID_CANCEL;
+const long SetupDialog::ID_HTTP_LOG_EVERYTHING = wxNewId();
 const long SetupDialog::ID_HTTP_LOGGING = wxNewId();
 const long SetupDialog::ID_HTTP_BROWSE = wxNewId();
 const long SetupDialog::ID_DEBUG_LOGGING = wxNewId();
@@ -405,7 +406,8 @@ wxPanel * SetupDialog::CreateLoggingPanel(wxWindow * parent)
                        wxDefaultPosition, wxDefaultSize, 0,
                        validator.SetField(DSV::USE_HTTP_LOGGING));
     httpLogBox->Add(mEnableHttpLogging, wxSizerFlags(0));
-    wxBoxSizer * fileBox = new wxBoxSizer(wxHORIZONTAL);
+ 
+    wxBoxSizer * fileBox = new wxBoxSizer(wxHORIZONTAL);   
     fileBox->AddSpacer(10);
     fileBox->Add(new wxStaticText(panel, wxID_ANY, "HTTP Log File:"),
                  wxSizerFlags(0).Border(wxALL, 10).Center());
@@ -415,10 +417,22 @@ wxPanel * SetupDialog::CreateLoggingPanel(wxWindow * parent)
     fileBox->Add(mHttpLogFile, wxSizerFlags(1).
                  Border(wxRIGHT, 10).Center());
     mHttpBrowse = new wxButton(panel, ID_HTTP_BROWSE, "Browse...");
-    fileBox->Add(mHttpBrowse, wxSizerFlags(0) .Center());
+    fileBox->Add(mHttpBrowse, wxSizerFlags(0).Center());
     httpLogBox->Add(fileBox, wxSizerFlags(0).Expand().Border(wxTOP, 10));
 
     topSizer->Add(httpLogBox, wxSizerFlags(0).Expand());
+
+    wxBoxSizer * everythingBox = new wxBoxSizer(wxHORIZONTAL);
+    everythingBox->AddSpacer(10);
+    mHttpLogEverything =
+        new wxCheckBox(panel, ID_HTTP_LOG_EVERYTHING, "Log All HTTP "
+                       "(including GetObject data)", wxDefaultPosition,
+                       wxDefaultSize, 0,
+                       validator.SetField(DSV::HTTP_LOG_EVERYTHING));
+    everythingBox->Add(mHttpLogEverything, wxSizerFlags(0).Expand().Border(wxRIGHT | wxLEFT | wxBOTTOM, 10));
+    topSizer->Add(everythingBox, wxSizerFlags(0).Expand());
+    
+    //    httpLogBox->Add(mHttpLogEverything, wxSizerFlags(0).Border(wxLEFT | wxBOTTOM, 10));
 
     wxBoxSizer * debugLogBox = new wxBoxSizer(wxVERTICAL);
                              
