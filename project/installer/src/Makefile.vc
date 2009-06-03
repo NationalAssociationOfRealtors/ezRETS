@@ -4,7 +4,7 @@
 INSTALLER_CFLAGS = /I. /I../include /I../../common/include
 INSTALLER_LDFLAGS = /RELEASE
 
-SYSLIBS = user32.lib winmm.lib odbccp32.lib libboost_program_options-vc71-mt.lib
+SYSLIBS = user32.lib winmm.lib odbccp32.lib libboost_program_options-vc71-mt-s.lib
 DIROBJ = release
 TARGET = $(DIROBJ)\RegisterDriver.exe
 CC  = $(CCNODBG)
@@ -21,7 +21,7 @@ all: $(TARGET)
 $(TARGET): $(DIROBJ)
 
 $(DIROBJ)\RegisterDriver.exe: $(REGISTERDRIVER_OBJS)
-	$(LINK) /SUBSYSTEM:CONSOLE /FORCE:MULTIPLE /VERSION:$(VERSION) /NODEFAULTLIB:MSVCRT /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
+	$(LINK) /SUBSYSTEM:CONSOLE /VERSION:$(VERSION) /out:$(DIROBJ)\RegisterDriver.exe $(REGISTERDRIVER_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
