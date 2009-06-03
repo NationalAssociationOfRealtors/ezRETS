@@ -1,3 +1,13 @@
+Changes since 2.5.2
+-------------------
+  * I will no longer be reporting the user-agent here.
+
+ Enhancements
+  * Add option to HTTP log to capture GetObject traffic
+
+ Bug fix
+  * Fix windows installer bug caused by missing dll. (This time I mean it.)
+ 
 Changes since 2.5.1
 -------------------
  * User-Agent is now "ezRETS/2.5.2 (librets/1.3.1)"
