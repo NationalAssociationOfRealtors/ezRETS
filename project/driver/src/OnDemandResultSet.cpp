@@ -29,7 +29,7 @@ using std::string;
 #define CLASS OnDemandResultSet
 CLASS::CLASS(EzLoggerPtr logger, MetadataViewPtr metadataView,
              DataTranslatorSPtr translator, AppRowDesc* ard)
-    : ResultSet(logger, metadataView, translator, ard)
+    : ResultSet(logger, metadataView, translator, ard), mResults(NULL)
 {
 }
 
@@ -58,7 +58,15 @@ bool CLASS::isEmpty()
 
 bool CLASS::hasNext()
 {
-    return mResults->HasNext();
+    // Need to add "if the results are null, send false"
+    if (mResults == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        return mResults->HasNext();
+    }
 }
 
 void CLASS::processNextRow()

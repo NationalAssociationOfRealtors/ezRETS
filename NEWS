@@ -1,3 +1,9 @@
+Changes since 2.5.3
+-------------------
+ Bug fix
+  * Fix null pointer bug in OnDemandResultSet when an empty result set
+    is to be returned
+
 Changes since 2.5.2
 -------------------
   * I will no longer be reporting the user-agent here.
