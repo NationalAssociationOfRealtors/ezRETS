@@ -1,13 +1,6 @@
 
 !include <../../../build/Makefile.vc>
 
-CCNODBG    = cl.exe /MD /O2 /DNDEBUG
-CCDEBUG    = cl.exe /MDd /Od /Gm /Zi /D_DEBUG /GZ
-CFLAGS_STD = /I. /I../include /nologo /D__WIN__ /W3 /GX /YX /FD /c /GR /EHsc
-LINKDLL    = link.exe /DLL
-LINKLIB    = link.exe /lib
-LDFLAGS_STD = /nologo
-
 SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
 
 DIROBJ = release
@@ -19,7 +12,7 @@ TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
          $(DIROBJ)\NoDsn.exe $(DIROBJ)\SqlPrepareOnly.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
-CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS)
+CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) /I../include
 LDFLAGS = $(LDFLAGS_STD)
 LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
 

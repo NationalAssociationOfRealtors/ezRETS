@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            db.columns("data:Property:ResidentialProperty");
+            db.columns("data:Property:RES");
         }
 
         ResultColumnPtr col3(new CharResultColumn(256));
