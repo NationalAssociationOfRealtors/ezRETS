@@ -25,13 +25,20 @@ using std::endl;
 using std::string;
 using namespace odbcrets::test;
 
-int main()
+int main(int argc, char *argv[])
 {
     try
     {
         DBHelper db;
 
-        db.connect("retstest");
+        if (argc > 1)
+        {
+            db.connect(argv[1]);
+        }
+        else
+        {
+            db.connect("retstest");
+        }
 
         db.tables();
 

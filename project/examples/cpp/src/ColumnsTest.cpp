@@ -23,15 +23,30 @@ using std::endl;
 using std::string;
 using namespace odbcrets::test;
 
-int main()
+int main(int argc, char *argv[])
 {
     try
     {
         DBHelper db;
 
-        db.connect("retstest");
+        
+        if (argc > 1)
+        {
+            db.connect(argv[1]);
+        }
+        else
+        {
+            db.connect("retstest");
+        }
 
-        db.columns("data:Property:ResidentialProperty");
+        if (argc > 2)
+        {
+            db.columns(argv[2]);
+        }
+        else
+        {
+            db.columns("data:Property:ResidentialProperty");
+        }
 
         ResultColumnPtr col3(new CharResultColumn(256));
         db.bindColumn(3, col3);
