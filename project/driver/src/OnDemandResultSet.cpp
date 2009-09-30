@@ -114,7 +114,7 @@ void CLASS::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                     SQLPOINTER TargetValue, SQLLEN BufferLength,
                     SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
-    LOG_DEBUG(mLogger, "In BulkResultSet::getData()");
+    LOG_DEBUG(mLogger, "In OnDemandResultSet::getData()");
 
     int rColno = colno - 1;
     ColumnPtr& column = mColumns->at(rColno);
