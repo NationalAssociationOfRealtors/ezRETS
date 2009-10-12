@@ -1,3 +1,11 @@
+Changes since 2.5.4
+-------------------
+ Bug fix
+  * Fixed SSIS crash due to incorrect NULL data returned from a translator
+
+ Developer Notes
+  * Mac build update to work with XCode 3.2 and build x86_64 on mac
+
 Changes since 2.5.3
 -------------------
  Bug fix
