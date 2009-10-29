@@ -410,8 +410,9 @@ void CharacterTranslationWorker::translate(
     if(data.empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
+        return;
     }
-
+    
     // If we have stream info, we act widely different than if we do not.
     // If so, we act more like the BinaryTranslator.
     // If not, we just do a simple copy.

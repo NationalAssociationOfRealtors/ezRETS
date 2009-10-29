@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -672,8 +672,11 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
+				GCC_VERSION = 4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Debug;
 		};
@@ -694,14 +697,22 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
+				GCC_VERSION = 4.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
 			name = Release;
 		};
 		DE6972BF0C85C91F004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -710,6 +721,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					"$(LIBRETS)/project/librets/include",
 					"$(BOOST)/include",
@@ -717,8 +729,10 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				PREBINDING = NO;
 				PRODUCT_NAME = "ezrets-common";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -726,12 +740,18 @@
 		DE6972C00C85C91F004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
 				COPY_PHASE_STRIP = YES;
 				EXECUTABLE_PREFIX = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					"$(LIBRETS)/project/librets/include",
 					"$(BOOST)/include",
@@ -739,8 +759,10 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				PREBINDING = NO;
 				PRODUCT_NAME = "ezrets-common";
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -748,6 +770,11 @@
 		DE6972D10C85C99E004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
@@ -767,6 +794,7 @@
 				);
 				INSTALL_PATH = /usr/local/lib;
 				MACH_O_TYPE = mh_bundle;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
@@ -779,6 +807,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezrets;
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -786,6 +815,11 @@
 		DE6972D20C85C99E004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
@@ -803,6 +837,7 @@
 				);
 				INSTALL_PATH = /usr/local/lib;
 				MACH_O_TYPE = mh_bundle;
+				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
@@ -815,6 +850,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezrets;
+				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -852,11 +888,7 @@
 					"-DNO_GCC_PRAGMA",
 				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
 					"-L/usr/local/lib",
-					"-framework",
-					QuickTime,
 					"-framework",
 					IOKit,
 					"-framework",
@@ -866,7 +898,11 @@
 					"-framework",
 					System,
 					"-framework",
+					QuickTime,
+					"-framework",
 					OpenGL,
+					"-framework",
+					AGL,
 					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
@@ -923,11 +959,7 @@
 					"-DNO_GCC_PRAGMA",
 				);
 				OTHER_LDFLAGS = (
-					"-framework",
-					Carbon,
 					"-L/usr/local/lib",
-					"-framework",
-					QuickTime,
 					"-framework",
 					IOKit,
 					"-framework",
@@ -937,7 +969,11 @@
 					"-framework",
 					System,
 					"-framework",
+					QuickTime,
+					"-framework",
 					OpenGL,
+					"-framework",
+					AGL,
 					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
@@ -966,6 +1002,11 @@
 		DE6973860C85D0FF004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -998,6 +1039,11 @@
 		DE6973870C85D0FF004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
