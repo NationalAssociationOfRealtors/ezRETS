@@ -128,8 +128,8 @@
 		DE6CC87C0F61E616002D1FB8 /* OnDemandResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */; };
 		DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */; };
 		DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */; };
-		DE8C9D210FF2503400400AAA /* OnDemandObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */; };
 		DE73420D10A0CC9400C98216 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE73420C10A0CC9400C98216 /* libboost_regex.a */; };
+		DE8C9D210FF2503400400AAA /* OnDemandObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,35 +137,35 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE44E7531099E5D400BB3EC8 /* TablesTest */;
+			remoteGlobalIDString = DE44E7531099E5D400BB3EC8;
 			remoteInfo = TablesTest;
 		};
 		DE44E7B51099E81F00BB3EC8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE44E7791099E76C00BB3EC8 /* ColumnsTest */;
+			remoteGlobalIDString = DE44E7791099E76C00BB3EC8;
 			remoteInfo = ColumnsTest;
 		};
 		DE44E7D51099E8F800BB3EC8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE44E7C51099E8A400BB3EC8 /* ConnectTest */;
+			remoteGlobalIDString = DE44E7C51099E8A400BB3EC8;
 			remoteInfo = ConnectTest;
 		};
 		DE44E7EF1099E95300BB3EC8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE44E7DE1099E92100BB3EC8 /* SimpleGetData */;
+			remoteGlobalIDString = DE44E7DE1099E92100BB3EC8;
 			remoteInfo = SimpleGetData;
 		};
 		DE44E8061099E9A200BB3EC8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DE69723B0C85C73C004DEF1F /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DE44E7F81099E97400BB3EC8 /* SimpleSearch */;
+			remoteGlobalIDString = DE44E7F81099E97400BB3EC8;
 			remoteInfo = SimpleSearch;
 		};
 		DE6972CC0C85C980004DEF1F /* PBXContainerItemProxy */ = {
@@ -234,7 +234,7 @@
 		DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbcinst.dylib; path = /usr/lib/libiodbcinst.dylib; sourceTree = "<absolute>"; };
 		DE6972640C85C8E8004DEF1F /* libiodbc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbc.dylib; path = /usr/lib/libiodbc.dylib; sourceTree = "<absolute>"; };
 		DE6972650C85C8E8004DEF1F /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = /usr/local/lib/libantlr.a; sourceTree = "<absolute>"; };
-		DE6972670C85C8E8004DEF1F /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = /usr/local/lib/libboost_filesystem.a; sourceTree = "<absolute>"; };
+		DE6972670C85C8E8004DEF1F /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = lib/libboost_filesystem.a; sourceTree = BOOST; };
 		DE6972680C85C8E8004DEF1F /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = /usr/local/lib/libexpat.a; sourceTree = "<absolute>"; };
 		DE6972690C85C8E8004DEF1F /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /usr/local/lib/libcurl.a; sourceTree = "<absolute>"; };
 		DE69726C0C85C8EF004DEF1F /* SQL_Reference.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = SQL_Reference.html; path = ../../doc/SQL_Reference.html; sourceTree = SOURCE_ROOT; };
@@ -316,10 +316,10 @@
 		DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandResultSet.cpp; path = ../driver/src/OnDemandResultSet.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupColumnsQuery.cpp; path = ../driver/src/EzLookupColumnsQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupQuery.cpp; path = ../driver/src/EzLookupQuery.cpp; sourceTree = SOURCE_ROOT; };
+		DE73420C10A0CC9400C98216 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = lib/libboost_regex.a; sourceTree = BOOST; };
 		DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandObjectQuery.cpp; path = ../driver/src/OnDemandObjectQuery.cpp; sourceTree = SOURCE_ROOT; };
-		DE73420C10A0CC9400C98216 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = /usr/local/lib/libboost_regex.a; sourceTree = "<absolute>"; };
-		DE8F8C090E1668E80061E427 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
-		DEEA54D60E15590A002896F2 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/libboost_system.a; sourceTree = "<absolute>"; };
+		DE8F8C090E1668E80061E427 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = lib/libboost_program_options.a; sourceTree = BOOST; };
+		DEEA54D60E15590A002896F2 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = lib/libboost_system.a; sourceTree = BOOST; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
