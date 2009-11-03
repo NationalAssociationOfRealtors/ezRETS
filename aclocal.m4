@@ -180,6 +180,11 @@ AC_DEFUN([MY_TEST_BOOST], [
       AC_MSG_ERROR([$ver is too old. Need version $check or higher.])
     fi
 
+    my_lib="${BOOST_PREFIX}/lib/libboost_regex.a"
+    AC_CHECK_FILE([$my_lib], [BOOST_REGEX=$my_lib])
+
+    BOOST_LIBS=BOOST_REGEX
+
 dnl    my_lib="${BOOST_PREFIX}/lib/libboost_filesystem.a"
 dnl    AC_CHECK_FILE([$my_lib], [BOOST_FILESYSTEM=$my_lib])
 dnl    my_lib="${BOOST_PREFIX}/lib/libboost_program_options.a"
