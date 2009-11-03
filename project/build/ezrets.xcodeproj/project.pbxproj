@@ -129,6 +129,7 @@
 		DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */; };
 		DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */; };
 		DE8C9D210FF2503400400AAA /* OnDemandObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */; };
+		DE73420D10A0CC9400C98216 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE73420C10A0CC9400C98216 /* libboost_regex.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -316,6 +317,7 @@
 		DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupColumnsQuery.cpp; path = ../driver/src/EzLookupColumnsQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupQuery.cpp; path = ../driver/src/EzLookupQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandObjectQuery.cpp; path = ../driver/src/OnDemandObjectQuery.cpp; sourceTree = SOURCE_ROOT; };
+		DE73420C10A0CC9400C98216 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = /usr/local/lib/libboost_regex.a; sourceTree = "<absolute>"; };
 		DE8F8C090E1668E80061E427 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = /usr/local/lib/libboost_program_options.a; sourceTree = "<absolute>"; };
 		DEEA54D60E15590A002896F2 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = /usr/local/lib/libboost_system.a; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -377,6 +379,7 @@
 				DE69730D0C85CAA6004DEF1F /* libz.dylib in Frameworks */,
 				DE69730E0C85CAA9004DEF1F /* libssl.dylib in Frameworks */,
 				DE69730F0C85CAAE004DEF1F /* libcrypto.dylib in Frameworks */,
+				DE73420D10A0CC9400C98216 /* libboost_regex.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +475,7 @@
 				DE6972670C85C8E8004DEF1F /* libboost_filesystem.a */,
 				DEEA54D60E15590A002896F2 /* libboost_system.a */,
 				DE8F8C090E1668E80061E427 /* libboost_program_options.a */,
+				DE73420C10A0CC9400C98216 /* libboost_regex.a */,
 				DE6972680C85C8E8004DEF1F /* libexpat.a */,
 				DE6972690C85C8E8004DEF1F /* libcurl.a */,
 			);

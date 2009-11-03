@@ -26,6 +26,7 @@
 #include <boost/algorithm/string/erase.hpp>
 #include <boost/detail/endian.hpp>
 #include <boost/cstdint.hpp>
+#include <boost/regex.hpp>
 
 //#include <fstream>
 
@@ -92,22 +93,21 @@ void DateTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    int dataSize = data.size();
-    if ((dataSize >= 8) && (dataSize <= 12) && (data.at(2) == ':'))
+    b::regex dre("^(\\d{4})-(\\d{2})-(\\d{2})");
+    b::smatch rem;
+    if (!b::regex_match(data, rem, dre))
     {
-        // We have to be a time, we don't do that here
+        // We aren't something we recognize as a date
         setResultSize(resultSize, SQL_NULL_DATA);
         throw DateTimeFormatException("Value not a date: " + data);
     }
 
     DATE_STRUCT* date = (DATE_STRUCT*) target;
-
-    SQLSMALLINT year = 0, month = 0, day = 0;
     try
     {
-        year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
-        month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
-        day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
+        date->year = rem[1].matched ? lexical_cast<SQLSMALLINT>(rem[1]) : 0;
+        date->month = rem[2].matched ? lexical_cast<SQLSMALLINT>(rem[2]) : 0;
+        date->day = rem[3].matched ? lexical_cast<SQLSMALLINT>(rem[3]) : 0;
     }
     catch(b::bad_lexical_cast&)
     {
@@ -119,16 +119,10 @@ void DateTranslationWorker::translate(string data, SQLPOINTER target,
     // Do a sanity check.  One RETS server would occationally send
     // 0000-00-00 as a date.  That doesn't seem to make sense.  We'll
     // assume this is a null data response.
-    if (year == 0 && month == 0 && day == 0)
+    if (date->year == 0 && date->month == 0 && date->day == 0)
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
-    }
-    else
-    {
-        date->year = year;
-        date->month = month;
-        date->day = day;
     }
 
     setResultSize(resultSize, SQL_DATE_LEN);
@@ -151,79 +145,38 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
                                            SQLLEN *resultSize,
                                            DataStreamInfo *streamInfo)
 {
-    // The following definitions are from the Rets spec.  We should
-    // be able to handle most of the following:
-    //
-    // Date -- A date, in YYYY-MM-DD format. 10
-    // DateTime -- A timestamp, in YYYY-MM-DDThh:mm:ss[.sss] format. 19:23
-    // Time -- A time, stored in hh:mm:ss[.sss] format. 8:12
-
     if (data.empty() || b::trim_copy(data).empty())
     {
         setResultSize(resultSize, SQL_NULL_DATA);
         return;
     }
 
-    int dataSize = data.size();
-    if ((dataSize >= 8) && (dataSize <= 12) && (data.at(2) == ':'))
+    // The following definitions are from the Rets spec.  We should
+    // be able to handle most of the following:
+    //
+    // Date -- A date, in YYYY-MM-DD format. 10
+    // DateTime -- A timestamp, in YYYY-MM-DDThh:mm:ss[.sss] format. 19:23
+    // Time -- A time, stored in hh:mm:ss[.sss] format. 8:12
+    b::regex dtre("^((\\d{4})-(\\d{2})-(\\d{2})(\\s?T?)?)?"
+                  "((\\d{2}):(\\d{2}):(\\d{2})(\\.(\\d{3}))?)?");
+    b::smatch rem;
+    if (!b::regex_match(data, rem, dtre))
     {
-        // We have to be a time, we don't do that here
+        // We aren't something recognized as a date or a time.
         setResultSize(resultSize, SQL_NULL_DATA);
         throw DateTimeFormatException("Value not a timestamp: " + data);
     }
 
-    // I should rewrite this to use regular expressions...
-    
     TIMESTAMP_STRUCT* tm = (TIMESTAMP_STRUCT*) target;
-
     try
     {
-        tm->year = lexical_cast<SQLSMALLINT>(data.substr(0,4));
-        tm->month = lexical_cast<SQLSMALLINT>(data.substr(5,2));
-        tm->day = lexical_cast<SQLSMALLINT>(data.substr(8,2));
-        if (dataSize == 10)
-        {
-            // we're a Date
-            tm->hour = 0;
-            tm->minute = 0;
-            tm->second = 0;
-            tm->fraction = 0;
-        }
-        else
-        {
-            // Offset here due to ambiguity in spec.  Is the T required?
-            // Is there a space after that questionably required T?
-        
-            // o is for Offset!  M is for monkey
-            int o = 0;
-            if (data.at(10) == ' ' || data.at(10) == 'T')
-            {
-                o++;
-            }
-            if (data.at(11) == 'T')
-            {
-                o++;
-            }
-        
-            // we're a date time / timestamp
-            tm->hour = lexical_cast<SQLSMALLINT>(data.substr(10 + o, 2));
-            tm->minute = lexical_cast<SQLSMALLINT>(data.substr(13 + o, 2));
-            tm->second = lexical_cast<SQLSMALLINT>(data.substr(16 + o, 2));
-
-            // If the dataSize > 18, we must have data after the
-            // second, which means we're into fraction of a second
-            // land.  If not, we'll set the fraction to 0 since its
-            // optional.
-            if (dataSize > (18 + o))
-            {
-                tm->fraction =
-                    lexical_cast<SQLSMALLINT>(data.substr(19 + o, 3));
-            }
-            else
-            {
-                tm->fraction=0;
-            }
-        }
+        tm->year = rem[2].matched ? lexical_cast<SQLSMALLINT>(rem[2]) : 0;
+        tm->month = rem[3].matched ? lexical_cast<SQLSMALLINT>(rem[3]) : 0;
+        tm->day = rem[4].matched ? lexical_cast<SQLSMALLINT>(rem[4]) : 0;
+        tm->hour = rem[7].matched ? lexical_cast<SQLSMALLINT>(rem[7]) : 0;
+        tm->minute = rem[8].matched ? lexical_cast<SQLSMALLINT>(rem[8]) : 0;
+        tm->second = rem[9].matched ? lexical_cast<SQLSMALLINT>(rem[9]) : 0;
+        tm->fraction = rem[11].matched ? lexical_cast<SQLSMALLINT>(rem[11]) : 0;
     }
     catch(b::bad_lexical_cast&)
     {
@@ -251,8 +204,12 @@ void TimeTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
+    b::regex tre("^(\\d{2}):(\\d{2}):(\\d{2})");
+    b::smatch rem;
+    
     int dataSize = data.size();
-    if (!((dataSize >= 8) && (dataSize <= 12) && (data.at(2) == ':')))
+    //    if (!((dataSize >= 8) && (dataSize <= 12) && (data.at(2) == ':')))
+    if (!b::regex_match(data, rem, tre))
     {
         // We can't be a date if we don't fit in this range
         setResultSize(resultSize, SQL_NULL_DATA);
@@ -262,9 +219,9 @@ void TimeTranslationWorker::translate(string data, SQLPOINTER target,
     TIME_STRUCT* tm = (TIME_STRUCT*) target;
     try
     {
-        tm->hour = lexical_cast<SQLSMALLINT>(data.substr(0, 2));
-        tm->minute = lexical_cast<SQLSMALLINT>(data.substr(3, 2));
-        tm->second = lexical_cast<SQLSMALLINT>(data.substr(6, 2));
+        tm->hour = rem[1].matched ? lexical_cast<SQLSMALLINT>(rem[1]) : 0;
+        tm->minute = rem[2].matched ? lexical_cast<SQLSMALLINT>(rem[2]) : 0;
+        tm->second = rem[3].matched ? lexical_cast<SQLSMALLINT>(rem[3]) : 0;
     }
     catch(b::bad_lexical_cast&)
     {
@@ -272,7 +229,6 @@ void TimeTranslationWorker::translate(string data, SQLPOINTER target,
             str_stream() << "bad_lexical_cast: could not convert \""
             << data << "\" to Time");
     }
-    
 
     setResultSize(resultSize, SQL_TIME_LEN);
 }
