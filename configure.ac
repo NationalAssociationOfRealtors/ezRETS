@@ -54,7 +54,8 @@ if test "$HAVE_BOOST" != "1"; then
    AC_MSG_ERROR([Boost headers are required to build ezRETS])
 fi
 if test -z "$BOOST_REGEX"; then
-   AC_MSG_ERROR("Boost regex library is required to build librets.")_
+   AC_MSG_ERROR("Boost regex library is required to build librets.")
+fi
 
 MY_TEST_IODBC
 if test "$HAVE_IODBC" == "1"; then

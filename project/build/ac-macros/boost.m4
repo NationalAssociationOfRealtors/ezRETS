@@ -45,6 +45,7 @@ AC_DEFUN([MY_TEST_BOOST], [
     BOOST_PREFIX=$boost_prefix
     BOOST_CFLAGS="-I${BOOST_PREFIX}/${boost_include_dir}"
     BOOST_LIBS=
+    BOOST_REGEX=
 
     check="1_33_0"
     check_int=103300
@@ -95,7 +96,7 @@ AC_DEFUN([MY_TEST_BOOST], [
 
     else
        my_lib="${BOOST_PREFIX}/lib/libboost_regex${toolset}${boost_mt}${boost_version}.a"
-       AC_CHECK_FILE([$my_lib], [BOOST_FILESYSTEM=$my_lib])
+       AC_CHECK_FILE([$my_lib], [BOOST_REGEX=$my_lib])
     fi
   fi
 
