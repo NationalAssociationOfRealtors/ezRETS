@@ -183,7 +183,7 @@ AC_DEFUN([MY_TEST_BOOST], [
     my_lib="${BOOST_PREFIX}/lib/libboost_regex.a"
     AC_CHECK_FILE([$my_lib], [BOOST_REGEX=$my_lib])
 
-    BOOST_LIBS=BOOST_REGEX
+    BOOST_LIBS=${BOOST_REGEX}
 
 dnl    my_lib="${BOOST_PREFIX}/lib/libboost_filesystem.a"
 dnl    AC_CHECK_FILE([$my_lib], [BOOST_FILESYSTEM=$my_lib])
