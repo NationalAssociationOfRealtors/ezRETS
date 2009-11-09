@@ -40,12 +40,21 @@ AC_MSG_RESULT($VERSION)
 AC_SUBST(VERSION)
 
 MY_PROG_CCACHE
+
+AC_ARG_ENABLE(shared_dependencies,
+              AC_HELP_STRING([--enable-shared_dependencies],
+                             [Uses shared libraries for dependencies instead of their static counterparts.  Do not enable unless you know what you're doing.]),
+              test "X$enableval" != "Xno" && my_enable_shared_dependencies=yes,
+              my_enable_shared_dependencies=no)
+
 dnl MY_PROG_UNIVERSAL
 MY_TEST_LIBRETS
 MY_TEST_BOOST
 if test "$HAVE_BOOST" != "1"; then
    AC_MSG_ERROR([Boost headers are required to build ezRETS])
 fi
+if test -z "$BOOST_REGEX"; then
+   AC_MSG_ERROR("Boost regex library is required to build librets.")_
 
 MY_TEST_IODBC
 if test "$HAVE_IODBC" == "1"; then
