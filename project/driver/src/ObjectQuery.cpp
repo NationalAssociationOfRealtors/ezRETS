@@ -39,6 +39,13 @@ namespace b = boost;
 using std::string;
 using std::ostream;
 
+const char* ObjectQuery::OBJECT_KEY = "object_key";
+const char* ObjectQuery::OBJECT_ID = "object_id";
+const char* ObjectQuery::MIME_TYPE = "mime_type";
+const char* ObjectQuery::DESCRIPTION = "description";
+const char* ObjectQuery::LOCATION_URL = "location_url";
+const char* ObjectQuery::RAW_DATA = "raw_data";
+
 ObjectQuery::ObjectQuery(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     : Query(stmt), mGetObjectQuery(objectQuery)
 {
@@ -114,7 +121,6 @@ void ObjectQuery::handleResponse(GetObjectResponse* response)
             row->push_back("");
 
             string obj;
-//             lu::readIntoString(*(objDesc->GetDataStream()), obj);
             lu::readIntoString(objDesc->GetDataStream(), obj);
             row->push_back(obj);
         }
@@ -136,13 +142,13 @@ void ObjectQuery::prepareResultSet()
     DataTranslatorSPtr dt(DataTranslator::factory());
     mResultSet.reset(newResultSet(dt));
 
-    mResultSet->addColumn("object_key", SQL_VARCHAR);
-    mResultSet->addColumn("object_id", SQL_INTEGER);
-    mResultSet->addColumn("mime_type", SQL_VARCHAR);
-    mResultSet->addColumn("description", SQL_VARCHAR);
-    mResultSet->addColumn("location_url", SQL_VARCHAR);
+    mResultSet->addColumn(OBJECT_KEY, SQL_VARCHAR);
+    mResultSet->addColumn(OBJECT_ID, SQL_INTEGER);
+    mResultSet->addColumn(MIME_TYPE, SQL_VARCHAR);
+    mResultSet->addColumn(DESCRIPTION, SQL_VARCHAR);
+    mResultSet->addColumn(LOCATION_URL, SQL_VARCHAR);
     // We set 10 meg as our max.  Although, the way things are
     // implemented, this will be ignored by the driver.  Upper layers
     // might care, though.
-    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 10485760);
+    mResultSet->addColumn(RAW_DATA, SQL_LONGVARBINARY, 10485760);
 }

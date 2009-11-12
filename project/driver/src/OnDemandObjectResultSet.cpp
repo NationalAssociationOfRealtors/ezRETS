@@ -15,12 +15,16 @@
  * appear in supporting documentation.
  */
 
-#include <boost/lexical_cast.hpp>
-#include "OnDemandObjectResultSet.h"
+#include <stdexcept>
 #include "librets/GetObjectResponse.h"
 #include "librets/ObjectDescriptor.h"
 #include "librets/util.h"
+#include "OnDemandObjectResultSet.h"
+#include "ObjectQuery.h"
 #include "Column.h"
+#include "EzLogger.h"
+#include "str_stream.h"
+#include "utils.h"
 
 namespace b = boost;
 namespace lu = librets::util;
@@ -73,48 +77,111 @@ bool CLASS::hasNext()
 
     mCurrentObject = mObjectResponse->NextObject();
 
-    return mCurrentObject != NULL;
-}
-
-
-// Using this define feels really ugly, but it seems the best way to
-// avoid a bunch of unnessessary calling to the data part and keep the
-// processNextRow clean
-#define COLUMN_HELPER(col, x) column = mColumns->at(col);\
-    if (column->isBound())\
-    {\
-        column->setData(col, x);\
+    if (mCurrentObject == NULL)
+    {
+        return false;
     }
+
+    // Copy the ObjectResponse elements into a map so that we can
+    // simulate the Data OnDemand stuff in how it handles columns.
+    mObjectResponseMap.clear();
+    mObjectResponseMap[ObjectQuery::OBJECT_KEY] =
+        mCurrentObject->GetObjectKey();
+    mObjectResponseMap[ObjectQuery::OBJECT_ID] =
+        mCurrentObject->GetObjectId();
+    mObjectResponseMap[ObjectQuery::MIME_TYPE] =
+        mCurrentObject->GetContentType();
+    mObjectResponseMap[ObjectQuery::DESCRIPTION] =
+        mCurrentObject->GetDescription();
+    mObjectResponseMap[ObjectQuery::LOCATION_URL] =
+        mCurrentObject->GetLocationUrl();
+
+    // This could be the plaece for future optimization, I see this as
+    // being potentially expensive in terms of memory and memory copy
+    // time. It depends on how smart the underlying string from the
+    // C++ library is.
+    string obj;
+    lu::readIntoString(mCurrentObject->GetDataStream(), obj);
+    mObjectResponseMap[ObjectQuery::RAW_DATA, obj];
+
+    return true;
+}
 
 void CLASS::processNextRow()
 {
-    ColumnPtr column;
-    
-    COLUMN_HELPER(0, mCurrentObject->GetObjectKey())
-    COLUMN_HELPER(1, b::lexical_cast<string>(
-                                 mCurrentObject->GetObjectId()))
-    COLUMN_HELPER(2, mCurrentObject->GetContentType())
-    COLUMN_HELPER(3, mCurrentObject->GetDescription())
+    LOG_DEBUG(mLogger, "In OnDemandObjectResultSet::processNextRow()");
 
-    column = mColumns->at(4);
-    if (column->isBound())
+    ColumnVector::iterator i;
+    int count = 0;
+    for (i = mColumns->begin(); i != mColumns->end(); i++, count++)
     {
-        string location = mCurrentObject->GetLocationUrl();
-        column->setData(4, !location.empty() ? location : "");
-    }
+        ColumnPtr column = *i;
+        string columnName = column->getName();
+        string result;
+        try
+        {
+            result = mObjectResponseMap[columnName];
+        }
+        catch (std::invalid_argument &e)
+        {
+            result = "";
+            LOG_DEBUG(mLogger, str_stream() << e.what() << " -- ignoring");
+        }
 
-    column = mColumns->at(5);
-    if (column->isBound())
-    {
-        string obj;
-        lu::readIntoString(mCurrentObject->GetDataStream(), obj);
-        column->setData(5, !obj.empty() ? obj : "");
-    }
+        SQLSMALLINT type = column->getDataType();
+        if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
+            type == SQL_VARBINARY)
+        {
+            LOG_DEBUG(mLogger, str_stream() << count << " " <<
+                      column->getName() << ": [omitting possible binary data]");
+        }
+        else
+        {
+            LOG_DEBUG(mLogger, str_stream() << count << " " <<
+                      column->getName() << ": " << result);
+        }
+
+        if (column->isBound())
+        {
+            column->setData(count, result);
+        }
+    }    
 }
 
 void CLASS::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                     SQLPOINTER TargetValue, SQLLEN BufferLength,
                     SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
-    #warning "Fill me in"
+    LOG_DEBUG(mLogger, "In OnDemandObjectResultSet::getData()");
+
+    int rColno = colno - 1;
+    ColumnPtr& column = mColumns->at(rColno);
+
+    string result;
+    try
+    {
+        result = mObjectResponseMap[column->getName()];
+    }
+    catch (std::invalid_argument &e)
+    {
+        result = "";
+        LOG_DEBUG(mLogger, str_stream() << e.what() << " -- ignoring");
+    }
+
+    SQLSMALLINT type = column->getDataType();
+    if (type == SQL_LONGVARBINARY || type == SQL_BINARY ||
+        type == SQL_VARBINARY)
+    {
+        LOG_DEBUG(mLogger, str_stream() << column->getName() << " " <<
+                  getTypeName(TargetType) <<
+                  " [omitting possible binary data]");
+    }
+    else
+    {
+        LOG_DEBUG(mLogger, str_stream() << column->getName() << " " <<
+                  getTypeName(TargetType) << " " << result);
+    }
+
+    column->setData(rColno, result, TargetType, TargetValue, BufferLength,
+                    StrLenorInd, streamInfo);
 }

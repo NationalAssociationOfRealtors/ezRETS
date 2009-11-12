@@ -20,6 +20,7 @@
 #include "Query.h"
 #include "DataQuery.h"
 #include "OnDemandDataQuery.h"
+#include "OnDemandObjectQuery.h"
 #include "DataCountQuery.h"
 #include "ObjectQuery.h"
 #include "BinaryObjectQuery.h"
@@ -84,6 +85,8 @@ QueryPtr Query::createSqlQuery(
             }
             else
             {
+                // The on demand is working well enough, we can
+                // probably retire this after the next version
                 if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
                 {
                     ezQuery.reset(
@@ -94,7 +97,6 @@ QueryPtr Query::createSqlQuery(
                     ezQuery.reset(new OnDemandDataQuery(stmt, useCompactFormat,
                                                         dmqlQuery));
                 }
-                    
             }
         }
         break;
@@ -102,13 +104,20 @@ QueryPtr Query::createSqlQuery(
         case SqlToDmqlCompiler::GET_OBJECT_QUERY:
         {
             GetObjectQueryPtr objectQuery = compiler.GetGetObjectQuery();
-            if (objectQuery->GetUseLocation())
+            if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
             {
-                ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+                if (objectQuery->GetUseLocation())
+                {
+                    ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+                }
+                else
+                {
+                    ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
+                }
             }
             else
             {
-                ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
+                ezQuery.reset(new OnDemandObjectQuery(stmt, objectQuery));
             }
         }
         break;

@@ -17,6 +17,7 @@
 
 #include "OnDemandObjectQuery.h"
 #include "OnDemandObjectResultSet.h"
+#include "ObjectQuery.h"
 #include "DataTranslator.h"
 #include "librets/RetsSession.h"
 #include "librets/GetObjectQuery.h"
@@ -47,7 +48,7 @@ CLASS::~CLASS()
 
 SQLRETURN CLASS::execute()
 {
- SQLRETURN result = SQL_SUCCESS;
+    SQLRETURN result = SQL_SUCCESS;
 
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In ObjectQuery::execute()");
@@ -93,15 +94,15 @@ void CLASS::prepareResultSet()
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In prepareDataResultSet");
 
-    mResultSet->addColumn("object_key", SQL_VARCHAR);
-    mResultSet->addColumn("object_id", SQL_INTEGER);
-    mResultSet->addColumn("mime_type", SQL_VARCHAR);
-    mResultSet->addColumn("description", SQL_VARCHAR);
-    mResultSet->addColumn("location_url", SQL_VARCHAR);
-    // We set 10 meg as our max.  Although, the way things are
+    mResultSet->addColumn(ObjectQuery::OBJECT_KEY, SQL_VARCHAR);
+    mResultSet->addColumn(ObjectQuery::OBJECT_ID, SQL_INTEGER);
+    mResultSet->addColumn(ObjectQuery::MIME_TYPE, SQL_VARCHAR);
+    mResultSet->addColumn(ObjectQuery::DESCRIPTION, SQL_VARCHAR);
+    mResultSet->addColumn(ObjectQuery::LOCATION_URL, SQL_VARCHAR);
+    // We set 20 meg as our max.  Although, the way things are
     // implemented, this will be ignored by the driver.  Upper layers
     // might care, though.
-    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 10485760);
+    mResultSet->addColumn(ObjectQuery::RAW_DATA, SQL_LONGVARBINARY, 20971520);
 }
 
 ostream & CLASS::print(std::ostream & out) const

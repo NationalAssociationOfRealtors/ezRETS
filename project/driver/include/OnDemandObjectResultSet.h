@@ -17,6 +17,7 @@
 #ifndef ONDEMANDOBJECTRESULTSET_H
 #define ONDEMANDOBJECTRESULTSET_H
 
+#include <map>
 #include "ResultSet.h"
 
 namespace odbcrets
@@ -45,6 +46,7 @@ class OnDemandObjectResultSet : public ResultSet
   private:
     librets::GetObjectResponse* mObjectResponse;
     librets::ObjectDescriptor* mCurrentObject;
+    std::map<std::string, std::string> mObjectResponseMap;
 };
 
 }

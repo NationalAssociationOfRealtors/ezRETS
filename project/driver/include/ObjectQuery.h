@@ -38,6 +38,13 @@ class ObjectQuery : public Query
 
     virtual void prepareResultSet();
 
+    static const char* OBJECT_KEY;
+    static const char* OBJECT_ID;
+    static const char* MIME_TYPE;
+    static const char* DESCRIPTION;
+    static const char* LOCATION_URL;
+    static const char* RAW_DATA;
+
   protected:
     virtual void handleResponse(librets::GetObjectResponse* response);
     
