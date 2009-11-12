@@ -28,7 +28,6 @@
 
 using namespace odbcrets;
 using namespace librets;
-// namespace lu = librets::util;
 namespace b = boost;
 using std::string;
 using std::ostream;
@@ -86,8 +85,9 @@ SQLRETURN CLASS::execute()
 
 void CLASS::prepareResultSet()
 {
-    DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
-
+    // We should never use anything but a translator that pays
+    // attention to types
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory());
     mResultSet.reset(newResultSet(dataTranslator, ResultSet::ONDEMANDOBJECT));
 
     EzLoggerPtr log = mStmt->getLogger();

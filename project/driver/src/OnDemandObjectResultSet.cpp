@@ -76,30 +76,39 @@ bool CLASS::hasNext()
     return mCurrentObject != NULL;
 }
 
+
+// Using this define feels really ugly, but it seems the best way to
+// avoid a bunch of unnessessary calling to the data part and keep the
+// processNextRow clean
+#define COLUMN_HELPER(col, x) column = mColumns->at(col);\
+    if (column->isBound())\
+    {\
+        column->setData(col, x);\
+    }
+
 void CLASS::processNextRow()
 {
-# warning "Need to code this for "if column is bound"
-    // Maybe I should use a helper method that takes the column number
-    // and value and does the magic isBound() stuff...
-    mColumns->at(0)->setData(0, mCurrentObject->GetObjectKey());
-    mColumns->at(1)->setData(1, b::lexical_cast<string>(
-                                 mCurrentObject->GetObjectId()));
-    mColumns->at(2)->setData(2, mCurrentObject->GetContentType());
-    mColumns->at(3)->setData(3, mCurrentObject->GetDescription());
+    ColumnPtr column;
+    
+    COLUMN_HELPER(0, mCurrentObject->GetObjectKey())
+    COLUMN_HELPER(1, b::lexical_cast<string>(
+                                 mCurrentObject->GetObjectId()))
+    COLUMN_HELPER(2, mCurrentObject->GetContentType())
+    COLUMN_HELPER(3, mCurrentObject->GetDescription())
 
-    string location = mCurrentObject->GetLocationUrl();
-    if (!location.empty())
+    column = mColumns->at(4);
+    if (column->isBound())
     {
-        mColumns->at(4)->setData(4, location);
-        mColumns->at(5)->setData(5, "");
+        string location = mCurrentObject->GetLocationUrl();
+        column->setData(4, !location.empty() ? location : "");
     }
-    else
-    {
-        mColumns->at(4)->setData(4, "");
 
+    column = mColumns->at(5);
+    if (column->isBound())
+    {
         string obj;
         lu::readIntoString(mCurrentObject->GetDataStream(), obj);
-        mColumns->at(5)->setData(5, obj);
+        column->setData(5, !obj.empty() ? obj : "");
     }
 }
 
@@ -107,5 +116,5 @@ void CLASS::getData(SQLUSMALLINT colno, SQLSMALLINT TargetType,
                     SQLPOINTER TargetValue, SQLLEN BufferLength,
                     SQLLEN *StrLenorInd, DataStreamInfo *streamInfo)
 {
-    #warning "whee"
+    #warning "Fill me in"
 }
