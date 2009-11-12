@@ -69,7 +69,7 @@ class ResultSet
                          SQLPOINTER TargetValue, SQLLEN BufferLength,
                          SQLLEN *StrLenorInd, DataStreamInfo *streamInfo) = 0;
 
-    enum ResultSetType { DUMMY, BULK, ONDEMAND };
+    enum ResultSetType { DUMMY, BULK, ONDEMAND, ONDEMANDOBJECT };
 
   protected:
     typedef std::vector<librets::StringVectorPtr> StringVectorVector;

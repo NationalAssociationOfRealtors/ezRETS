@@ -43,7 +43,8 @@ class OnDemandObjectResultSet : public ResultSet
                  SQLLEN *StrLenorInd, DataStreamInfo *streamInfo);
 
   private:
-    librets::GetObjectResponse* mResponse;
+    librets::GetObjectResponse* mObjectResponse;
+    librets::ObjectDescriptor* mCurrentObject;
 };
 
 }

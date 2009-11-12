@@ -16,6 +16,12 @@
  */
 
 #include "OnDemandObjectQuery.h"
+#include "OnDemandObjectResultSet.h"
+#include "DataTranslator.h"
+#include "librets/RetsSession.h"
+#include "librets/GetObjectQuery.h"
+#include "librets/GetObjectRequest.h"
+#include "librets/GetObjectResponse.h"
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -29,7 +35,7 @@ using std::ostream;
 
 #define CLASS OnDemandObjectQuery
 CLASS::CLASS(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
-    : Query(stmt), mGetObjectQuery(objectQuery), mResponse(NULL)
+    : Query(stmt), mGetObjectQuery(objectQuery), mObjectResponse(NULL)
 {
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, str_stream() << "OnDemandObjectQuery::OnDemandObjectQuery: "
@@ -49,33 +55,53 @@ SQLRETURN CLASS::execute()
 
     RetsSessionPtr session = mStmt->getRetsSession();
 
-    GetObjectRequest request(mGetObjectQuery->GetResource(),
-                             mGetObjectQuery->GetType());
+    mObjectRequest.reset(new GetObjectRequest(mGetObjectQuery->GetResource(),
+                                              mGetObjectQuery->GetType()));
 
-    request.SetLocation(mGetObjectQuery->GetUseLocation());
+    mObjectRequest->SetLocation(mGetObjectQuery->GetUseLocation());
 
     string key(mGetObjectQuery->GetObjectKey());
     IntVectorPtr ids = mGetObjectQuery->GetObjectIds();
     if (ids->empty())
     {
-        request.AddAllObjects(key);
+        mObjectRequest->AddAllObjects(key);
     }
     else
     {
         IntVector::iterator i;
         for (i = ids->begin(); i != ids->end(); i++)
         {
-            request.AddObject(key, *i);
+            mObjectRequest->AddObject(key, *i);
         }
     }
 
-    mResponse.reset(session->GetObject(&request));
+    mObjectResponse = session->GetObject(mObjectRequest.get());
 
     OnDemandObjectResultSet* rs =
         dynamic_cast<OnDemandObjectResultSet*>(mResultSet.get());
-    rs->setObjectResponse(rs);
+    rs->setObjectResponse(mObjectResponse.get());
         
     return result;
+}
+
+void CLASS::prepareResultSet()
+{
+    DataTranslatorSPtr dataTranslator(DataTranslator::factory(mStmt));
+
+    mResultSet.reset(newResultSet(dataTranslator, ResultSet::ONDEMANDOBJECT));
+
+    EzLoggerPtr log = mStmt->getLogger();
+    LOG_DEBUG(log, "In prepareDataResultSet");
+
+    mResultSet->addColumn("object_key", SQL_VARCHAR);
+    mResultSet->addColumn("object_id", SQL_INTEGER);
+    mResultSet->addColumn("mime_type", SQL_VARCHAR);
+    mResultSet->addColumn("description", SQL_VARCHAR);
+    mResultSet->addColumn("location_url", SQL_VARCHAR);
+    // We set 10 meg as our max.  Although, the way things are
+    // implemented, this will be ignored by the driver.  Upper layers
+    // might care, though.
+    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 10485760);
 }
 
 ostream & CLASS::print(std::ostream & out) const

@@ -40,6 +40,8 @@ class OnDemandObjectQuery : public Query
 
   protected:
     librets::GetObjectQueryPtr mGetObjectQuery;
+    librets::GetObjectRequestAPtr mObjectRequest;
+    librets::GetObjectResponseAPtr mObjectResponse;
 };
 
 }

@@ -28,6 +28,7 @@
 #include "str_stream.h"
 #include "ResultSet.h"
 #include "OnDemandResultSet.h"
+#include "OnDemandObjectResultSet.h"
 #include "MetadataView.h"
 #include "librets/SqlToDmqlCompiler.h"
 #include "librets/GetObjectQuery.h"
@@ -170,6 +171,12 @@ ResultSet* Query::newResultSet(DataTranslatorSPtr dataTranslator,
             rs = new OnDemandResultSet(mStmt->getLogger(),
                                        mStmt->getMetadataView(),
                                        dataTranslator, mStmt->getArd());
+            break;
+
+        case ResultSet::ONDEMANDOBJECT:
+            rs = new OnDemandObjectResultSet(mStmt->getLogger(),
+                                             mStmt->getMetadataView(),
+                                             dataTranslator, mStmt->getArd());
             break;
             
         case ResultSet::BULK:
