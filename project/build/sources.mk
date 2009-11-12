@@ -55,7 +55,7 @@ $(DRIVER_OBJ_DIR)/%.d: $(DRIVER_SRC_DIR)/%.cpp
 	| $(FIXDEP) $(DRIVER_SRC_DIR) $(DRIVER_OBJ_DIR) > $@
 
 $(DRIVER_LIB): $(COMMON_LIB) $(DRIVER_OBJECTS)
-	$(CXX) -shared -fPIC -fpic $(DRIVER_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(DRIVER_LIB) -lodbcinst $(LIBRETS_LDFLAGS)
+	$(CXX) -shared -fPIC -fpic $(DRIVER_OBJECTS) -Wl,--whole-archive $(STATIC_LIBS) $(COMMON_LIB) -Wl,--no-whole-archive -Wl,-soname  -Wl,ezrets.so -o $(DRIVER_LIB) -lodbcinst $(LIBRETS_LDFLAGS) $(BOOST_LIBS) $(BOOST_REGEX)
 
 
 

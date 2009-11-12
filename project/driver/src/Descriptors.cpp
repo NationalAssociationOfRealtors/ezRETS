@@ -18,6 +18,7 @@
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
+#include "stdint.h"
 
 using namespace odbcrets;
 using std::string;

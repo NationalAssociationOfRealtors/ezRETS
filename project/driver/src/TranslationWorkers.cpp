@@ -207,8 +207,6 @@ void TimeTranslationWorker::translate(string data, SQLPOINTER target,
     b::regex tre("^(\\d{2}):(\\d{2}):(\\d{2})");
     b::smatch rem;
     
-    int dataSize = data.size();
-    //    if (!((dataSize >= 8) && (dataSize <= 12) && (data.at(2) == ':')))
     if (!b::regex_match(data, rem, tre))
     {
         // We can't be a date if we don't fit in this range
