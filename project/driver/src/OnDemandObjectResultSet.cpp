@@ -103,7 +103,7 @@ bool CLASS::hasNext()
     // C++ library is.
     string obj;
     lu::readIntoString(mCurrentObject->GetDataStream(), obj);
-    mObjectResponseMap[ObjectQuery::RAW_DATA, obj];
+    mObjectResponseMap[ObjectQuery::RAW_DATA] = obj;
 
     return true;
 }
