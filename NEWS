@@ -1,3 +1,16 @@
+Changes since 2.5.5
+-------------------
+ Enhancements
+
+  * Changed the way RETS dates and timestamps are parsed, but that
+    shouldn't effect output
+  * Queries for objects optimized for better flow.
+  * Queries for objects or their locations always return the same table now?
+
+ Developer Notes
+  * Boost Regex now needed due to the parsing change above
+  * Added --enable-shared_dependencies flag for Linux x86_64
+
 Changes since 2.5.4
 -------------------
  Bug fix
