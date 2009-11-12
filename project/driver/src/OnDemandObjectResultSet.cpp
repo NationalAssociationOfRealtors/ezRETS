@@ -15,17 +15,18 @@
  * appear in supporting documentation.
  */
 
-#include <stdexcept>
+#include <boost/algorithm/string.hpp>
+#include "librets/util.h"
 #include "librets/GetObjectResponse.h"
 #include "librets/ObjectDescriptor.h"
-#include "librets/util.h"
 #include "OnDemandObjectResultSet.h"
 #include "ObjectQuery.h"
 #include "Column.h"
 #include "EzLogger.h"
 #include "str_stream.h"
 #include "utils.h"
-
+#include <stdexcept>
+    
 namespace b = boost;
 namespace lu = librets::util;
 using namespace odbcrets;
