@@ -20,6 +20,7 @@
 #include "Query.h"
 #include "DataQuery.h"
 #include "OnDemandDataQuery.h"
+#include "OnDemandObjectQuery.h"
 #include "DataCountQuery.h"
 #include "ObjectQuery.h"
 #include "BinaryObjectQuery.h"
@@ -28,6 +29,7 @@
 #include "str_stream.h"
 #include "ResultSet.h"
 #include "OnDemandResultSet.h"
+#include "OnDemandObjectResultSet.h"
 #include "MetadataView.h"
 #include "librets/SqlToDmqlCompiler.h"
 #include "librets/GetObjectQuery.h"
@@ -83,6 +85,8 @@ QueryPtr Query::createSqlQuery(
             }
             else
             {
+                // The on demand is working well enough, we can
+                // probably retire this after the next version
                 if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
                 {
                     ezQuery.reset(
@@ -93,7 +97,6 @@ QueryPtr Query::createSqlQuery(
                     ezQuery.reset(new OnDemandDataQuery(stmt, useCompactFormat,
                                                         dmqlQuery));
                 }
-                    
             }
         }
         break;
@@ -101,13 +104,20 @@ QueryPtr Query::createSqlQuery(
         case SqlToDmqlCompiler::GET_OBJECT_QUERY:
         {
             GetObjectQueryPtr objectQuery = compiler.GetGetObjectQuery();
-            if (objectQuery->GetUseLocation())
+            if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
             {
-                ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+                if (objectQuery->GetUseLocation())
+                {
+                    ezQuery.reset(new ObjectQuery(stmt, objectQuery));
+                }
+                else
+                {
+                    ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
+                }
             }
             else
             {
-                ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
+                ezQuery.reset(new OnDemandObjectQuery(stmt, objectQuery));
             }
         }
         break;
@@ -170,6 +180,12 @@ ResultSet* Query::newResultSet(DataTranslatorSPtr dataTranslator,
             rs = new OnDemandResultSet(mStmt->getLogger(),
                                        mStmt->getMetadataView(),
                                        dataTranslator, mStmt->getArd());
+            break;
+
+        case ResultSet::ONDEMANDOBJECT:
+            rs = new OnDemandObjectResultSet(mStmt->getLogger(),
+                                             mStmt->getMetadataView(),
+                                             dataTranslator, mStmt->getArd());
             break;
             
         case ResultSet::BULK:

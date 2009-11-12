@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2005-2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -51,14 +51,14 @@ void BinaryObjectQuery::prepareResultSet()
     DataTranslatorSPtr dataTranslator(DataTranslator::factory());
     mResultSet.reset(newResultSet(dataTranslator));
     
-    mResultSet->addColumn("object_key", SQL_VARCHAR);
-    mResultSet->addColumn("object_id", SQL_INTEGER);
-    mResultSet->addColumn("mime_type", SQL_VARCHAR);
-    mResultSet->addColumn("description", SQL_VARCHAR);
+    mResultSet->addColumn(OBJECT_KEY, SQL_VARCHAR);
+    mResultSet->addColumn(OBJECT_ID, SQL_INTEGER);
+    mResultSet->addColumn(MIME_TYPE, SQL_VARCHAR);
+    mResultSet->addColumn(DESCRIPTION, SQL_VARCHAR);
     // We set 10 meg as our max.  Although, the way things are
     // implemented, this will be ignored by the driver.  Upper layers
     // might care, though.
-    mResultSet->addColumn("raw_data", SQL_LONGVARBINARY, 10485760);
+    mResultSet->addColumn(RAW_DATA, SQL_LONGVARBINARY, 10485760);
 }
 
 void BinaryObjectQuery::handleResponse(GetObjectResponse* response)

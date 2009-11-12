@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006,2009 National Association of REALTORS(R)
+ * Copyright (C) 2009 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,23 +14,23 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-#ifndef OBJECTQUERY_H
-#define OBJECTQUERY_H
+#ifndef ONDEMANDOBJECTQUERY_H
+#define ONDEMANDOBJECTQUERY_H
 
-#include "ezretsfwd.h"
 #include "librets/sql_forward.h"
 #include "librets/protocol_forward.h"
+#include "ezretsfwd.h"
 #include "Query.h"
 
 namespace odbcrets
 {
-
-class ObjectQuery : public Query
+class OnDemandObjectQuery : public Query
 {
   public:
-    ObjectQuery(RetsSTMT* stmt, librets::GetObjectQueryPtr objectQuery);
+    OnDemandObjectQuery(RetsSTMT* stmt,
+                        librets::GetObjectQueryPtr objectQuery);
 
-    virtual ~ObjectQuery();
+    virtual ~OnDemandObjectQuery();
 
     virtual SQLRETURN execute();
 
@@ -38,22 +38,15 @@ class ObjectQuery : public Query
 
     virtual void prepareResultSet();
 
-    static const char* OBJECT_KEY;
-    static const char* OBJECT_ID;
-    static const char* MIME_TYPE;
-    static const char* DESCRIPTION;
-    static const char* LOCATION_URL;
-    static const char* RAW_DATA;
-
   protected:
-    virtual void handleResponse(librets::GetObjectResponse* response);
-    
     librets::GetObjectQueryPtr mGetObjectQuery;
+    librets::GetObjectRequestAPtr mObjectRequest;
+    librets::GetObjectResponseAPtr mObjectResponse;
 };
 
 }
 
-#endif /* OBJECTQUERY_H */
+#endif /* ONDEMANDOBJECTQUERY_H */
 
 /* Local Variables: */
 /* mode: c++ */

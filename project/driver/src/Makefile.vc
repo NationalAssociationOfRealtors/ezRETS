@@ -66,6 +66,8 @@ X_OBJS = \
 	$(DIROBJ)\OdbcEntry.obj\
 	$(DIROBJ)\OdbcSqlException.obj\
 	$(DIROBJ)\OnDemandDataQuery.obj\
+	$(DIROBJ)\OnDemandObjectQuery.obj\
+	$(DIROBJ)\OnDemandObjectResultSet.obj\
 	$(DIROBJ)\OnDemandResultSet.obj\
 	$(DIROBJ)\PrimaryKeysMetadataQuery.obj\
 	$(DIROBJ)\Query.obj\

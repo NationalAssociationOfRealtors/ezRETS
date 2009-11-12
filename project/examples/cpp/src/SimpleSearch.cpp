@@ -32,7 +32,7 @@ int main()
         db.connect("retstest");
 
         string query("SELECT ListingID,ListDate");
-        query.append("  FROM data:Property:ResidentialProperty");
+        query.append("  FROM data:Property:RES");
         query.append(" WHERE ListPrice > 0");
 
         cout << db.executeQuery(query) << endl;
