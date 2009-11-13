@@ -92,7 +92,7 @@ void CLASS::prepareResultSet()
     mResultSet.reset(newResultSet(dataTranslator, ResultSet::ONDEMANDOBJECT));
 
     EzLoggerPtr log = mStmt->getLogger();
-    LOG_DEBUG(log, "In prepareDataResultSet");
+    LOG_DEBUG(log, "In prepareResultSet: OnDemand Object");
 
     mResultSet->addColumn(ObjectQuery::OBJECT_KEY, SQL_VARCHAR);
     mResultSet->addColumn(ObjectQuery::OBJECT_ID, SQL_INTEGER);

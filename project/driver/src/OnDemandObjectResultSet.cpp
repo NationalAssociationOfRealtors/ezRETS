@@ -16,6 +16,7 @@
  */
 
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include "librets/util.h"
 #include "librets/GetObjectResponse.h"
 #include "librets/ObjectDescriptor.h"
@@ -89,7 +90,7 @@ bool CLASS::hasNext()
     mObjectResponseMap[ObjectQuery::OBJECT_KEY] =
         mCurrentObject->GetObjectKey();
     mObjectResponseMap[ObjectQuery::OBJECT_ID] =
-        mCurrentObject->GetObjectId();
+        boost::lexical_cast<string>(mCurrentObject->GetObjectId());
     mObjectResponseMap[ObjectQuery::MIME_TYPE] =
         mCurrentObject->GetContentType();
     mObjectResponseMap[ObjectQuery::DESCRIPTION] =
