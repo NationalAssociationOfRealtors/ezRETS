@@ -42,7 +42,7 @@ usage = OptionParser.new do |opts|
   opts.on('-HARG', '--http_log ARG', 'HTTP log to given file') do |a|
     drv.attrs["HttpLogFile"] = a
   end
-  opts.on('-lARG', '--loginUrl ARG', 'Login URL') do |a|
+  opts.on('-lARG', '--loginUrl AnRG', 'Login URL') do |a|
     drv.attrs["LoginUrl"] = a
   end
   opts.on('-L', '--location', 'Do a location query.') { location = true }
@@ -85,7 +85,6 @@ dbc = ODBC::Database.new
 dbc.drvconnect(drv)
 puts "Executing #{sql}"
 dbc.run(sql) do |stmt|
-  print "Search result has #{stmt.nrows} rows\n\n"
   if show_extra
     stmt.columns(true).each do |col|
       puts "#{col.name}: #{col.type} #{col.length}"
@@ -100,6 +99,7 @@ dbc.run(sql) do |stmt|
     stmt.each_hash do |row|
       filename = row["object_key"] + '.' + row["object_id"].to_s + '.' +
         extentions[row["mime_type"]]
+      puts "Writing #{filename}"
       File.open(filename, 'w') { |f| f << row["raw_data"] }
     end
   end
