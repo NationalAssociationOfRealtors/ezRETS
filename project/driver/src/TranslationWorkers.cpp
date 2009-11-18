@@ -95,7 +95,7 @@ void DateTranslationWorker::translate(string data, SQLPOINTER target,
 
     b::regex dre("^(\\d{4})-(\\d{2})-(\\d{2})");
     b::smatch rem;
-    if (!b::regex_match(data, rem, dre))
+    if (!b::regex_search(data, rem, dre))
     {
         // We aren't something we recognize as a date
         setResultSize(resultSize, SQL_NULL_DATA);
@@ -160,7 +160,7 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
     b::regex dtre("^((\\d{4})-(\\d{2})-(\\d{2})(\\s?T?)?)?"
                   "((\\d{2}):(\\d{2}):(\\d{2})(\\.(\\d{3}))?)?");
     b::smatch rem;
-    if (!b::regex_match(data, rem, dtre))
+    if (!b::regex_search(data, rem, dtre))
     {
         // We aren't something recognized as a date or a time.
         setResultSize(resultSize, SQL_NULL_DATA);
@@ -207,7 +207,7 @@ void TimeTranslationWorker::translate(string data, SQLPOINTER target,
     b::regex tre("^(\\d{2}):(\\d{2}):(\\d{2})");
     b::smatch rem;
     
-    if (!b::regex_match(data, rem, tre))
+    if (!b::regex_search(data, rem, tre))
     {
         // We can't be a date if we don't fit in this range
         setResultSize(resultSize, SQL_NULL_DATA);
