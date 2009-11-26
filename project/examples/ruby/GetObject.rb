@@ -100,7 +100,7 @@ dbc.run(sql) do |stmt|
       filename = row["object_key"] + '.' + row["object_id"].to_s + '.' +
         extentions[row["mime_type"]]
       puts "Writing #{filename}"
-      File.open(filename, 'w') { |f| f << row["raw_data"] }
+      File.open(filename, 'wb') { |f| f << row["raw_data"] }
     end
   end
 end
