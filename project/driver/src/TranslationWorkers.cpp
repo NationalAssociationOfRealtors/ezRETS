@@ -93,7 +93,7 @@ void DateTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    b::regex dre("^(\\d{4})-(\\d{2})-(\\d{2})");
+    b::regex dre("(\\d{4})-(\\d{2})-(\\d{2})");
     b::smatch rem;
     if (!b::regex_search(data, rem, dre))
     {
@@ -152,17 +152,16 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
     }
 
     // The following definitions are from the Rets spec.  We should
-    // be able to handle most of the following:
+    // be able to handle the following:
     //
     // Date -- A date, in YYYY-MM-DD format. 10
     // DateTime -- A timestamp, in YYYY-MM-DDThh:mm:ss[.sss] format. 19:23
-    // Time -- A time, stored in hh:mm:ss[.sss] format. 8:12
-    b::regex dtre("^((\\d{4})-(\\d{2})-(\\d{2})(\\s?T?)?)?"
-                  "((\\d{2}):(\\d{2}):(\\d{2})(\\.(\\d{3}))?)?");
+    b::regex dtre("(\\d{4})-(\\d{2})-(\\d{2})"
+                  "((\\s?T?)?(\\d{2}):(\\d{2}):(\\d{2})(\\.(\\d{3}))?)?");
     b::smatch rem;
     if (!b::regex_search(data, rem, dtre))
     {
-        // We aren't something recognized as a date or a time.
+        // We aren't something recognized as a date or a datetime.
         setResultSize(resultSize, SQL_NULL_DATA);
         throw DateTimeFormatException("Value not a timestamp: " + data);
     }
@@ -170,13 +169,13 @@ void TimestampTranslationWorker::translate(string data, SQLPOINTER target,
     TIMESTAMP_STRUCT* tm = (TIMESTAMP_STRUCT*) target;
     try
     {
-        tm->year = rem[2].matched ? lexical_cast<SQLSMALLINT>(rem[2]) : 0;
-        tm->month = rem[3].matched ? lexical_cast<SQLSMALLINT>(rem[3]) : 0;
-        tm->day = rem[4].matched ? lexical_cast<SQLSMALLINT>(rem[4]) : 0;
-        tm->hour = rem[7].matched ? lexical_cast<SQLSMALLINT>(rem[7]) : 0;
-        tm->minute = rem[8].matched ? lexical_cast<SQLSMALLINT>(rem[8]) : 0;
-        tm->second = rem[9].matched ? lexical_cast<SQLSMALLINT>(rem[9]) : 0;
-        tm->fraction = rem[11].matched ? lexical_cast<SQLSMALLINT>(rem[11]) : 0;
+        tm->year = rem[1].matched ? lexical_cast<SQLSMALLINT>(rem[1]) : 0;
+        tm->month = rem[2].matched ? lexical_cast<SQLSMALLINT>(rem[2]) : 0;
+        tm->day = rem[3].matched ? lexical_cast<SQLSMALLINT>(rem[3]) : 0;
+        tm->hour = rem[6].matched ? lexical_cast<SQLSMALLINT>(rem[6]) : 0;
+        tm->minute = rem[7].matched ? lexical_cast<SQLSMALLINT>(rem[7]) : 0;
+        tm->second = rem[8].matched ? lexical_cast<SQLSMALLINT>(rem[8]) : 0;
+        tm->fraction = rem[10].matched ? lexical_cast<SQLSMALLINT>(rem[10]) : 0;
     }
     catch(b::bad_lexical_cast&)
     {
@@ -204,7 +203,8 @@ void TimeTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    b::regex tre("^(\\d{2}):(\\d{2}):(\\d{2})");
+    // RETS may pass milliseconds down, but ODBC doesn't care! 
+    b::regex tre("(\\d{2}):(\\d{2}):(\\d{2})");
     b::smatch rem;
     
     if (!b::regex_search(data, rem, tre))
