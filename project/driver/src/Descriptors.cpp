@@ -14,11 +14,13 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#ifndef __WIN__
+#include <stdint.h>
+#endif
 #include "Descriptors.h"
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
-#include "stdint.h"
 
 using namespace odbcrets;
 using std::string;
