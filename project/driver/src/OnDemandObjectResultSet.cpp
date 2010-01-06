@@ -21,7 +21,7 @@
 #include "librets/GetObjectResponse.h"
 #include "librets/ObjectDescriptor.h"
 #include "OnDemandObjectResultSet.h"
-#include "ObjectQuery.h"
+#include "OnDemandObjectQuery.h"
 #include "Column.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -87,15 +87,15 @@ bool CLASS::hasNext()
     // Copy the ObjectResponse elements into a map so that we can
     // simulate the Data OnDemand stuff in how it handles columns.
     mObjectResponseMap.clear();
-    mObjectResponseMap[ObjectQuery::OBJECT_KEY] =
+    mObjectResponseMap[OnDemandObjectQuery::OBJECT_KEY] =
         mCurrentObject->GetObjectKey();
-    mObjectResponseMap[ObjectQuery::OBJECT_ID] =
+    mObjectResponseMap[OnDemandObjectQuery::OBJECT_ID] =
         boost::lexical_cast<string>(mCurrentObject->GetObjectId());
-    mObjectResponseMap[ObjectQuery::MIME_TYPE] =
+    mObjectResponseMap[OnDemandObjectQuery::MIME_TYPE] =
         mCurrentObject->GetContentType();
-    mObjectResponseMap[ObjectQuery::DESCRIPTION] =
+    mObjectResponseMap[OnDemandObjectQuery::DESCRIPTION] =
         mCurrentObject->GetDescription();
-    mObjectResponseMap[ObjectQuery::LOCATION_URL] =
+    mObjectResponseMap[OnDemandObjectQuery::LOCATION_URL] =
         mCurrentObject->GetLocationUrl();
 
     // This could be the plaece for future optimization, I see this as
@@ -104,7 +104,7 @@ bool CLASS::hasNext()
     // C++ library is.
     string obj;
     lu::readIntoString(mCurrentObject->GetDataStream(), obj);
-    mObjectResponseMap[ObjectQuery::RAW_DATA] = obj;
+    mObjectResponseMap[OnDemandObjectQuery::RAW_DATA] = obj;
 
     return true;
 }

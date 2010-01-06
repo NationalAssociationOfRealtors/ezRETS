@@ -22,8 +22,6 @@
 #include "OnDemandDataQuery.h"
 #include "OnDemandObjectQuery.h"
 #include "DataCountQuery.h"
-#include "ObjectQuery.h"
-#include "BinaryObjectQuery.h"
 #include "RetsSTMT.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -104,21 +102,7 @@ QueryPtr Query::createSqlQuery(
         case SqlToDmqlCompiler::GET_OBJECT_QUERY:
         {
             GetObjectQueryPtr objectQuery = compiler.GetGetObjectQuery();
-            if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
-            {
-                if (objectQuery->GetUseLocation())
-                {
-                    ezQuery.reset(new ObjectQuery(stmt, objectQuery));
-                }
-                else
-                {
-                    ezQuery.reset(new BinaryObjectQuery(stmt, objectQuery));
-                }
-            }
-            else
-            {
-                ezQuery.reset(new OnDemandObjectQuery(stmt, objectQuery));
-            }
+            ezQuery.reset(new OnDemandObjectQuery(stmt, objectQuery));
         }
         break;
 

@@ -57,7 +57,6 @@
 		DE6972C20C85C933004DEF1F /* EzRetsException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B60C85C8EF004DEF1F /* EzRetsException.cpp */; };
 		DE6972D30C85CA4A004DEF1F /* GetTypeName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */; };
 		DE6972D40C85CA4A004DEF1F /* AbstractHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972840C85C8EF004DEF1F /* AbstractHandle.cpp */; };
-		DE6972D50C85CA4A004DEF1F /* BinaryObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972850C85C8EF004DEF1F /* BinaryObjectQuery.cpp */; };
 		DE6972D60C85CA4A004DEF1F /* ColAttributeHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972860C85C8EF004DEF1F /* ColAttributeHelper.cpp */; };
 		DE6972D70C85CA4A004DEF1F /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972870C85C8EF004DEF1F /* Column.cpp */; };
 		DE6972D80C85CA4A004DEF1F /* DescEntries.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972880C85C8EF004DEF1F /* DescEntries.cpp */; };
@@ -78,7 +77,6 @@
 		DE6972E70C85CA4A004DEF1F /* GetInfoHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972970C85C8EF004DEF1F /* GetInfoHelper.cpp */; };
 		DE6972E80C85CA4A004DEF1F /* MetadataView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972980C85C8EF004DEF1F /* MetadataView.cpp */; };
 		DE6972E90C85CA4A004DEF1F /* NotImplemented.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972990C85C8EF004DEF1F /* NotImplemented.cpp */; };
-		DE6972EA0C85CA4A004DEF1F /* ObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69729A0C85C8EF004DEF1F /* ObjectQuery.cpp */; };
 		DE6972EB0C85CA4A004DEF1F /* OdbcEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69729B0C85C8EF004DEF1F /* OdbcEntry.cpp */; };
 		DE6972EC0C85CA4A004DEF1F /* OdbcSqlException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69729C0C85C8EF004DEF1F /* OdbcSqlException.cpp */; };
 		DE6972ED0C85CA4A004DEF1F /* PrimaryKeysMetadataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69729D0C85C8EF004DEF1F /* PrimaryKeysMetadataQuery.cpp */; };
@@ -921,7 +919,6 @@
 			files = (
 				DE6972D30C85CA4A004DEF1F /* GetTypeName.cpp in Sources */,
 				DE6972D40C85CA4A004DEF1F /* AbstractHandle.cpp in Sources */,
-				DE6972D50C85CA4A004DEF1F /* BinaryObjectQuery.cpp in Sources */,
 				DE6972D60C85CA4A004DEF1F /* ColAttributeHelper.cpp in Sources */,
 				DE6972D70C85CA4A004DEF1F /* Column.cpp in Sources */,
 				DE6972D80C85CA4A004DEF1F /* DescEntries.cpp in Sources */,
@@ -942,7 +939,6 @@
 				DE6972E70C85CA4A004DEF1F /* GetInfoHelper.cpp in Sources */,
 				DE6972E80C85CA4A004DEF1F /* MetadataView.cpp in Sources */,
 				DE6972E90C85CA4A004DEF1F /* NotImplemented.cpp in Sources */,
-				DE6972EA0C85CA4A004DEF1F /* ObjectQuery.cpp in Sources */,
 				DE6972EB0C85CA4A004DEF1F /* OdbcEntry.cpp in Sources */,
 				DE6972EC0C85CA4A004DEF1F /* OdbcSqlException.cpp in Sources */,
 				DE6972ED0C85CA4A004DEF1F /* PrimaryKeysMetadataQuery.cpp in Sources */,

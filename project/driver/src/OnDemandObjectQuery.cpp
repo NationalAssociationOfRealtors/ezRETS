@@ -14,11 +14,12 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
-
+#include <boost/regex.hpp>
+#include <boost/lexical_cast.hpp>
 #include "OnDemandObjectQuery.h"
 #include "OnDemandObjectResultSet.h"
-#include "ObjectQuery.h"
 #include "DataTranslator.h"
+#include "SqlStateException.h"
 #include "librets/RetsSession.h"
 #include "librets/GetObjectQuery.h"
 #include "librets/GetObjectRequest.h"
@@ -34,6 +35,13 @@ using std::string;
 using std::ostream;
 
 #define CLASS OnDemandObjectQuery
+const char* CLASS::OBJECT_KEY = "object_key";
+const char* CLASS::OBJECT_ID = "object_id";
+const char* CLASS::MIME_TYPE = "mime_type";
+const char* CLASS::DESCRIPTION = "description";
+const char* CLASS::LOCATION_URL = "location_url";
+const char* CLASS::RAW_DATA = "raw_data";
+
 CLASS::CLASS(RetsSTMT* stmt, GetObjectQueryPtr objectQuery)
     : Query(stmt), mGetObjectQuery(objectQuery), mObjectResponse(NULL)
 {
@@ -60,21 +68,30 @@ SQLRETURN CLASS::execute()
 
     mObjectRequest->SetLocation(mGetObjectQuery->GetUseLocation());
 
-    string key(mGetObjectQuery->GetObjectKey());
-    IntVectorPtr ids = mGetObjectQuery->GetObjectIds();
-    if (ids->empty())
+    StringVectorPtr keys = mGetObjectQuery->GetObjectKeys();
+    StringVector::iterator i;
+    for (i = keys->begin(); i != keys->end(); i++)
     {
-        mObjectRequest->AddAllObjects(key);
-    }
-    else
-    {
-        IntVector::iterator i;
-        for (i = ids->begin(); i != ids->end(); i++)
+        b::regex ore("(\\w+)(:(\\d+))?");
+        b::smatch orm;
+        if (!b::regex_search(*i, orm, ore))
         {
-            mObjectRequest->AddObject(key, *i);
+            // If the regular expression doesn't match at all, we got
+            // a bad query?
+            throw SqlStateException("42S02", "Miscellaneous Search Error: "
+                                    "Invalid object_key");
+        }
+
+        if (orm[3].matched)
+        {
+            mObjectRequest->AddObject(orm[1], b::lexical_cast<int>(orm[3]));
+        }
+        else
+        {
+            mObjectRequest->AddAllObjects(orm[1]);
         }
     }
-
+   
     mObjectResponse = session->GetObject(mObjectRequest.get());
 
     OnDemandObjectResultSet* rs =
@@ -94,15 +111,15 @@ void CLASS::prepareResultSet()
     EzLoggerPtr log = mStmt->getLogger();
     LOG_DEBUG(log, "In prepareResultSet: OnDemand Object");
 
-    mResultSet->addColumn(ObjectQuery::OBJECT_KEY, SQL_VARCHAR);
-    mResultSet->addColumn(ObjectQuery::OBJECT_ID, SQL_INTEGER);
-    mResultSet->addColumn(ObjectQuery::MIME_TYPE, SQL_VARCHAR);
-    mResultSet->addColumn(ObjectQuery::DESCRIPTION, SQL_VARCHAR);
-    mResultSet->addColumn(ObjectQuery::LOCATION_URL, SQL_VARCHAR);
+    mResultSet->addColumn(OBJECT_KEY, SQL_VARCHAR);
+    mResultSet->addColumn(OBJECT_ID, SQL_INTEGER);
+    mResultSet->addColumn(MIME_TYPE, SQL_VARCHAR);
+    mResultSet->addColumn(DESCRIPTION, SQL_VARCHAR);
+    mResultSet->addColumn(LOCATION_URL, SQL_VARCHAR);
     // We set 20 meg as our max.  Although, the way things are
     // implemented, this will be ignored by the driver.  Upper layers
     // might care, though.
-    mResultSet->addColumn(ObjectQuery::RAW_DATA, SQL_LONGVARBINARY, 20971520);
+    mResultSet->addColumn(RAW_DATA, SQL_LONGVARBINARY, 20971520);
 }
 
 ostream & CLASS::print(std::ostream & out) const

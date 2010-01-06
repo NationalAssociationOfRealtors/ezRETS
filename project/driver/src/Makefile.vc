@@ -39,7 +39,6 @@ RSC_FLAGS = /l 0x409 -I../include
 
 X_OBJS = \
 	$(DIROBJ)\AbstractHandle.obj\
-	$(DIROBJ)\BinaryObjectQuery.obj\
 	$(DIROBJ)\ColAttributeHelper.obj\
 	$(DIROBJ)\Column.obj\
 	$(DIROBJ)\ColumnMetadataQuery.obj\
@@ -64,7 +63,6 @@ X_OBJS = \
 	$(DIROBJ)\GetTypeName.obj\
 	$(DIROBJ)\MetadataView.obj\
 	$(DIROBJ)\NotImplemented.obj\
-	$(DIROBJ)\ObjectQuery.obj\
 	$(DIROBJ)\OdbcEntry.obj\
 	$(DIROBJ)\OdbcSqlException.obj\
 	$(DIROBJ)\OnDemandDataQuery.obj\
