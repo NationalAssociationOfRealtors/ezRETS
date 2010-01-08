@@ -18,7 +18,6 @@
 #include <boost/algorithm/string.hpp>
 #include "ezretsfwd.h"
 #include "Query.h"
-#include "DataQuery.h"
 #include "OnDemandDataQuery.h"
 #include "OnDemandObjectQuery.h"
 #include "DataCountQuery.h"
@@ -83,18 +82,8 @@ QueryPtr Query::createSqlQuery(
             }
             else
             {
-                // The on demand is working well enough, we can
-                // probably retire this after the next version
-                if (stmt->mDbc->mDataSource.GetUseOldBulkQuery())
-                {
-                    ezQuery.reset(
-                        new DataQuery(stmt, useCompactFormat, dmqlQuery));
-                }
-                else
-                {
-                    ezQuery.reset(new OnDemandDataQuery(stmt, useCompactFormat,
-                                                        dmqlQuery));
-                }
+                ezQuery.reset(new OnDemandDataQuery(stmt, useCompactFormat,
+                                                    dmqlQuery));
             }
         }
         break;

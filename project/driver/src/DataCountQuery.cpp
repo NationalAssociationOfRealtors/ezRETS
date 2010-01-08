@@ -38,10 +38,38 @@ using std::string;
 using std::ostream;
 namespace lu = librets::util;
 
+// #error "combine the missing DataQuery stuff into DataCountQuery so we can drop the DataQuery files."
 DataCountQuery::DataCountQuery(RetsSTMT* stmt, bool useCompactFormat,
                                librets::DmqlQueryPtr dmqlQuery)
-    : DataQuery(stmt, useCompactFormat, dmqlQuery)
+    : Query(stmt), mUseCompactFormat(useCompactFormat), mDmqlQuery(dmqlQuery)
 {
+    EzLoggerPtr log = mStmt->getLogger();
+    LOG_DEBUG(log, str_stream() << "DataQuery::DataQuery: " << mDmqlQuery);
+}
+
+SQLRETURN DataCountQuery::execute()
+{
+    SQLRETURN result = SQL_SUCCESS;
+
+    EzLoggerPtr log = mStmt->getLogger();
+    LOG_DEBUG(log, "In DataCountQuery::execute()");
+
+    // FBS supports "Query=*" which is in effect an empty list
+    // of Criterion for a RETS search.  If its supported we still want
+    // to do the query.
+    if (mDmqlQuery->GetCriterion() != NULL ||
+        mStmt->mDbc->mDataSource.GetSupportsQueryStar())
+    {
+        result = doRetsQuery();
+    }
+    else
+    {
+        mStmt->addError("01000", "RETS queries require a WHERE clause.  "
+                        "Returning empty result set.");
+        result = SQL_SUCCESS_WITH_INFO;
+    }
+
+    return result;
 }
 
 SQLRETURN DataCountQuery::doRetsQuery()
@@ -116,4 +144,10 @@ void DataCountQuery::prepareResultSet()
     mResultSet.reset(newResultSet(dataTranslator));
 
     mResultSet->addColumn("count(*)", SQL_INTEGER);
+}
+
+ostream & DataCountQuery::print(ostream & out) const
+{
+    out << mDmqlQuery;
+    return out;
 }

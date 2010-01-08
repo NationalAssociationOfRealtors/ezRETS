@@ -69,7 +69,6 @@ const char * CLASS::INI_USE_PROXY = "UseProxy";
 const char * CLASS::INI_PROXY_URL = "ProxyUrl";
 const char * CLASS::INI_PROXY_PASSWORD = "ProxyPassword";
 const char * CLASS::INI_SUPPORTS_QUERYSTAR = "SupportsQueryStar";
-const char * CLASS::INI_USE_BULK_QUERY = "UseOldBulkQuery";
 const char * CLASS::INI_HTTP_LOG_EVERYTHING = "HttpLogEverything";
 
 const char * odbcrets::RETS_1_0_STRING = "1.0";
@@ -233,7 +232,6 @@ void DataSource::init()
     mTreatDecimalAsString = false;
     mUseProxy = false;
     mSupportsQueryStar = false;
-    mUseOldBulkQuery = false;
     mHttpLogEverything = false;
 }
 
@@ -735,16 +733,6 @@ void DataSource::SetHttpLogEverything(bool log)
     mHttpLogEverything = log;
 }
 
-bool DataSource::GetUseOldBulkQuery() const
-{
-    return mUseOldBulkQuery;
-}
-
-void DataSource::SetUseOldBulkQuery(bool usebulk)
-{
-    mUseOldBulkQuery = usebulk;
-}
- 
 bool DataSource::IsComplete() const
 {
     return (!mLoginUrl.empty() && !mUsername.empty() && !mPassword.empty());
@@ -847,12 +835,6 @@ string DataSource::GetConnectionString() const
                                  mHttpLogEverything);
     }
 
-    if (mUseOldBulkQuery)
-    {
-        AppendToConnectionString(connectionString, INI_USE_BULK_QUERY,
-                                 mUseOldBulkQuery);
-    }
-    
     return connectionString;
 }
 
@@ -947,11 +929,6 @@ ostream & DataSource::Print(ostream & out) const
     if (mHttpLogEverything)
     {
         out <<", HttpLogEverything: " << mHttpLogEverything;
-    }
-
-    if (mUseOldBulkQuery)
-    {
-        out <<", UseOldBulkQuery: " << mUseOldBulkQuery;
     }
 
     return out;
@@ -1076,10 +1053,6 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
         else if (key == INI_HTTP_LOG_EVERYTHING)
         {
             mHttpLogEverything = stringToBool(value);
-        }
-        else if (key == INI_USE_BULK_QUERY)
-        {
-            mUseOldBulkQuery = stringToBool(value);
         }
     }
 }

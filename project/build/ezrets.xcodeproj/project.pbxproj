@@ -62,7 +62,6 @@
 		DE6972D80C85CA4A004DEF1F /* DescEntries.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972880C85C8EF004DEF1F /* DescEntries.cpp */; };
 		DE6972D90C85CA4A004DEF1F /* ColumnMetadataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972890C85C8EF004DEF1F /* ColumnMetadataQuery.cpp */; };
 		DE6972DA0C85CA4A004DEF1F /* DataCountQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728A0C85C8EF004DEF1F /* DataCountQuery.cpp */; };
-		DE6972DB0C85CA4A004DEF1F /* DataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728B0C85C8EF004DEF1F /* DataQuery.cpp */; };
 		DE6972DC0C85CA4A004DEF1F /* DataStreamInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728C0C85C8EF004DEF1F /* DataStreamInfo.cpp */; };
 		DE6972DD0C85CA4A004DEF1F /* DataTranslationException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728D0C85C8EF004DEF1F /* DataTranslationException.cpp */; };
 		DE6972DE0C85CA4A004DEF1F /* DataTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69728E0C85C8EF004DEF1F /* DataTranslator.cpp */; };
@@ -256,13 +255,11 @@
 		DE6972810C85C8EF004DEF1F /* SimpleSearch.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleSearch.cpp; path = ../examples/cpp/src/SimpleSearch.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GetTypeName.cpp; path = ../driver/src/GetTypeName.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972840C85C8EF004DEF1F /* AbstractHandle.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractHandle.cpp; path = ../driver/src/AbstractHandle.cpp; sourceTree = SOURCE_ROOT; };
-		DE6972850C85C8EF004DEF1F /* BinaryObjectQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BinaryObjectQuery.cpp; path = ../driver/src/BinaryObjectQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972860C85C8EF004DEF1F /* ColAttributeHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ColAttributeHelper.cpp; path = ../driver/src/ColAttributeHelper.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972870C85C8EF004DEF1F /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = ../driver/src/Column.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972880C85C8EF004DEF1F /* DescEntries.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DescEntries.cpp; path = ../driver/src/DescEntries.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972890C85C8EF004DEF1F /* ColumnMetadataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ColumnMetadataQuery.cpp; path = ../driver/src/ColumnMetadataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE69728A0C85C8EF004DEF1F /* DataCountQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataCountQuery.cpp; path = ../driver/src/DataCountQuery.cpp; sourceTree = SOURCE_ROOT; };
-		DE69728B0C85C8EF004DEF1F /* DataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataQuery.cpp; path = ../driver/src/DataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE69728C0C85C8EF004DEF1F /* DataStreamInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataStreamInfo.cpp; path = ../driver/src/DataStreamInfo.cpp; sourceTree = SOURCE_ROOT; };
 		DE69728D0C85C8EF004DEF1F /* DataTranslationException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslationException.cpp; path = ../driver/src/DataTranslationException.cpp; sourceTree = SOURCE_ROOT; };
 		DE69728E0C85C8EF004DEF1F /* DataTranslator.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslator.cpp; path = ../driver/src/DataTranslator.cpp; sourceTree = SOURCE_ROOT; };
@@ -277,7 +274,6 @@
 		DE6972970C85C8EF004DEF1F /* GetInfoHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = GetInfoHelper.cpp; path = ../driver/src/GetInfoHelper.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972980C85C8EF004DEF1F /* MetadataView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MetadataView.cpp; path = ../driver/src/MetadataView.cpp; sourceTree = SOURCE_ROOT; };
 		DE6972990C85C8EF004DEF1F /* NotImplemented.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = NotImplemented.cpp; path = ../driver/src/NotImplemented.cpp; sourceTree = SOURCE_ROOT; };
-		DE69729A0C85C8EF004DEF1F /* ObjectQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectQuery.cpp; path = ../driver/src/ObjectQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE69729B0C85C8EF004DEF1F /* OdbcEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OdbcEntry.cpp; path = ../driver/src/OdbcEntry.cpp; sourceTree = SOURCE_ROOT; };
 		DE69729C0C85C8EF004DEF1F /* OdbcSqlException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OdbcSqlException.cpp; path = ../driver/src/OdbcSqlException.cpp; sourceTree = SOURCE_ROOT; };
 		DE69729D0C85C8EF004DEF1F /* PrimaryKeysMetadataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PrimaryKeysMetadataQuery.cpp; path = ../driver/src/PrimaryKeysMetadataQuery.cpp; sourceTree = SOURCE_ROOT; };
@@ -561,13 +557,11 @@
 				DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */,
 				DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */,
 				DE6972840C85C8EF004DEF1F /* AbstractHandle.cpp */,
-				DE6972850C85C8EF004DEF1F /* BinaryObjectQuery.cpp */,
 				DE6972860C85C8EF004DEF1F /* ColAttributeHelper.cpp */,
 				DE6972870C85C8EF004DEF1F /* Column.cpp */,
 				DE6972880C85C8EF004DEF1F /* DescEntries.cpp */,
 				DE6972890C85C8EF004DEF1F /* ColumnMetadataQuery.cpp */,
 				DE69728A0C85C8EF004DEF1F /* DataCountQuery.cpp */,
-				DE69728B0C85C8EF004DEF1F /* DataQuery.cpp */,
 				DE69728C0C85C8EF004DEF1F /* DataStreamInfo.cpp */,
 				DE69728D0C85C8EF004DEF1F /* DataTranslationException.cpp */,
 				DE69728E0C85C8EF004DEF1F /* DataTranslator.cpp */,
@@ -583,7 +577,6 @@
 				DE6972830C85C8EF004DEF1F /* GetTypeName.cpp */,
 				DE6972980C85C8EF004DEF1F /* MetadataView.cpp */,
 				DE6972990C85C8EF004DEF1F /* NotImplemented.cpp */,
-				DE69729A0C85C8EF004DEF1F /* ObjectQuery.cpp */,
 				DE69729B0C85C8EF004DEF1F /* OdbcEntry.cpp */,
 				DE69729C0C85C8EF004DEF1F /* OdbcSqlException.cpp */,
 				DE69729D0C85C8EF004DEF1F /* PrimaryKeysMetadataQuery.cpp */,
@@ -924,7 +917,6 @@
 				DE6972D80C85CA4A004DEF1F /* DescEntries.cpp in Sources */,
 				DE6972D90C85CA4A004DEF1F /* ColumnMetadataQuery.cpp in Sources */,
 				DE6972DA0C85CA4A004DEF1F /* DataCountQuery.cpp in Sources */,
-				DE6972DB0C85CA4A004DEF1F /* DataQuery.cpp in Sources */,
 				DE6972DC0C85CA4A004DEF1F /* DataStreamInfo.cpp in Sources */,
 				DE6972DD0C85CA4A004DEF1F /* DataTranslationException.cpp in Sources */,
 				DE6972DE0C85CA4A004DEF1F /* DataTranslator.cpp in Sources */,

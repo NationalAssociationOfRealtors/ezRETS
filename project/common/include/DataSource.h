@@ -155,12 +155,6 @@ class DataSource
 
     void SetHttpLogEverything(bool log);
 
-    // The following two methods are temporarily and only for use until
-    // the new OnDemandQuery is shaken out.
-    bool GetUseOldBulkQuery() const;
-
-    void SetUseOldBulkQuery(bool usebulk);
-
     /**
      * Checks to see if all the required entries are filled in.
      */
@@ -284,7 +278,6 @@ class DataSource
     std::string mProxyUrl;
     std::string mProxyPassword;
     bool mSupportsQueryStar;
-    bool mUseOldBulkQuery;
     bool mHttpLogEverything;
 };
 

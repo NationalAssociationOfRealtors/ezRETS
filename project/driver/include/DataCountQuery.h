@@ -19,21 +19,27 @@
 
 #include "librets/sql_forward.h"
 #include "ezretsfwd.h"
-#include "DataQuery.h"
 
 namespace odbcrets
 {
 
-class DataCountQuery : public DataQuery
+class DataCountQuery : public Query
 {
   public:
     DataCountQuery(RetsSTMT* stmt, bool useCompactFormat,
                    librets::DmqlQueryPtr dmqlQuery);
 
+    virtual SQLRETURN execute();
+
+    virtual std::ostream & print(std::ostream & out) const;
+
     virtual void prepareResultSet();
 
   protected:
-    virtual SQLRETURN doRetsQuery();
+    SQLRETURN doRetsQuery();
+
+    bool mUseCompactFormat;
+    librets::DmqlQueryPtr mDmqlQuery;
 };
 
 }
