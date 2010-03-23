@@ -1,7 +1,17 @@
+Changes since 2.6.0
+-------------------
+ Enhancements
+  * RETS 1.7.2 now supported
+  * Queries for objects changed to allow for multiple objects at a
+    time, resulting in all object queries returning the same table
+    stucture
+
+ Developer Notes
+  * libRETS 1.4.1 or greater now required
+
 Changes since 2.5.5
 -------------------
  Enhancements
-
   * Changed the way RETS dates, timestamps, and times are parsed, but that
     shouldn't effect output
   * Queries for objects optimized for better flow.

@@ -130,7 +130,7 @@
     </p>
     <p>
       For <code>object:</code> searches, a WHERE has two required
-      conditions and one optional condition.  You must have
+      conditions.  You must have
       <ul>
         <li><code>type='<i>&lt;some type&gt;</i>'</code></li>
         and
@@ -148,37 +148,27 @@
         <li><code>VRImage</code></li>
       </ul>
       The <code>object_key</code> is typically the primary key for the
-      RETS Resource type.  The optional argument of
-      <code>object_id</code> is to request a specific single item.
-      For example, if there were 7 photos for a property and you just
-      wanted the second one, you'd pass <code>object_id=2</code>.
+      RETS Resource type.  <code>object_key</code> may optionally be
+      appended with a colon followed by a number to request a specific
+      single item for an object_key instead of the default action of
+      sending all items.  For example, if there were 7 photos for
+      property 1234 and you just wanted the second one, you'd pass
+      <code>object_key="1234:2"</code>.
     </p>
     <p>
-      The fields returned for each table type are as follows:
+      The fields returned for each get object query type are as follows:
     </p>
     <p>
-      Table name: <code>object:binary:*</code>
-      <table border="1">
-        <tr><th>Column Name</th><th>Type</th></tr>
-        <tr><td>object_key</td><td>VARCHAR</td></tr>
-        <tr><td>object_id</td><td>INT</td></tr>
-        <tr><td>mime_type</td><td>VARCHAR</td></tr>
-        <tr><td>description</td><td>VARCHAR</td></tr>
-        <tr><td>raw_data</td><td>LONGVARBINARY</td></tr>
-      </table>
-    </p>
-    <p>
-      Table name: <code>object:location:*</code>
-      <table border="1">
+     <table border="1">
         <tr><th>Column Name</th><th>Type</th></tr>
         <tr><td>object_key</td><td>VARCHAR</td></tr>
         <tr><td>object_id</td><td>INT</td></tr>
         <tr><td>mime_type</td><td>VARCHAR</td></tr>
         <tr><td>description</td><td>VARCHAR</td></tr>
         <tr><td>location</td><td>VARCHAR</td></tr>
-        <tr><td>raw_data</td><td>LONGVARBINARY</td></tr>
+	<tr><td>raw_data</td><td>LONGVARBINARY</td></tr>
       </table>
-    </p>
+   </p>
 
     <h2 id="lookups">Getting RETS Lookup Information</h2>
     <p>
