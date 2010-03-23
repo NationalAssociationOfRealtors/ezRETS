@@ -43,7 +43,6 @@ X_OBJS = \
 	$(DIROBJ)\Column.obj\
 	$(DIROBJ)\ColumnMetadataQuery.obj\
 	$(DIROBJ)\DataCountQuery.obj\
-	$(DIROBJ)\DataQuery.obj\
 	$(DIROBJ)\DataStreamInfo.obj\
 	$(DIROBJ)\DataTranslationException.obj\
 	$(DIROBJ)\DataTranslator.obj\
