@@ -74,6 +74,7 @@ const char * CLASS::INI_HTTP_LOG_EVERYTHING = "HttpLogEverything";
 const char * odbcrets::RETS_1_0_STRING = "1.0";
 const char * odbcrets::RETS_1_5_STRING = "1.5";
 const char * odbcrets::RETS_1_7_STRING = "1.7";
+const char * odbcrets::RETS_1_7_2_STRING = "1.7.2";
 
 const char * odbcrets::RETS_XML_DEFAULT_ENCODING_STRING =
     "Default (US-ASCII) Encoding";
@@ -115,6 +116,8 @@ string odbcrets::RetsVersionToString(lr::RetsVersion retsVersion)
             return RETS_1_5_STRING;
         case lr::RETS_1_7:
             return RETS_1_7_STRING;
+        case lr::RETS_1_7_2:
+            return RETS_1_7_2_STRING;
         default:
             throw EzRetsException(str_stream() << "Invalid RetsVersion: "
                                   << retsVersion);
@@ -135,6 +138,10 @@ lr::RetsVersion odbcrets::StringToRetsVersion(string versionString,
     else if (versionString == RETS_1_7_STRING)
     {
         return lr::RETS_1_7;
+    }
+    else if (versionString == RETS_1_7_2_STRING)
+    {
+        return lr::RETS_1_7_2;
     }
     else
     {

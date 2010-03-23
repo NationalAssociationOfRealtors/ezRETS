@@ -304,6 +304,7 @@ wxPanel * SetupDialog::CreateAdvancedPanel(wxWindow * parent)
 #endif
 
     wxArrayString retsVersionChoices;
+    retsVersionChoices.Add(RETS_1_7_2_STRING);
     retsVersionChoices.Add(RETS_1_7_STRING);
     retsVersionChoices.Add(RETS_1_5_STRING);
     retsVersionChoices.Add(RETS_1_0_STRING);
