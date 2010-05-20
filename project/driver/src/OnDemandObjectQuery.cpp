@@ -72,7 +72,7 @@ SQLRETURN CLASS::execute()
     StringVector::iterator i;
     for (i = keys->begin(); i != keys->end(); i++)
     {
-        b::regex ore("(\\w+)(:(\\d+))?");
+        b::regex ore("([\\w-]+)(:(\\d+))?");
         b::smatch orm;
         if (!b::regex_search(*i, orm, ore))
         {
