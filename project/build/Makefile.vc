@@ -3,7 +3,7 @@
 
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"
 LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build-x86" \
-	liblibrets-vs2003-s$(DEBUG_RUNTIME)-1.5.0b1-trunk.lib
+	liblibrets-vs2003-s$(DEBUG_RUNTIME)-1.5.1.lib
 
 BOOST_CFLAGS = /I "$(BOOST_PATH)"
 BOOST_LDFLAGS = "/LIBPATH:$(BOOST_PATH)/stage/lib"
