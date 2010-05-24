@@ -1,3 +1,9 @@
+Changes since 2.7.0
+-------------------
+  Bug fix
+   * Fix logic bug in count(*) queries that caused all queries to be
+     Query=* when "Server supports Query=*" is turned on.
+
 Changes since 2.6.0
 -------------------
  Enhancements

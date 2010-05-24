@@ -82,7 +82,7 @@ SQLRETURN DataCountQuery::doRetsQuery()
 
     DmqlCriterionPtr criterion = mDmqlQuery->GetCriterion();
     string dmqlQuery;
-    if (criterion == NULL || mStmt->mDbc->mDataSource.GetSupportsQueryStar())
+    if (criterion == NULL && mStmt->mDbc->mDataSource.GetSupportsQueryStar())
     {
         dmqlQuery = "*";
     }
