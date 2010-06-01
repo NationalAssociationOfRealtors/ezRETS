@@ -20,6 +20,7 @@
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/erase.hpp>
 #include "ResultSet.h"
 #include "Column.h"
 #include "RetsSTMT.h"
@@ -401,6 +402,11 @@ void RetsColumn::modifyData(string& data)
     if (!mUseCompactFormat && metadataView->IsLookupColumn(mMetadataTablePtr))
     {
         data = lookupDecoder(data);
+    }
+
+    if (mMetadataTablePtr->UseSeparator())
+    {
+        b::erase_all(data, ",");
     }
 }
 
