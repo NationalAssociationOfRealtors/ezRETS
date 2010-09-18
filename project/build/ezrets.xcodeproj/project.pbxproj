@@ -125,7 +125,6 @@
 		DE6CC87C0F61E616002D1FB8 /* OnDemandResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */; };
 		DE6EF62E0E1559530015BC52 /* EzLookupColumnsQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */; };
 		DE6EF62F0E1559530015BC52 /* EzLookupQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */; };
-		DE73420D10A0CC9400C98216 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE73420C10A0CC9400C98216 /* libboost_regex.a */; };
 		DE8C9D210FF2503400400AAA /* OnDemandObjectQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */; };
 /* End PBXBuildFile section */
 
@@ -373,7 +372,6 @@
 				DE69730D0C85CAA6004DEF1F /* libz.dylib in Frameworks */,
 				DE69730E0C85CAA9004DEF1F /* libssl.dylib in Frameworks */,
 				DE69730F0C85CAAE004DEF1F /* libcrypto.dylib in Frameworks */,
-				DE73420D10A0CC9400C98216 /* libboost_regex.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1491,6 +1489,7 @@
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_regex.a",
 					"$(BOOST)/lib/libboost_system.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
