@@ -813,7 +813,14 @@
 			isa = PBXProject;
 			buildConfigurationList = DE69723C0C85C73C004DEF1F /* Build configuration list for PBXProject "ezrets" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = DE6972390C85C73C004DEF1F;
 			productRefGroup = DE6972BD0C85C91F004DEF1F /* Products */;
 			projectDirPath = "";
@@ -1446,6 +1453,7 @@
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
 					"$(BOOST)/lib/libboost_filesystem.a",
+					"$(BOOST)/lib/libboost_regex.a",
 					"$(BOOST)/lib/libboost_system.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
