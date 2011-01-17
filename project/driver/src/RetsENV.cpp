@@ -21,6 +21,7 @@
 #include "EzLogger.h"
 #include "StreamEzLogger.h"
 #include "str_stream.h"
+#include <boost/cast.hpp>
 
 /* Double casts such as:
  *  foo = (SQLINTEGER) (SQLLEN) Value
@@ -28,6 +29,7 @@
  * we have in this file (and the others.)
  */
 
+namespace b = boost;
 using namespace odbcrets;
 
 RetsENV::RetsENV() : AbstractHandle(), mOdbcVersion(3)
@@ -133,11 +135,11 @@ SQLRETURN RetsENV::SQLSetEnvAttr(SQLINTEGER Attribute, SQLPOINTER Value,
     switch (Attribute)
     {
         case SQL_ATTR_ODBC_VERSION:
-            mOdbcVersion = (SQLINTEGER) (SQLLEN) Value;
+            mOdbcVersion = b::numeric_cast<SQLINTEGER>(reinterpret_cast<SQLLEN>(Value));
             break;
 
         case SQL_ATTR_OUTPUT_NTS:
-            if ((SQLINTEGER) (SQLLEN) Value == SQL_TRUE)
+            if (b::numeric_cast<SQLINTEGER>(reinterpret_cast<SQLLEN>(Value)) == SQL_TRUE)
             {
                 break;
             }
