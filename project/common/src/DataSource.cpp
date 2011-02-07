@@ -1085,6 +1085,10 @@ lr::RetsSessionPtr CLASS::CreateRetsSession() const
         session->SetProxy(mProxyUrl, mProxyPassword);
     }
 
+    // Until I have time to ship an SSL CA bundle, or configure a
+    // pointer to it, we'll be naughty and just not verify shit.
+    session->SetModeFlags(lr::RetsSession::MODE_NO_SSL_VERIFY);
+
     return session;
 }
 

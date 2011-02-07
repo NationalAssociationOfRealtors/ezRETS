@@ -1,3 +1,14 @@
+Changes since 2.7.1
+-------------------
+  Enhancement/BugFix
+   * For RETS servers doing SSL, ezRETS will not attempt to verify the
+     SSL certificate from the server.  This behaviour will chance in
+     the future with some configuration options.
+
+  Developer Notes
+   * Small fix to building on OS X where a library was linked
+     dynamically instead of staticly
+
 Changes since 2.7.0
 -------------------
   Bug fix
