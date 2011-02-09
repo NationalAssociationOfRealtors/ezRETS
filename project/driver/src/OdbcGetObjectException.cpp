@@ -23,8 +23,3 @@ OdbcGetObjectException::OdbcGetObjectException(string message)
     throw() : EzRetsException(message)
 {
 }
-
-// SQLRETURN OdbcSqlException::getReturnCode() const throw()
-// {
-//     return mReturnCode;
-// }

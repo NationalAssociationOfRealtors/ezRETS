@@ -27,11 +27,6 @@ class OdbcGetObjectException : public EzRetsException
 {
   public:
     OdbcGetObjectException(std::string message) throw ();
-
-  //   virtual SQLRETURN getReturnCode() const throw();
-
-  // private:
-  //   SQLRETURN mReturnCode;
 };
 
 }
