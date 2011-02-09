@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 National Association of REALTORS(R)
+ * Copyright (C) 2009,2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -88,15 +88,18 @@ bool CLASS::hasNext()
     switch (mCurrentObject->GetRetsReplyCode())
     {
         case 20400:
-            throw OdbcGetObjectException("Invalid Resource");
-            break;
-
         case 20401:
-            throw OdbcGetObjectException("Invalid Type");
-            break;
-
         case 20402:
-            throw OdbcGetObjectException("Invalid Identifier");
+        case 20406:
+        case 20407:
+        case 20408:
+        case 20409:
+        case 20410:
+        case 20411:
+        case 20412:
+        case 20413:
+        case 20414:
+            throw OdbcGetObjectException(mCurrentObject->GetRetsReplyText());
             break;
 
         // <RETS ReplyCode="20403" ReplyText="No Object Found" />
@@ -105,42 +108,6 @@ bool CLASS::hasNext()
             return false;
             break;
 
-        case 20406:
-            throw OdbcGetObjectException("Unsupported MIME type");
-            break;
-
-        case 20407:
-            throw OdbcGetObjectException("Unauthorized Retrieval");
-            break;
-
-        case 20408:
-            throw OdbcGetObjectException("Resource Unavaialble");
-            break;
-
-        case 20409:
-            throw OdbcGetObjectException("Object Unavailable");
-            break;
-            
-        case 20410:
-            throw OdbcGetObjectException("Request Too Large");
-            break;
-            
-        case 20411:
-            throw OdbcGetObjectException("Timeout");
-            break;
-            
-        case 20412:
-            throw OdbcGetObjectException("Too man outstanding requests");
-            break;
-            
-        case 204013:
-            throw OdbcGetObjectException("Miscellaneous Error");
-            break;
-            
-        case 204014:
-            throw OdbcGetObjectException("URL Location Not Supported");
-            break;
-            
         default:
             break;
     }
