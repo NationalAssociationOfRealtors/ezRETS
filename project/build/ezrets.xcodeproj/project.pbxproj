@@ -26,6 +26,7 @@
 
 /* Begin PBXBuildFile section */
 		DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */; };
+		DE12E0B41302118600495403 /* OdbcGetObjectException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */; };
 		DE44E7581099E60600BB3EC8 /* TablesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727C0C85C8EF004DEF1F /* TablesTest.cpp */; };
 		DE44E7671099E6C300BB3EC8 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972800C85C8EF004DEF1F /* ResultColumn.cpp */; };
 		DE44E7681099E6CA00BB3EC8 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727E0C85C8EF004DEF1F /* DBHelper.cpp */; };
@@ -182,6 +183,7 @@
 
 /* Begin PBXFileReference section */
 		DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslatorFactory.cpp; path = ../driver/src/DataTranslatorFactory.cpp; sourceTree = SOURCE_ROOT; };
+		DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OdbcGetObjectException.cpp; path = ../driver/src/OdbcGetObjectException.cpp; sourceTree = SOURCE_ROOT; };
 		DE44E7541099E5D400BB3EC8 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7841099E76C00BB3EC8 /* ColumnsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ColumnsTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7921099E80600BB3EC8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 		DE6972820C85C8EF004DEF1F /* driver */ = {
 			isa = PBXGroup;
 			children = (
+				DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */,
 				DE60F1F50FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp */,
 				DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */,
 				DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */,
@@ -969,6 +972,7 @@
 				DE6CC87C0F61E616002D1FB8 /* OnDemandResultSet.cpp in Sources */,
 				DE8C9D210FF2503400400AAA /* OnDemandObjectQuery.cpp in Sources */,
 				DE60F1F60FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp in Sources */,
+				DE12E0B41302118600495403 /* OdbcGetObjectException.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

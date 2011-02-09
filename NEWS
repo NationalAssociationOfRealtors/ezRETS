@@ -1,3 +1,8 @@
+Changes since 2.7.2
+-------------------
+  Enhancement/BugFix
+   * Fixed GetObject code to honor error codes such as 20403/No Object Found.
+
 Changes since 2.7.1
 -------------------
   Enhancement/BugFix

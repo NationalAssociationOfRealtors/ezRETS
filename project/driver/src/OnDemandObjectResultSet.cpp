@@ -24,6 +24,7 @@
 #include "OnDemandObjectQuery.h"
 #include "Column.h"
 #include "EzLogger.h"
+#include "OdbcGetObjectException.h"
 #include "str_stream.h"
 #include "utils.h"
 #include <stdexcept>
@@ -83,6 +84,67 @@ bool CLASS::hasNext()
     {
         return false;
     }
+
+    switch (mCurrentObject->GetRetsReplyCode())
+    {
+        case 20400:
+            throw OdbcGetObjectException("Invalid Resource");
+            break;
+
+        case 20401:
+            throw OdbcGetObjectException("Invalid Type");
+            break;
+
+        case 20402:
+            throw OdbcGetObjectException("Invalid Identifier");
+            break;
+
+        // <RETS ReplyCode="20403" ReplyText="No Object Found" />
+        // In this case we should probably also return false.
+        case 20403:
+            return false;
+            break;
+
+        case 20406:
+            throw OdbcGetObjectException("Unsupported MIME type");
+            break;
+
+        case 20407:
+            throw OdbcGetObjectException("Unauthorized Retrieval");
+            break;
+
+        case 20408:
+            throw OdbcGetObjectException("Resource Unavaialble");
+            break;
+
+        case 20409:
+            throw OdbcGetObjectException("Object Unavailable");
+            break;
+            
+        case 20410:
+            throw OdbcGetObjectException("Request Too Large");
+            break;
+            
+        case 20411:
+            throw OdbcGetObjectException("Timeout");
+            break;
+            
+        case 20412:
+            throw OdbcGetObjectException("Too man outstanding requests");
+            break;
+            
+        case 204013:
+            throw OdbcGetObjectException("Miscellaneous Error");
+            break;
+            
+        case 204014:
+            throw OdbcGetObjectException("URL Location Not Supported");
+            break;
+            
+        default:
+            break;
+    }
+            
 
     // Copy the ObjectResponse elements into a map so that we can
     // simulate the Data OnDemand stuff in how it handles columns.
