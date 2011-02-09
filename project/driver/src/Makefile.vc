@@ -64,6 +64,7 @@ X_OBJS = \
 	$(DIROBJ)\NotImplemented.obj\
 	$(DIROBJ)\OdbcEntry.obj\
 	$(DIROBJ)\OdbcSqlException.obj\
+	$(DIROBJ)\OdbcGetObjectException.obj\
 	$(DIROBJ)\OnDemandDataQuery.obj\
 	$(DIROBJ)\OnDemandObjectQuery.obj\
 	$(DIROBJ)\OnDemandObjectResultSet.obj\
