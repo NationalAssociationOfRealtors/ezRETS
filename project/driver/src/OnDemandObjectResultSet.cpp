@@ -103,9 +103,19 @@ bool CLASS::hasNext()
             break;
 
         // <RETS ReplyCode="20403" ReplyText="No Object Found" />
-        // In this case we should probably also return false.
+        // In the case of a single image, we should probably also
+        // return false.  But if this is a multiple, dropping out here
+        // will negate the rest of the objects, which would be
+        // bad. So, per 5.11.2 of the RETS 1.7.2 spec, the proper
+        // course of action should be to just call ourselves/hasNext
+        // again and hense skipping this no-object object. By the time
+        // we hit this code segment, we'll already have returned false
+        // if we were at "the end of the line."  (You may also be
+        // asking why we don't do the same for the error conditions
+        // above.  I consider those more critical errors that are
+        // worth dropping processing for.)
         case 20403:
-            return false;
+            return hasNext();
             break;
 
         default:
