@@ -6,14 +6,14 @@ ezretss ICON "ezretss.ico"
 // XP themes for notebook tabs are broken as of wx 2.6.1... :(
 // 2 24 "wx/msw/wx.manifest"
 
-#include "resource.h"
+//#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "windows.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS

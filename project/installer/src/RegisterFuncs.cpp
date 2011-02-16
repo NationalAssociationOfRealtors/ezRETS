@@ -37,7 +37,7 @@ StrVector drivers2vector(LPCSTR drivers)
     
     while (*i)
     {
-        int len = strlen(i);
+        size_t len = strlen(i);
         string drv(i, len);
 
         drvvector.push_back(drv);

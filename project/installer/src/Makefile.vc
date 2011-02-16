@@ -4,7 +4,7 @@
 INSTALLER_CFLAGS = /I. /I../include /I../../common/include
 INSTALLER_LDFLAGS = /RELEASE
 
-SYSLIBS = user32.lib winmm.lib odbccp32.lib libboost_program_options-vc71-mt-s.lib
+SYSLIBS = user32.lib winmm.lib libcmt.lib odbccp32.lib libboost_program_options-vc90-mt-s.lib
 DIROBJ = release
 TARGET = $(DIROBJ)\RegisterDriver.exe
 CC  = $(CCNODBG)

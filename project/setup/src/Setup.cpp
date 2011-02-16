@@ -34,6 +34,7 @@
 #include "SetupLog.h"
 #include "str_stream.h"
 #include <sstream>
+#include <wx/msw/private.h>
 
 using namespace odbcrets;
 using std::string;
@@ -157,10 +158,10 @@ strmap Setup::att2map(LPCSTR attributes)
     
     while (*i)
     {
-        int len = strlen(i);
+        size_t len = strlen(i);
         string pair(i, len);
 
-        int epos = pair.find("=");
+        size_t epos = pair.find("=");
         attmap[pair.substr(0, epos)] = pair.substr(epos+1, pair.size());
 
         i += len + 1;

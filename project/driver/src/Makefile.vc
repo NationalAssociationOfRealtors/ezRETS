@@ -12,7 +12,7 @@ COMMON_LDFLAGS = $(COMMON_LIB)
 EZRETS_CFLAGS = /I. /I../include
 EZRETS_LDFLAGS = /RELEASE
 
-BOOST_LIBS = libboost_regex-vc71-mt-s.lib
+BOOST_LIBS = libboost_regex-vc90-mt-s.lib
 
 SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
 
