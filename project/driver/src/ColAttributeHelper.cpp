@@ -56,7 +56,7 @@ SQLRETURN ColAttributeHelper::setString(string value)
     }
     else
     {
-        resSize = size;
+        resSize = b::numeric_cast<SQLSMALLINT>(size);
         result = SQL_SUCCESS;
     }
 

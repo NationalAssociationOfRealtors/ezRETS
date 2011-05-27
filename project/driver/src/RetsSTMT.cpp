@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2009 National Association of REALTORS(R)
+ * Copyright (C) 2005-2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -130,7 +130,7 @@ SQLRETURN RetsSTMT::SQLDescribeCol(
         copyString(columnName, (char *) ColumnName, BufferLength);
     if (NameLength)
     {
-        *NameLength = size;
+      *NameLength = b::numeric_cast<SQLSMALLINT>(size);
     }
 
     if (ColumnSize)
@@ -837,7 +837,8 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             break;
             
         case SQL_DESC_DISPLAY_SIZE:
-            colAttHelper.setInt(column->getMaximumLength());
+	    colAttHelper.setInt(
+                b::numeric_cast<SQLINTEGER>(column->getMaximumLength()));
             break;
 
         // fix me:  I know this isn't always right for SQL_DESC_LENTH
@@ -846,7 +847,8 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             if (type == SQL_VARCHAR || type == SQL_CHAR ||
                 type == SQL_LONGVARBINARY)
             {
-                colAttHelper.setInt(column->getMaximumLength());
+	        colAttHelper.setInt(
+                    b::numeric_cast<SQLINTEGER>(column->getMaximumLength()));
             }
             else
             {
@@ -878,7 +880,8 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             }
             else
             {
-                colAttHelper.setInt(column->getMaximumLength());
+	        colAttHelper.setInt(
+		    b::numeric_cast<SQLINTEGER>(column->getMaximumLength()));
             }
             break;
 
@@ -888,7 +891,8 @@ SQLRETURN RetsSTMT::SQLColAttribute(
             {
                 case SQL_DECIMAL:
                 case SQL_DOUBLE:
-                    colAttHelper.setInt(column->getPrecision());
+		    colAttHelper.setInt(
+                        b::numeric_cast<SQLINTEGER>(column->getPrecision()));
                     break;
 
                 case SQL_TYPE_TIMESTAMP:
