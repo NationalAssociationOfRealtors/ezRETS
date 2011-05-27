@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2005-2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -247,7 +247,7 @@ SQLRETURN RetsDBC::SQLDriverConnect(
     string conString = mDataSource.GetConnectionString();
     size_t size =
         copyString(conString, (char *) OutConnectionString, BufferLength);
-    SetStringLength(OutStringLengthPtr, size);
+    SetStringLength(OutStringLengthPtr, numeric_cast<SQLSMALLINT>(size));
 
     SQLRETURN retCode = SQL_SUCCESS;
     if (conString.size() > size)
@@ -757,7 +757,7 @@ SQLRETURN RetsDBC::diagServerName(
 //    size_t size = copyString(mHost, (char*) DiagInfoPtr, BufferLength);
     size_t size = copyString(mDataSource.GetLoginUrl(), (char*) DiagInfoPtr,
                              BufferLength);
-    SetStringLength(StringLengthPtr, b::numeric_cast<SQLSMALLINT>(size));
+    SetStringLength(StringLengthPtr, numeric_cast<SQLSMALLINT>(size));
 
     return SQL_SUCCESS;
 }

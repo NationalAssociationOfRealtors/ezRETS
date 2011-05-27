@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2008 National Association of REALTORS(R)
+ * Copyright (C) 2005-2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -89,7 +89,7 @@ void Column::modifyData(string& data)
 }
 
 void Column::setData(SQLUSMALLINT colNo, string data, SQLSMALLINT TargetType,
-                     SQLPOINTER TargetValue, SQLINTEGER BufferLength,
+                     SQLPOINTER TargetValue, SQLLEN BufferLength,
                      SQLLEN* StrLenOrInd, DataStreamInfo *streamInfo)
 {
     SQLSMALLINT type = getBestSqlType(TargetType);

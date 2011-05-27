@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -49,7 +49,7 @@ SQLRETURN ColAttributeHelper::setString(string value)
 
     if (inStrSize > size)
     {
-        resSize = inStrSize;
+        resSize = b::numeric_cast<SQLSMALLINT>(inStrSize);
         mStmt->addError("01004",
                         "Resultant value larger than buffer passed in.");
         result = SQL_SUCCESS_WITH_INFO;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,11 +14,13 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#include <boost/cast.hpp>
 #include "RetsDBC.h"
 #include "GetConnectAttrHelper.h"
 #include "utils.h"
 
 using namespace odbcrets;
+namespace b = boost;
 
 GetConnectAttrHelper::GetConnectAttrHelper(
     RetsDBC* dbc, SQLPOINTER InfoValue, SQLINTEGER BufferLength,
@@ -50,14 +52,14 @@ SQLRETURN GetConnectAttrHelper::setString(std::string value)
 
     if (inStrSize > size)
     {
-        resSize = inStrSize;
+        resSize = b::numeric_cast<SQLSMALLINT>(inStrSize);
         mDbc->addError("01004",
                        "Resultant value larger than buffer passed in.");
         result = SQL_SUCCESS_WITH_INFO;
     }
     else
     {
-        resSize = size;
+        resSize = b::numeric_cast<SQLSMALLINT>(size);
         result = SQL_SUCCESS;
     }
 

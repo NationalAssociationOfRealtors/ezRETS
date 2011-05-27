@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2009 National Association of REALTORS(R)
+ * Copyright (C) 2005-2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -14,6 +14,7 @@
  * both the above copyright notice(s) and this permission notice
  * appear in supporting documentation.
  */
+#include <boost/cast.hpp>
 #include "ResultSet.h"
 #include "EzLogger.h"
 #include "str_stream.h"
@@ -22,6 +23,7 @@
 
 using namespace odbcrets;
 using namespace librets;
+namespace b = boost;
 using std::string;
 using std::endl;
 
@@ -38,7 +40,7 @@ ResultSet::~ResultSet()
 
 int ResultSet::columnCount()
 {
-    return mColumns->size();
+    return b::numeric_cast<int>(mColumns->size());
 }
 
 string ResultSet::getColumnName(int col)
@@ -121,7 +123,7 @@ BulkResultSet::BulkResultSet(EzLoggerPtr logger, MetadataViewPtr metadataView,
 
 int BulkResultSet::rowCount()
 {
-    return mResults.size();
+    return b::numeric_cast<int>(mResults.size());
 }
 
 bool BulkResultSet::isEmpty()

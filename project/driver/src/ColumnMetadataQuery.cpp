@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2009 National Association of REALTORS(R)
+ * Copyright (C) 2006-2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -254,7 +254,7 @@ SQLRETURN ColumnMetadataQuery::processColumn(
     results->push_back(dataTranslator->getOdbcTypeName(type));
     
     // COLUMN_SIZE
-    int maxLen = dummyCol->getMaximumLength();
+    SQLULEN maxLen = dummyCol->getMaximumLength();
     string maxLenString = b::lexical_cast<string>(maxLen);
     results->push_back(maxLenString);
 

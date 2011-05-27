@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 National Association of REALTORS(R)
+ * Copyright (C) 2005,2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -69,7 +69,7 @@ SQLRETURN AbstractHandle::SQLGetDiagRec(
     EzLoggerPtr log = getLogger();
     LOG_DEBUG(log, "In AbstractHandle::SQLGetDiagRec");
 
-    int numErrors = mErrors.size();
+    size_t numErrors = mErrors.size();
     if (numErrors == 0 || RecNumber > numErrors)
     {
         LOG_DEBUG(log, "Returning no data");
@@ -92,7 +92,7 @@ SQLRETURN AbstractHandle::SQLGetDiagRec(
         size = message.size();
     }
 
-    *TextLength = size;
+    *TextLength = b::numeric_cast<SQLSMALLINT>(size);
 
     SQLRETURN retCode = SQL_SUCCESS;
     if (message.size() > b::numeric_cast<size_t>(BufferLength))

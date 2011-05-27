@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006 National Association of REALTORS(R)
+ * Copyright (C) 2005-2011 National Association of REALTORS(R)
  *
  * All rights reserved.
  *
@@ -46,7 +46,7 @@ class Column
     virtual void setData(SQLUSMALLINT colNo, std::string data);
     virtual void setData(SQLUSMALLINT colNo, std::string data,
                          SQLSMALLINT TargetType, SQLPOINTER TargetValue,
-                         SQLINTEGER BufferLength, SQLLEN* StrLenOrInd,
+                         SQLLEN BufferLength, SQLLEN* StrLenOrInd,
                          DataStreamInfo *streamInfo);
 
     virtual SQLSMALLINT getDataType() = 0;
