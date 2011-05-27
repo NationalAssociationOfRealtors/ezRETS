@@ -451,7 +451,7 @@ void BinaryTranslationWorker::translate(string data, SQLPOINTER target,
         return;
     }
 
-    int offset = 0;
+    size_t offset = 0;
     if (streamInfo)
     {
         offset = streamInfo->offset;
