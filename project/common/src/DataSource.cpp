@@ -949,7 +949,7 @@ void DataSource::SetFromOdbcConnectionString(string connectionString)
          i != tokens.end(); i++)
     {
         string tok = *i;
-        int epos = tok.find("=");
+        size_t epos = tok.find("=");
         string key = tok.substr(0, epos);
         string value = tok.substr(epos+1, tok.size());
 
