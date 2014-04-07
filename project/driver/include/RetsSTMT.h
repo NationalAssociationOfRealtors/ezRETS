@@ -90,10 +90,10 @@ class RetsSTMT : public AbstractHandle
     SQLRETURN SQLRowCount(SQLLEN *rowCount);
 
     SQLRETURN SQLExtendedFetch(
-        SQLUSMALLINT fFetchType, SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
+        SQLUSMALLINT fFetchType, SQLLEN irow, SQLULEN *pcrow,
         SQLUSMALLINT *rgfRowStatus);
     SQLRETURN SQLFetchScroll(
-        SQLSMALLINT FetchOrientation, SQLROWOFFSET FetchOffset);
+        SQLSMALLINT FetchOrientation, SQLLEN FetchOffset);
 
     virtual SQLRETURN diagCursorRowCount(SQLPOINTER DiagInfoPtr);
     virtual SQLRETURN diagDynamicFunction(
