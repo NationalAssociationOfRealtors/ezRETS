@@ -388,7 +388,7 @@ void CharacterTranslationWorker::translate(
         // to buffer lenght if its not a full buffers worth of data.
         SQLLEN remaining_size = data.size() - streamInfo->offset;
 
-        streamInfo->offset =+ size;
+        streamInfo->offset += size;
         streamInfo->status = streamInfo->offset >= data.size() ?
             DataStreamInfo::NO_MORE_DATA : DataStreamInfo::HAS_MORE_DATA;
 
