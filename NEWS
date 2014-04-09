@@ -1,3 +1,9 @@
+Changes since 2.7.3
+-------------------
+  Deprecation
+   * OS X is no longer a supported platform.  OS X deprecated ODBC in
+     Mountain Lion/10.8 and fully discontinued it in Mavericks/10.9
+
 Changes since 2.7.2
 -------------------
   Enhancement/BugFix
