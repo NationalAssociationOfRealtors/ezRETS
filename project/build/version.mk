@@ -1,1 +1,1 @@
-VERSION = 2.7.3
+VERSION = 3.0.0
