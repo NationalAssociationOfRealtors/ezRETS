@@ -1275,6 +1275,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1284,8 +1285,7 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				ONLY_ACTIVE_ARCH = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx10.8;
 				SYMROOT = "$(PROJECT_DIR)/../../build/xcode";
 			};
@@ -1295,7 +1295,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1305,7 +1305,7 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx10.8;
 				SYMROOT = "$(PROJECT_DIR)/../../build/xcode";
 			};
@@ -1362,7 +1362,7 @@
 		DE6972D10C85C99E004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
@@ -1389,6 +1389,9 @@
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
+					"$(CURL)/lib/libidn.a",
+					"$(CURL)/lib/libiconv.a",
+					"$(CURL)/lib/libintl.a",
 					"$(ANTLR)/lib/libantlr.a",
 					"$(BOOST)/lib/libboost_filesystem-mt.a",
 					"$(BOOST)/lib/libboost_regex-mt.a",
@@ -1403,7 +1406,7 @@
 		DE6972D20C85C99E004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
@@ -1428,6 +1431,9 @@
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
+					"$(CURL)/lib/libidn.a",
+					"$(CURL)/lib/libiconv.a",
+					"$(CURL)/lib/libintl.a",
 					"$(ANTLR)/lib/libantlr.a",
 					"$(BOOST)/lib/libboost_filesystem-mt.a",
 					"$(BOOST)/lib/libboost_regex-mt.a",
@@ -1456,7 +1462,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
@@ -1508,7 +1514,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
 				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
@@ -1527,7 +1532,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
@@ -1579,7 +1584,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
 				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1592,7 +1596,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../common/include",
 					"$(BOOST)/include",
@@ -1623,7 +1627,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../common/include",
 					"$(BOOST)/include",
