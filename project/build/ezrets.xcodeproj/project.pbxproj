@@ -53,6 +53,7 @@
 		DE44E7FD1099E97400BB3EC8 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972800C85C8EF004DEF1F /* ResultColumn.cpp */; };
 		DE44E7FF1099E97400BB3EC8 /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972640C85C8E8004DEF1F /* libiodbc.dylib */; };
 		DE44E8051099E99C00BB3EC8 /* SimpleSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972810C85C8EF004DEF1F /* SimpleSearch.cpp */; };
+		DE4A5A0F1900803A00D37539 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */; };
 		DE4C9D8D0F5F3DB70083E560 /* OnDemandDataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */; };
 		DE60F1F60FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE60F1F50FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp */; };
 		DE6972C10C85C933004DEF1F /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B70C85C8EF004DEF1F /* DataSource.cpp */; };
@@ -222,6 +223,7 @@
 		DE44E7D01099E8A400BB3EC8 /* ConnectTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ConnectTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7E91099E92100BB3EC8 /* SimpleGetData */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleGetData; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E8031099E97400BB3EC8 /* SimpleSearch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleSearch; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandDataQuery.cpp; path = ../driver/src/OnDemandDataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE5416C00D07160800615353 /* gendefgui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gendefgui-Info.plist"; sourceTree = "<group>"; };
 		DE60F1F50FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandObjectResultSet.cpp; path = ../driver/src/OnDemandObjectResultSet.cpp; sourceTree = SOURCE_ROOT; };
@@ -371,6 +373,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE4A5A0F1900803A00D37539 /* CoreFoundation.framework in Frameworks */,
 				DE69730B0C85CA95004DEF1F /* ezrets-common.a in Frameworks */,
 				DE69730C0C85CAA1004DEF1F /* libiodbcinst.dylib in Frameworks */,
 				DE69730D0C85CAA6004DEF1F /* libz.dylib in Frameworks */,
@@ -462,6 +465,7 @@
 		DE69725E0C85C8E8004DEF1F /* external libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */,
 				DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */,
 				DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */,
 				DE6972600C85C8E8004DEF1F /* libssl.dylib */,
@@ -1392,6 +1396,8 @@
 					"$(CURL)/lib/libidn.a",
 					"$(CURL)/lib/libiconv.a",
 					"$(CURL)/lib/libintl.a",
+					"$(CURL)/lib/libgettextpo.a",
+					"$(CURL)/lib/libasprintf.a",
 					"$(ANTLR)/lib/libantlr.a",
 					"$(BOOST)/lib/libboost_filesystem-mt.a",
 					"$(BOOST)/lib/libboost_regex-mt.a",
@@ -1434,6 +1440,8 @@
 					"$(CURL)/lib/libidn.a",
 					"$(CURL)/lib/libiconv.a",
 					"$(CURL)/lib/libintl.a",
+					"$(CURL)/lib/libgettextpo.a",
+					"$(CURL)/lib/libasprintf.a",
 					"$(ANTLR)/lib/libantlr.a",
 					"$(BOOST)/lib/libboost_filesystem-mt.a",
 					"$(BOOST)/lib/libboost_regex-mt.a",
