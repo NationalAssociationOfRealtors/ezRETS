@@ -154,7 +154,6 @@ SQLRETURN ColumnMetadataQuery::execute()
         MetadataClass* clazz = rcp->second;
 
         MetadataTable* rTable = NULL;
-        SQLRETURN result = SQL_SUCCESS;
         if (mColumn.empty())
         {
             MetadataTableList tables =

@@ -1129,7 +1129,7 @@ SQLRETURN RetsSTMT::SQLRowCount(SQLLEN *rowCount)
 }
 
 SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
-                                     SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
+                                     SQLLEN irow, SQLULEN *pcrow,
                                      SQLUSMALLINT *rgfRowStatus)
 {
     mErrors.clear();
@@ -1147,7 +1147,7 @@ SQLRETURN RetsSTMT::SQLExtendedFetch(SQLUSMALLINT fFetchType,
 }
 
 SQLRETURN RetsSTMT::SQLFetchScroll(SQLSMALLINT FetchOrientation,
-                                   SQLROWOFFSET FetchOffset)
+                                   SQLLEN FetchOffset)
 {
     mErrors.clear();
     // Right now we're ignoring the offset, we shouldn't do that

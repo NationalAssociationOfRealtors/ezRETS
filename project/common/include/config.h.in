@@ -18,8 +18,3 @@
 /* Use IODBC headers for our ODBC support */
 #undef HAVE_IODBC
 
-/* We can use "long long int" to make a 64 bit int */
-#undef HAVE_LONG_LONG
-
-/* It also helps us with unixODBC if we know if know the size of a long */
-#undef SIZEOF_LONG

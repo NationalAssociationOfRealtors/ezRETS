@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -27,6 +27,7 @@
 /* Begin PBXBuildFile section */
 		DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */; };
 		DE12E0B41302118600495403 /* OdbcGetObjectException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */; };
+		DE17568318F4AD7200FF1A9C /* wxWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */; };
 		DE44E7581099E60600BB3EC8 /* TablesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727C0C85C8EF004DEF1F /* TablesTest.cpp */; };
 		DE44E7671099E6C300BB3EC8 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972800C85C8EF004DEF1F /* ResultColumn.cpp */; };
 		DE44E7681099E6CA00BB3EC8 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727E0C85C8EF004DEF1F /* DBHelper.cpp */; };
@@ -52,6 +53,7 @@
 		DE44E7FD1099E97400BB3EC8 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972800C85C8EF004DEF1F /* ResultColumn.cpp */; };
 		DE44E7FF1099E97400BB3EC8 /* libiodbc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972640C85C8E8004DEF1F /* libiodbc.dylib */; };
 		DE44E8051099E99C00BB3EC8 /* SimpleSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972810C85C8EF004DEF1F /* SimpleSearch.cpp */; };
+		DE4A5A0F1900803A00D37539 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */; };
 		DE4C9D8D0F5F3DB70083E560 /* OnDemandDataQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */; };
 		DE60F1F60FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE60F1F50FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp */; };
 		DE6972C10C85C933004DEF1F /* DataSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972B70C85C8EF004DEF1F /* DataSource.cpp */; };
@@ -184,6 +186,7 @@
 /* Begin PBXFileReference section */
 		DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslatorFactory.cpp; path = ../driver/src/DataTranslatorFactory.cpp; sourceTree = SOURCE_ROOT; };
 		DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OdbcGetObjectException.cpp; path = ../driver/src/OdbcGetObjectException.cpp; sourceTree = SOURCE_ROOT; };
+		DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = wxWidgets.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/../../../../../../../../../opt/local/Library/Frameworks/wxWidgets.framework; sourceTree = "<absolute>"; };
 		DE44E7541099E5D400BB3EC8 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7841099E76C00BB3EC8 /* ColumnsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ColumnsTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7921099E80600BB3EC8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -220,6 +223,7 @@
 		DE44E7D01099E8A400BB3EC8 /* ConnectTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ConnectTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7E91099E92100BB3EC8 /* SimpleGetData */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleGetData; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E8031099E97400BB3EC8 /* SimpleSearch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleSearch; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		DE4C9D8C0F5F3DB70083E560 /* OnDemandDataQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandDataQuery.cpp; path = ../driver/src/OnDemandDataQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE5416C00D07160800615353 /* gendefgui-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "gendefgui-Info.plist"; sourceTree = "<group>"; };
 		DE60F1F50FF2513100E3AFD0 /* OnDemandObjectResultSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandObjectResultSet.cpp; path = ../driver/src/OnDemandObjectResultSet.cpp; sourceTree = SOURCE_ROOT; };
@@ -231,10 +235,10 @@
 		DE6972620C85C8E8004DEF1F /* librets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = librets.a; path = ../../../librets/build/xcode/Development/librets.a; sourceTree = SOURCE_ROOT; };
 		DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbcinst.dylib; path = /usr/lib/libiodbcinst.dylib; sourceTree = "<absolute>"; };
 		DE6972640C85C8E8004DEF1F /* libiodbc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiodbc.dylib; path = /usr/lib/libiodbc.dylib; sourceTree = "<absolute>"; };
-		DE6972650C85C8E8004DEF1F /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = /usr/local/lib/libantlr.a; sourceTree = "<absolute>"; };
-		DE6972670C85C8E8004DEF1F /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = lib/libboost_filesystem.a; sourceTree = BOOST; };
-		DE6972680C85C8E8004DEF1F /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = /usr/local/lib/libexpat.a; sourceTree = "<absolute>"; };
-		DE6972690C85C8E8004DEF1F /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = /usr/local/lib/libcurl.a; sourceTree = "<absolute>"; };
+		DE6972650C85C8E8004DEF1F /* libantlr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libantlr.a; path = /opt/local/lib/libantlr.a; sourceTree = "<absolute>"; };
+		DE6972670C85C8E8004DEF1F /* libboost_filesystem-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_filesystem-mt.a"; path = "lib/libboost_filesystem-mt.a"; sourceTree = BOOST; };
+		DE6972680C85C8E8004DEF1F /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = lib/libexpat.a; sourceTree = EXPAT; };
+		DE6972690C85C8E8004DEF1F /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = lib/libcurl.a; sourceTree = CURL; };
 		DE69726C0C85C8EF004DEF1F /* SQL_Reference.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = SQL_Reference.html; path = ../../doc/SQL_Reference.html; sourceTree = SOURCE_ROOT; };
 		DE69726E0C85C8EF004DEF1F /* RegisterFuncs.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterFuncs.cpp; path = ../installer/src/RegisterFuncs.cpp; sourceTree = SOURCE_ROOT; };
 		DE69726F0C85C8EF004DEF1F /* RegisterDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterDriver.cpp; path = ../installer/src/RegisterDriver.cpp; sourceTree = SOURCE_ROOT; };
@@ -311,10 +315,10 @@
 		DE6CC87B0F61E616002D1FB8 /* OnDemandResultSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandResultSet.cpp; path = ../driver/src/OnDemandResultSet.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62C0E1559530015BC52 /* EzLookupColumnsQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupColumnsQuery.cpp; path = ../driver/src/EzLookupColumnsQuery.cpp; sourceTree = SOURCE_ROOT; };
 		DE6EF62D0E1559530015BC52 /* EzLookupQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EzLookupQuery.cpp; path = ../driver/src/EzLookupQuery.cpp; sourceTree = SOURCE_ROOT; };
-		DE73420C10A0CC9400C98216 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = lib/libboost_regex.a; sourceTree = BOOST; };
+		DE73420C10A0CC9400C98216 /* libboost_regex-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_regex-mt.dylib"; path = "lib/libboost_regex-mt.dylib"; sourceTree = BOOST; };
 		DE8C9D200FF2503400400AAA /* OnDemandObjectQuery.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OnDemandObjectQuery.cpp; path = ../driver/src/OnDemandObjectQuery.cpp; sourceTree = SOURCE_ROOT; };
-		DE8F8C090E1668E80061E427 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = lib/libboost_program_options.a; sourceTree = BOOST; };
-		DEEA54D60E15590A002896F2 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = lib/libboost_system.a; sourceTree = BOOST; };
+		DE8F8C090E1668E80061E427 /* libboost_program_options-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_program_options-mt.a"; path = "lib/libboost_program_options-mt.a"; sourceTree = BOOST; };
+		DEEA54D60E15590A002896F2 /* libboost_system-mt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-mt.a"; path = "lib/libboost_system-mt.a"; sourceTree = BOOST; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +373,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE4A5A0F1900803A00D37539 /* CoreFoundation.framework in Frameworks */,
 				DE69730B0C85CA95004DEF1F /* ezrets-common.a in Frameworks */,
 				DE69730C0C85CAA1004DEF1F /* libiodbcinst.dylib in Frameworks */,
 				DE69730D0C85CAA6004DEF1F /* libz.dylib in Frameworks */,
@@ -385,6 +390,7 @@
 				DE6973570C85CEF6004DEF1F /* libcrypto.dylib in Frameworks */,
 				DE6973580C85CEF6004DEF1F /* libssl.dylib in Frameworks */,
 				DE6973590C85CEF6004DEF1F /* libiodbcinst.dylib in Frameworks */,
+				DE17568318F4AD7200FF1A9C /* wxWidgets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,17 +465,19 @@
 		DE69725E0C85C8E8004DEF1F /* external libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */,
+				DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */,
 				DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */,
 				DE6972600C85C8E8004DEF1F /* libssl.dylib */,
 				DE6972610C85C8E8004DEF1F /* libz.dylib */,
 				DE6972620C85C8E8004DEF1F /* librets.a */,
 				DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */,
 				DE6972640C85C8E8004DEF1F /* libiodbc.dylib */,
+				DE6972670C85C8E8004DEF1F /* libboost_filesystem-mt.a */,
+				DEEA54D60E15590A002896F2 /* libboost_system-mt.a */,
+				DE8F8C090E1668E80061E427 /* libboost_program_options-mt.a */,
+				DE73420C10A0CC9400C98216 /* libboost_regex-mt.dylib */,
 				DE6972650C85C8E8004DEF1F /* libantlr.a */,
-				DE6972670C85C8E8004DEF1F /* libboost_filesystem.a */,
-				DEEA54D60E15590A002896F2 /* libboost_system.a */,
-				DE8F8C090E1668E80061E427 /* libboost_program_options.a */,
-				DE73420C10A0CC9400C98216 /* libboost_regex.a */,
 				DE6972680C85C8E8004DEF1F /* libexpat.a */,
 				DE6972690C85C8E8004DEF1F /* libcurl.a */,
 			);
@@ -814,8 +822,11 @@
 /* Begin PBXProject section */
 		DE69723B0C85C73C004DEF1F /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
 			buildConfigurationList = DE69723C0C85C73C004DEF1F /* Build configuration list for PBXProject "ezrets" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1045,16 +1056,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1069,15 +1076,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1093,16 +1096,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1117,15 +1116,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1140,14 +1135,10 @@
 		DE44E78A1099E7A100BB3EC8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = CLITest;
 			};
 			name = Debug;
@@ -1155,14 +1146,10 @@
 		DE44E78B1099E7A100BB3EC8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = CLITest;
 				ZERO_LINK = NO;
 			};
@@ -1172,16 +1159,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1196,15 +1179,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1220,16 +1199,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1244,15 +1219,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1268,16 +1239,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1292,15 +1259,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					ppc,
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(SRCROOT)/../examples/cpp/include",
@@ -1316,10 +1279,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1329,11 +1289,9 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
-				GCC_VERSION = 4.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
+				SYMROOT = "$(PROJECT_DIR)/../../build/xcode";
 			};
 			name = Debug;
 		};
@@ -1341,10 +1299,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE69732B0C85CD36004DEF1F /* ezrets.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1354,31 +1309,26 @@
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "EZRETS_VERSION=\\\"$(VERSION)\\\"";
-				GCC_VERSION = 4.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
+				SYMROOT = "$(PROJECT_DIR)/../../build/xcode";
 			};
 			name = Release;
 		};
 		DE6972BF0C85C91F004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/Library/Frameworks,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					"$(LIBRETS)/project/librets/include",
 					"$(BOOST)/include",
@@ -1386,29 +1336,22 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				PREBINDING = NO;
 				PRODUCT_NAME = "ezrets-common";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		DE6972C00C85C91F004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
 				COPY_PHASE_STRIP = YES;
 				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/Library/Frameworks,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_VERSION = 4.0;
 				HEADER_SEARCH_PATHS = (
 					"$(LIBRETS)/project/librets/include",
 					"$(BOOST)/include",
@@ -1416,22 +1359,14 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
-				PREBINDING = NO;
 				PRODUCT_NAME = "ezrets-common";
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		DE6972D10C85C99E004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
@@ -1439,9 +1374,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(LIBRETS)/project/librets/include",
@@ -1450,42 +1383,42 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+					/Users/kgarner/src/odbcrets/librets/build/xcode/Development,
+				);
 				MACH_O_TYPE = mh_bundle;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libboost_regex.a",
-					"$(BOOST)/lib/libboost_system.a",
-					"$(BOOST)/lib/libantlr.a",
+					"$(CURL)/lib/libidn.a",
+					"$(CURL)/lib/libiconv.a",
+					"$(CURL)/lib/libintl.a",
+					"$(CURL)/lib/libgettextpo.a",
+					"$(CURL)/lib/libasprintf.a",
+					"$(ANTLR)/lib/libantlr.a",
+					"$(BOOST)/lib/libboost_filesystem-mt.a",
+					"$(BOOST)/lib/libboost_regex-mt.a",
+					"$(BOOST)/lib/libboost_system-mt.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = ezrets;
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		DE6972D20C85C99E004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_MODEL_TUNING = G5;
-				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
 					"$(LIBRETS)/project/librets/include",
@@ -1494,23 +1427,29 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+					/Users/kgarner/src/odbcrets/librets/build/xcode/Development,
+				);
 				MACH_O_TYPE = mh_bundle;
-				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libboost_regex.a",
-					"$(BOOST)/lib/libboost_system.a",
-					"$(BOOST)/lib/libantlr.a",
+					"$(CURL)/lib/libidn.a",
+					"$(CURL)/lib/libiconv.a",
+					"$(CURL)/lib/libintl.a",
+					"$(CURL)/lib/libgettextpo.a",
+					"$(CURL)/lib/libasprintf.a",
+					"$(ANTLR)/lib/libantlr.a",
+					"$(BOOST)/lib/libboost_filesystem-mt.a",
+					"$(BOOST)/lib/libboost_regex-mt.a",
+					"$(BOOST)/lib/libboost_system-mt.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = ezrets;
-				"SDKROOT[arch=x86_64]" = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1521,12 +1460,17 @@
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
 				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/Library/Frameworks,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
 				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
@@ -1562,13 +1506,8 @@
 					OpenGL,
 					"-framework",
 					AGL,
-					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
-					"-lwxexpat-$(WX_VER_MAJOR)",
-					"-lwxtiff-$(WX_VER_MAJOR)",
-					"-lwxjpeg-$(WX_VER_MAJOR)",
-					"-lwxpng-$(WX_VER_MAJOR)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1583,7 +1522,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
 				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
@@ -1594,10 +1532,15 @@
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
 				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/Library/Frameworks,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = "";
 				GENERATE_MASTER_OBJECT_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BOOST)/include",
@@ -1633,13 +1576,8 @@
 					OpenGL,
 					"-framework",
 					AGL,
-					"$(WXWIDGETS)/lib/libwx_mac-$(WX_VER_MAJOR).a",
 					"-framework",
 					WebKit,
-					"-lwxexpat-$(WX_VER_MAJOR)",
-					"-lwxtiff-$(WX_VER_MAJOR)",
-					"-lwxjpeg-$(WX_VER_MAJOR)",
-					"-lwxpng-$(WX_VER_MAJOR)",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1654,24 +1592,19 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
 				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
 		DE6973860C85D0FF004DEF1F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../common/include",
 					"$(BOOST)/include",
@@ -1698,15 +1631,11 @@
 		DE6973870C85D0FF004DEF1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../common/include",
 					"$(BOOST)/include",

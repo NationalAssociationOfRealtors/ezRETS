@@ -300,7 +300,7 @@ class SQLSetStmtOption : public StmtOdbcEntry
 {
   public:
     SQLSetStmtOption(SQLHSTMT StatementHandle, SQLUSMALLINT Option,
-                     SQLROWCOUNT Value)
+                     SQLLEN Value)
         : StmtOdbcEntry(StatementHandle), mOption(Option), mValue(Value) { }
 
   protected:
@@ -311,7 +311,7 @@ class SQLSetStmtOption : public StmtOdbcEntry
 
   private:
     SQLUSMALLINT mOption;
-    SQLROWCOUNT mValue;
+    SQLLEN mValue;
 };
 
 class SQLSetStmtAttr : public StmtOdbcEntry
@@ -500,7 +500,7 @@ class SQLExtendedFetch : public StmtOdbcEntry
 {
   public:
     SQLExtendedFetch(SQLHSTMT StatementHandle, SQLUSMALLINT fFetchType,
-                     SQLROWOFFSET irow, SQLROWSETSIZE *pcrow,
+                     SQLLEN irow, SQLULEN *pcrow,
                      SQLUSMALLINT *rgfRowStatus)
         : StmtOdbcEntry(StatementHandle), mFFetchType(fFetchType), mIrow(irow),
           mPcrow(pcrow), mRgfRowStatus(rgfRowStatus) { }
@@ -514,8 +514,8 @@ class SQLExtendedFetch : public StmtOdbcEntry
 
   private:
     SQLUSMALLINT mFFetchType;
-    SQLROWOFFSET mIrow;
-    SQLROWSETSIZE* mPcrow;
+    SQLLEN mIrow;
+    SQLULEN* mPcrow;
     SQLUSMALLINT* mRgfRowStatus;
 };
 
@@ -523,7 +523,7 @@ class SQLFetchScroll : public StmtOdbcEntry
 {
   public:
     SQLFetchScroll(SQLHSTMT StatementHandle, SQLSMALLINT FetchOrientation,
-                   SQLROWOFFSET FetchOffset)
+                   SQLLEN FetchOffset)
         : StmtOdbcEntry(StatementHandle), mFetchOrientation(FetchOrientation),
           mFetchOffset(FetchOffset) { }
 
@@ -535,14 +535,14 @@ class SQLFetchScroll : public StmtOdbcEntry
 
   private:
     SQLSMALLINT mFetchOrientation;
-    SQLROWOFFSET mFetchOffset;
+    SQLLEN mFetchOffset;
 };
 
 class SQLParamOptions : public StmtOdbcEntry
 {
   public:
-    SQLParamOptions(SQLHSTMT StatementHandle, SQLUINTEGER crow,
-                    SQLUINTEGER *pirow)
+    SQLParamOptions(SQLHSTMT StatementHandle, SQLULEN crow,
+                    SQLULEN *pirow)
         : StmtOdbcEntry(StatementHandle), mCrow(crow), mPirow(pirow) { }
 
   protected:
@@ -562,8 +562,8 @@ class SQLParamOptions : public StmtOdbcEntry
     }
     
   private:
-    SQLUINTEGER mCrow;
-    SQLUINTEGER* mPirow;
+    SQLULEN mCrow;
+    SQLULEN* mPirow;
 };
 
 class SQLCancel : public StmtOdbcEntry
@@ -694,7 +694,7 @@ SQLRETURN SQL_API SQLTables(SQLHSTMT StatementHandle,
 }
 
 SQLRETURN SQL_API SQLSetStmtOption(SQLHSTMT StatementHandle,
-                                   SQLUSMALLINT Option, SQLROWCOUNT Value)
+                                   SQLUSMALLINT Option, SQLLEN Value)
 {
     o::SQLSetStmtOption sqlSetStmtOption(StatementHandle, Option, Value);
     return sqlSetStmtOption();
@@ -785,8 +785,8 @@ SQLRETURN SQL_API SQLRowCount(SQLHSTMT StatementHandle, SQLLEN *RowCount)
 }
 
 SQLRETURN SQL_API SQLExtendedFetch(
-    SQLHSTMT StatementHandle, SQLUSMALLINT fFetchType, SQLROWOFFSET irow,
-    SQLROWSETSIZE *pcrow, SQLUSMALLINT *rgfRowStatus)
+    SQLHSTMT StatementHandle, SQLUSMALLINT fFetchType, SQLLEN irow,
+    SQLULEN *pcrow, SQLUSMALLINT *rgfRowStatus)
 {
     o::SQLExtendedFetch sef(StatementHandle, fFetchType, irow, pcrow,
                             rgfRowStatus);
@@ -795,14 +795,14 @@ SQLRETURN SQL_API SQLExtendedFetch(
 
 SQLRETURN SQL_API SQLFetchScroll(
     SQLHSTMT StatementHandle, SQLSMALLINT FetchOrientation,
-    SQLROWOFFSET FetchOffset)
+    SQLLEN FetchOffset)
 {
     o::SQLFetchScroll sfs(StatementHandle, FetchOrientation, FetchOffset);
     return sfs();
 }
 
 SQLRETURN SQL_API SQLParamOptions(
-    SQLHSTMT StatementHandle, SQLUINTEGER crow, SQLUINTEGER *pirow)
+    SQLHSTMT StatementHandle, SQLULEN crow, SQLULEN *pirow)
 {
     o::SQLParamOptions spo(StatementHandle, crow, pirow);
     return spo();
