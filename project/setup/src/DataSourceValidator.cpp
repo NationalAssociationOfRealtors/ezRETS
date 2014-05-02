@@ -165,14 +165,15 @@ bool CLASS::NameToWindow(wxWindow * window)
 bool CLASS::NameFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetName(textCtrl->GetValue().c_str());
+    mDataSource->SetName(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
 bool CLASS::NameIsValid(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    if (!SQLValidDSN(textCtrl->GetValue().c_str()))
+    if (!SQLValidDSN(textCtrl->GetValue().mb_str()))
     {
         wxMessageBox("The data source name is invalid.\n", "Invalid Name",
                      wxICON_ERROR);
@@ -191,7 +192,8 @@ bool CLASS::LoginUrlToWindow(wxWindow * window)
 bool CLASS::LoginUrlFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetLoginUrl(textCtrl->GetValue().c_str());
+    mDataSource->SetLoginUrl(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -205,7 +207,8 @@ bool CLASS::UsernameToWindow(wxWindow * window)
 bool CLASS::UsernameFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetUsername(textCtrl->GetValue().c_str());
+    mDataSource->SetUsername(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -219,7 +222,8 @@ bool CLASS::PasswordToWindow(wxWindow * window)
 bool CLASS::PasswordFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetPassword(textCtrl->GetValue().c_str());
+    mDataSource->SetPassword(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -247,7 +251,8 @@ bool CLASS::UserAgentToWindow(wxWindow * window)
 bool CLASS::UserAgentFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetCustomUserAgent(textCtrl->GetValue().c_str());
+    mDataSource->SetCustomUserAgent(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -310,7 +315,8 @@ bool CLASS::HttpLogFileToWindow(wxWindow * window)
 bool CLASS::HttpLogFileFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetHttpLogFile(textCtrl->GetValue().c_str());
+    mDataSource->SetHttpLogFile(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -338,7 +344,8 @@ bool CLASS::DebugLogFileToWindow(wxWindow * window)
 bool CLASS::DebugLogFileFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetDebugLogFile(textCtrl->GetValue().c_str());
+    mDataSource->SetDebugLogFile(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 bool CLASS::RetsVersionToWindow(wxWindow * window)
@@ -353,7 +360,9 @@ bool CLASS::RetsVersionFromWindow(wxWindow * window)
 {
     wxChoice * choice = (wxChoice *) window;
     mDataSource->SetRetsVersion(
-        StringToRetsVersion(choice->GetStringSelection().c_str(), RETS_1_5));
+        StringToRetsVersion(
+            static_cast<const char*>(choice->GetStringSelection().mb_str()),
+            RETS_1_5));
     return true;
 }
 
@@ -409,7 +418,8 @@ bool CLASS::UserAgentPasswordToWindow(wxWindow * window)
 bool CLASS::UserAgentPasswordFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetUserAgentPassword(textCtrl->GetValue().c_str());
+    mDataSource->SetUserAgentPassword(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -426,7 +436,8 @@ bool CLASS::UserAgentAuthTypeFromWindow(wxWindow * window)
 {
     wxChoice * choice = (wxChoice *) window;
     mDataSource->SetUserAgentAuthType(
-        StringToUserAgentAuthType(choice->GetStringSelection().c_str(),
+        StringToUserAgentAuthType(
+            static_cast<const char*>(choice->GetStringSelection().mb_str()),
                                   librets::USER_AGENT_AUTH_INTEREALTY));
     return true;
 }
@@ -473,8 +484,9 @@ bool CLASS::EncodingFromWindow(wxWindow * window)
     // This probably needs to be changed
     wxChoice * choice = (wxChoice *) window;
     mDataSource->SetEncodingType(
-        StringToEncodingType(choice->GetStringSelection().c_str(),
-                             librets::RETS_XML_DEFAULT_ENCODING));
+        StringToEncodingType(
+            static_cast<const char*>(choice->GetStringSelection().mb_str()),
+            librets::RETS_XML_DEFAULT_ENCODING));
     return true;
 }
 
@@ -502,7 +514,8 @@ bool CLASS::ProxyUrlToWindow(wxWindow * window)
 bool CLASS::ProxyUrlFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetProxyUrl(textCtrl->GetValue().c_str());
+    mDataSource->SetProxyUrl(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
@@ -516,7 +529,8 @@ bool CLASS::ProxyPasswordToWindow(wxWindow * window)
 bool CLASS::ProxyPasswordFromWindow(wxWindow * window)
 {
     wxTextCtrl * textCtrl = (wxTextCtrl *) window;
-    mDataSource->SetProxyPassword(textCtrl->GetValue().c_str());
+    mDataSource->SetProxyPassword(
+        static_cast<const char*>(textCtrl->GetValue().mb_str()));
     return true;
 }
 
