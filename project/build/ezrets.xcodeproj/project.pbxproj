@@ -27,7 +27,6 @@
 /* Begin PBXBuildFile section */
 		DE0B626F0EE70557004C73B2 /* DataTranslatorFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */; };
 		DE12E0B41302118600495403 /* OdbcGetObjectException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */; };
-		DE17568318F4AD7200FF1A9C /* wxWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */; };
 		DE44E7581099E60600BB3EC8 /* TablesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727C0C85C8EF004DEF1F /* TablesTest.cpp */; };
 		DE44E7671099E6C300BB3EC8 /* ResultColumn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972800C85C8EF004DEF1F /* ResultColumn.cpp */; };
 		DE44E7681099E6CA00BB3EC8 /* DBHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727E0C85C8EF004DEF1F /* DBHelper.cpp */; };
@@ -118,8 +117,6 @@
 		DE6973540C85CEE2004DEF1F /* SetupLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972780C85C8EF004DEF1F /* SetupLog.cpp */; };
 		DE6973550C85CEE2004DEF1F /* SqlInstallerException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE6972790C85C8EF004DEF1F /* SqlInstallerException.cpp */; };
 		DE6973560C85CEE2004DEF1F /* TextValueSizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69727A0C85C8EF004DEF1F /* TextValueSizer.cpp */; };
-		DE6973570C85CEF6004DEF1F /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */; };
-		DE6973580C85CEF6004DEF1F /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972600C85C8E8004DEF1F /* libssl.dylib */; };
 		DE6973590C85CEF6004DEF1F /* libiodbcinst.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972630C85C8E8004DEF1F /* libiodbcinst.dylib */; };
 		DE69735A0C85CEFA004DEF1F /* ezrets-common.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6972BC0C85C91F004DEF1F /* ezrets-common.a */; };
 		DE6973790C85D096004DEF1F /* RegisterFuncs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE69726E0C85C8EF004DEF1F /* RegisterFuncs.cpp */; };
@@ -186,7 +183,6 @@
 /* Begin PBXFileReference section */
 		DE0B626E0EE70557004C73B2 /* DataTranslatorFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DataTranslatorFactory.cpp; path = ../driver/src/DataTranslatorFactory.cpp; sourceTree = SOURCE_ROOT; };
 		DE12E0B31302118600495403 /* OdbcGetObjectException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OdbcGetObjectException.cpp; path = ../driver/src/OdbcGetObjectException.cpp; sourceTree = SOURCE_ROOT; };
-		DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = wxWidgets.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/../../../../../../../../../opt/local/Library/Frameworks/wxWidgets.framework; sourceTree = "<absolute>"; };
 		DE44E7541099E5D400BB3EC8 /* TablesTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TablesTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7841099E76C00BB3EC8 /* ColumnsTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ColumnsTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE44E7921099E80600BB3EC8 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -387,10 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE69735A0C85CEFA004DEF1F /* ezrets-common.a in Frameworks */,
-				DE6973570C85CEF6004DEF1F /* libcrypto.dylib in Frameworks */,
-				DE6973580C85CEF6004DEF1F /* libssl.dylib in Frameworks */,
 				DE6973590C85CEF6004DEF1F /* libiodbcinst.dylib in Frameworks */,
-				DE17568318F4AD7200FF1A9C /* wxWidgets.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +459,6 @@
 			isa = PBXGroup;
 			children = (
 				DE4A5A0E1900803A00D37539 /* CoreFoundation.framework */,
-				DE17568118F4AD6E00FF1A9C /* wxWidgets.framework */,
 				DE69725F0C85C8E8004DEF1F /* libcrypto.dylib */,
 				DE6972600C85C8E8004DEF1F /* libssl.dylib */,
 				DE6972610C85C8E8004DEF1F /* libz.dylib */,
@@ -1484,8 +1476,9 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
 					"-DNO_GCC_PRAGMA",
@@ -1506,22 +1499,30 @@
 					OpenGL,
 					"-framework",
 					AGL,
+					"$(WXWIDGETS)/lib/libwx_osx_cocoau-$(WX_VER_MAJOR).$(WX_VER_MINOR).a",
 					"-framework",
 					WebKit,
-					"-lz",
 					"-lpthread",
-					"-liconv",
+					"$(PNG)/lib/libpng.a",
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libboost_system.a",
+					"$(CURL)/lib/libidn.a",
+					"$(CURL)/lib/libiconv.a",
+					"$(CURL)/lib/libintl.a",
+					"$(CURL)/lib/libgettextpo.a",
+					"$(CURL)/lib/libasprintf.a",
+					"$(CURL)/lib/libssl.a",
+					"$(CURL)/lib/libcrypto.a",
+					"$(CURL)/lib/libz.a",
+					"$(BOOST)/lib/libboost_filesystem-mt.a",
+					"$(BOOST)/lib/libboost_system-mt.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
-				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
+				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/osx_cocoa-unicode-static-$(WX_VER_MAJOR).$(WX_VER_MINOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR).$(WX_VER_MINOR) $(USER_HEADER_SEARCH_PATHS)";
 			};
 			name = Debug;
 		};
@@ -1554,8 +1555,9 @@
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I$(WXWIDGETS)/lib/wx/include/mac-ansi-release-$(WX_VER_MAJOR)",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D_LARGE_FILES",
 					"-DNO_GCC_PRAGMA",
@@ -1576,22 +1578,30 @@
 					OpenGL,
 					"-framework",
 					AGL,
+					"$(WXWIDGETS)/lib/libwx_osx_cocoau-$(WX_VER_MAJOR).$(WX_VER_MINOR).a",
 					"-framework",
 					WebKit,
-					"-lz",
 					"-lpthread",
-					"-liconv",
+					"$(PNG)/lib/libpng.a",
 					"$(EXPAT)/lib/libexpat.a",
 					"$(CURL)/lib/libcurl.a",
-					"$(BOOST)/lib/libboost_filesystem.a",
-					"$(BOOST)/lib/libboost_system.a",
+					"$(CURL)/lib/libidn.a",
+					"$(CURL)/lib/libiconv.a",
+					"$(CURL)/lib/libintl.a",
+					"$(CURL)/lib/libgettextpo.a",
+					"$(CURL)/lib/libasprintf.a",
+					"$(CURL)/lib/libssl.a",
+					"$(CURL)/lib/libcrypto.a",
+					"$(CURL)/lib/libz.a",
+					"$(BOOST)/lib/libboost_filesystem-mt.a",
+					"$(BOOST)/lib/libboost_system-mt.a",
 					"$(BOOST)/lib/libantlr.a",
 					"$(LIBRETS)/build/xcode/Development/librets.a",
 					"$(OTHER_LDFLAGS)",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = ezretss;
-				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/mac-ansi-release-static-$(WX_VER_MAJOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR) $(USER_HEADER_SEARCH_PATHS)";
+				USER_HEADER_SEARCH_PATHS = "$(WXWIDGETS)/lib/wx/include/osx_cocoa-unicode-static-$(WX_VER_MAJOR).$(WX_VER_MINOR) $(WXWIDGETS)/include/wx-$(WX_VER_MAJOR).$(WX_VER_MINOR) $(USER_HEADER_SEARCH_PATHS)";
 			};
 			name = Release;
 		};
