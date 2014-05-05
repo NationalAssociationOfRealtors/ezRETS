@@ -20,12 +20,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_IODBC
-#include <iodbcinst.h>
-#else
 #include <odbcinst.h>
-#endif
-
 #include "DataSourceValidator.h"
 #include "DataSource.h"
 #include "memberfn.h"

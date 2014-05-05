@@ -27,12 +27,7 @@
 #include "str_stream.h"
 #include <vector>
 #include "librets/RetsSession.h"
-
-#ifdef HAVE_IODBC
-#include <iodbcinst.h>
-#else
 #include <odbcinst.h>
-#endif
 
 using namespace odbcrets;
 typedef DataSource CLASS;

@@ -20,12 +20,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_IODBC
-#include <iodbcinst.h>
-#else
 #include <odbcinst.h>
-#endif
-
 #include "librets/RetsSession.h"
 #include "Setup.h"
 #include "SqlInstallerException.h"

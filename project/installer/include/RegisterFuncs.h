@@ -20,11 +20,7 @@
 
 #include "ezrets.h"
 
-#ifdef HAVE_IODBC
-#include <iodbcinst.h>
-#else
 #include <odbcinst.h>
-#endif
 
 #ifdef __WIN__
 #define DLLEXPORT __declspec(dllexport)

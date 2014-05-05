@@ -21,11 +21,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_IODBC
-#include <iodbcinst.h>
-#else
 #include <odbcinst.h>
-#endif
 
 #include "Setup.h"
 #include "SqlInstallerException.h"
@@ -40,6 +36,7 @@ BOOL INSTAPI ConfigDSN(HWND hwndParent, WORD fRequest, LPCSTR lpszDriver,
                        LPCSTR lpszAttributes)
 {
     BOOL rc = true;
+    
     try
     {
 #ifdef __WXMAC__
