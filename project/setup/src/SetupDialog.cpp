@@ -525,7 +525,7 @@ void SetupDialog::OnHttpBrowse(wxCommandEvent & event)
     wxFileDialog dialog(this, "Choose HTTP Log File", fileName.GetPath(),
                        fileName.GetFullName(),
                        wxFileSelectorDefaultWildcardStr,
-                       wxSAVE);
+                       wxFD_SAVE);
     if (dialog.ShowModal() == wxID_OK)
     {
         mHttpLogFile->SetValue(dialog.GetPath());
@@ -584,7 +584,7 @@ void SetupDialog::OnDebugBrowse(wxCommandEvent & event)
     wxFileDialog dialog(this, "Choose Debug Log File", fileName.GetPath(),
                        fileName.GetFullName(),
                        wxFileSelectorDefaultWildcardStr,
-                       wxSAVE);
+                       wxFD_SAVE);
     if (dialog.ShowModal() == wxID_OK)
     {
         mDebugLogFile->SetValue(dialog.GetPath());
