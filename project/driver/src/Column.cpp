@@ -307,57 +307,66 @@ SQLULEN RetsColumn::getMaximumLength()
     }
     else
     {
-        size = mMetadataTablePtr->GetMaximumLength();
-        // For some reason some MLS vendors think not to fill in
-        // MaximumLength on fields that have a fixed length like Date
-        // and DateTime.
-        //
-        // This assumes nothing should have a max length of zero, I
-        // think that is a pretty safe bet.
-        if (size == 0)
+        // Experience of ezRETS users has shown that MLS and/or MLS
+        // vendors get the length for known static-length types like
+        // DATE_TIME wrong ALL THE TIME. If its a known type with a
+        // fixed text size, we'll just use that by default. For now,
+        // we'll just do that for boolean, date, date_time, and time.
+        // Everything else will go with my made up defaults if, and
+        // only if, the size is 0.
+        switch(mMetadataTablePtr->GetDataType())
         {
-            switch (mMetadataTablePtr->GetDataType())
-            {
-                // False is 5 chars long
-                case lr::MetadataTable::BOOLEAN:
-                    size = 5;
-                    break;
+            // False is 5 chars long
+            case lr::MetadataTable::BOOLEAN:
+                size = 5;
+                break;
 
-                // 640 bytes should be enough for anybody.  :)
-                // Honestly, I can't think of any sane default.
-                case lr::MetadataTable::CHARACTER:
-                    size = 640;
-                    break;
+            case lr::MetadataTable::DATE:
+                size = 10;
+                break;
+
+            case lr::MetadataTable::DATE_TIME:
+                size = 19;
+                break;
+
+            case lr::MetadataTable::TIME:
+                size = 12;
+                break;
+
+            default:
+                size = mMetadataTablePtr->GetMaximumLength();
+                // This assumes nothing should have a max length of zero, I
+                // think that is a pretty safe bet.
+                if (size == 0)
+                {
+                    // I should probably be shot for having a nested
+                    // switch statement.
+                    switch (mMetadataTablePtr->GetDataType())
+                    {
+                        // 640 bytes should be enough for anybody.  :)
+                        // Honestly, I can't think of any sane default.
+                        case lr::MetadataTable::CHARACTER:
+                            size = 640;
+                            break;
+
+                            // I really should probably make it smaller for the
+                            // smaller ones, but this is a case that is rarely
+                            // visited, I think.
+                        case lr::MetadataTable::TINY:
+                        case lr::MetadataTable::SMALL:
+                        case lr::MetadataTable::INT:
+                        case lr::MetadataTable::LONG:
+                        case lr::MetadataTable::DECIMAL:
+                            size = 32;
+                            break;
+
+                        default:
+                            break;
+                    }
                     
-                case lr::MetadataTable::DATE:
-                    size = 10;
-                    break;
-
-                case lr::MetadataTable::DATE_TIME:
-                    size = 19;
-                    break;
-
-                case lr::MetadataTable::TIME:
-                    size = 12;
-                    break;
-
-                // I really should probably make it smaller for the
-                // smaller ones, but this is a case that is rarely
-                // visited, I think.
-                case lr::MetadataTable::TINY:
-                case lr::MetadataTable::SMALL:
-                case lr::MetadataTable::INT:
-                case lr::MetadataTable::LONG:
-                case lr::MetadataTable::DECIMAL:
-                    size = 32;
-                    break;
-
-                default:
-                    break;
-            }
-            
-            EzLoggerPtr log = mParent->getLogger();
-            LOG_DEBUG(log, str_stream() << "Maximum value was 0, assuming value of " << size);
+                    EzLoggerPtr log = mParent->getLogger();
+                    LOG_DEBUG(log, str_stream() << "Maximum value was 0, assuming value of " << size);
+                }
         }
     }
     
