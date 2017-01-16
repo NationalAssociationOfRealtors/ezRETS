@@ -9,11 +9,12 @@ TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
          $(DIROBJ)\TablesTest.exe $(DIROBJ)\ColumnsTest.exe\
 	 $(DIROBJ)\NoWhereSearch.exe $(DIROBJ)\FloatError.exe\
          $(DIROBJ)\SimpleGetData.exe $(DIROBJ)\PrimaryKeys.exe\
-         $(DIROBJ)\NoDsn.exe $(DIROBJ)\SqlPrepareOnly.exe
+         $(DIROBJ)\NoDsn.exe $(DIROBJ)\SqlPrepareOnly.exe\
+         $(DIROBJ)\ExecuteQuery.exe
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) /I../include
-LDFLAGS = $(LDFLAGS_STD)
+LDFLAGS = $(LDFLAGS_STD) $(BOOST_LDFLAGS)
 LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
 
 E_COMMON_OBJS = $(DIROBJ)\DBHelper.obj $(DIROBJ)\DBHelperException.obj\
@@ -30,6 +31,7 @@ SIMPLEGETDATA_OBJS = $(DIROBJ)\SimpleGetData.obj $(E_COMMON_OBJS)
 PRIMARYKEYS_OBJS = $(DIROBJ)\PrimaryKeys.obj $(E_COMMON_OBJS)
 NODSN_OBJS = $(DIROBJ)\NoDsn.obj $(E_COMMON_OBJS)
 PONLY_OBJS = $(DIROBJ)\SqlPrepareOnly.obj $(E_COMMON_OBJS)
+EQUERY_OBJS = $(DIROBJ)\ExecuteQuery.obj $(E_COMMON_OBJS)
 
 
 all: $(TARGET)
@@ -71,6 +73,9 @@ $(DIROBJ)\NoDsn.exe: $(NODSN_OBJS)
 
 $(DIROBJ)\SqlPrepareOnly.exe: $(PONLY_OBJS)
 	$(LINK) /out:$(DIROBJ)\SqlPrepareOnly.exe $(PONLY_OBJS) $(SYSLIBS)
+
+$(DIROBJ)\ExecuteQuery.exe: $(EQUERY_OBJS)
+	$(LINK) /out:$(DIROBJ)\ExecuteQuery.exe $(EQUERY_OBJS) $(SYSLIBS)
 
 $(DIROBJ):
 	@if not exist "$(DIROBJ)" mkdir $(DIROBJ)
