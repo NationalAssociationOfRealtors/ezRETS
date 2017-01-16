@@ -14,7 +14,7 @@ TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
 CC  = $(CCDEBUG)
 CXX     = $(CCDEBUG)
 CFLAGS  = $(CFLAGS_STD) $(BOOST_CFLAGS) /I../include
-LDFLAGS = $(LDFLAGS_STD)
+LDFLAGS = $(LDFLAGS_STD) $(BOOST_LDFLAGS)
 LINK    = link.exe $(LDFLAGS) $(SYSLIBS)
 
 E_COMMON_OBJS = $(DIROBJ)\DBHelper.obj $(DIROBJ)\DBHelperException.obj\
