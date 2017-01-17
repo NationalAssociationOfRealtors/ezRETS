@@ -22,12 +22,14 @@ using odbcrets::EzLoggerPtr;
 
 SQLRETURN SQL_API SQLBindParameter(SQLHSTMT StatementHandle,
                                    SQLUSMALLINT ParameterNumber,
+                                   SQLSMALLINT InputOutputType,
                                    SQLSMALLINT ValueType,
                                    SQLSMALLINT ParameterType,
-                                   SQLULEN LengthPrecision,
-                                   SQLSMALLINT ParameterScale,
-                                   SQLPOINTER ParameterValue,
-                                   SQLLEN *StrLen_or_Ind)
+                                   SQLULEN ColumnSize,
+                                   SQLSMALLINT DecimalDigits,
+                                   SQLPOINTER ParameterValuePtr,
+                                   SQLLEN BufferLength,
+                                   SQLLEN *StrLen_or_IndPtr)
 {
     AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
@@ -153,6 +155,20 @@ SQLRETURN SQL_API SQLForeignKeys(
     {
         LOG_DEBUG(stmt->getLogger(), "In SQLForeignKeys");
         stmt->addError("HY000", "SQLForeignKeys not implemented.");
+    }
+
+    return SQL_ERROR;
+}
+
+SQLRETURN SQL_API SQLGetConnectOption(SQLHDBC ConnectionHandle,
+                                      SQLUSMALLINT Option, SQLPOINTER Value)
+{
+    AbstractHandle* dbc = static_cast<AbstractHandle*>(ConnectionHandle);
+
+    if (dbc)
+    {
+        LOG_DEBUG(dbc->getLogger(), "In SQLGetConnectOption");
+        dbc->addError("HY000", "SQLGetConnectOption not implemented");
     }
 
     return SQL_ERROR;

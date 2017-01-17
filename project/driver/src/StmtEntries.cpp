@@ -300,7 +300,7 @@ class SQLSetStmtOption : public StmtOdbcEntry
 {
   public:
     SQLSetStmtOption(SQLHSTMT StatementHandle, SQLUSMALLINT Option,
-                     SQLLEN Value)
+                     SQLULEN Value)
         : StmtOdbcEntry(StatementHandle), mOption(Option), mValue(Value) { }
 
   protected:
@@ -311,7 +311,7 @@ class SQLSetStmtOption : public StmtOdbcEntry
 
   private:
     SQLUSMALLINT mOption;
-    SQLLEN mValue;
+    SQLULEN mValue;
 };
 
 class SQLSetStmtAttr : public StmtOdbcEntry
@@ -694,7 +694,7 @@ SQLRETURN SQL_API SQLTables(SQLHSTMT StatementHandle,
 }
 
 SQLRETURN SQL_API SQLSetStmtOption(SQLHSTMT StatementHandle,
-                                   SQLUSMALLINT Option, SQLLEN Value)
+                                   SQLUSMALLINT Option, SQLULEN Value)
 {
     o::SQLSetStmtOption sqlSetStmtOption(StatementHandle, Option, Value);
     return sqlSetStmtOption();
@@ -713,7 +713,12 @@ SQLRETURN SQL_API SQLColAttribute(
     SQLHSTMT StatementHandle, SQLUSMALLINT ColumnNumber,
     SQLUSMALLINT FieldIdentifier, SQLPOINTER CharacterAttribute,
     SQLSMALLINT BufferLength, SQLSMALLINT *StringLength,
-    SQLPOINTER NumericAttribute)
+#ifdef _WIN64
+    SQLLEN *NumericAttribute
+#else
+    SQLPOINTER NumericAttribute
+#endif
+)
 {
     o::SQLColAttribute sqlColAttribute(
         StatementHandle, ColumnNumber, FieldIdentifier, CharacterAttribute,
