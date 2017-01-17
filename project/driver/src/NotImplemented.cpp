@@ -20,16 +20,16 @@
 using odbcrets::AbstractHandle;
 using odbcrets::EzLoggerPtr;
 
-SQLRETURN SQLBindParameter(SQLHSTMT StatementHandle,
-                           SQLUSMALLINT ParameterNumber,
-                           SQLSMALLINT InputOutputType,
-                           SQLSMALLINT ValueType,
-                           SQLSMALLINT ParameterType,
-                           SQLULEN ColumnSize,
-                           SQLSMALLINT DecimalDigits,
-                           SQLPOINTER ParameterValuePtr,
-                           SQLLEN BufferLength,
-                           SQLLEN *StrLen_or_IndPtr)
+SQLRETURN SQL_API SQLBindParameter(SQLHSTMT StatementHandle,
+                                   SQLUSMALLINT ParameterNumber,
+                                   SQLSMALLINT InputOutputType,
+                                   SQLSMALLINT ValueType,
+                                   SQLSMALLINT ParameterType,
+                                   SQLULEN ColumnSize,
+                                   SQLSMALLINT DecimalDigits,
+                                   SQLPOINTER ParameterValuePtr,
+                                   SQLLEN BufferLength,
+                                   SQLLEN *StrLen_or_IndPtr)
 {
     AbstractHandle* stmt = static_cast<AbstractHandle*>(StatementHandle);
 
