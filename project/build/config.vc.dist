@@ -13,6 +13,9 @@ WX_PATH = $(BASE_PATH)/wxWidgets-2.6.2
 # Points to Ruby executable
 RUBY = ruby
 
+# Points to InnoSetup compiler
+ISCC = "C:\Program Files\Inno Setup 5\ISCC.exe"
+
 # For now, everyone should not switch the BUILD.
 # [debug, release]
 BUILD = debug
