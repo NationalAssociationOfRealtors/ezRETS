@@ -1,15 +1,18 @@
-<%- dotversion = version.join('.') -%>
 [Setup]
 AppName=ezRETS
-AppVerName=ezRETS <%= dotversion %>
+AppVerName=ezRETS {#VERSION}
+#if TARGET_CPU == "x64"
+ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64
+#endif
 DefaultDirName={pf}\ezRETS
 DefaultGroupName=ezRETS
 DisableDirPage=yes
 SourceDir=..\..
 OutputDir=build
-OutputBaseFilename=ezRETS-win32-<%= dotversion %>
+OutputBaseFilename=ezRETS-{#TARGET_CPU}-{#VERSION}
 UninstallFilesDir={app}\uninstall
-VersionInfoVersion=<%= dotversion %>
+VersionInfoVersion={#VERSION}
 VersionInfoCompany=Center for REALTOR Technology
 LicenseFile=LICENSE
 
