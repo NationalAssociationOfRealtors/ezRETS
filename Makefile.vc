@@ -41,4 +41,4 @@ debug-install: install
 dist:
 	$(RUBY) project/build/fix_version.rb $(VERSION) \
                 project/build/ezRETS.iss.in project/build/ezRETS.iss
-	"c:\Program Files\Inno Setup 5\ISCC.exe" project\build\ezRETS.iss
+	$(ISCC) project\build\ezRETS.iss
