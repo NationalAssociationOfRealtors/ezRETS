@@ -2,7 +2,7 @@
 !include version.mk
 
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"
-LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build-x86" \
+LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build-$(TARGET_CPU)" \
 	liblibrets-$(VS_VERSION)-s$(DEBUG_RUNTIME)-$(LIBRETS_VERSION).lib
 
 BOOST_CFLAGS = /I "$(BOOST_PATH)"
