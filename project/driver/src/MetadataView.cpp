@@ -159,7 +159,7 @@ MetadataTable* MetadataView::getTable(MetadataClass* classPtr,
         i = stdNames ?
             mTableStdMapPtr->find(key) :  mTableSysMapPtr->find(key);
         
-        if (i != mTableStdMapPtr->end() && i != mTableSysMapPtr->end())
+        if (stdNames ? i != mTableStdMapPtr->end() : i != mTableSysMapPtr->end())
         {
             tablePtr = i->second;
         }
@@ -218,7 +218,7 @@ MetadataResource* MetadataView::getResource(std::string resName)
     i = mStandardNames ? mResourceByStdNamePtr->find(resName) :
                          mResourceBySysNamePtr->find(resName);
 
-    if (i != mResourceByStdNamePtr->end() && i != mResourceBySysNamePtr->end())
+    if (mStandardNames ? i != mResourceByStdNamePtr->end() : i != mResourceBySysNamePtr->end())
     {
         resourcePtr = i->second;
     }
@@ -239,7 +239,7 @@ MetadataClass* MetadataView::getClass(string resName, string className)
         i = mStandardNames ?
             mClassStdMapPtr->find(key) : mClassSysMapPtr->find(key);
         
-        if (i != mClassStdMapPtr->end() && i != mClassSysMapPtr->end())
+        if (mStandardNames ? i != mClassStdMapPtr->end() : i != mClassSysMapPtr->end())
         {
             classPtr = i->second;
         }
