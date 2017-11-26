@@ -28,7 +28,7 @@ class ColAttributeHelper
     ColAttributeHelper(RetsSTMT* stmt, SQLPOINTER CharacterAttribute,
                        SQLSMALLINT BufferLength, SQLSMALLINT *StringLength,
                        SQLPOINTER NumericAttribute);
-    SQLRETURN setInt(SQLINTEGER value);
+    SQLRETURN setInt(SQLLEN value);
     SQLRETURN setString(std::string value);
 
   private:
