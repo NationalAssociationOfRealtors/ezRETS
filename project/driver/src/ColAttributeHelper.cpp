@@ -32,9 +32,9 @@ ColAttributeHelper::ColAttributeHelper(
 {
 }
 
-SQLRETURN ColAttributeHelper::setInt(SQLINTEGER value)
+SQLRETURN ColAttributeHelper::setInt(SQLLEN value)
 {
-    *((SQLINTEGER*) mNumericAttribute) = value;
+    *((SQLLEN*) mNumericAttribute) = value;
     return SQL_SUCCESS;
 }
 
