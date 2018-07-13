@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ezrets.rc
+// Used by ezretss.rc
 //
 
 // Next default values for new objects
