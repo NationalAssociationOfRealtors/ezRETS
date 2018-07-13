@@ -2,11 +2,14 @@
 !include version.mk
 
 LIBRETS_CFLAGS = /I "$(LIBRETS_PATH)\project\librets\include"
-LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build-x86" \
-	liblibrets-vs2003-s$(DEBUG_RUNTIME)-1.5.1.lib
+LIBRETS_LDFLAGS = "/LIBPATH:$(LIBRETS_PATH)\project\librets\src\build-$(TARGET_CPU)" \
+	liblibrets-$(VS_VERSION)-s$(DEBUG_RUNTIME)-$(LIBRETS_VERSION).lib
 
 BOOST_CFLAGS = /I "$(BOOST_PATH)"
 BOOST_LDFLAGS = "/LIBPATH:$(BOOST_PATH)/stage/lib"
+!if "$(VS_VERSION)" == "vs2008" || "$(VS_VERSION)" == "vs2010"
+BOOST_LDFLAGS = "/LIBPATH:$(BASE_PATH)/lib"
+!endif
 
 WX_LIB = $(WX_PATH)/lib/vc_lib
 WX_CFLAGS = /I "$(WX_PATH)/include" /I "$(WX_LIB)/mswd" /D "WINVER=0x0400" \

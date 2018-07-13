@@ -22,3 +22,5 @@ xcuserdata/
 /.gdb_history
 /.project
 /.cproject
+*.idb
+*.pdb
