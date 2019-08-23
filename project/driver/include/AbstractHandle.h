@@ -17,6 +17,7 @@
 #ifndef ABSTRACTHANDLE_H
 #define ABSTRACTHANDLE_H
 
+#include <string>
 #include <vector>
 #include "ezrets.h"
 #include "ezretsfwd.h"
