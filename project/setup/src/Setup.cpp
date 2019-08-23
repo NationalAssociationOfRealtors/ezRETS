@@ -35,6 +35,10 @@
 #include "str_stream.h"
 #include <sstream>
 
+#ifdef __WXMSW__
+#include <wx/msw/private.h>
+#endif
+
 using namespace odbcrets;
 using std::string;
 using std::map;

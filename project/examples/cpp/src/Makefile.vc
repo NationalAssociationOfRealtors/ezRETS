@@ -1,7 +1,7 @@
 
 !include <../../../build/Makefile.vc>
 
-SYSLIBS = user32.lib winmm.lib odbc32.lib odbccp32.lib wsock32.lib
+SYSLIBS = user32.lib winmm.lib odbc32.lib $(LIB_ODBCCP32) wsock32.lib
 
 DIROBJ = release
 TARGET = $(DIROBJ)\ConnectTest.exe $(DIROBJ)\SimpleSearch.exe\
