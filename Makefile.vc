@@ -11,7 +11,7 @@ all:
 	nmake /nologo /f Makefile.vc
 	cd ..\..\examples\cpp\src
 	nmake /nologo /f Makefile.vc
-	cd ..\..\..
+	cd ..\..\..\..
 
 clean:
 	cd project\common\src
@@ -24,7 +24,7 @@ clean:
 	nmake /nologo /f Makefile.vc clean
 	cd ..\..\examples\cpp\src
 	nmake /nologo /f Makefile.vc clean
-	cd ..\..\..
+	cd ..\..\..\..
 
 install:
 	cd project\driver\src\release
