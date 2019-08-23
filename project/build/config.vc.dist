@@ -1,14 +1,15 @@
 # Point to vendor code, we assume all the dependencies are in this directory
-BASE_PATH = c:/odbcrets
+BASE_PATH = c:/librets/vendor/$(VS_VERSION)-$(TARGET_CPU)
 
 # Points to librets install
 LIBRETS_PATH = $(BASE_PATH)/librets
 
 # Points to boost install
-BOOST_PATH = $(BASE_PATH)/boost_1_32_0
+BOOST_PATH = $(BASE_PATH)/include/boost-1_71
 
 # Points to wxWidgets install
 WX_PATH = $(BASE_PATH)/wxWidgets-2.6.2
+WX_VERSION = 26
 
 # Points to Ruby executable
 RUBY = ruby
@@ -20,11 +21,19 @@ ISCC = "C:\Program Files\Inno Setup 5\ISCC.exe"
 # [debug, release]
 BUILD = debug
 
-# Visual Studio version to use.
-# [vs2003, vs2005, vs2008, vs2010]
+# [dynamic, static]
 #
-VS_VERSION = vs2003
+# Static means compile with /MT and dynamic means compile with /MD.
+#
+# NOTE: ALL objects of a library or application must be compiled
+# with the same flag.  Not doing so will cause errors at link time.
+RUNTIME_LIBS = dynamic
+
+# Visual Studio version to use.
+# [vs2003, vs2005, vs2008, vs2010, vs2015, vs2017, vs2019]
+#
+VS_VERSION = vs2017
 
 # librets version to use.
 #
-LIBRETS_VERSION = 1.5.1
+LIBRETS_VERSION = 1.6.5
